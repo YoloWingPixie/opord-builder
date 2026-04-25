@@ -1,0 +1,116 @@
+{%- import '_ci_macros.md.j2' as ci_m -%}
+{%- import '_delta_partials.md.j2' as dp -%}
+{%- set bh = base.header -%}
+# FRAGO {{ frago.frago_number }} to OPORD {{ bh.operation_order_number }} — {{ bh.operation_name }}
+
+**Classification:** {{ eff.classification.value }}{% if eff.classification_caveat %}//{{ eff.classification_caveat }}{% endif %}
+**Issuing HQ:** {{ eff.issuing_headquarters }}
+**Place of Issue:** {{ eff.place_of_issue }}
+**FRAGO Signed:** {{ eff.dtg }} ({{ eff.time_zone }})
+**Base OPORD Signed:** {{ bh.dtg }}
+{% if eff.author %}**Drafted by:** {{ eff.author }}{% endif %}
+
+## References
+
+a. OPORD {{ bh.operation_order_number }} ({{ bh.operation_name }}), {{ bh.issuing_headquarters }}, {{ bh.dtg }} — base order modified by this FRAGO.
+{% for prev in frago.previous_fragos %}
+{{ letter_for(loop.index + 1) }}. {{ prev }}
+{% endfor %}
+
+{% set _no_change = 'No change from base OPORD ' ~ bh.operation_order_number ~ '.' %}
+{% call dp.para_section('1. (U) Situation', has_content(frago.situation), 'no-change', _no_change) %}
+{% set s = frago.situation %}
+{% if has_content(s.enemy_forces) %}
+### a. Enemy Forces — Updated
+{% if s.enemy_forces.recent_activities %}**Recent Activities.** {{ s.enemy_forces.recent_activities }}{% endif %}
+{% if s.enemy_forces.capabilities %}**Capabilities.** {{ s.enemy_forces.capabilities }}{% endif %}
+{% if s.enemy_forces.most_likely_coa %}**MLCOA.** {{ s.enemy_forces.most_likely_coa }}{% endif %}
+{% if s.enemy_forces.most_dangerous_coa %}**MDCOA.** {{ s.enemy_forces.most_dangerous_coa }}{% endif %}
+{% endif %}
+{% if has_content(s.assumptions) %}
+### b. Assumptions — Updated
+{% for a in s.assumptions %}- {{ a }}
+{% endfor %}
+{% endif %}
+{% endcall %}
+
+{% call dp.para_section('2. (U) Mission', True, 'no-change', _no_change) %}
+{% if frago.mission %}
+> {{ frago.mission }}
+
+*Mission REVISED by this FRAGO; replaces base-order mission effective {{ eff.dtg }}.*
+{% else %}
+*{{ _no_change }}*
+
+*Base mission (unchanged):* {{ base.mission }}
+{% endif %}
+{% endcall %}
+
+{% call dp.para_section('3. (U) Execution', has_content(frago.execution), 'no-change', _no_change) %}
+{% set x = frago.execution %}
+{% if has_content(x.coordinating_instructions) %}
+### a. Coordinating Instructions — Updated
+{{ ci_m.ci_full(x.coordinating_instructions) }}
+{% endif %}
+{% if has_content(x.tasks_to_subordinate_units) %}
+### b. Tasks to Subordinate Units — Updated
+{% for t in x.tasks_to_subordinate_units %}
+**3.b.({{ loop.index }}) {{ t.unit }}**{% if t.callsign %} · `{{ t.callsign }}`{% endif %}
+{% if t.purpose %}*Purpose.* {{ t.purpose }}{% endif %}
+{% if t.tasks %}{% for item in t.tasks %}
+  - {{ item }}{% endfor %}{% endif %}
+{% if t.priorities %}*Priorities.* {{ t.priorities }}{% endif %}
+
+{% endfor %}
+{% endif %}
+{% endcall %}
+
+{% call dp.para_section('4. (U) Sustainment', has_content(frago.sustainment), 'no-change', _no_change) %}
+*Sustainment paragraph REVISED; see Annex F changes below (if any).*
+{% endcall %}
+
+{% call dp.para_section('5. (U) Command and Signal', has_content(frago.command_and_signal), 'no-change', _no_change) %}
+*Command and Signal paragraph REVISED; see Annex H changes below (if any).*
+{% endcall %}
+
+{% set _no_annex_change = 'No annex changes — all annexes inherit from base OPORD ' ~ bh.operation_order_number ~ '.' %}
+{% call dp.para_section('Annex Changes', frago.annexes|length > 0, 'no-change', _no_annex_change) %}
+The following annexes are MODIFIED by this FRAGO. Annexes not listed remain unchanged from OPORD {{ bh.operation_order_number }}.
+
+{% for a in frago.annexes %}
+### Annex {{ a.letter }} — {{ a.title }} — Updated
+
+{% if has_content(a.body) %}{{ a.body }}
+
+{% endif %}
+{% if a.typed_body is not none %}{{ render_typed_body_md(a.typed_body) }}{% endif %}
+{% if has_content(a.appendices) %}
+{% for ap in a.appendices %}
+**App. {{ ap.number }} ({{ a.letter }}) — {{ ap.title }}**{% if ap.body %}
+
+{{ ap.body }}{% endif %}
+
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endcall %}
+
+{% set auth = frago.authentication or base.authentication %}
+{% if has_content(auth) %}
+
+---
+
+{% if auth.acknowledge %}**ACKNOWLEDGE.**{% endif %}
+
+{% if auth.commander_last_name or auth.commander_rank %}
+**{{ (auth.commander_last_name or '') | upper }}**{% if auth.commander_rank %}, {{ auth.commander_rank }}{% endif %}
+{% endif %}
+
+{% if auth.authenticating_officer_name or auth.authenticating_officer_position %}
+OFFICIAL: {% if auth.authenticating_officer_name %}{{ auth.authenticating_officer_name }}{% endif %}{% if auth.authenticating_officer_position %} — {{ auth.authenticating_officer_position }}{% endif %}
+{% endif %}
+
+{% if has_content(auth.distribution) %}
+DISTRIBUTION: {{ auth.distribution }}
+{% endif %}
+{% endif %}

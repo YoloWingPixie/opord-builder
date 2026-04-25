@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+{%- import '_ci_macros.html.j2' as ci_m -%}
+{%- import '_delta_partials.html.j2' as dp -%}
+{%- set bh = base.header if base else None -%}
+{%- set op_name = eff.operation_name or (bh.operation_name if bh else '') -%}
+{%- set op_num = eff.operation_order_number or (bh.operation_order_number if bh else '') -%}
+{%- set class_str = (eff.classification.value if eff.classification else 'UNCLASSIFIED') + ('//' + eff.classification_caveat if eff.classification_caveat else '') -%}
+{%- set class_slug = (eff.classification.css_slug if eff.classification else 'unclassified') -%}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WARNO {{ warno.warno_number }}{% if op_name %} — {{ op_name }}{% endif %}</title>
+  <style>
+    @page {
+      size: Letter;
+      margin: 0.7in 0.55in 0.65in 0.55in;
+      {% if watermark_url %}
+      background-image: url("{{ watermark_url }}");
+      background-position: center center;
+      background-size: 420pt auto;
+      background-repeat: no-repeat;
+      {% endif %}
+      @top-center {
+        content: "{{ class_str }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700; font-size: 7pt; letter-spacing: 0.1em;
+        color: #ffffff;
+        background: linear-gradient(to bottom, transparent 0%, transparent 38%, var(--class-color) 38%, var(--class-color) 62%, transparent 62%, transparent 100%);
+        padding: 0 72pt; text-align: center; text-transform: uppercase; vertical-align: middle;
+      }
+      @bottom-center {
+        content: "{{ class_str }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700; font-size: 7pt; letter-spacing: 0.1em;
+        color: #ffffff;
+        background: linear-gradient(to bottom, transparent 0%, transparent 38%, var(--class-color) 38%, var(--class-color) 62%, transparent 62%, transparent 100%);
+        padding: 0 72pt; text-align: center; text-transform: uppercase; vertical-align: middle;
+      }
+      {% if page_icon %}
+      @top-right {
+        content: url("{{ page_icon }}");
+        width: 28pt; height: 28pt; padding: 2pt 4pt; vertical-align: middle;
+      }
+      {% endif %}
+      @bottom-left {
+        content: "WARNO " "{{ warno.warno_number }}"{% if op_num %} " / OPORD " "{{ op_num }}"{% endif %};
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 6.5pt; font-weight: 700; letter-spacing: 0.08em;
+        color: #45443e; padding: 3pt 0; white-space: nowrap; text-transform: uppercase;
+      }
+      @bottom-right {
+        content: "P " counter(page) " / " counter(pages);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 6.5pt; font-weight: 700; letter-spacing: 0.08em;
+        color: #45443e; padding: 3pt 0;
+      }
+    }
+    @page :first {
+      background-image: none;
+      @top-right { content: none; }
+    }
+    .cover { page: cover; }
+  </style>
+</head>
+<body class="classification-{{ class_slug }}">
+
+{#- ================= Cover block ================= -#}
+<section class="cover">
+  <div class="cover-hero">
+    <div class="cover-eyebrow">
+      <span class="cover-eyebrow-tag">WARNING ORDER № {{ warno.warno_number }}</span>
+      {% if op_num %}<span class="cover-eyebrow-num">for OPORD {{ op_num }}</span>{% endif %}
+    </div>
+    {% if op_name %}<h1 class="cover-title">{{ op_name }}</h1>{% endif %}
+    {% if eff.author %}
+    <div class="cover-author">
+      <span class="cover-author-label">Drafted by</span>
+      <span class="cover-author-name">{{ eff.author }}</span>
+    </div>
+    {% endif %}
+    <div class="cover-accent" data-serial="{{ generated_at }}"></div>
+  </div>
+
+  <div class="cover-meta">
+    <div class="meta-card">
+      <div class="meta-label">Issuing HQ</div>
+      <div class="meta-value">{{ eff.issuing_headquarters }}</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">Place of Issue</div>
+      <div class="meta-value">{{ eff.place_of_issue }}</div>
+    </div>
+    <div class="meta-card mono">
+      <div class="meta-label">WARNO Signed</div>
+      <div class="meta-value">{{ eff.dtg }}</div>
+    </div>
+    {% if base %}
+    <div class="meta-card mono">
+      <div class="meta-label">Base DTG</div>
+      <div class="meta-value">{{ bh.dtg }}</div>
+    </div>
+    {% endif %}
+    <div class="meta-card mono">
+      <div class="meta-label">Time Zone</div>
+      <div class="meta-value">{{ eff.time_zone }}</div>
+    </div>
+    {% if eff.copy_number %}
+    <div class="meta-card mono">
+      <div class="meta-label">Copy</div>
+      <div class="meta-value">{{ eff.copy_number }}{% if eff.number_of_copies %} <span class="of">of</span> {{ eff.number_of_copies }}{% endif %}</div>
+    </div>
+    {% endif %}
+  </div>
+  {% if logo %}
+  <div class="cover-logo-plate">
+    <img class="cover-logo" src="{{ logo }}" alt="Unit crest">
+  </div>
+  {% endif %}
+</section>
+
+{#- ================= References ================= -#}
+<section class="card card-references">
+  <div class="card-accent accent-refs"></div>
+  <div class="card-head">
+    <span class="card-eyebrow">(U)</span>
+    <h2 class="card-title">References</h2>
+  </div>
+  <ol class="ref-list">
+    {% if base %}
+    <li>
+      <span class="ref-letter">A.</span>
+      <span class="ref-cite">OPORD {{ bh.operation_order_number }} ({{ bh.operation_name }}), {{ bh.issuing_headquarters }}, signed {{ bh.dtg }}</span>
+      <span class="ref-desc">— higher HQ order this WARNO prepares subordinates to execute</span>
+    </li>
+    {% else %}
+    <li>
+      <span class="ref-letter">A.</span>
+      <span class="ref-cite">Higher HQ order — TBP</span>
+      <span class="ref-desc">— forthcoming OPORD will be referenced here</span>
+    </li>
+    {% endif %}
+    {% for prev in warno.previous_warnos %}
+    <li>
+      <span class="ref-letter">{{ letter_for(loop.index + 1) }}.</span>
+      <span class="ref-cite">{{ prev }}</span>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+
+{#- ================= PARA 1 — SITUATION ================= -#}
+{% set s = warno.situation %}
+{% set _tbp = 'To be published in forthcoming OPORD.' %}
+{% call dp.para_section(1, 'Situation', has_content(s), 'tbp', _tbp) %}
+<div class="frago-changes">
+  {% if has_content(s.enemy_forces) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-1"></div>
+    <div class="card-head"><span class="num mono">1.a</span><h3 class="card-title">Enemy Forces — Preliminary</h3></div>
+    {% if s.enemy_forces.recent_activities %}<p><strong>Recent Activities.</strong> {{ s.enemy_forces.recent_activities }}</p>{% endif %}
+    {% if s.enemy_forces.capabilities %}<p><strong>Capabilities.</strong> {{ s.enemy_forces.capabilities }}</p>{% endif %}
+    {% if s.enemy_forces.most_likely_coa %}<p><strong>Most Likely COA.</strong> {{ s.enemy_forces.most_likely_coa }}</p>{% endif %}
+    {% if s.enemy_forces.most_dangerous_coa %}<p><strong>Most Dangerous COA.</strong> {{ s.enemy_forces.most_dangerous_coa }}</p>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(s.friendly_forces) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-1"></div>
+    <div class="card-head"><span class="num mono">1.b</span><h3 class="card-title">Friendly Forces — Preliminary</h3></div>
+    {% if s.friendly_forces.adjacent_units %}<p><strong>Adjacent Units.</strong> {{ s.friendly_forces.adjacent_units }}</p>{% endif %}
+    {% if s.friendly_forces.other_units %}<p><strong>Other Units.</strong> {{ s.friendly_forces.other_units }}</p>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(s.assumptions) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-1"></div>
+    <div class="card-head"><span class="num mono">1.c</span><h3 class="card-title">Assumptions — Preliminary</h3></div>
+    <ol class="clean-list">{% for a in s.assumptions %}<li>{{ a }}</li>{% endfor %}</ol>
+  </div>
+  {% endif %}
+</div>
+{% endcall %}
+
+{#- ================= PARA 2 — MISSION ================= -#}
+{% call dp.para_section(2, 'Mission', has_content(warno.mission), 'tbp', _tbp) %}
+<div class="mission-block">
+  <div class="mission-quote-open">&ldquo;</div>
+  <p class="mission-text">{{ warno.mission }}</p>
+  <div class="mission-quote-close">&rdquo;</div>
+</div>
+<p class="frago-note">Provisional mission statement. Subject to refinement in the forthcoming OPORD.</p>
+{% endcall %}
+
+{#- ================= PARA 3 — EXECUTION ================= -#}
+{% set x = warno.execution %}
+{% call dp.para_section(3, 'Execution', has_content(x), 'tbp', _tbp) %}
+<div class="frago-changes">
+  {% if has_content(x.commanders_intent) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-3"></div>
+    <div class="card-head"><span class="num mono">3.a</span><h3 class="card-title">Commander's Intent — Preliminary</h3></div>
+    {% if x.commanders_intent.purpose %}<p><strong>Purpose.</strong> {{ x.commanders_intent.purpose }}</p>{% endif %}
+    {% if x.commanders_intent.key_tasks %}<p><strong>Key Tasks.</strong></p><ol class="clean-list">{% for kt in x.commanders_intent.key_tasks %}<li>{{ kt }}</li>{% endfor %}</ol>{% endif %}
+    {% if x.commanders_intent.end_state %}<p><strong>End State.</strong> {{ x.commanders_intent.end_state }}</p>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(x.concept_of_operations) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-3"></div>
+    <div class="card-head"><span class="num mono">3.b</span><h3 class="card-title">Concept of Operations — Preliminary</h3></div>
+    {% if x.concept_of_operations.overview %}<p>{{ x.concept_of_operations.overview }}</p>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(x.coordinating_instructions) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-3"></div>
+    <div class="card-head"><span class="num mono">3.c</span><h3 class="card-title">Coordinating Instructions — Preliminary</h3></div>
+    {{ ci_m.ci_full(x.coordinating_instructions) }}
+  </div>
+  {% endif %}
+  {% if has_content(x.tasks_to_subordinate_units) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-3"></div>
+    <div class="card-head"><span class="num mono">3.d</span><h3 class="card-title">Tasks to Subordinate Units — Preliminary</h3></div>
+    <div class="tasks-list">
+      {% for t in x.tasks_to_subordinate_units %}
+      <div class="task-card">
+        <div class="task-head">
+          <span class="task-num mono">3.d.({{ loop.index }})</span>
+          <span class="task-unit">{{ t.unit }}</span>
+          {% if t.callsign %}<span class="task-callsign mono">{{ t.callsign }}</span>{% endif %}
+        </div>
+        {% if t.purpose %}<div class="task-purpose"><span class="tlabel">Purpose.</span> {{ t.purpose }}</div>{% endif %}
+        {% if t.tasks %}<ol class="task-tasklist">{% for item in t.tasks %}<li>{{ item }}</li>{% endfor %}</ol>{% endif %}
+        {% if t.priorities %}<div class="task-priorities"><span class="tlabel">Priorities.</span> {{ t.priorities }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endcall %}
+
+{#- ================= PARA 4 — SUSTAINMENT ================= -#}
+{% call dp.para_section(4, 'Sustainment', has_content(warno.sustainment), 'tbp', _tbp) %}
+<p class="frago-note">Preliminary sustainment guidance; see structured content below if present. Full sustainment paragraph TBP in OPORD.</p>
+{% endcall %}
+
+{#- ================= PARA 5 — COMMAND AND SIGNAL ================= -#}
+{% call dp.para_section(5, 'Command and Signal', has_content(warno.command_and_signal), 'tbp', _tbp) %}
+<p class="frago-note">Preliminary C&amp;S guidance below. Full Command and Signal paragraph TBP in OPORD.</p>
+{% endcall %}
+
+{#- ================= ANNEXES ================= -#}
+{% if warno.annexes %}
+<section class="paragraph">
+<details open class="section-details">
+<summary class="para-header">
+  <div class="para-num annex-num">A</div>
+  <h2 class="para-title">Annexes Published With This WARNO</h2>
+  <div class="para-stripe"></div>
+  <span class="chevron"></span>
+</summary>
+<p class="frago-note">Annexes below are published with this WARNO. Remaining annexes TBP in forthcoming OPORD.</p>
+{% for a in warno.annexes %}
+<div class="card annex-card">
+  <details open class="annex-details">
+  <summary class="card-head annex-card-summary">
+    <span class="num mono">Annex {{ a.letter }}</span>
+    <h3 class="card-title">{{ a.title }}</h3>
+    <span class="chevron"></span>
+  </summary>
+  {% if has_content(a.body) %}
+  <div class="annex-section">
+    {% for p in a.body | paragraphs %}<p>{{ p }}</p>{% endfor %}
+  </div>
+  {% endif %}
+  {% if a.typed_body is not none %}
+  <div class="annex-section">
+    <div class="annex-section-label">Structured Content</div>
+    {{ render_typed_body_html(a.typed_body) | safe }}
+  </div>
+  {% endif %}
+  {% if has_content(a.appendices) %}
+  <div class="appendix-list">
+    {% for ap in a.appendices %}
+    <div class="appendix-item">
+      <div class="app-head">
+        <span class="mono">App. {{ ap.number }} ({{ a.letter }})</span><strong>{{ ap.title }}</strong>
+      </div>
+      {% if ap.body %}{% for p in ap.body | paragraphs %}<p>{{ p }}</p>{% endfor %}{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  </details>
+</div>
+{% endfor %}
+</details>
+</section>
+{% endif %}
+
+{#- ================= AUTHENTICATION ================= -#}
+{% set auth = warno.authentication or (base.authentication if base else None) %}
+{% if has_content(auth) %}
+<section class="auth-block" id="authentication">
+  {% if auth.acknowledge %}<div class="auth-line auth-ack">ACKNOWLEDGE.</div>{% endif %}
+  {% if auth.commander_last_name or auth.commander_rank %}
+  <div class="auth-name">
+    <span class="auth-surname">{{ (auth.commander_last_name or '') | upper }}</span>{% if auth.commander_rank %}<span class="auth-rank">, {{ auth.commander_rank }}</span>{% endif %}
+  </div>
+  {% endif %}
+  {% if auth.authenticating_officer_name or auth.authenticating_officer_position %}
+  <div class="auth-official">
+    <div class="auth-official-tag">OFFICIAL</div>
+    {% if auth.authenticating_officer_name %}<div>{{ auth.authenticating_officer_name }}</div>{% endif %}
+    {% if auth.authenticating_officer_position %}<div class="auth-pos">{{ auth.authenticating_officer_position }}</div>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(auth.distribution) %}
+  <div class="auth-distribution">
+    <div class="auth-distro-tag">DISTRIBUTION</div>
+    <div>{{ auth.distribution }}</div>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
+</body>
+</html>

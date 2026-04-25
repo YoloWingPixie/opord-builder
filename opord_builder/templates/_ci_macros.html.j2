@@ -1,0 +1,95 @@
+{#- Coordinating-Instructions macros for HTML rendering of delta documents
+    (FRAGO / WARNO). Each macro renders a single CI sub-field inside the
+    FRAGO/WARNO "simple list of labelled paragraphs" style (no OPORD-style
+    `3.a.(n)` numbering). The composite `ci_full` calls each sub-macro in
+    doctrinal order and only emits fields with content. -#}
+
+{%- macro ci_time_line(ci) -%}
+<p><strong>Time Line.</strong></p>
+<table class="tb-table">
+  <thead><tr><th>Event</th><th>DTG</th><th>Responsible</th><th>Notes</th></tr></thead>
+  <tbody>
+  {% for m in ci.time_line %}
+    <tr>
+      <td><strong>{{ m.event }}</strong></td>
+      <td class="mono">{{ m.dtg }}</td>
+      <td>{{ m.responsible or '' }}</td>
+      <td>{{ m.notes or '' }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{%- endmacro -%}
+
+{%- macro ci_orders_group(ci) -%}
+<p><strong>Orders Group.</strong></p>
+<div class="tb-detail-list">
+  {% if has_content(ci.orders_group.purpose) %}<div class="tb-detail-row"><span class="tb-detail-k">Purpose</span><span class="tb-detail-v">{{ ci.orders_group.purpose }}</span></div>{% endif %}
+  {% if has_content(ci.orders_group.dtg) %}<div class="tb-detail-row"><span class="tb-detail-k">DTG</span><span class="tb-detail-v mono">{{ ci.orders_group.dtg }}</span></div>{% endif %}
+  {% if has_content(ci.orders_group.location) %}<div class="tb-detail-row"><span class="tb-detail-k">Location</span><span class="tb-detail-v">{{ ci.orders_group.location }}</span></div>{% endif %}
+  {% if has_content(ci.orders_group.attendees) %}<div class="tb-detail-row"><span class="tb-detail-k">Attendees</span><span class="tb-detail-v">{{ ci.orders_group.attendees }}</span></div>{% endif %}
+  {% if has_content(ci.orders_group.products_distributed) %}<div class="tb-detail-row"><span class="tb-detail-k">Products</span><span class="tb-detail-v">{{ ci.orders_group.products_distributed }}</span></div>{% endif %}
+</div>
+{%- endmacro -%}
+
+{%- macro ci_rehearsal(ci) -%}
+<p><strong>Rehearsal.</strong></p>
+<div class="tb-detail-list">
+  {% if has_content(ci.rehearsal.type) %}<div class="tb-detail-row"><span class="tb-detail-k">Type</span><span class="tb-detail-v">{{ ci.rehearsal.type }}</span></div>{% endif %}
+  {% if has_content(ci.rehearsal.dtg) %}<div class="tb-detail-row"><span class="tb-detail-k">DTG</span><span class="tb-detail-v mono">{{ ci.rehearsal.dtg }}</span></div>{% endif %}
+  {% if has_content(ci.rehearsal.location) %}<div class="tb-detail-row"><span class="tb-detail-k">Location</span><span class="tb-detail-v">{{ ci.rehearsal.location }}</span></div>{% endif %}
+  {% if has_content(ci.rehearsal.participants) %}<div class="tb-detail-row"><span class="tb-detail-k">Participants</span><span class="tb-detail-v">{{ ci.rehearsal.participants }}</span></div>{% endif %}
+  {% if has_content(ci.rehearsal.method_notes) %}<div class="tb-detail-row"><span class="tb-detail-k">Method Notes</span><span class="tb-detail-v">{{ ci.rehearsal.method_notes }}</span></div>{% endif %}
+</div>
+{%- endmacro -%}
+
+{%- macro ci_earliest_movement(ci) -%}
+<p><strong>Earliest Movement of Forces.</strong> {{ ci.earliest_movement_of_forces }}</p>
+{%- endmacro -%}
+
+{%- macro ci_rs_instructions(ci) -%}
+<p><strong>Reconnaissance and Surveillance Instructions.</strong> {{ ci.reconnaissance_and_surveillance_instructions }}</p>
+{%- endmacro -%}
+
+{%- macro ci_ccir(ci) -%}
+<p><strong>Commander's Critical Information Requirements (CCIR).</strong></p>
+{% if has_content(ci.ccir.pir) %}
+<p><em>PIR · Priority Intelligence Requirements:</em></p>
+<ul class="clean-list">{% for p in ci.ccir.pir %}<li>{{ p }}</li>{% endfor %}</ul>
+{% endif %}
+{% if has_content(ci.ccir.ffir) %}
+<p><em>FFIR · Friendly Force Information Requirements:</em></p>
+<ul class="clean-list">{% for f in ci.ccir.ffir %}<li>{{ f }}</li>{% endfor %}</ul>
+{% endif %}
+{%- endmacro -%}
+
+{%- macro ci_eefi(ci) -%}
+<p><strong>Essential Elements of Friendly Information (EEFI).</strong></p>
+<ul class="clean-list">{% for e in ci.eefi %}<li>{{ e }}</li>{% endfor %}</ul>
+{%- endmacro -%}
+
+{%- macro ci_themes_and_messages(ci) -%}
+<p><strong>Themes and Messages.</strong></p>
+<ul class="chip-list">{% for tm in ci.themes_and_messages %}<li class="theme-chip">{{ tm }}</li>{% endfor %}</ul>
+{%- endmacro -%}
+
+{#- Composite: render every Coordinating-Instructions field with content, in doctrinal order. -#}
+{%- macro ci_full(ci) -%}
+{% if has_content(ci.effective_time) %}<p><strong>Effective Time.</strong> {{ ci.effective_time }}</p>{% endif %}
+{% if has_content(ci.ccir) %}{{ ci_ccir(ci) }}{% endif %}
+{% if has_content(ci.eefi) %}{{ ci_eefi(ci) }}{% endif %}
+{% if has_content(ci.time_line) %}{{ ci_time_line(ci) }}{% endif %}
+{% if has_content(ci.earliest_movement_of_forces) %}{{ ci_earliest_movement(ci) }}{% endif %}
+{% if has_content(ci.reconnaissance_and_surveillance_instructions) %}{{ ci_rs_instructions(ci) }}{% endif %}
+{% if has_content(ci.orders_group) %}{{ ci_orders_group(ci) }}{% endif %}
+{% if has_content(ci.rehearsal) %}{{ ci_rehearsal(ci) }}{% endif %}
+{% if has_content(ci.fscm) %}<p><strong>Fire Support Coordination Measures.</strong> {{ ci.fscm }}</p>{% endif %}
+{% if has_content(ci.acm) %}<p><strong>Airspace Coordinating Measures.</strong> {{ ci.acm }}</p>{% endif %}
+{% if has_content(ci.roe) %}<p><strong>Rules of Engagement.</strong> {{ ci.roe }}</p>{% endif %}
+{% if has_content(ci.risk_reduction_control_measures) %}<p><strong>Risk-Reduction Control Measures.</strong> {{ ci.risk_reduction_control_measures }}</p>{% endif %}
+{% if has_content(ci.personnel_recovery) %}<p><strong>Personnel Recovery Coordination Measures.</strong> {{ ci.personnel_recovery }}</p>{% endif %}
+{% if has_content(ci.environmental_considerations) %}<p><strong>Environmental Considerations.</strong> {{ ci.environmental_considerations }}</p>{% endif %}
+{% if has_content(ci.themes_and_messages) %}{{ ci_themes_and_messages(ci) }}{% endif %}
+{% if has_content(ci.cema) %}<p><strong>Cyberspace Electromagnetic Activities.</strong> {{ ci.cema }}</p>{% endif %}
+{% if has_content(ci.other) %}<p><strong>Other.</strong> {{ ci.other }}</p>{% endif %}
+{%- endmacro -%}

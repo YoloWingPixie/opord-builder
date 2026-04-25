@@ -1,0 +1,28 @@
+# Standalone WARNO — no base_order, fully self-contained.
+# Issued before any higher-HQ OPORD exists; all fields declared on the WARNO.
+
+kind: warno
+warno_number: "01"
+previous_warnos: []
+classification: UNCLASSIFIED
+issuing_headquarters: "Headquarters, 3d Squadron, 2d Cavalry Regiment"
+place_of_issue: "Rose Barracks, Vilseck, Germany"
+dtg: "150800ZAPR26"
+time_zone: "ZULU"
+operation_name: "STEEL RAIN"
+operation_order_number: "TBP"
+author: "MAJ R. Okafor, S3"
+mission: "3-2 CR conducts movement-to-contact in AO SABER NLT 181200ZAPR26 IOT defeat forward ENY screen and set conditions for follow-on corps operations."
+execution:
+  coordinating_instructions:
+    time_line:
+      - event: "Confirmation Brief"
+        dtg: "160800ZAPR26"
+        responsible: "Troop Cdrs"
+      - event: "OPORD Issue"
+        dtg: "171200ZAPR26"
+        responsible: "Sqdn S3"
+    earliest_movement_of_forces: "Troops may begin movement from current motor pools to AA SABER NLT 160600ZAPR26."
+    reconnaissance_and_surveillance_instructions: "Sqdn Scout Troop executes zone reconnaissance IAW forthcoming Annex L. S2 pushes initial graphics NLT 151800ZAPR26."
+    other: |
+      Troop commanders begin IPB immediately. LOGPAC coordination with BSB NLT 161000Z.

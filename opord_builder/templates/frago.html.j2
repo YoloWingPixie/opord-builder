@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+{%- import '_ci_macros.html.j2' as ci_m -%}
+{%- import '_delta_partials.html.j2' as dp -%}
+{%- set bh = base.header -%}
+{%- set class_str = eff.classification.value + ('//' + eff.classification_caveat if eff.classification_caveat else '') -%}
+{%- set class_slug = eff.classification.css_slug -%}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FRAGO {{ frago.frago_number }} to OPORD {{ bh.operation_order_number }} — {{ bh.operation_name }}</title>
+  <style>
+    @page {
+      size: Letter;
+      margin: 0.7in 0.55in 0.65in 0.55in;
+      {% if watermark_url %}
+      background-image: url("{{ watermark_url }}");
+      background-position: center center;
+      background-size: 420pt auto;
+      background-repeat: no-repeat;
+      {% endif %}
+      @top-center {
+        content: "{{ class_str }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700; font-size: 7pt; letter-spacing: 0.1em;
+        color: #ffffff;
+        background: linear-gradient(to bottom, transparent 0%, transparent 38%, var(--class-color) 38%, var(--class-color) 62%, transparent 62%, transparent 100%);
+        padding: 0 72pt; text-align: center; text-transform: uppercase; vertical-align: middle;
+      }
+      @bottom-center {
+        content: "{{ class_str }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700; font-size: 7pt; letter-spacing: 0.1em;
+        color: #ffffff;
+        background: linear-gradient(to bottom, transparent 0%, transparent 38%, var(--class-color) 38%, var(--class-color) 62%, transparent 62%, transparent 100%);
+        padding: 0 72pt; text-align: center; text-transform: uppercase; vertical-align: middle;
+      }
+      {% if page_icon %}
+      @top-right {
+        content: url("{{ page_icon }}");
+        width: 28pt; height: 28pt; padding: 2pt 4pt; vertical-align: middle;
+      }
+      {% endif %}
+      @bottom-left {
+        content: "FRAGO " "{{ frago.frago_number }}" " / OPORD " "{{ bh.operation_order_number }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 6.5pt; font-weight: 700; letter-spacing: 0.08em;
+        color: #45443e; padding: 3pt 0; white-space: nowrap; text-transform: uppercase;
+      }
+      @bottom-right {
+        content: "P " counter(page) " / " counter(pages);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 6.5pt; font-weight: 700; letter-spacing: 0.08em;
+        color: #45443e; padding: 3pt 0;
+      }
+    }
+    @page :first {
+      background-image: none;
+      @top-right { content: none; }
+    }
+    .cover { page: cover; }
+  </style>
+</head>
+<body class="classification-{{ class_slug }}">
+
+{#- ================= Cover block ================= -#}
+<section class="cover">
+  <div class="cover-hero">
+    <div class="cover-eyebrow">
+      <span class="cover-eyebrow-tag">FRAGO № {{ frago.frago_number }}</span>
+      <span class="cover-eyebrow-num">to OPORD {{ bh.operation_order_number }}</span>
+    </div>
+    <h1 class="cover-title">{{ bh.operation_name }}</h1>
+    {% if eff.author %}
+    <div class="cover-author">
+      <span class="cover-author-label">Drafted by</span>
+      <span class="cover-author-name">{{ eff.author }}</span>
+    </div>
+    {% endif %}
+    <div class="cover-accent" data-serial="{{ generated_at }}"></div>
+  </div>
+
+  <div class="cover-meta">
+    <div class="meta-card">
+      <div class="meta-label">Issuing HQ</div>
+      <div class="meta-value">{{ eff.issuing_headquarters }}</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">Place of Issue</div>
+      <div class="meta-value">{{ eff.place_of_issue }}</div>
+    </div>
+    <div class="meta-card mono">
+      <div class="meta-label">FRAGO Signed</div>
+      <div class="meta-value">{{ eff.dtg }}</div>
+    </div>
+    <div class="meta-card mono">
+      <div class="meta-label">Base DTG</div>
+      <div class="meta-value">{{ bh.dtg }}</div>
+    </div>
+    <div class="meta-card mono">
+      <div class="meta-label">Time Zone</div>
+      <div class="meta-value">{{ eff.time_zone }}</div>
+    </div>
+    {% if eff.copy_number %}
+    <div class="meta-card mono">
+      <div class="meta-label">Copy</div>
+      <div class="meta-value">{{ eff.copy_number }}{% if eff.number_of_copies %} <span class="of">of</span> {{ eff.number_of_copies }}{% endif %}</div>
+    </div>
+    {% endif %}
+  </div>
+  {% if logo %}
+  <div class="cover-logo-plate">
+    <img class="cover-logo" src="{{ logo }}" alt="Unit crest">
+  </div>
+  {% endif %}
+</section>
+
+{#- ================= References ================= -#}
+<section class="card card-references">
+  <div class="card-accent accent-refs"></div>
+  <div class="card-head">
+    <span class="card-eyebrow">(U)</span>
+    <h2 class="card-title">References</h2>
+  </div>
+  <ol class="ref-list">
+    <li>
+      <span class="ref-letter">A.</span>
+      <span class="ref-cite">OPORD {{ bh.operation_order_number }} ({{ bh.operation_name }}), {{ bh.issuing_headquarters }}, signed {{ bh.dtg }}</span>
+      <span class="ref-desc">— base order modified by this FRAGO</span>
+    </li>
+    {% for prev in frago.previous_fragos %}
+    <li>
+      <span class="ref-letter">{{ letter_for(loop.index + 1) }}.</span>
+      <span class="ref-cite">{{ prev }}</span>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+
+{#- ================= PARA 1 — SITUATION ================= -#}
+{% set s = frago.situation %}
+{% set _no_change = 'from base OPORD ' ~ bh.operation_order_number ~ '.' %}
+{% call dp.para_section(1, 'Situation', has_content(s), 'no-change', _no_change) %}
+<div class="frago-changes">
+  {% if has_content(s.enemy_forces) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-1"></div>
+    <div class="card-head"><span class="num mono">1.a</span><h3 class="card-title">Enemy Forces — Updated</h3></div>
+    {% if s.enemy_forces.recent_activities %}<p><strong>Recent Activities.</strong> {{ s.enemy_forces.recent_activities }}</p>{% endif %}
+    {% if s.enemy_forces.capabilities %}<p><strong>Capabilities.</strong> {{ s.enemy_forces.capabilities }}</p>{% endif %}
+    {% if s.enemy_forces.most_likely_coa %}<p><strong>Most Likely COA.</strong> {{ s.enemy_forces.most_likely_coa }}</p>{% endif %}
+    {% if s.enemy_forces.most_dangerous_coa %}<p><strong>Most Dangerous COA.</strong> {{ s.enemy_forces.most_dangerous_coa }}</p>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(s.friendly_forces) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-1"></div>
+    <div class="card-head"><span class="num mono">1.b</span><h3 class="card-title">Friendly Forces — Updated</h3></div>
+    {% if s.friendly_forces.adjacent_units %}<p><strong>Adjacent Units.</strong> {{ s.friendly_forces.adjacent_units }}</p>{% endif %}
+    {% if s.friendly_forces.other_units %}<p><strong>Other Units.</strong> {{ s.friendly_forces.other_units }}</p>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(s.assumptions) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-1"></div>
+    <div class="card-head"><span class="num mono">1.c</span><h3 class="card-title">Assumptions — Updated</h3></div>
+    <ol class="clean-list">{% for a in s.assumptions %}<li>{{ a }}</li>{% endfor %}</ol>
+  </div>
+  {% endif %}
+</div>
+{% endcall %}
+
+{#- ================= PARA 2 — MISSION ================= -#}
+{#- Mission uses the para_section shell but always renders a populated
+    body — either the revised mission or the no-change stub plus a
+    quoted base mission for reference. -#}
+{% call dp.para_section(2, 'Mission', True, 'no-change', _no_change) %}
+{% if frago.mission %}
+<div class="mission-block">
+  <div class="mission-quote-open">&ldquo;</div>
+  <p class="mission-text">{{ frago.mission }}</p>
+  <div class="mission-quote-close">&rdquo;</div>
+</div>
+<p class="frago-note">Mission REVISED by this FRAGO. Replaces base-order mission effective {{ eff.dtg }}.</p>
+{% else %}
+<div class="no-change"><span class="no-change-tag">§ No change</span><span class="no-change-body">{{ _no_change }}</span></div>
+<blockquote class="frago-base-mission"><strong>Base mission (unchanged):</strong> {{ base.mission }}</blockquote>
+{% endif %}
+{% endcall %}
+
+{#- ================= PARA 3 — EXECUTION ================= -#}
+{% set x = frago.execution %}
+{% call dp.para_section(3, 'Execution', has_content(x), 'no-change', _no_change) %}
+<div class="frago-changes">
+  {% if has_content(x.coordinating_instructions) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-3"></div>
+    <div class="card-head"><span class="num mono">3.a</span><h3 class="card-title">Coordinating Instructions — Updated</h3></div>
+    {{ ci_m.ci_full(x.coordinating_instructions) }}
+  </div>
+  {% endif %}
+  {% if has_content(x.tasks_to_subordinate_units) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-3"></div>
+    <div class="card-head"><span class="num mono">3.b</span><h3 class="card-title">Tasks to Subordinate Units — Updated</h3></div>
+    <div class="tasks-list">
+      {% for t in x.tasks_to_subordinate_units %}
+      <div class="task-card">
+        <div class="task-head">
+          <span class="task-num mono">3.b.({{ loop.index }})</span>
+          <span class="task-unit">{{ t.unit }}</span>
+          {% if t.callsign %}<span class="task-callsign mono">{{ t.callsign }}</span>{% endif %}
+        </div>
+        {% if t.purpose %}<div class="task-purpose"><span class="tlabel">Purpose.</span> {{ t.purpose }}</div>{% endif %}
+        {% if t.tasks %}<ol class="task-tasklist">{% for item in t.tasks %}<li>{{ item }}</li>{% endfor %}</ol>{% endif %}
+        {% if t.priorities %}<div class="task-priorities"><span class="tlabel">Priorities.</span> {{ t.priorities }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% set scheme_fields = [
+    ('scheme_of_movement_and_maneuver', 'Scheme of Movement and Maneuver'),
+    ('scheme_of_fires', 'Scheme of Fires'),
+    ('scheme_of_protection', 'Scheme of Protection'),
+    ('scheme_of_signal', 'Scheme of Signal'),
+    ('scheme_of_intelligence', 'Scheme of Intelligence'),
+    ('scheme_of_sustainment', 'Scheme of Sustainment'),
+  ] %}
+  {% for attr, label in scheme_fields %}
+  {% set val = x[attr] %}
+  {% if has_content(val) %}
+  <div class="card subpara-card">
+    <div class="card-accent accent-3"></div>
+    <div class="card-head"><h3 class="card-title">{{ label }} — Updated</h3></div>
+    <p>{{ val }}</p>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+{% endcall %}
+
+{#- ================= PARA 4 — SUSTAINMENT ================= -#}
+{% call dp.para_section(4, 'Sustainment', has_content(frago.sustainment), 'no-change', _no_change) %}
+<p class="frago-note">Sustainment paragraph REVISED; see structured content below.</p>
+<p><em>See Annex F changes below (if any) or refer to base-order sustainment paragraph otherwise.</em></p>
+{% endcall %}
+
+{#- ================= PARA 5 — COMMAND AND SIGNAL ================= -#}
+{% call dp.para_section(5, 'Command and Signal', has_content(frago.command_and_signal), 'no-change', _no_change) %}
+<p class="frago-note">Command and Signal paragraph REVISED.</p>
+<p><em>See Annex H changes below (if any) or refer to base-order signal paragraph otherwise.</em></p>
+{% endcall %}
+
+{#- ================= ANNEX CHANGES ================= -#}
+{% set _no_annex_change = '— all annexes inherit from base OPORD ' ~ bh.operation_order_number ~ '.' %}
+{% call dp.para_section('A', 'Annex Changes', frago.annexes|length > 0, 'no-change', _no_annex_change, stub_tag='No annex changes') %}
+<p class="frago-note">The following annexes are MODIFIED by this FRAGO. Annexes not listed remain unchanged from OPORD {{ bh.operation_order_number }}.</p>
+{% for a in frago.annexes %}
+<div class="card annex-card">
+  <details open class="annex-details">
+  <summary class="card-head annex-card-summary">
+    <span class="num mono">Annex {{ a.letter }}</span>
+    <h3 class="card-title">{{ a.title }} — Updated</h3>
+    <span class="chevron"></span>
+  </summary>
+  {% if has_content(a.body) %}
+  <div class="annex-section">
+    {% for p in a.body | paragraphs %}<p>{{ p }}</p>{% endfor %}
+  </div>
+  {% endif %}
+  {% if a.typed_body is not none %}
+  <div class="annex-section">
+    <div class="annex-section-label">Structured Content — Updated</div>
+    {{ render_typed_body_html(a.typed_body) | safe }}
+  </div>
+  {% endif %}
+  {% if has_content(a.appendices) %}
+  <div class="appendix-list">
+    {% for ap in a.appendices %}
+    <div class="appendix-item">
+      <div class="app-head">
+        <span class="mono">App. {{ ap.number }} ({{ a.letter }})</span><strong>{{ ap.title }}</strong>
+      </div>
+      {% if ap.body %}{% for p in ap.body | paragraphs %}<p>{{ p }}</p>{% endfor %}{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  </details>
+</div>
+{% endfor %}
+{% endcall %}
+
+{#- ================= AUTHENTICATION ================= -#}
+{% set auth = frago.authentication or base.authentication %}
+{% if has_content(auth) %}
+<section class="auth-block" id="authentication">
+  {% if auth.acknowledge %}<div class="auth-line auth-ack">ACKNOWLEDGE.</div>{% endif %}
+  {% if auth.commander_last_name or auth.commander_rank %}
+  <div class="auth-name">
+    <span class="auth-surname">{{ (auth.commander_last_name or '') | upper }}</span>{% if auth.commander_rank %}<span class="auth-rank">, {{ auth.commander_rank }}</span>{% endif %}
+  </div>
+  {% endif %}
+  {% if auth.authenticating_officer_name or auth.authenticating_officer_position %}
+  <div class="auth-official">
+    <div class="auth-official-tag">OFFICIAL</div>
+    {% if auth.authenticating_officer_name %}<div>{{ auth.authenticating_officer_name }}</div>{% endif %}
+    {% if auth.authenticating_officer_position %}<div class="auth-pos">{{ auth.authenticating_officer_position }}</div>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(auth.distribution) %}
+  <div class="auth-distribution">
+    <div class="auth-distro-tag">DISTRIBUTION</div>
+    <div>{{ auth.distribution }}</div>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
+</body>
+</html>

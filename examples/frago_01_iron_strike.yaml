@@ -1,0 +1,197 @@
+# FRAGO 01 to OPORD 26-04 (IRON STRIKE)
+# Issued ~1 hour before H-hour after new reconnaissance. Demonstrates:
+#   - base_order path resolution
+#   - sparse delta: Para 1 (enemy), Para 3 (new tasks + coord instructions)
+#     are updated; Para 2, 4, 5 inherit from base (→ "No change" stubs)
+#   - annex delta: Annex B (intel) gets new prose, Annex D (fires) gets
+#     updated typed_body with a revised JPITL entry
+#   - pull-through from the base OPORD three ways:
+#       * flat base variables:       {{ h_hour }}, {{ obj_primary }}, {{ tf }}
+#       * explicit base_vars ns:     {{ base_vars.bct }}
+#       * base model attributes:     {{ base.header.operation_name }},
+#                                    {{ base.execution.commanders_intent.end_state }}
+
+kind: frago
+frago_number: "01"
+base_order: example_full.yaml
+previous_fragos: []
+
+variables:
+  # CAS flight-specific — these ADD to the base OPORD variables (op_name,
+  # h_hour, obj_primary, etc.) which flow through automatically.
+  viper_lead: "SP-420"
+  viper_wing: "SP-421"
+  viper_intra: "277.800 MHz"
+  magic_freq: "251.0 AM"
+  arco_freq: "260.5 AM"
+  arco_tacan: "63Y"
+  shell_freq: "262.0 AM"
+  shell_tacan: "67Y"
+  casino_freq: "249.5 AM"
+  jtac_callsign: "DAGGER 11"
+  jtac_freq: "238.9 AM"
+
+# classification, issuing_headquarters, place_of_issue, time_zone, author
+# are inherited from the base OPORD (example_full.yaml) — omit fields that
+# don't change from the base to keep the FRAGO DRY. Only the signing DTG
+# (always FRAGO-specific) is declared explicitly.
+dtg: "190130ZAPR26"
+
+situation:
+  enemy_forces:
+    recent_activities: |
+      UPDATE (BCT Puma FMV 190045ZAPR26): ENY armor reinforcement detected
+      vic NK 150 795 — assessed 2x T-72B3 + 1x BMP-2 support element
+      moving south on HIGHWAY 22. Arrival OBJ {{ obj_primary }} estimated
+      190600ZAPR26 (60 min after H-hour {{ h_hour }}). MLCOA revised accordingly.
+    most_likely_coa: |
+      Revised: ENY reinforces OBJ {{ obj_primary }} from the north NLT 190600Z
+      with armor package; defends forward slope with dug-in MRC + T-72 section.
+      Previous MLCOA (defend from reverse slope only) is superseded. This
+      directly threatens the base-order end state ("{{ base.execution.commanders_intent.end_state }}")
+      unless the armor package is destroyed prior to LOA.
+
+execution:
+  coordinating_instructions:
+    effective_time: "190200ZAPR26"
+    other: |
+      H-hour REMAINS {{ h_hour }} per base OPORD {{ base.header.operation_order_number }}
+      ({{ base.header.operation_name }}), issued by {{ base_vars.bct }}. Phase II timing
+      unchanged. Commander's intent purpose (base order) remains in force — this FRAGO
+      reorients A Co priority of engagement and shifts Scout Plt to observe NAI 8
+      (newly designated, see Annex B below) to preserve the base-order key task:
+      "Defeat ENY reserve counterattack forward of PL BRONZE." TF {{ base_vars.tf_callsign }}
+      retains control.
+  tasks_to_subordinate_units:
+    - unit: "A Co / 2-503 IN"
+      callsign: "ABLE 6"
+      purpose: "Refocus priority of engagement from dismounted MRC to armor reinforcement package."
+      tasks:
+        - "Re-orient SBF-1 (NK 135 776) to engage armor approaching from NAI 8 (NK 150 795) on cue."
+        - "Hold assault timing — Phase II LD remains {{ h_hour }}."
+        - "Coordinate Javelin team placement with D Co Wpns for armor engagement priority."
+    - unit: "Scout Plt"
+      callsign: "SAPPER 2"
+      purpose: "Confirm armor package composition and timing of arrival at OBJ HAMMER."
+      tasks:
+        - "Establish OP vic NK 148 790 NLT 190300ZAPR26."
+        - "Report all armor observations via SPOT format to BN FIRES net within 3 minutes of observation."
+        - "BDA support after Phase II IOT confirm armor neutralization."
+
+# mission, sustainment, command_and_signal omitted → rendered as "No change" stubs.
+
+annexes:
+  - letter: B
+    title: "Intelligence"
+    body: |
+      UPDATE TO ANNEX B: New NAI 8 designated vic NK 150 795 covering armor avenue
+      of approach from the north on HIGHWAY 22 into OBJ {{ obj_primary }}. Scout Plt
+      assumes primary coverage of NAI 8; BCT Puma UAS retains orbit over NAI 7 per
+      base order. SIGINT cueing on MRB armor net added to collection matrix. Collection
+      plan nests under the base-order mission: "{{ base.mission }}"
+    typed_body:
+      letter: B
+      priority_intelligence_requirements:
+        - number: 5
+          statement: "When and in what composition will ENY armor reinforcement arrive at OBJ {{ obj_primary }} from the north?"
+          decision_supported: "Commit C Co (reserve) to blocking position vic NK 128 787; redirect A Co priority engagement to armor package."
+          nai: ["NAI 8 (NK 150 795 on HIGHWAY 22)"]
+          ltiov: "190430ZAPR26"
+          indicators:
+            - "2+ T-72 class armor signature on HIGHWAY 22 south of GRID LINE 85"
+            - "MRB armor-net activity vic 150 810"
+          primary_collector: "Scout Plt OP 3 (NK 148 790)"
+  - letter: D
+    title: "Fires"
+    body: |
+      UPDATE TO ANNEX D: JPITL revised. New priority-1 target designated (armor package).
+      SEAD window shifted to cover armor package approach. Fire support coordination
+      measures unchanged.
+    typed_body:
+      letter: D
+      jpitl:
+        - target_number: "TGT 0045"
+          priority_rank: 1
+          target_name: "ENY armor package HWY 22 (2x T-72B3 + BMP-2)"
+          target_description: "Reinforcing armor package moving south on HIGHWAY 22. Confirmed by BCT Puma FMV 190045Z."
+          category: "MANEUVER"
+          location: "32UMA150795"
+          component_tasked: "LAND"
+          desired_effect: "DESTROY"
+          authorized_engagement_means:
+            - "HIMARS PGM (prime)"
+            - "M777 HE/PD + VT (two-volley fire-for-effect)"
+            - "AH-64 Hellfire (on-call if VIPER 11/12 unavailable)"
+          engagement_guidance: |
+            Engage the armor package at NAI 8 BEFORE it reaches OBJ {{ obj_primary }}. Two-volley
+            FFE on acquisition; shift to BDA with Scout Plt cueing. CDE-2 with CDE-3 weaponeering
+            substitution if civilian vehicles present within 500m. Effects must be complete prior
+            to H-hour ({{ h_hour }}) to preserve Phase II tempo.
+          cde_level: "CDE-2"
+          approval_authority: "BCT Cdr"
+          status: "APPROVED"
+          roe_constraints: "No cluster munitions; PID via BCT Puma FMV + SIGINT confirm."
+          review_dtg: "190600ZAPR26"
+          linked_hvt_rank: 5
+
+# Kneeboard cards — VIPER CAS package supporting FRAGO 01.
+# Variables from the base OPORD (op_name, op_num, h_hour, obj_primary) flow
+# through automatically. FRAGO-level variables (viper_lead, magic_freq, etc.)
+# add flight-specific data. No manual copy-paste of frequencies or callsigns.
+kneeboards:
+  - flight_callsign: "VIPER11"
+    msn_number: "{{ op_num }}-CAS"
+    positions:
+      - number: 1
+        modex: "{{ viper_lead }}"
+        pers: ""
+        laser: "1688"
+      - number: 2
+        modex: "{{ viper_wing }}"
+        pers: ""
+        laser: "1687"
+    tacan:
+      lead: "{{ arco_tacan }}"
+      flight: "{{ shell_tacan }}"
+    primary_objectives:
+      - "CAS OBJ {{ obj_primary }} — support {{ tf }} Phase II assault at H-hour {{ h_hour }}"
+      - "Destroy ENY armor reinforcement package on HWY 22 (JPITL TGT 0045)"
+    secondary_objectives:
+      - "BDA collection post-strike IOT confirm armor neutralization"
+    weaponeering: "2x GBU-38 JDAM, 2x AIM-120C, 2x AIM-9X, 480 rnds 20mm"
+    fuel_plan:
+      msn_req_lbs: 15200
+      joker_lbs: 6500
+      bingo_lbs: 5000
+    comms:
+      phases:
+        - phase: "CHECK-IN"
+          comm1: "MAGIC PRI ({{ magic_freq }})"
+          comm2: "INTRAFLIGHT ({{ viper_intra }})"
+        - phase: "PUSH"
+          comm1: "CASINO ASOC ({{ casino_freq }})"
+          comm2: "INTRAFLIGHT ({{ viper_intra }})"
+        - phase: "ON STATION"
+          comm1: "{{ jtac_callsign }} JTAC ({{ jtac_freq }})"
+          comm2: "INTRAFLIGHT ({{ viper_intra }})"
+        - phase: "EGRESS"
+          comm1: "MAGIC PRI ({{ magic_freq }})"
+          comm2: "INTRAFLIGHT ({{ viper_intra }})"
+      intra: "{{ viper_intra }}"
+      mids: "Link-16 NET 115"
+    tankers:
+      - callsign: "ARCO (TRK ARCO)"
+        frequency: "{{ arco_freq }}"
+        tacan: "{{ arco_tacan }}"
+      - callsign: "SHELL (TRK SHELL)"
+        frequency: "{{ shell_freq }}"
+        tacan: "{{ shell_tacan }}"
+    atc:
+      - name: "AWACS (MAGIC)"
+        frequency: "{{ magic_freq }}"
+      - name: "ASOC (CASINO)"
+        frequency: "{{ casino_freq }}"
+      - name: "JTAC ({{ jtac_callsign }})"
+        frequency: "{{ jtac_freq }}"
+    baro_alt: "29.92"
+    notes: "OP {{ op_name }} / TOT {{ h_hour }}"

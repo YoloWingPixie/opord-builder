@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kneeboard — {{ card.title or card.flight_callsign }}</title>
+  <style>
+    @page {
+      size: 768px 1024px;
+      margin: 0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 768px;
+      height: 1024px;
+      font-family: "Helvetica Neue", Helvetica, "Arial", "Liberation Sans", sans-serif;
+      font-size: 10px;
+      line-height: 1.35;
+      color: #0a0a0a;
+      background: #f4f1e8;
+      padding: 0;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "kern" 1, "liga" 0;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular,
+                   Menlo, "DejaVu Sans Mono", Consolas, monospace;
+      font-feature-settings: "tnum" 1, "zero" 1;
+    }
+
+    /* ── Header hero (dark band) ── */
+    .kb-hero {
+      position: relative;
+      background: #0a0a0a;
+      color: #f4f1e8;
+      padding: 14px 22px 12px;
+      overflow: hidden;
+    }
+    .kb-hero::before {
+      content: "";
+      position: absolute;
+      top: 6px; left: 6px;
+      width: 10px; height: 10px;
+      border-top: 1px solid #f4f1e8;
+      border-left: 1px solid #f4f1e8;
+    }
+    .kb-hero::after {
+      content: "";
+      position: absolute;
+      bottom: 6px; right: 6px;
+      width: 10px; height: 10px;
+      border-bottom: 1px solid #f4f1e8;
+      border-right: 1px solid #f4f1e8;
+    }
+    .kb-hero-eyebrow {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 6.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(244, 241, 232, 0.6);
+      margin-bottom: 2px;
+    }
+    .kb-hero-eyebrow .accent { color: #0b3d91; }
+    .kb-hero-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .kb-hero-callsign {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    .kb-hero-msn {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: rgba(244, 241, 232, 0.7);
+    }
+    .kb-hero-msn::before { content: "MSN "; color: rgba(244,241,232,0.45); }
+
+    /* ── Accent bar ── */
+    .kb-accent-bar {
+      height: 4px;
+      background: #0b3d91;
+    }
+
+    /* ── Content area ── */
+    .kb-body {
+      padding: 8px 20px 24px 20px;
+    }
+
+    /* ── Section card ── */
+    .kb-section {
+      position: relative;
+      padding: 6px 0 6px 14px;
+      margin: 0 0 2px 0;
+      border-top: 0.75px solid #bdb8a6;
+    }
+    .kb-section::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 0;
+      width: 3px;
+      background: #0a0a0a;
+    }
+    .kb-section.accent-blue::before { background: #0b3d91; }
+    .kb-section.accent-red::before { background: #b21f2d; }
+    .kb-section.no-bar { padding-left: 0; }
+    .kb-section.no-bar::before { display: none; }
+
+    /* ── Section label ── */
+    .kb-label {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 6.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b6960;
+      margin-bottom: 3px;
+    }
+
+    /* ── Position table ── */
+    table.kb-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+    }
+    table.kb-table th {
+      text-align: left;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 6.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b6960;
+      padding: 0 0 2px 0;
+      border-bottom: 0.75px solid #bdb8a6;
+    }
+    table.kb-table td {
+      padding: 2px 0;
+      border-bottom: 0.5px solid #d8d3c0;
+      font-feature-settings: "tnum" 1;
+    }
+    table.kb-table tr:last-child td { border-bottom: none; }
+    .col-pos   { width: 10%; }
+    .col-modex { width: 20%; font-weight: 700; }
+    .col-pers  { width: 42%; color: #6b6960; }
+    .col-laser { width: 28%; text-align: right; }
+    table.kb-table th:last-child { text-align: right; }
+    .col-laser {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── TACAN grid ── */
+    .kb-tacan-grid {
+      display: flex;
+      gap: 24px;
+    }
+    .kb-tacan-item .tacan-sub {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 6px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b6960;
+    }
+    .kb-tacan-item .tacan-val {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #0a0a0a;
+    }
+
+    /* ── Objective list ── */
+    ol.kb-obj {
+      padding-left: 14px;
+      margin: 0;
+      font-size: 10px;
+      line-height: 1.4;
+    }
+    ol.kb-obj li { padding: 0; margin: 0; }
+
+    /* ── Fuel table ── */
+    table.kb-fuel {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+    }
+    table.kb-fuel td {
+      padding: 1px 0;
+      border-bottom: 0.5px solid #d8d3c0;
+    }
+    table.kb-fuel tr:last-child td { border-bottom: none; }
+    .fuel-k {
+      font-weight: 600;
+      font-size: 9px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      width: 45%;
+    }
+    .fuel-v {
+      text-align: right;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Comms ── */
+    .kb-comms-phase {
+      display: flex;
+      margin-bottom: 1px;
+      line-height: 1.25;
+    }
+    .kb-phase-name {
+      flex: 0 0 88px;
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding-top: 1px;
+    }
+    .kb-phase-radios {
+      flex: 1;
+      font-size: 10px;
+    }
+    .kb-radio-line {
+      display: flex;
+      gap: 4px;
+    }
+    .kb-radio-tag {
+      flex: 0 0 38px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 600;
+      font-size: 7px;
+      letter-spacing: 0.04em;
+      color: #6b6960;
+      padding-top: 2px;
+    }
+    .kb-comms-foot {
+      display: flex;
+      gap: 20px;
+      margin-top: 3px;
+      padding-top: 3px;
+      border-top: 0.5px solid #d8d3c0;
+    }
+    .kb-comms-foot .cf-label {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 6.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b6960;
+    }
+    .kb-comms-foot .cf-value {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 600;
+      font-size: 10px;
+    }
+
+    /* ── Freq rows ── */
+    .kb-freq {
+      display: flex;
+      width: 100%;
+      padding: 1.5px 0;
+      border-bottom: 0.5px solid #d8d3c0;
+      font-size: 10px;
+    }
+    .kb-freq:last-child { border-bottom: none; }
+    .kb-freq-name {
+      flex: 0 0 40%;
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .kb-freq-val {
+      flex: 1;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Baro ── */
+    .kb-baro {
+      display: flex;
+      align-items: baseline;
+      padding: 5px 0 5px 14px;
+      margin-top: 2px;
+      border-top: 1.5px solid #0a0a0a;
+    }
+    .kb-baro-label {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 6.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b6960;
+      flex: 0 0 90px;
+    }
+    .kb-baro-value {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Weaponeering / notes body ── */
+    .kb-text { font-size: 10px; line-height: 1.4; }
+    .kb-text-pre { font-size: 9.5px; white-space: pre-wrap; }
+
+    /* ── Footer ── */
+    .kb-footer {
+      position: absolute;
+      bottom: 6px;
+      left: 20px;
+      right: 20px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 6px;
+      font-weight: 500;
+      color: #bdb8a6;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  {# ── HERO HEADER ── #}
+  <div class="kb-hero">
+    <div class="kb-hero-eyebrow"><span class="accent">§</span> KNEEBOARD</div>
+    <div class="kb-hero-row">
+      <span class="kb-hero-callsign">{{ card.title or card.flight_callsign }}</span>
+      <span class="kb-hero-msn">{{ card.msn_number or '—' }}</span>
+    </div>
+  </div>
+  <div class="kb-accent-bar"></div>
+
+  {# ── BODY ── #}
+  <div class="kb-body">
+
+    {# ── POSITIONS ── #}
+    {% if card.positions %}
+    <div class="kb-section no-bar" style="border-top:none; padding-top:4px;">
+      <table class="kb-table">
+        <thead><tr>
+          <th class="col-pos">Pos</th>
+          <th class="col-modex">Modex</th>
+          <th class="col-pers">Pers</th>
+          <th class="col-laser">Laser</th>
+        </tr></thead>
+        <tbody>
+        {% for p in card.positions %}
+          <tr>
+            <td class="col-pos">{{ p.number }}</td>
+            <td class="col-modex">{{ p.modex }}</td>
+            <td class="col-pers">{{ p.pers or '' }}</td>
+            <td class="col-laser">{{ p.laser or '' }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+    {# ── TACAN ── #}
+    {% if card.tacan and (card.tacan.lead or card.tacan.flight) %}
+    <div class="kb-section accent-blue">
+      <div class="kb-label">TACAN</div>
+      <div class="kb-tacan-grid">
+        {% if card.tacan.lead %}
+        <div class="kb-tacan-item">
+          <div class="tacan-sub">Lead</div>
+          <div class="tacan-val">{{ card.tacan.lead }}</div>
+        </div>
+        {% endif %}
+        {% if card.tacan.flight %}
+        <div class="kb-tacan-item">
+          <div class="tacan-sub">Flight</div>
+          <div class="tacan-val">{{ card.tacan.flight }}</div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# ── PRIMARY OBJECTIVES ── #}
+    {% if card.primary_objectives %}
+    <div class="kb-section">
+      <div class="kb-label">Primary Objectives</div>
+      <ol class="kb-obj">
+        {% for obj in card.primary_objectives %}
+        <li>{{ obj }}</li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+
+    {# ── SECONDARY OBJECTIVES ── #}
+    {% if card.secondary_objectives %}
+    <div class="kb-section">
+      <div class="kb-label">Secondary Objectives</div>
+      <ol class="kb-obj">
+        {% for obj in card.secondary_objectives %}
+        <li>{{ obj }}</li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+
+    {# ── WEAPONEERING ── #}
+    {% if card.weaponeering %}
+    <div class="kb-section accent-red">
+      <div class="kb-label">Weaponeering</div>
+      <div class="kb-text">{{ card.weaponeering }}</div>
+    </div>
+    {% endif %}
+
+    {# ── FUEL PLAN ── #}
+    {% if card.fuel_plan %}
+    <div class="kb-section">
+      <div class="kb-label">Fuel Plan</div>
+      <table class="kb-fuel">
+        <tr><td class="fuel-k">Msn Req</td><td class="fuel-v">{{ "{:,}".format(card.fuel_plan.msn_req_lbs) }} lbs</td></tr>
+        <tr><td class="fuel-k">Joker</td><td class="fuel-v">{{ "{:,}".format(card.fuel_plan.joker_lbs) }} lbs</td></tr>
+        <tr><td class="fuel-k">Bingo</td><td class="fuel-v">{{ "{:,}".format(card.fuel_plan.bingo_lbs) }} lbs</td></tr>
+        {% if card.fuel_plan.rcv_tank_lbs %}
+        <tr><td class="fuel-k">Rcv Tank</td><td class="fuel-v">{{ "{:,}".format(card.fuel_plan.rcv_tank_lbs) }} lbs</td></tr>
+        {% endif %}
+      </table>
+    </div>
+    {% endif %}
+
+    {# ── COMMS ── #}
+    {% if card.comms and card.comms.phases %}
+    <div class="kb-section accent-blue">
+      <div class="kb-label">Comms</div>
+      {% for phase in card.comms.phases %}
+      <div class="kb-comms-phase">
+        <div class="kb-phase-name">{{ phase.phase }}</div>
+        <div class="kb-phase-radios">
+          {% if phase.comm1 %}<div class="kb-radio-line"><span class="kb-radio-tag">COM 1</span> {{ phase.comm1 }}</div>{% endif %}
+          {% if phase.comm2 %}<div class="kb-radio-line"><span class="kb-radio-tag">COM 2</span> {{ phase.comm2 }}</div>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      {% if card.comms.intra or card.comms.mids %}
+      <div class="kb-comms-foot">
+        {% if card.comms.intra %}<div><span class="cf-label">Intra </span><span class="cf-value">{{ card.comms.intra }}</span></div>{% endif %}
+        {% if card.comms.mids %}<div><span class="cf-label">MIDS </span><span class="cf-value">{{ card.comms.mids }}</span></div>{% endif %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# ── TANKERS ── #}
+    {% if card.tankers %}
+    <div class="kb-section">
+      <div class="kb-label">Tankers</div>
+      {% for t in card.tankers %}
+      <div class="kb-freq">
+        <span class="kb-freq-name">{{ t.callsign }}</span>
+        <span class="kb-freq-val">
+          {{- t.frequency -}}
+          {%- if t.tacan %} / {{ t.tacan }}{% endif %}
+          {%- if t.button %} ({{ t.button }}){% endif %}
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# ── ATC ── #}
+    {% if card.atc %}
+    <div class="kb-section">
+      <div class="kb-label">ATC</div>
+      {% for a in card.atc %}
+      <div class="kb-freq">
+        <span class="kb-freq-name">{{ a.name }}</span>
+        <span class="kb-freq-val">{{ a.frequency }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# ── BARO ALT ── #}
+    {% if card.baro_alt %}
+    <div class="kb-baro">
+      <span class="kb-baro-label">Baro Alt</span>
+      <span class="kb-baro-value">{{ card.baro_alt }}</span>
+    </div>
+    {% endif %}
+
+    {# ── NOTES ── #}
+    {% if card.notes %}
+    <div class="kb-section">
+      <div class="kb-label">Notes</div>
+      <div class="kb-text-pre">{{ card.notes }}</div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  {# ── FOOTER ── #}
+  <div class="kb-footer">KNEEBOARD / GENERATED {{ generated_at }}</div>
+
+</body>
+</html>

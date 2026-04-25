@@ -1,0 +1,98 @@
+{#- Coordinating-Instructions macros for Markdown rendering of delta documents
+    (FRAGO / WARNO). See _ci_macros.html.j2 for rationale. -#}
+
+{%- macro ci_time_line(ci) -%}
+**Time Line.**
+
+| Event | DTG | Responsible | Notes |
+|---|---|---|---|
+{% for m in ci.time_line %}| {{ m.event }} | {{ m.dtg }} | {{ m.responsible or '' }} | {{ (m.notes or '') | replace('\n', ' ') | replace('|', '\\|') }} |
+{% endfor %}
+{%- endmacro -%}
+
+{%- macro ci_orders_group(ci) -%}
+**Orders Group.**
+{% if has_content(ci.orders_group.purpose) %}- *Purpose:* {{ ci.orders_group.purpose }}
+{% endif %}{% if has_content(ci.orders_group.dtg) %}- *DTG:* {{ ci.orders_group.dtg }}
+{% endif %}{% if has_content(ci.orders_group.location) %}- *Location:* {{ ci.orders_group.location }}
+{% endif %}{% if has_content(ci.orders_group.attendees) %}- *Attendees:* {{ ci.orders_group.attendees }}
+{% endif %}{% if has_content(ci.orders_group.products_distributed) %}- *Products:* {{ ci.orders_group.products_distributed }}
+{% endif %}
+{%- endmacro -%}
+
+{%- macro ci_rehearsal(ci) -%}
+**Rehearsal.**
+{% if has_content(ci.rehearsal.type) %}- *Type:* {{ ci.rehearsal.type }}
+{% endif %}{% if has_content(ci.rehearsal.dtg) %}- *DTG:* {{ ci.rehearsal.dtg }}
+{% endif %}{% if has_content(ci.rehearsal.location) %}- *Location:* {{ ci.rehearsal.location }}
+{% endif %}{% if has_content(ci.rehearsal.participants) %}- *Participants:* {{ ci.rehearsal.participants }}
+{% endif %}{% if has_content(ci.rehearsal.method_notes) %}- *Method Notes:* {{ ci.rehearsal.method_notes }}
+{% endif %}
+{%- endmacro -%}
+
+{%- macro ci_earliest_movement(ci) -%}
+**Earliest Movement of Forces.** {{ ci.earliest_movement_of_forces }}
+{%- endmacro -%}
+
+{%- macro ci_rs_instructions(ci) -%}
+**Reconnaissance and Surveillance Instructions.** {{ ci.reconnaissance_and_surveillance_instructions }}
+{%- endmacro -%}
+
+{%- macro ci_ccir(ci) -%}
+**Commander's Critical Information Requirements (CCIR).**
+{% if has_content(ci.ccir.pir) %}- *PIR · Priority Intelligence Requirements:*
+{% for p in ci.ccir.pir %}  - {{ p }}
+{% endfor %}{% endif %}
+{% if has_content(ci.ccir.ffir) %}- *FFIR · Friendly Force Information Requirements:*
+{% for f in ci.ccir.ffir %}  - {{ f }}
+{% endfor %}{% endif %}
+{%- endmacro -%}
+
+{%- macro ci_eefi(ci) -%}
+**Essential Elements of Friendly Information (EEFI).**
+{% for e in ci.eefi %}- {{ e }}
+{% endfor %}
+{%- endmacro -%}
+
+{%- macro ci_themes_and_messages(ci) -%}
+**Themes and Messages.**
+{% for tm in ci.themes_and_messages %}- {{ tm }}
+{% endfor %}
+{%- endmacro -%}
+
+{%- macro ci_full(ci) -%}
+{% if has_content(ci.effective_time) %}**Effective Time.** {{ ci.effective_time }}
+{% endif %}
+{% if has_content(ci.ccir) %}{{ ci_ccir(ci) }}
+{% endif %}
+{% if has_content(ci.eefi) %}{{ ci_eefi(ci) }}
+{% endif %}
+{% if has_content(ci.time_line) %}{{ ci_time_line(ci) }}
+{% endif %}
+{% if has_content(ci.earliest_movement_of_forces) %}{{ ci_earliest_movement(ci) }}
+{% endif %}
+{% if has_content(ci.reconnaissance_and_surveillance_instructions) %}{{ ci_rs_instructions(ci) }}
+{% endif %}
+{% if has_content(ci.orders_group) %}{{ ci_orders_group(ci) }}
+{% endif %}
+{% if has_content(ci.rehearsal) %}{{ ci_rehearsal(ci) }}
+{% endif %}
+{% if has_content(ci.fscm) %}**Fire Support Coordination Measures.** {{ ci.fscm }}
+{% endif %}
+{% if has_content(ci.acm) %}**Airspace Coordinating Measures.** {{ ci.acm }}
+{% endif %}
+{% if has_content(ci.roe) %}**Rules of Engagement.** {{ ci.roe }}
+{% endif %}
+{% if has_content(ci.risk_reduction_control_measures) %}**Risk-Reduction Control Measures.** {{ ci.risk_reduction_control_measures }}
+{% endif %}
+{% if has_content(ci.personnel_recovery) %}**Personnel Recovery Coordination Measures.** {{ ci.personnel_recovery }}
+{% endif %}
+{% if has_content(ci.environmental_considerations) %}**Environmental Considerations.** {{ ci.environmental_considerations }}
+{% endif %}
+{% if has_content(ci.themes_and_messages) %}{{ ci_themes_and_messages(ci) }}
+{% endif %}
+{% if has_content(ci.cema) %}**Cyberspace Electromagnetic Activities.** {{ ci.cema }}
+{% endif %}
+{% if has_content(ci.other) %}**Other.** {{ ci.other }}
+{% endif %}
+{%- endmacro -%}

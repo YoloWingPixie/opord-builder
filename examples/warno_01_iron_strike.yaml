@@ -1,0 +1,134 @@
+# WARNO 01 preparing subordinates for OPORD 26-04 (IRON STRIKE)
+# Issued at the start of planning so subordinates can begin parallel planning
+# before the full OPORD drops. Demonstrates:
+#   - OPTIONAL base_order pull-through (higher HQ's OPORD already exists — our
+#     WARNO is preparing TF IRON for OPORD 26-04)
+#   - sparse content: situation.enemy (preliminary), provisional mission,
+#     intent purpose only, Annex A task org; everything else → TBP stubs
+#   - doctrinal Coordinating Instructions (Para 3.d): time_line,
+#     earliest_movement_of_forces, R&S instructions, orders_group, rehearsal
+#   - pull-through from the base OPORD three ways:
+#       * flat base variables:     {{ h_hour }}, {{ obj_primary }}
+#       * base model attributes:   {{ base.header.operation_name }}
+
+kind: warno
+warno_number: "01"
+base_order: example_full.yaml
+previous_warnos: []
+
+# classification, issuing_headquarters, place_of_issue, time_zone, author,
+# operation_name, operation_order_number, and branding inherit from the base
+# OPORD — omit fields unchanged from the base to keep the WARNO DRY. Only the
+# WARNO's own signing DTG is declared explicitly.
+dtg: "171200ZAPR26"
+
+situation:
+  enemy_forces:
+    recent_activities: |
+      Preliminary assessment (BCT G2, 171000ZAPR26): ENY MRC + 2x T-72 section
+      defending vic OBJ {{ obj_primary }} (NK 135 785). Armor reinforcement
+      status unclear; reconnaissance IPR scheduled 180600Z will refine MLCOA.
+    most_likely_coa: |
+      Provisional: ENY defends forward slope of OBJ {{ obj_primary }} with
+      dug-in MRC and engages from the reverse slope with armor. Subject to
+      revision after recon LD.
+
+mission: |
+  TF IRON will attack to seize OBJ {{ obj_primary }} NLT H-hour ({{ h_hour }})
+  IOT set conditions for follow-on {{ base.header.operation_name }} operations.
+  Provisional — final mission statement will issue with OPORD {{ base.header.operation_order_number }}.
+
+execution:
+  commanders_intent:
+    purpose: |
+      Defeat ENY defense of OBJ {{ obj_primary }} to preserve freedom of
+      maneuver for follow-on {{ base.header.operation_name }} operations on
+      the eastern approach. Key tasks and end state TBP in OPORD.
+  coordinating_instructions:
+    ccir:
+      pir:
+        - "Is ENY armor reinforcing OBJ {{ obj_primary }} from HIGHWAY 22? (NLT 180600Z)"
+        - "Are ENY fires observers forward of PL COPPER? (continuous)"
+      ffir:
+        - "Combat power of TF IRON below 80% (report immediately)"
+        - "Any casualty > CAT B (report immediately)"
+    eefi:
+      - "TF IRON routes and timing for movement to AA PATRIOT"
+      - "Rehearsal location and time"
+    fscm: |
+      Provisional FSCMs: CFL on PL COPPER (effective H-2); RFA vic OBJ HAMMER
+      (active H-1 to H+2). Full fire-support coordination measures TBP in OPORD.
+    time_line:
+      - event: "Recon LD"
+        dtg: "180600ZAPR26"
+        responsible: "Scout Plt (SAPPER 2)"
+        notes: "Confirm ENY armor disposition vic NAI 7; feeds confirmation brief."
+      - event: "Confirmation Brief"
+        dtg: "181000ZAPR26"
+        responsible: "TF IRON Co/Plt Cdrs"
+        notes: "All subordinate commanders back-brief understanding of intent and tasks."
+      - event: "Combined-Arms Rehearsal"
+        dtg: "182000ZAPR26"
+        responsible: "TF S3"
+        notes: "Full CAR at BN TOC; fires, movement, passage of lines."
+      - event: "OPORD Issue"
+        dtg: "181800ZAPR26"
+        responsible: "TF S3"
+        notes: "Full OPORD 26-04 published; supersedes this WARNO."
+      - event: "LD / H-Hour"
+        dtg: "{{ h_hour }}"
+        responsible: "TF IRON"
+        notes: "Operation commences; assault on OBJ {{ obj_primary }}."
+    earliest_movement_of_forces: |
+      Subordinate units may begin movement from current locations to AA PATRIOT
+      NLT 180400ZAPR26 — prior to OPORD 26-04 issue. Movement must be complete
+      NLT 181600ZAPR26 to support the combined-arms rehearsal.
+    reconnaissance_and_surveillance_instructions: |
+      Scout Plt executes zone reconnaissance vic NAI 7 IAW Annex L (Information
+      Collection). Focus: confirm ENY armor disposition on HIGHWAY 22 and
+      forward slope of OBJ {{ obj_primary }}. Coordinate BCT Puma UAS coverage
+      for NAIs 7 and 8 during recon LD window. R&S results inform the
+      confirmation brief.
+    orders_group:
+      purpose: "Issue OPORD 26-04 and receive subordinate-commander confirmation briefs."
+      dtg: "181800ZAPR26"
+      location: "TF IRON TOC, AA PATRIOT"
+      attendees: "TF Cdr, TF XO, S1-S6, Co Cdrs, Scout Plt Ldr, FSO, ALO, Engr LNO, BSB SPO LNO"
+      products_distributed: "OPORD 26-04, execution matrix, fires overlay, sustainment overlay, R&S plan, signal PACE card"
+    rehearsal:
+      type: "terrain-model"
+      dtg: "182000ZAPR26"
+      location: "BN TOC terrain-model site, AA PATRIOT"
+      participants: "TF Cdr, Co Cdrs, Plt Ldrs, FSO, JTAC, S3 shop, Scout Plt Ldr, Engr LNO"
+      method_notes: "Full combined-arms rehearsal covering fires, movement, and passage of lines. Actions-on drills walked by phase. Uniform: duty; bring map, matrix, graphics."
+
+annexes:
+  - letter: A
+    title: "Task Organization"
+    body: |
+      Task organization for {{ base.header.operation_name }} is published with
+      this WARNO so subordinates can begin parallel planning against the
+      confirmed command relationships. Remaining annexes TBP in OPORD.
+    typed_body:
+      letter: A
+      task_organization_list:
+        - name: "TF IRON (2-503 IN ABN)"
+          callsign: "IRON 6"
+          commander: "LTC T. Marquez"
+          role: "Battalion Main Effort"
+          subordinate_units:
+            - name: "A Co / 2-503 IN"
+              callsign: "ABLE 6"
+              role: "Assault — Main Effort, Phase II"
+            - name: "B Co / 2-503 IN"
+              callsign: "BRAVO 6"
+              role: "Supporting Effort — seize ANVIL"
+            - name: "C Co / 2-503 IN"
+              callsign: "CHARLIE 6"
+              role: "Reserve"
+            - name: "D Co (Wpns) / 2-503 IN"
+              callsign: "DELTA 6"
+              role: "Heavy Wpns — ATGM priority"
+            - name: "Scout Plt"
+              callsign: "SAPPER 2"
+              role: "Recon / OP 3 at NAI 8"

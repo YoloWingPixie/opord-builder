@@ -1,0 +1,32 @@
+{#- Paragraph scaffold for delta documents (FRAGO / WARNO). Wraps the
+    populated body in the standard <section><details> shell, and emits a
+    "No change" or "TBP" stub when the paragraph has no content.
+
+    stub_kind: "no-change" | "tbp"
+    stub_body: plain-text body for the stub message (rendered after the tag).
+
+    Call with {% call para_section(...) %}...populated body...{% endcall %} -
+    the caller block is only rendered when ``has_content_bool`` is truthy;
+    otherwise the stub is emitted. -#}
+
+{%- macro para_section(num, title, has_content_bool, stub_kind, stub_body, stub_tag=None) -%}
+<section class="paragraph">
+<details open class="section-details">
+<summary class="para-header">
+  <div class="para-num{% if num is string and num|length == 1 and num not in '12345' %} annex-num{% endif %}">{{ num }}</div>
+  <h2 class="para-title">{{ title }}</h2>
+  <div class="para-stripe"></div>
+  <span class="chevron"></span>
+</summary>
+{% if has_content_bool %}
+{{ caller() }}
+{% else %}
+{% if stub_kind == 'tbp' %}
+<div class="no-change tbp"><span class="no-change-tag tbp-tag">§ {{ stub_tag or 'TBP' }}</span><span class="no-change-body">{{ stub_body }}</span></div>
+{% else %}
+<div class="no-change"><span class="no-change-tag">§ {{ stub_tag or 'No change' }}</span><span class="no-change-body">{{ stub_body }}</span></div>
+{% endif %}
+{% endif %}
+</details>
+</section>
+{%- endmacro -%}

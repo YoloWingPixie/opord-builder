@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{%- set h = opord.header -%}
+{%- set class_str = h.classification.value + ('//' + h.classification_caveat if h.classification_caveat else '') -%}
+{%- set class_slug = h.classification.css_slug -%}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ product_title }} — OPORD {{ h.operation_order_number }} {{ h.operation_name }}</title>
+  <style>
+    @page {
+      size: Letter;
+      margin: 0.7in 0.55in 0.65in 0.55in;
+      {% if watermark_url %}
+      background-image: url("{{ watermark_url }}");
+      background-position: center center;
+      background-size: 420pt auto;
+      background-repeat: no-repeat;
+      {% endif %}
+      @top-center {
+        content: "{{ class_str }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700;
+        font-size: 7pt;
+        letter-spacing: 0.1em;
+        color: #ffffff;
+        background: linear-gradient(to bottom, transparent 0%, transparent 38%, var(--class-color) 38%, var(--class-color) 62%, transparent 62%, transparent 100%);
+        padding: 0 72pt;
+        text-align: center;
+        text-transform: uppercase;
+        vertical-align: middle;
+      }
+      @bottom-center {
+        content: "{{ class_str }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700;
+        font-size: 7pt;
+        letter-spacing: 0.1em;
+        color: #ffffff;
+        background: linear-gradient(to bottom, transparent 0%, transparent 38%, var(--class-color) 38%, var(--class-color) 62%, transparent 62%, transparent 100%);
+        padding: 0 72pt;
+        text-align: center;
+        text-transform: uppercase;
+        vertical-align: middle;
+      }
+      @bottom-left {
+        content: "{{ product_title | upper }}" " / OPORD " "{{ h.operation_order_number }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 6.5pt;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #45443e;
+        padding: 3pt 0;
+        white-space: nowrap;
+        text-transform: uppercase;
+      }
+      @bottom-right {
+        content: "P " counter(page) " / " counter(pages);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 6.5pt;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #45443e;
+        padding: 3pt 0;
+      }
+    }
+  </style>
+</head>
+<body class="classification-{{ class_slug }}">
+
+<section class="product-cover">
+  <div class="product-eyebrow">
+    <span class="product-eyebrow-tag">FIRES PRODUCT</span>
+    <span class="product-eyebrow-sub">{{ product_subtitle }}</span>
+  </div>
+  <h1 class="product-title">{{ product_title }}</h1>
+  <div class="product-meta">
+    <div class="product-meta-row">
+      <span class="product-meta-k">OPORD</span>
+      <span class="product-meta-v">{{ h.operation_order_number }} · {{ h.operation_name }}</span>
+    </div>
+    <div class="product-meta-row">
+      <span class="product-meta-k">Issuing HQ</span>
+      <span class="product-meta-v">{{ h.issuing_headquarters }}</span>
+    </div>
+    <div class="product-meta-row">
+      <span class="product-meta-k">DTG Signed</span>
+      <span class="product-meta-v">{{ h.dtg }}</span>
+    </div>
+    <div class="product-meta-row">
+      <span class="product-meta-k">Product Generated</span>
+      <span class="product-meta-v">{{ generated_at }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="product-body">
+  {% if product_body_html %}
+    {{ product_body_html | safe }}
+  {% else %}
+    <p class="product-empty">No entries recorded for this product.</p>
+  {% endif %}
+</section>
+
+</body>
+</html>

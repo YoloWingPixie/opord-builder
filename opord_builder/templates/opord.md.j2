@@ -1,0 +1,738 @@
+{#- ======================================================================= -#}
+{#-  OPORD Markdown template.                                                -#}
+{#-  Every subparagraph is guarded with `{% if has_content(...) %}`.         -#}
+{#-  Letters re-sequence so empty subparagraphs disappear without gaps.      -#}
+{#- ======================================================================= -#}
+{%- macro unit_tree(unit, depth=0) -%}
+{{ '    ' * depth }}- **{{ unit.name }}**{% if unit.callsign %} — `{{ unit.callsign }}`{% endif %}
+{%- if unit.relationship %} _{{ unit.relationship }}_{% endif %}
+{%- if unit.role %}
+  {{ '    ' * depth }}  _Role:_ {{ unit.role }}
+{%- endif %}
+{%- if unit.commander %}
+  {{ '    ' * depth }}  _Commander:_ {{ unit.commander }}
+{%- endif %}
+{%- for child in unit.subordinate_units %}
+{{ unit_tree(child, depth + 1) }}
+{%- endfor -%}
+{%- endmacro -%}
+{%- set h = opord.header -%}
+**{{ h.classification.value }}{% if h.classification_caveat %}//{{ h.classification_caveat }}{% endif %}**
+
+{% if h.copy_number and h.number_of_copies -%}
+Copy {{ h.copy_number }} of {{ h.number_of_copies }} copies
+{%- elif h.copy_number -%}
+Copy {{ h.copy_number }}
+{%- endif %}
+{{ h.issuing_headquarters }}
+{{ h.place_of_issue }}
+{{ h.dtg }}
+{% if h.message_reference_number %}Message Reference Number: {{ h.message_reference_number }}
+{% endif %}
+
+# OPERATION ORDER {{ h.operation_order_number }} — {{ h.operation_name }}
+
+{% if has_content(h.references) %}
+**(U) References.**
+{% for ref in h.references %}
+  {{ letter_for(loop.index) }}. {{ ref.citation }}{% if ref.description %} — {{ ref.description }}{% endif %}
+{% endfor %}
+{% endif %}
+
+**(U) Time Zone Used Throughout the OPORD:** {{ h.time_zone }}
+
+{% if has_content(h.task_organization) %}
+**(U) Task Organization.**
+
+{{ unit_tree(h.task_organization) }}
+{% elif h.task_organization_note %}
+**(U) Task Organization.** {{ h.task_organization_note }}
+{% endif %}
+
+---
+
+{# PARAGRAPH 1 — SITUATION #}
+{% set s = opord.situation %}
+{% if has_content(s) %}
+## 1. (U) Situation
+
+{% set ns = namespace(i=0) %}
+{% if has_content(s.area_of_interest) %}
+{% set ns.i = ns.i + 1 %}
+### 1.{{ letter_for(ns.i) }}. Area of Interest
+
+{{ s.area_of_interest }}
+
+{% endif %}
+{% if has_content(s.area_of_operations) %}
+{% set ns.i = ns.i + 1 %}
+{% set ao_letter = letter_for(ns.i) %}
+### 1.{{ ao_letter }}. Area of Operations
+
+{% if has_content(s.area_of_operations.description) %}
+{{ s.area_of_operations.description }}
+
+{% endif %}
+{% set subns = namespace(j=0) %}
+{% if has_content(s.area_of_operations.terrain) %}
+{% set subns.j = subns.j + 1 %}
+#### 1.{{ ao_letter }}.({{ subns.j }}) Terrain (OAKOC)
+
+{% set t = s.area_of_operations.terrain %}
+{% if has_content(t.observation_and_fields_of_fire) %}- **Observation and Fields of Fire:** {{ t.observation_and_fields_of_fire }}
+{% endif %}
+{% if has_content(t.avenues_of_approach) %}- **Avenues of Approach:** {{ t.avenues_of_approach }}
+{% endif %}
+{% if has_content(t.key_terrain) %}- **Key Terrain:** {{ t.key_terrain }}
+{% endif %}
+{% if has_content(t.obstacles) %}- **Obstacles:** {{ t.obstacles }}
+{% endif %}
+{% if has_content(t.cover_and_concealment) %}- **Cover and Concealment:** {{ t.cover_and_concealment }}
+{% endif %}
+
+{% endif %}
+{% if has_content(s.area_of_operations.weather) %}
+{% set subns.j = subns.j + 1 %}
+#### 1.{{ ao_letter }}.({{ subns.j }}) Weather
+
+{% set w = s.area_of_operations.weather %}
+{% if has_content(w.visibility) %}- **Visibility:** {{ w.visibility }}
+{% endif %}
+{% if has_content(w.winds) %}- **Winds:** {{ w.winds }}
+{% endif %}
+{% if has_content(w.precipitation) %}- **Precipitation:** {{ w.precipitation }}
+{% endif %}
+{% if has_content(w.cloud_cover) %}- **Cloud Cover:** {{ w.cloud_cover }}
+{% endif %}
+{% if has_content(w.temperature_and_humidity) %}- **Temperature and Humidity:** {{ w.temperature_and_humidity }}
+{% endif %}
+{% if has_content(w.light_data) %}- **Light Data:** {{ w.light_data }}
+{% endif %}
+
+{% endif %}
+{% endif %}
+{% if has_content(s.enemy_forces) %}
+{% set ns.i = ns.i + 1 %}
+{% set e_letter = letter_for(ns.i) %}
+### 1.{{ e_letter }}. Enemy Forces
+
+{% set e = s.enemy_forces %}
+{% set ens = namespace(j=0) %}
+{% if has_content(e.composition_disposition_strength) %}
+{% set ens.j = ens.j + 1 %}
+**1.{{ e_letter }}.({{ ens.j }}) Composition, Disposition, and Strength.** {{ e.composition_disposition_strength }}
+
+{% endif %}
+{% if has_content(e.recent_activities) %}
+{% set ens.j = ens.j + 1 %}
+**1.{{ e_letter }}.({{ ens.j }}) Recent Activities.** {{ e.recent_activities }}
+
+{% endif %}
+{% if has_content(e.capabilities) %}
+{% set ens.j = ens.j + 1 %}
+**1.{{ e_letter }}.({{ ens.j }}) Capabilities.** {{ e.capabilities }}
+
+{% endif %}
+{% if has_content(e.most_likely_coa) %}
+{% set ens.j = ens.j + 1 %}
+**1.{{ e_letter }}.({{ ens.j }}) Most Likely Course of Action.** {{ e.most_likely_coa }}
+
+{% endif %}
+{% if has_content(e.most_dangerous_coa) %}
+{% set ens.j = ens.j + 1 %}
+**1.{{ e_letter }}.({{ ens.j }}) Most Dangerous Course of Action.** {{ e.most_dangerous_coa }}
+
+{% endif %}
+{% endif %}
+{% if has_content(s.friendly_forces) %}
+{% set ns.i = ns.i + 1 %}
+{% set f_letter = letter_for(ns.i) %}
+### 1.{{ f_letter }}. Friendly Forces
+
+{% set f = s.friendly_forces %}
+{% if has_content(f.higher_headquarters) %}
+{% set hh = f.higher_headquarters %}
+**Higher Headquarters' Mission and Intent.**
+{% if hh.two_up_mission or hh.two_up_intent or hh.two_up_designation %}
+- **Two Levels Up{% if hh.two_up_designation %} — {{ hh.two_up_designation }}{% endif %}:**
+{% if hh.two_up_mission %}  - _Mission:_ {{ hh.two_up_mission }}
+{% endif %}
+{% if hh.two_up_intent %}  - _Intent:_ {{ hh.two_up_intent }}
+{% endif %}
+{% endif %}
+{% if hh.one_up_mission or hh.one_up_intent or hh.one_up_designation %}
+- **One Level Up{% if hh.one_up_designation %} — {{ hh.one_up_designation }}{% endif %}:**
+{% if hh.one_up_mission %}  - _Mission:_ {{ hh.one_up_mission }}
+{% endif %}
+{% if hh.one_up_intent %}  - _Intent:_ {{ hh.one_up_intent }}
+{% endif %}
+{% endif %}
+
+{% endif %}
+{% if has_content(f.adjacent_units) %}**Adjacent Units.** {{ f.adjacent_units }}
+
+{% endif %}
+{% if has_content(f.other_units) %}**Other Units.** {{ f.other_units }}
+
+{% endif %}
+{% endif %}
+{% if has_content(s.interagency_intergovernmental_ngo) %}
+{% set ns.i = ns.i + 1 %}
+### 1.{{ letter_for(ns.i) }}. Interagency, Intergovernmental, and Nongovernmental Organizations
+
+{{ s.interagency_intergovernmental_ngo }}
+
+{% endif %}
+{% if has_content(s.civil_considerations) %}
+{% set ns.i = ns.i + 1 %}
+### 1.{{ letter_for(ns.i) }}. Civil Considerations (ASCOPE)
+
+{% set c = s.civil_considerations %}
+{% if has_content(c.areas) %}- **Areas:** {{ c.areas }}
+{% endif %}
+{% if has_content(c.structures) %}- **Structures:** {{ c.structures }}
+{% endif %}
+{% if has_content(c.capabilities) %}- **Capabilities:** {{ c.capabilities }}
+{% endif %}
+{% if has_content(c.organizations) %}- **Organizations:** {{ c.organizations }}
+{% endif %}
+{% if has_content(c.people) %}- **People:** {{ c.people }}
+{% endif %}
+{% if has_content(c.events) %}- **Events:** {{ c.events }}
+{% endif %}
+
+{% endif %}
+{% if has_content(s.attachments_and_detachments) %}
+{% set ns.i = ns.i + 1 %}
+### 1.{{ letter_for(ns.i) }}. Attachments and Detachments
+
+{% set ad = s.attachments_and_detachments %}
+{% if has_content(ad.attachments) %}**Attached:**
+{% for a in ad.attachments %}- {{ a }}
+{% endfor %}
+
+{% endif %}
+{% if has_content(ad.detachments) %}**Detached:**
+{% for d in ad.detachments %}- {{ d }}
+{% endfor %}
+
+{% endif %}
+{% if has_content(ad.note) %}_{{ ad.note }}_
+
+{% endif %}
+{% endif %}
+{% if has_content(s.assumptions) %}
+{% set ns.i = ns.i + 1 %}
+### 1.{{ letter_for(ns.i) }}. Assumptions
+
+{% for a in s.assumptions %}{{ loop.index }}. {{ a }}
+{% endfor %}
+
+{% endif %}
+{% endif %}
+
+{# PARAGRAPH 2 — MISSION #}
+
+## 2. (U) Mission
+
+> {{ opord.mission }}
+
+{# PARAGRAPH 3 — EXECUTION #}
+
+{% set x = opord.execution %}
+{% if has_content(x) %}
+## 3. (U) Execution
+
+{% set xns = namespace(i=0) %}
+{% if has_content(x.commanders_intent) %}
+{% set xns.i = xns.i + 1 %}
+{% set ci_letter = letter_for(xns.i) %}
+### 3.{{ ci_letter }}. Commander's Intent
+
+{% set ci = x.commanders_intent %}
+{% set cins = namespace(j=0) %}
+{% if has_content(ci.purpose) %}
+{% set cins.j = cins.j + 1 %}
+**3.{{ ci_letter }}.({{ cins.j }}) Purpose.** {{ ci.purpose }}
+
+{% endif %}
+{% if has_content(ci.key_tasks) %}
+{% set cins.j = cins.j + 1 %}
+**3.{{ ci_letter }}.({{ cins.j }}) Key Tasks.**
+{% for t in ci.key_tasks %}- {{ t }}
+{% endfor %}
+
+{% endif %}
+{% if has_content(ci.end_state) or has_content(ci.end_state_friendly) or has_content(ci.end_state_enemy) or has_content(ci.end_state_terrain) or has_content(ci.end_state_civil) %}
+{% set cins.j = cins.j + 1 %}
+**3.{{ ci_letter }}.({{ cins.j }}) End State.**
+{% if has_content(ci.end_state) %}
+{{ ci.end_state }}
+
+{% endif %}
+{% if has_content(ci.end_state_friendly) %}- _Friendly:_ {{ ci.end_state_friendly }}
+{% endif %}
+{% if has_content(ci.end_state_enemy) %}- _Enemy:_ {{ ci.end_state_enemy }}
+{% endif %}
+{% if has_content(ci.end_state_terrain) %}- _Terrain:_ {{ ci.end_state_terrain }}
+{% endif %}
+{% if has_content(ci.end_state_civil) %}- _Civil:_ {{ ci.end_state_civil }}
+{% endif %}
+
+{% endif %}
+{% endif %}
+{% if has_content(x.concept_of_operations) %}
+{% set xns.i = xns.i + 1 %}
+{% set co_letter = letter_for(xns.i) %}
+### 3.{{ co_letter }}. Concept of Operations
+
+{% set co = x.concept_of_operations %}
+{% if has_content(co.overview) %}{{ co.overview }}
+
+{% endif %}
+{% set cons = namespace(j=0) %}
+{% if has_content(co.maneuver) %}
+{% set cons.j = cons.j + 1 %}
+**3.{{ co_letter }}.({{ cons.j }}) Maneuver.** {{ co.maneuver }}
+
+{% endif %}
+{% if has_content(co.decisive_operation) %}
+{% set cons.j = cons.j + 1 %}
+**3.{{ co_letter }}.({{ cons.j }}) Decisive Operation.** {{ co.decisive_operation }}
+
+{% endif %}
+{% if has_content(co.shaping_operations) %}
+{% set cons.j = cons.j + 1 %}
+**3.{{ co_letter }}.({{ cons.j }}) Shaping Operations.** {{ co.shaping_operations }}
+
+{% endif %}
+{% if has_content(co.sustaining_operations) %}
+{% set cons.j = cons.j + 1 %}
+**3.{{ co_letter }}.({{ cons.j }}) Sustaining Operations.** {{ co.sustaining_operations }}
+
+{% endif %}
+{% if has_content(co.reserve) %}
+{% set cons.j = cons.j + 1 %}
+**3.{{ co_letter }}.({{ cons.j }}) Reserve.** {{ co.reserve }}
+
+{% endif %}
+{% if has_content(co.fires) %}
+{% set cons.j = cons.j + 1 %}
+**3.{{ co_letter }}.({{ cons.j }}) Fires.** {{ co.fires }}
+
+{% endif %}
+{% endif %}
+{#- All scheme_of_* subparagraphs, rendered only if present -#}
+{% set schemes = [
+  ('scheme_of_movement_and_maneuver', 'Scheme of Movement and Maneuver'),
+  ('scheme_of_mobility_countermobility', 'Scheme of Mobility and Countermobility'),
+  ('scheme_of_battlefield_obscuration', 'Scheme of Battlefield Obscuration'),
+  ('scheme_of_reconnaissance_and_security', 'Scheme of Reconnaissance and Security'),
+  ('scheme_of_intelligence', 'Scheme of Intelligence'),
+  ('scheme_of_fires', 'Scheme of Fires'),
+  ('scheme_of_protection', 'Scheme of Protection'),
+  ('stability', 'Stability'),
+  ('scheme_of_engineer_operations', 'Scheme of Engineer Operations'),
+  ('scheme_of_signal', 'Scheme of Signal'),
+  ('scheme_of_information_collection', 'Scheme of Information Collection'),
+  ('scheme_of_sustainment', 'Scheme of Sustainment'),
+  ('scheme_of_cema', 'Scheme of Cyberspace Electromagnetic Activities'),
+  ('scheme_of_information_operations', 'Scheme of Information Operations'),
+  ('scheme_of_airspace_control', 'Scheme of Airspace Control'),
+  ('scheme_of_military_deception', 'Scheme of Military Deception'),
+  ('scheme_of_space_operations', 'Scheme of Space Operations'),
+  ('assessment', 'Assessment'),
+] %}
+{% for attr, label in schemes %}
+{% set val = x[attr] %}
+{% if has_content(val) %}
+{% set xns.i = xns.i + 1 %}
+### 3.{{ letter_for(xns.i) }}. {{ label }}
+
+{{ val }}
+
+{% endif %}
+{% endfor %}
+{% if has_content(x.tasks_to_subordinate_units) %}
+{% set xns.i = xns.i + 1 %}
+{% set tsu_letter = letter_for(xns.i) %}
+### 3.{{ tsu_letter }}. Tasks to Subordinate Units
+
+{% for t in x.tasks_to_subordinate_units %}
+**3.{{ tsu_letter }}.({{ loop.index }}) {{ t.unit }}{% if t.callsign %} ({{ t.callsign }}){% endif %}.**
+{% if t.purpose %}_Purpose:_ {{ t.purpose }}
+
+{% endif %}
+{% if t.tasks %}
+{% for task in t.tasks %}  {{ loop.index }}. {{ task }}
+{% endfor %}
+
+{% endif %}
+{% if t.priorities %}_Priorities:_ {{ t.priorities }}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if has_content(x.coordinating_instructions) %}
+{% set xns.i = xns.i + 1 %}
+{% set ci2 = letter_for(xns.i) %}
+### 3.{{ ci2 }}. Coordinating Instructions
+
+{% set co_ins = x.coordinating_instructions %}
+{% set coins_ns = namespace(j=0) %}
+{% if has_content(co_ins.effective_time) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Effective Time.** {{ co_ins.effective_time }}
+
+{% endif %}
+{% if has_content(co_ins.ccir) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Commander's Critical Information Requirements (CCIR).**
+{% if has_content(co_ins.ccir.pir) %}
+- **Priority Intelligence Requirements (PIR):**
+{% for p in co_ins.ccir.pir %}  - {{ p }}
+{% endfor %}
+{% endif %}
+{% if has_content(co_ins.ccir.ffir) %}
+- **Friendly Force Information Requirements (FFIR):**
+{% for f in co_ins.ccir.ffir %}  - {{ f }}
+{% endfor %}
+{% endif %}
+
+{% endif %}
+{% if has_content(co_ins.eefi) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Essential Elements of Friendly Information (EEFI).**
+{% for e in co_ins.eefi %}- {{ e }}
+{% endfor %}
+
+{% endif %}
+{% if has_content(co_ins.time_line) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Time Line.**
+
+| Event | DTG | Responsible | Notes |
+|---|---|---|---|
+{% for m in co_ins.time_line %}| {{ m.event }} | {{ m.dtg }} | {{ m.responsible or '' }} | {{ (m.notes or '') | replace('\n', ' ') | replace('|', '\\|') }} |
+{% endfor %}
+
+{% endif %}
+{% if has_content(co_ins.earliest_movement_of_forces) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Earliest Movement of Forces.** {{ co_ins.earliest_movement_of_forces }}
+
+{% endif %}
+{% if has_content(co_ins.reconnaissance_and_surveillance_instructions) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Reconnaissance and Surveillance Instructions.** {{ co_ins.reconnaissance_and_surveillance_instructions }}
+
+{% endif %}
+{% if has_content(co_ins.orders_group) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Orders Group.**
+{% if has_content(co_ins.orders_group.purpose) %}- *Purpose:* {{ co_ins.orders_group.purpose }}
+{% endif %}{% if has_content(co_ins.orders_group.dtg) %}- *DTG:* {{ co_ins.orders_group.dtg }}
+{% endif %}{% if has_content(co_ins.orders_group.location) %}- *Location:* {{ co_ins.orders_group.location }}
+{% endif %}{% if has_content(co_ins.orders_group.attendees) %}- *Attendees:* {{ co_ins.orders_group.attendees }}
+{% endif %}{% if has_content(co_ins.orders_group.products_distributed) %}- *Products:* {{ co_ins.orders_group.products_distributed }}
+{% endif %}
+
+{% endif %}
+{% if has_content(co_ins.rehearsal) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Rehearsal.**
+{% if has_content(co_ins.rehearsal.type) %}- *Type:* {{ co_ins.rehearsal.type }}
+{% endif %}{% if has_content(co_ins.rehearsal.dtg) %}- *DTG:* {{ co_ins.rehearsal.dtg }}
+{% endif %}{% if has_content(co_ins.rehearsal.location) %}- *Location:* {{ co_ins.rehearsal.location }}
+{% endif %}{% if has_content(co_ins.rehearsal.participants) %}- *Participants:* {{ co_ins.rehearsal.participants }}
+{% endif %}{% if has_content(co_ins.rehearsal.method_notes) %}- *Method Notes:* {{ co_ins.rehearsal.method_notes }}
+{% endif %}
+
+{% endif %}
+{% set extras = [
+  ('fscm', 'Fire Support Coordination Measures'),
+  ('acm', 'Airspace Coordinating Measures'),
+  ('roe', 'Rules of Engagement'),
+  ('risk_reduction_control_measures', 'Risk-Reduction Control Measures'),
+  ('personnel_recovery', 'Personnel Recovery Coordination Measures'),
+  ('environmental_considerations', 'Environmental Considerations'),
+  ('cema', 'Cyberspace Electromagnetic Activities'),
+  ('other', 'Other Coordinating Instructions'),
+] %}
+{% for attr, label in extras %}
+{% set val = co_ins[attr] %}
+{% if has_content(val) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) {{ label }}.** {{ val }}
+
+{% endif %}
+{% endfor %}
+{% if has_content(co_ins.themes_and_messages) %}
+{% set coins_ns.j = coins_ns.j + 1 %}
+**3.{{ ci2 }}.({{ coins_ns.j }}) Themes and Messages.**
+{% for tm in co_ins.themes_and_messages %}- {{ tm }}
+{% endfor %}
+
+{% endif %}
+{% endif %}
+{% endif %}
+
+{# PARAGRAPH 4 — SUSTAINMENT #}
+
+{% set su = opord.sustainment %}
+{% if has_content(su) %}
+## 4. (U) Sustainment
+
+{% set sns = namespace(i=0) %}
+{% if has_content(su.logistics) %}
+{% set sns.i = sns.i + 1 %}
+{% set lg_letter = letter_for(sns.i) %}
+### 4.{{ lg_letter }}. Logistics
+
+{% set lg = su.logistics %}
+{% set lgns = namespace(j=0) %}
+{% set lg_fields = [
+  ('sustainment_overlay', 'Sustainment Overlay'),
+  ('maintenance', 'Maintenance'),
+  ('transportation', 'Transportation'),
+  ('supply', 'Supply'),
+  ('field_services', 'Field Services'),
+  ('distribution', 'Distribution'),
+  ('contract_support', 'Operational Contract Support'),
+  ('general_engineering_support', 'General Engineering Support'),
+] %}
+{% for attr, label in lg_fields %}
+{% set val = lg[attr] %}
+{% if has_content(val) %}
+{% set lgns.j = lgns.j + 1 %}
+**4.{{ lg_letter }}.({{ lgns.j }}) {{ label }}.** {{ val }}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if has_content(su.personnel_services) %}
+{% set sns.i = sns.i + 1 %}
+{% set ps_letter = letter_for(sns.i) %}
+### 4.{{ ps_letter }}. Personnel Services Support
+
+{% set ps = su.personnel_services %}
+{% set psns = namespace(j=0) %}
+{% set ps_fields = [
+  ('human_resources_support', 'Human Resources Support'),
+  ('financial_management', 'Financial Management'),
+  ('legal_support', 'Legal Support'),
+  ('religious_support', 'Religious Support'),
+  ('band_support', 'Band Support'),
+] %}
+{% for attr, label in ps_fields %}
+{% set val = ps[attr] %}
+{% if has_content(val) %}
+{% set psns.j = psns.j + 1 %}
+**4.{{ ps_letter }}.({{ psns.j }}) {{ label }}.** {{ val }}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if has_content(su.health_services) %}
+{% set sns.i = sns.i + 1 %}
+{% set hs_letter = letter_for(sns.i) %}
+### 4.{{ hs_letter }}. Army Health System Support
+
+{% set hs = su.health_services %}
+{% set hsns = namespace(j=0) %}
+{% set hs_fields = [
+  ('medical_command_and_control', 'Medical Command and Control'),
+  ('medical_treatment', 'Medical Treatment'),
+  ('medical_evacuation', 'Medical Evacuation'),
+  ('dental_services', 'Dental Services'),
+  ('preventive_medicine', 'Preventive Medicine'),
+  ('combat_operational_stress_control', 'Combat and Operational Stress Control'),
+  ('veterinary_services', 'Veterinary Services'),
+  ('medical_logistics', 'Medical Logistics'),
+  ('medical_laboratory_services', 'Medical Laboratory Services'),
+  ('area_medical_support', 'Area Medical Support'),
+] %}
+{% for attr, label in hs_fields %}
+{% set val = hs[attr] %}
+{% if has_content(val) %}
+{% set hsns.j = hsns.j + 1 %}
+**4.{{ hs_letter }}.({{ hsns.j }}) {{ label }}.** {{ val }}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+{# PARAGRAPH 5 — COMMAND AND SIGNAL #}
+
+{% set cs = opord.command_and_signal %}
+{% if has_content(cs) %}
+## 5. (U) Command and Signal
+
+{% set csns = namespace(i=0) %}
+{% if has_content(cs.command) %}
+{% set csns.i = csns.i + 1 %}
+{% set cmd_letter = letter_for(csns.i) %}
+### 5.{{ cmd_letter }}. Command
+
+{% set cmd = cs.command %}
+{% set cmdns = namespace(j=0) %}
+{% if has_content(cmd.location_of_commander) %}
+{% set cmdns.j = cmdns.j + 1 %}
+**5.{{ cmd_letter }}.({{ cmdns.j }}) Location of the Commander.** {{ cmd.location_of_commander }}
+
+{% endif %}
+{% if has_content(cmd.succession_of_command) %}
+{% set cmdns.j = cmdns.j + 1 %}
+**5.{{ cmd_letter }}.({{ cmdns.j }}) Succession of Command.**
+{% for p in cmd.succession_of_command %}{{ loop.index }}. {{ p }}
+{% endfor %}
+
+{% endif %}
+{% if has_content(cmd.command_posts) %}
+{% set cmdns.j = cmdns.j + 1 %}
+**5.{{ cmd_letter }}.({{ cmdns.j }}) Command Posts.** {{ cmd.command_posts }}
+
+{% endif %}
+{% endif %}
+{% if has_content(cs.control) %}
+{% set csns.i = csns.i + 1 %}
+{% set ctrl_letter = letter_for(csns.i) %}
+### 5.{{ ctrl_letter }}. Control
+
+{% set ctrl = cs.control %}
+{% set ctns = namespace(j=0) %}
+{% if has_content(ctrl.command_and_support_relationships) %}
+{% set ctns.j = ctns.j + 1 %}
+**5.{{ ctrl_letter }}.({{ ctns.j }}) Command and Support Relationships.** {{ ctrl.command_and_support_relationships }}
+
+{% endif %}
+{% if has_content(ctrl.liaison_requirements) %}
+{% set ctns.j = ctns.j + 1 %}
+**5.{{ ctrl_letter }}.({{ ctns.j }}) Liaison Requirements.** {{ ctrl.liaison_requirements }}
+
+{% endif %}
+{% endif %}
+{% if has_content(cs.signal) %}
+{% set csns.i = csns.i + 1 %}
+{% set sig_letter = letter_for(csns.i) %}
+### 5.{{ sig_letter }}. Signal
+
+{% set sig = cs.signal %}
+{% set signs = namespace(j=0) %}
+{% if has_content(sig.soi_edition) %}
+{% set signs.j = signs.j + 1 %}
+**5.{{ sig_letter }}.({{ signs.j }}) SOI Edition in Effect.** {{ sig.soi_edition }}
+
+{% endif %}
+{% if has_content(sig.methods_of_communication_by_echelon) %}
+{% set signs.j = signs.j + 1 %}
+**5.{{ sig_letter }}.({{ signs.j }}) Methods of Communication by Echelon.** {{ sig.methods_of_communication_by_echelon }}
+
+{% endif %}
+{% if has_content(sig.recognition_and_identification) %}
+{% set signs.j = signs.j + 1 %}
+**5.{{ sig_letter }}.({{ signs.j }}) Recognition and Identification Instructions.** {{ sig.recognition_and_identification }}
+
+{% endif %}
+{% if has_content(sig.cema) %}
+{% set signs.j = signs.j + 1 %}
+**5.{{ sig_letter }}.({{ signs.j }}) Cyberspace Electromagnetic Activities.** {{ sig.cema }}
+
+{% endif %}
+{% endif %}
+{% endif %}
+
+---
+
+{% set auth = opord.authentication %}
+{% if auth and auth.acknowledge %}**ACKNOWLEDGE.**
+{% endif %}
+{% if auth and (auth.commander_last_name or auth.commander_rank) %}
+**{{ (auth.commander_last_name or '') | upper }}**{% if auth.commander_rank %}, {{ auth.commander_rank }}{% endif %}
+
+{% endif %}
+{% if auth and (auth.authenticating_officer_name or auth.authenticating_officer_position) %}
+**OFFICIAL:**
+{% if auth.authenticating_officer_name %}{{ auth.authenticating_officer_name }}
+{% endif %}
+{% if auth.authenticating_officer_position %}{{ auth.authenticating_officer_position }}
+{% endif %}
+
+{% endif %}
+**ANNEXES:**
+
+| Letter | Title | Status |
+|:------:|:------|:------:|
+{% for a in annex_directory %}
+| **{{ a.letter }}** | {{ a.title }} | {{ a.status.display_label }} |
+{% endfor %}
+
+{% if opord.annexes %}
+{% for a in opord.annexes if a.is_published %}
+### Annex {{ a.letter }} — {{ a.title }}
+
+{% if has_content(a.distribution_list) %}
+**Distribution List:**
+{% for rec in a.distribution_list %}- {{ rec }}
+{% endfor %}
+
+{% endif %}
+{% if has_content(a.body) %}{{ a.body }}
+
+{% endif %}
+{% if a.typed_body is not none %}
+**Structured Content**
+
+{{ render_typed_body_md(a.typed_body) }}
+
+{% endif %}
+{% if has_content(a.call_sign_groups) %}
+**Call Sign Assignments**
+
+{% for group in a.call_sign_groups %}
+_{{ group.category }}_
+
+| Unit | Callsign |
+|:-----|:---------|
+{% for entry in group.entries %}
+| {{ entry.unit }} | `{{ entry.callsign }}` |
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+{% if has_content(a.appendices) %}
+{% for ap in a.appendices %}
+**Appendix {{ ap.number }} ({{ a.letter }}) — {{ ap.title }}.** {% if has_content(ap.body) %}{{ ap.body }}{% endif %}
+
+{% if has_content(ap.distribution_list) %}
+_Distribution List:_
+{% for rec in ap.distribution_list %}- {{ rec }}
+{% endfor %}
+
+{% endif %}
+{% if has_content(ap.frequency_tables) %}
+{% for ft in ap.frequency_tables %}
+_{{ ft.title }}{% if ft.sub_title %} · {{ ft.sub_title }}{% endif %}_
+
+| Name | Ch | Frequency | Purpose |
+|:-----|:--:|:----------|:--------|
+{% for ch in ft.channels %}
+| `{{ ch.name }}` | `{{ ch.channel }}` | `{{ ch.frequency }}` | {{ ch.purpose }} |
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if auth and has_content(auth.distribution) %}
+**DISTRIBUTION:** {{ auth.distribution }}
+
+{% endif %}
+
+---
+
+**{{ h.classification.value }}{% if h.classification_caveat %}//{{ h.classification_caveat }}{% endif %}**

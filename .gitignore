@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+*.bak
+dist/
+build/
+.pytest_cache/
+output/
+examples/*.pdf
+examples/*.md
+examples/*.html
+examples/*.png
+!examples/*.yaml
+# Commit the rendered outputs for the canonical examples.
+!examples/example_full.pdf
+!examples/example_full.md
+!examples/example_full.html
+!examples/example_minimal.pdf
+!examples/example_minimal.md
+!examples/example_minimal.html

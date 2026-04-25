@@ -1,0 +1,225 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  PROJECT_NAME: opord-builder
+  SOURCE_DIR: opord_builder
+  TEST_DIR: tests
+  SCHEMA_PATH: schemas/opord.schema.json
+  OUT_DIR: output
+
+tasks:
+  default:
+    desc: "Show all available tasks"
+    cmds:
+      - task --list
+
+  # ── Setup ──────────────────────────────────────────────────
+
+  setup:
+    desc: "Install dependencies and sync the venv"
+    cmds:
+      - uv sync
+
+  setup:dev:
+    desc: "Install all dependencies including dev extras"
+    cmds:
+      - uv sync --all-extras
+
+  # ── Linting & Formatting ───────────────────────────────────
+
+  format:
+    desc: "Auto-format Python files with Ruff"
+    deps: [setup:dev]
+    cmds:
+      - uv run ruff format {{.SOURCE_DIR}} {{.TEST_DIR}}
+
+  format:check:
+    desc: "Check formatting without modifying files"
+    deps: [setup:dev]
+    cmds:
+      - uv run ruff format --check {{.SOURCE_DIR}} {{.TEST_DIR}}
+
+  lint:
+    desc: "Run Ruff linter"
+    deps: [setup:dev]
+    cmds:
+      - uv run ruff check {{.SOURCE_DIR}} {{.TEST_DIR}}
+
+  lint:fix:
+    desc: "Run Ruff linter with auto-fix"
+    deps: [setup:dev]
+    cmds:
+      - uv run ruff check --fix {{.SOURCE_DIR}} {{.TEST_DIR}}
+
+  # ── Testing ────────────────────────────────────────────────
+
+  test:
+    desc: "Run the test suite"
+    deps: [setup:dev]
+    cmds:
+      - uv run pytest
+
+  test:verbose:
+    desc: "Run the test suite with verbose output"
+    deps: [setup:dev]
+    cmds:
+      - uv run pytest -v
+
+  test:watch:
+    desc: "Re-run tests on file changes"
+    deps: [test]
+    watch: true
+    sources:
+      - "{{.SOURCE_DIR}}/**/*.py"
+      - "{{.SOURCE_DIR}}/templates/**/*"
+      - "{{.TEST_DIR}}/**/*.py"
+
+  # ── Schema ─────────────────────────────────────────────────
+
+  schema:generate:
+    desc: "Regenerate the JSON Schema from Pydantic models"
+    deps: [setup]
+    cmds:
+      - uv run opord schema -o {{.SCHEMA_PATH}}
+    sources:
+      - "{{.SOURCE_DIR}}/schema/**/*.py"
+    generates:
+      - "{{.SCHEMA_PATH}}"
+
+  schema:docs:
+    desc: "Generate human-readable schema docs into docs/schema/"
+    deps: [setup:dev]
+    cmds:
+      - uv run opord docs
+
+  # ── Rendering ──────────────────────────────────────────────
+
+  render:
+    desc: "Render an OPORD YAML to Markdown, HTML, and PDF (usage: task render -- input.yaml)"
+    deps: [setup]
+    cmds:
+      - mkdir -p {{.OUT_DIR}}
+      - uv run opord render {{.CLI_ARGS}}
+
+  render:frago:
+    desc: "Render a FRAGO YAML against its base OPORD (usage: task render:frago -- frago.yaml)"
+    deps: [setup]
+    cmds:
+      - mkdir -p {{.OUT_DIR}}
+      - uv run opord frago {{.CLI_ARGS}}
+
+  render:warno:
+    desc: "Render a WARNO YAML (usage: task render:warno -- warno.yaml)"
+    deps: [setup]
+    cmds:
+      - mkdir -p {{.OUT_DIR}}
+      - uv run opord warno {{.CLI_ARGS}}
+
+  export:
+    desc: "Export a product as PDF/HTML/CSV (usage: task export -- input.yaml -p jpitl -f pdf)"
+    deps: [setup]
+    cmds:
+      - mkdir -p {{.OUT_DIR}}
+      - uv run opord export {{.CLI_ARGS}}
+
+  kneeboard:
+    desc: "Export kneeboard cards as 768x1024 PNGs (usage: task kneeboard -- input.yaml)"
+    deps: [setup]
+    cmds:
+      - mkdir -p {{.OUT_DIR}}
+      - uv run opord kneeboard {{.CLI_ARGS}}
+
+  list-products:
+    desc: "List exportable products in an OPORD (usage: task list-products -- input.yaml)"
+    deps: [setup]
+    cmds:
+      - uv run opord list-products {{.CLI_ARGS}}
+
+  # ── Scaffolding ────────────────────────────────────────────
+
+  init:
+    desc: "Scaffold a starter OPORD tree (usage: task init -- my-opord/)"
+    deps: [setup]
+    cmds:
+      - uv run opord init {{.CLI_ARGS}}
+
+  # ── Development ────────────────────────────────────────────
+
+  watch:
+    desc: "Watch an OPORD YAML and re-render on change (usage: task watch -- input.yaml)"
+    deps: [setup]
+    cmds:
+      - uv run opord watch {{.CLI_ARGS}}
+
+  # ── Build & Release ────────────────────────────────────────
+
+  build:
+    desc: "Build the Python package"
+    deps: [setup]
+    cmds:
+      - uv build
+    sources:
+      - "{{.SOURCE_DIR}}/**/*.py"
+      - "{{.SOURCE_DIR}}/templates/**/*"
+      - pyproject.toml
+
+  bump:patch:
+    desc: "Bump patch version (0.1.0 → 0.1.1)"
+    cmds:
+      - uv run python -c "
+        import re, pathlib;
+        p = pathlib.Path('pyproject.toml');
+        t = p.read_text();
+        m = re.search(r'version\s*=\s*\"(\d+)\.(\d+)\.(\d+)\"', t);
+        v = f'{m.group(1)}.{m.group(2)}.{int(m.group(3))+1}';
+        p.write_text(t.replace(m.group(0), f'version = \"{v}\"'));
+        print(f'Bumped to {v}')
+        "
+
+  bump:minor:
+    desc: "Bump minor version (0.1.0 → 0.2.0)"
+    cmds:
+      - uv run python -c "
+        import re, pathlib;
+        p = pathlib.Path('pyproject.toml');
+        t = p.read_text();
+        m = re.search(r'version\s*=\s*\"(\d+)\.(\d+)\.(\d+)\"', t);
+        v = f'{m.group(1)}.{int(m.group(2))+1}.0';
+        p.write_text(t.replace(m.group(0), f'version = \"{v}\"'));
+        print(f'Bumped to {v}')
+        "
+
+  bump:major:
+    desc: "Bump major version (0.1.0 → 1.0.0)"
+    cmds:
+      - uv run python -c "
+        import re, pathlib;
+        p = pathlib.Path('pyproject.toml');
+        t = p.read_text();
+        m = re.search(r'version\s*=\s*\"(\d+)\.(\d+)\.(\d+)\"', t);
+        v = f'{int(m.group(1))+1}.0.0';
+        p.write_text(t.replace(m.group(0), f'version = \"{v}\"'));
+        print(f'Bumped to {v}')
+        "
+
+  # ── CI ─────────────────────────────────────────────────────
+
+  ci:
+    desc: "Run all CI checks (format check → lint → test → schema)"
+    cmds:
+      - task: format:check
+      - task: lint
+      - task: test
+      - task: schema:generate
+
+  # ── Housekeeping ───────────────────────────────────────────
+
+  clean:
+    desc: "Remove build outputs and caches"
+    cmds:
+      - rm -rf {{.OUT_DIR}} dist
+      - find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+      - find . -type d -name .pytest_cache -exec rm -rf {} + 2>/dev/null || true
+      - find . -type d -name .ruff_cache -exec rm -rf {} + 2>/dev/null || true

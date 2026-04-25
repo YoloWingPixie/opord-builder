@@ -1,0 +1,21 @@
+{#- Paragraph scaffold for delta documents (FRAGO / WARNO), Markdown variant.
+
+    stub_kind: "no-change" | "tbp"
+    stub_body: plain-text body appended after the stub's italic lead.
+
+    Call with {% call para_section(...) %}...populated body...{% endcall %} -
+    the caller block renders only when ``has_content_bool`` is truthy. -#}
+
+{%- macro para_section(heading, has_content_bool, stub_kind, stub_body) -%}
+## {{ heading }}
+
+{% if has_content_bool %}
+{{ caller() }}
+{% else %}
+{% if stub_kind == 'tbp' %}
+*To be published in forthcoming OPORD.*
+{% else %}
+*{{ stub_body }}*
+{% endif %}
+{% endif %}
+{%- endmacro -%}

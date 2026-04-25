@@ -1,0 +1,1973 @@
+/* =============================================================================
+   OPORD — Swiss / NATO 90s design system
+
+   Hard-edge grid. System sans (Helvetica-class). Mono for technical data.
+   Duotone: warm cream paper + near-black ink. Signal-red accent.
+   Light + dark themes via [data-theme] override on the root. PDF uses light.
+   =============================================================================*/
+
+/* ---------- TOKENS --------------------------------------------------------- */
+:root,
+[data-theme="light"] {
+  --paper:       #f4f1e8;   /* NATO cream */
+  --paper-soft:  #ece8d9;
+  --surface:     #ffffff;
+  --surface-alt: #f7f4ea;
+  --ink:         #0a0a0a;
+  --ink-soft:    #1a1a1a;
+  --ink-mute:    #45443e;
+  --ink-low:     #6b6960;
+  --rule:        #0a0a0a;
+  --rule-soft:   #bdb8a6;
+  --rule-hair:   #d8d3c0;
+  --accent:      #0b3d91;   /* NATO blue (PMS 287) */
+  --accent-deep: #071f4a;
+  --accent-soft: #dde6f5;
+  --mark:        #f4d03a;   /* tracer yellow */
+  --duotone:     #b21f2d;   /* used sparingly for counterpoint */
+  --duotone-soft:#f3d6d9;
+
+  /* per-paragraph colors flatten to ink; single red accent carries emphasis */
+  --para-1: var(--ink);
+  --para-2: var(--accent);
+  --para-3: var(--ink);
+  --para-4: var(--ink);
+  --para-5: var(--ink);
+  --para-annex: var(--ink);
+
+  /* classification strip — overridden per body class */
+  --class-color: #165a35;
+  --class-ink:   #ffffff;
+}
+
+[data-theme="dark"] {
+  --paper:       #0d0d0b;
+  --paper-soft:  #14140f;
+  --surface:     #1a1a15;
+  --surface-alt: #22221c;
+  --ink:         #f1ecd8;
+  --ink-soft:    #e8e2c9;
+  --ink-mute:    #b3ad97;
+  --ink-low:     #7a7566;
+  --rule:        #f1ecd8;
+  --rule-soft:   #4a4639;
+  --rule-hair:   #2e2b23;
+  --accent:      #5b8dff;   /* NATO blue, brightened for dark bg */
+  --accent-deep: #10306e;
+  --accent-soft: #162d5c;
+  --mark:        #f4d03a;
+  --duotone:     #ff6b6b;
+  --duotone-soft:#3a0f12;
+  --class-ink:   #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:       #0d0d0b;
+    --paper-soft:  #14140f;
+    --surface:     #1a1a15;
+    --surface-alt: #22221c;
+    --ink:         #f1ecd8;
+    --ink-soft:    #e8e2c9;
+    --ink-mute:    #b3ad97;
+    --ink-low:     #7a7566;
+    --rule:        #f1ecd8;
+    --rule-soft:   #4a4639;
+    --rule-hair:   #2e2b23;
+    --accent:      #5b8dff;
+    --accent-deep: #10306e;
+    --accent-soft: #162d5c;
+    --duotone:     #ff6b6b;
+    --duotone-soft:#3a0f12;
+  }
+}
+
+@media print {
+  :root { color-scheme: light; }
+}
+
+/* Classification per body class */
+body.classification-unclassified    { --class-color: #165a35; }
+body.classification-cui             { --class-color: #7a1faa; }
+body.classification-confidential    { --class-color: #1d4fa0; }
+body.classification-secret          { --class-color: #b21f2d; }
+body.classification-top-secret      { --class-color: #b21f2d; }
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Helvetica Neue", Helvetica, "Arial", "Liberation Sans", sans-serif;
+  font-size: 10pt;
+  line-height: 1.45;
+  font-feature-settings: "kern" 1, "liga" 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono, .num, code, pre {
+  font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular,
+               Menlo, "DejaVu Sans Mono", Consolas, monospace;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+p { margin: 0 0 0.55em 0; }
+ul, ol { margin: 0.2em 0 0.55em 1.2em; padding: 0; }
+li { margin: 0.12em 0; }
+a { color: var(--ink); }
+strong, b { font-weight: 700; }
+
+/* FRAGO-specific elements: "No change" stubs, revision callouts, and the
+   base-mission quote shown when a FRAGO leaves Para 2 unchanged. */
+.no-change {
+  display: flex;
+  align-items: baseline;
+  gap: 8pt;
+  padding: 6pt 10pt;
+  border-left: 3pt solid var(--ink-low);
+  background: var(--surface-alt);
+  color: var(--ink-mute);
+  font-size: 9pt;
+}
+.no-change-tag {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+.no-change-body { color: var(--ink-mute); }
+
+/* WARNO-specific "To be published" stub. Semantically distinct from
+   .no-change (which means "inherited unchanged"): TBP means "not decided
+   yet." Keeps the .no-change box structure, repaints it as a pending/amber
+   accent so readers don't confuse a preliminary WARNO with a delta. */
+.no-change.tbp {
+  border-left-color: #b07a1a;
+  background: #fbf4e2;
+}
+.no-change-tag.tbp-tag,
+.tbp-tag {
+  color: #7a4e00;
+}
+.warno-planning-timeline td.mono,
+.warno-planning-timeline .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+.frago-note {
+  margin: 6pt 0;
+  padding: 4pt 10pt;
+  border-left: 3pt solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--ink);
+  font-size: 9pt;
+  font-style: italic;
+}
+.frago-base-mission {
+  margin: 8pt 0 0 0;
+  padding: 8pt 12pt;
+  border-left: 2pt solid var(--rule-soft);
+  color: var(--ink-mute);
+  font-size: 9.5pt;
+  font-style: italic;
+  background: var(--surface-alt);
+}
+.frago-changes { margin-top: 4pt; }
+
+/* Standalone fires-product export (JPITL / TST / HPTL).
+   Minimal cover with OPORD reference, then the list rendered via the normal
+   typed-body table paths. */
+.product-cover {
+  margin: 0 0 20pt 0;
+  padding-bottom: 14pt;
+  border-bottom: 3pt solid var(--ink);
+}
+.product-eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: 10pt;
+  margin-bottom: 8pt;
+}
+.product-eyebrow-tag {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.product-eyebrow-sub {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  margin-left: auto;
+}
+.product-title {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24pt;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 12pt 0;
+}
+.product-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2pt 18pt;
+  font-size: 9pt;
+}
+.product-meta-row {
+  display: grid;
+  grid-template-columns: 88pt minmax(0, 1fr);
+  gap: 8pt;
+  padding: 2pt 0;
+  border-bottom: 0.25pt solid var(--rule-hair);
+}
+.product-meta-k {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+.product-meta-v { color: var(--ink); }
+.product-body { padding: 0; }
+.product-empty {
+  font-style: italic;
+  color: var(--ink-mute);
+  padding: 20pt 0;
+  text-align: center;
+}
+
+/* Undefined {{ var }} references surface as styled monospace inline markers
+   so authors spot typos visually in the rendered document instead of silently
+   seeing an empty gap. */
+.undefined-var {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.92em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0 3pt;
+  border: 0.5pt solid var(--accent);
+  border-radius: 2pt;
+}
+
+/* Overflow safety net — prevents long tokens from pushing grids/tables past
+   the page edge. Mid-word break (overflow-wrap: anywhere) is opt-in per-class. */
+* { min-width: 0; }
+body { overflow-wrap: break-word; }
+table {
+  max-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td { overflow-wrap: break-word; }
+
+/* ---------- SCREEN FRAME --------------------------------------------------- */
+@media screen {
+  .paragraph,
+  .card.annex-card,
+  .appendix-item {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 800px;
+  }
+  html { background: var(--paper); }
+  body {
+    max-width: 1080px;
+    margin: 28px auto 88px;
+    padding: 0 64px 56px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 0;
+  }
+  .cover-hero {
+    margin-left: -64px;
+    margin-right: -64px;
+  }
+}
+
+
+/* ---------- THEME TOGGLE --------------------------------------------------- */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  cursor: pointer;
+  user-select: none;
+}
+.theme-toggle:hover { background: var(--ink); color: var(--paper); }
+.theme-toggle .tt-dot {
+  display: inline-block;
+  width: 10px; height: 10px;
+  background: var(--ink);
+  border-radius: 50%;
+}
+[data-theme="dark"] .theme-toggle .tt-dot { background: var(--paper); }
+.theme-toggle .tt-label-light { display: none; }
+.theme-toggle .tt-label-dark  { display: inline; }
+[data-theme="dark"] .theme-toggle .tt-label-light { display: inline; }
+[data-theme="dark"] .theme-toggle .tt-label-dark  { display: none; }
+@media print { .theme-toggle { display: none; } }
+
+/* ---------- CHEVRONS (summary arrows) ------------------------------------- */
+summary { cursor: pointer; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+.chevron {
+  display: inline-block;
+  width: 9pt; height: 9pt;
+  border-right: 1.5pt solid var(--ink);
+  border-bottom: 1.5pt solid var(--ink);
+  transform: rotate(45deg);
+  transition: transform 0.12s ease;
+  flex-shrink: 0;
+}
+details[open] > summary .chevron { transform: rotate(-135deg); }
+@media print {
+  .chevron { display: none; }
+}
+
+/* ==========================================================================
+   COVER
+   ========================================================================== */
+.cover {
+  margin: 0 0 28pt 0;
+  border-bottom: 3pt solid var(--ink);
+}
+.cover-hero {
+  position: relative;
+  padding: 34pt 44pt 28pt;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 0;
+  overflow: hidden;
+}
+.cover-hero::before {
+  /* diagonal tick marks — Swiss corner register */
+  content: "";
+  position: absolute;
+  top: 10pt; left: 10pt;
+  width: 14pt; height: 14pt;
+  border-top: 1pt solid var(--paper);
+  border-left: 1pt solid var(--paper);
+}
+.cover-hero::after {
+  content: "";
+  position: absolute;
+  bottom: 10pt; right: 10pt;
+  width: 14pt; height: 14pt;
+  border-bottom: 1pt solid var(--paper);
+  border-right: 1pt solid var(--paper);
+}
+.cover-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12pt;
+  padding-bottom: 10pt;
+  border-bottom: 0.5pt solid rgba(244, 241, 232, 0.35);
+  margin-bottom: 16pt;
+}
+.cover-eyebrow-tag {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+.cover-eyebrow-tag::before {
+  content: "§ ";
+  color: var(--accent);
+  margin-right: 2pt;
+}
+.cover-eyebrow-num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--paper);
+  margin-left: auto;
+}
+.cover-eyebrow-num::before { content: "№ "; color: rgba(244,241,232,0.6); }
+
+.cover-title {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 54pt;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+  color: var(--paper);
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  text-shadow: none;
+}
+.cover-logo-plate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14pt 0 6pt 0;
+  border-bottom: 0.5pt solid var(--rule-soft);
+  margin-bottom: 4pt;
+}
+.cover-logo {
+  display: block;
+  max-width: 120pt;
+  max-height: 120pt;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.cover-author {
+  display: flex;
+  align-items: baseline;
+  gap: 10pt;
+  margin-top: 14pt;
+  padding-top: 10pt;
+  border-top: 0.5pt solid rgba(244, 241, 232, 0.35);
+}
+.cover-author-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 232, 0.7);
+}
+.cover-author-name {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11pt;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.cover-accent {
+  width: 100%;
+  height: 6pt;
+  background: var(--accent);
+  border-radius: 0;
+  margin: 18pt 0 0 0;
+  position: relative;
+}
+.cover-accent::after {
+  /* tiny mono serial — NATO register mark */
+  content: "OPORD / GENERATED " attr(data-serial);
+  position: absolute;
+  bottom: -14pt;
+  left: 0;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 6.5pt;
+  letter-spacing: 0.04em;
+  color: rgba(244,241,232,0.65);
+}
+
+.cover-meta {
+  margin-top: 18pt;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1pt solid var(--rule);
+  border-left: 1pt solid var(--rule);
+  font-size: 0;
+}
+.meta-card {
+  display: block;
+  width: auto;
+  margin: 0;
+  padding: 10pt 12pt;
+  background: transparent;
+  border: 0;
+  border-right: 1pt solid var(--rule);
+  border-bottom: 1pt solid var(--rule);
+  border-radius: 0;
+  font-size: 10pt;
+}
+.meta-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+  margin-bottom: 4pt;
+}
+.meta-value {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.meta-card.mono .meta-value {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 10pt;
+  letter-spacing: 0.02em;
+}
+.meta-value .of {
+  color: var(--ink-low);
+  font-weight: 400;
+  font-size: 9pt;
+  margin: 0 2pt;
+}
+
+/* ==========================================================================
+   GENERIC CARD  (horizontal-rule framed, no shadows, no corners)
+   ========================================================================== */
+.card {
+  position: relative;
+  padding: 14pt 0 14pt 36pt;
+  margin: 0 0 18pt 0;
+  background: transparent;
+  border: 0;
+  border-top: 0.75pt solid var(--rule-soft);
+  border-radius: 0;
+  box-shadow: none;
+}
+.card-accent {
+  position: absolute;
+  top: 14pt;
+  bottom: 14pt;
+  left: 0;
+  width: 4pt;
+  background: var(--ink);
+  border-radius: 0;
+}
+.accent-refs    { background: var(--ink); }
+.accent-taskorg { background: var(--accent); }
+.accent-1 { background: var(--ink); }
+.accent-2 { background: var(--accent); }
+.accent-3 { background: var(--ink); }
+.accent-4 { background: var(--ink); }
+.accent-5 { background: var(--ink); }
+.accent-annex { background: var(--ink); }
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10pt;
+  flex-wrap: wrap;
+  margin: 0 0 8pt 0;
+}
+.card-eyebrow {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+.card-title {
+  margin: 0;
+  font-size: 15pt;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.card-annex-ref {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-left: auto;
+}
+.card-annex-ref::before { content: "→ "; color: var(--accent); margin-right: 2pt; }
+.card-note {
+  color: var(--ink-mute);
+  font-style: normal;
+  border-left: 2pt solid var(--rule-soft);
+  padding-left: 10pt;
+  margin: 6pt 0 0 0;
+}
+
+.card-references .ref-list,
+.ref-list {
+  margin: 4pt 0 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: ref;
+}
+.ref-list li {
+  position: relative;
+  padding: 5pt 0 5pt 28pt;
+  border-bottom: 0.5pt solid var(--rule-hair);
+  font-size: 9.5pt;
+  line-height: 1.45;
+}
+.ref-list li:last-child { border-bottom: 0; }
+.ref-letter {
+  position: absolute;
+  top: 6pt;
+  left: 0;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.ref-cite { color: var(--ink); }
+.ref-desc { color: var(--ink-mute); margin-left: 4pt; }
+
+/* Task Organization — flat row-per-unit, hierarchy by indent + rule.
+   Depth indent is driven by a --d custom property set inline on each
+   .unit-card by the template. break-inside: avoid on the root unit only;
+   leaf rows are free to split if absolutely needed so a deep tree never
+   deadlocks pagination. */
+.taskorg-tree {
+  margin-top: 6pt;
+  border-top: 1pt solid var(--ink);
+}
+.unit-card {
+  padding: 5pt 0 5pt calc(var(--d, 0) * 16pt);
+  border-bottom: 0.4pt solid var(--rule-hair);
+  color: var(--ink);
+}
+.unit-root {
+  padding-top: 7pt;
+  padding-bottom: 7pt;
+  border-bottom-width: 0.75pt;
+  border-bottom-color: var(--ink);
+  break-inside: avoid;
+}
+
+.unit-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10pt;
+}
+.unit-name {
+  font-size: 9.5pt;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+.unit-root .unit-name {
+  font-size: 11pt;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+.unit-callsign {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-left: auto;
+  text-transform: uppercase;
+}
+.unit-meta {
+  margin-top: 2pt;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10pt;
+  row-gap: 2pt;
+}
+.chip {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.chip-rel  { color: var(--ink); }
+.chip-role { color: var(--accent); }
+.unit-commander {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 8pt;
+  font-style: italic;
+  color: var(--ink-mute);
+}
+
+@media print {
+  .card.card-taskorg { break-inside: auto; }
+}
+
+/* ==========================================================================
+   DOC TOC  (Swiss index plate)
+   ========================================================================== */
+.doc-toc {
+  margin: 0 0 24pt 0;
+  padding: 18pt 0 16pt 0;
+  border-top: 3pt solid var(--ink);
+  border-bottom: 0.75pt solid var(--rule);
+}
+.doc-toc-title {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+  margin-bottom: 12pt;
+}
+.doc-toc-title::before { content: "§§ "; color: var(--accent); margin-right: 2pt; }
+.doc-toc-paragraphs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 0.5pt solid var(--rule);
+  border-left: 0.5pt solid var(--rule);
+}
+.toc-para-link {
+  display: flex;
+  align-items: center;
+  gap: 10pt;
+  padding: 9pt 10pt;
+  border-right: 0.5pt solid var(--rule);
+  border-bottom: 0.5pt solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 9pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.toc-para-link:hover { background: var(--ink); color: var(--paper); }
+.toc-para-link .toc-num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 14pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  line-height: 1;
+}
+.toc-para-link:hover .toc-num { color: var(--paper); }
+
+.doc-toc-annex-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+  margin: 16pt 0 10pt 0;
+}
+.doc-toc-annex-label::before { content: "§§ "; color: var(--accent); margin-right: 2pt; }
+.doc-toc-annex-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 0.5pt solid var(--rule);
+  border-left: 0.5pt solid var(--rule);
+}
+.toc-annex-tile {
+  display: flex;
+  align-items: center;
+  gap: 8pt;
+  padding: 7pt 9pt;
+  border-right: 0.5pt solid var(--rule);
+  border-bottom: 0.5pt solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 8pt;
+  letter-spacing: 0.005em;
+}
+.toc-annex-tile:hover { background: var(--ink); color: var(--paper); }
+.toc-annex-letter {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  min-width: 14pt;
+}
+.toc-annex-tile:hover .toc-annex-letter { color: var(--paper); }
+.toc-annex-title { text-transform: uppercase; font-weight: 600; line-height: 1.15; overflow-wrap: anywhere; }
+.toc-annex-published .toc-annex-letter { color: var(--accent); }
+.toc-annex-omitted,
+.toc-annex-not_used { opacity: 0.42; }
+.toc-annex-omitted .toc-annex-letter,
+.toc-annex-not_used .toc-annex-letter { color: var(--ink-low); }
+
+/* ==========================================================================
+   PARAGRAPH SECTIONS  (giant plate number, thick rule, summary row)
+   ========================================================================== */
+.paragraph {
+  margin: 28pt 0 0 0;
+  padding: 0;
+}
+.section-details { margin: 0; padding: 0; }
+.para-header {
+  display: grid;
+  grid-template-columns: 68pt minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 16pt;
+  padding: 10pt 0 8pt 0;
+  border-top: 4pt solid var(--ink);
+  border-bottom: 0.75pt solid var(--ink);
+  margin: 0 0 16pt 0;
+}
+.para-num {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 56pt;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.85;
+  color: var(--ink);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  align-self: end;
+}
+.para-num.annex-num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 44pt;
+  letter-spacing: -0.03em;
+}
+.para-title {
+  margin: 0 0 4pt 0;
+  font-size: 22pt;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.para-stripe {
+  display: none;
+}
+.para-header .chevron {
+  align-self: end;
+  margin-bottom: 6pt;
+}
+
+/* Sub-paragraphs — tight kv-style rows */
+.subpara {
+  display: grid;
+  grid-template-columns: 76pt minmax(0, 1fr);
+  gap: 14pt;
+  padding: 8pt 0;
+  border-top: 0.5pt solid var(--rule-hair);
+}
+.subpara:first-child { border-top: 0; }
+.subpara-label { display: flex; flex-direction: column; gap: 2pt; }
+.subpara-num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.subpara-title {
+  font-size: 9.5pt;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.subpara-body { font-size: 10pt; color: var(--ink-soft); }
+
+/* Hierarchical paragraph numbers (1.B, 3.C.(1)) use zero letter-spacing so PDF
+   readers preserve them as a single searchable string. */
+.subpara-card .num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-right: 4pt;
+}
+.card-head .num { flex-shrink: 0; }
+
+/* Nested block (OAKOC, weather, etc., inside a card) */
+.nested {
+  margin-top: 10pt;
+  padding-top: 8pt;
+  border-top: 0.5pt solid var(--rule-hair);
+}
+.nested-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8pt;
+  margin-bottom: 6pt;
+}
+.nested-head .mono {
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.nested-head h4 {
+  margin: 0;
+  font-size: 10.5pt;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   OAKOC / ASCOPE / WEATHER GRIDS
+   ========================================================================== */
+.oakoc-grid,
+.ascope-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border-top: 0.5pt solid var(--rule);
+  border-left: 0.5pt solid var(--rule);
+}
+.oakoc-cell,
+.ascope-cell {
+  display: grid;
+  grid-template-columns: 24pt minmax(0, 1fr);
+  gap: 8pt;
+  padding: 8pt 10pt;
+  border-right: 0.5pt solid var(--rule);
+  border-bottom: 0.5pt solid var(--rule);
+  font-size: 9pt;
+  line-height: 1.4;
+}
+.oakoc-key,
+.ascope-key {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 22pt;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  color: var(--accent);
+}
+.oakoc-cell strong,
+.ascope-cell strong {
+  display: block;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 2pt;
+}
+
+.weather-rows {
+  margin-top: 4pt;
+  border-top: 0.5pt solid var(--rule);
+}
+.wx-row,
+.wx-period-cell {
+  display: grid;
+  grid-template-columns: var(--wx-gutter, 64pt) minmax(0, 1fr);
+  gap: 8pt;
+  align-items: baseline;
+}
+.wx-row {
+  --wx-gutter: 90pt;
+  gap: 12pt;
+  padding: 5pt 0;
+  border-bottom: 0.5pt solid var(--rule-hair);
+  font-size: 9.5pt;
+  break-inside: avoid;
+}
+.wx-row:last-child { border-bottom: 0.5pt solid var(--rule); }
+.wx-row-k,
+.wx-period-k {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+.wx-row-k { padding-top: 2pt; }
+.wx-row-v,
+.wx-period-v { color: var(--ink); }
+
+.wx-struct {
+  margin-top: 10pt;
+  padding: 0;
+  border-top: 2pt solid var(--ink);
+  border-bottom: 0.5pt solid var(--rule);
+}
+.wx-struct-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+  padding: 6pt 0;
+  border-bottom: 0.5pt solid var(--rule);
+}
+.wx-struct-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+}
+.wx-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5pt 10pt 5pt 0;
+  border-right: 0.5pt solid var(--rule-hair);
+  border-bottom: 0.5pt solid var(--rule-hair);
+  font-size: 9.5pt;
+}
+.wx-k {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+.wx-v { font-weight: 700; color: var(--ink); }
+.wx-v.mono { font-size: 9pt; letter-spacing: 0.04em; }
+
+.wx-block {
+  margin-top: 12pt;
+  border-top: 0.75pt solid var(--rule);
+  padding-top: 8pt;
+}
+.wx-block-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4pt;
+}
+.wx-block-body { font-size: 9.5pt; color: var(--ink-soft); }
+
+.wx-periods {
+  margin-top: 6pt;
+  border-top: 1pt solid var(--ink);
+}
+.wx-period {
+  padding: 8pt 0;
+  border-bottom: 0.5pt solid var(--rule-hair);
+  break-inside: avoid;
+}
+.wx-period:last-child { border-bottom: 1pt solid var(--ink); }
+.wx-period-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12pt;
+  flex-wrap: wrap;
+  margin-bottom: 6pt;
+}
+.wx-period-phase {
+  font-size: 10pt;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.wx-period-window {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-left: auto;
+}
+.wx-period-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4pt 18pt;
+  margin-bottom: 6pt;
+}
+.wx-period-cell { font-size: 9pt; }
+.wx-period-effect {
+  display: grid;
+  grid-template-columns: 64pt minmax(0, 1fr);
+  gap: 8pt;
+  margin-top: 4pt;
+  padding-top: 6pt;
+  border-top: 0.25pt solid var(--rule-hair);
+  font-size: 9pt;
+}
+.wx-period-effect .wx-period-k { color: var(--accent); }
+.wx-period-effect .wx-period-v { color: var(--ink-soft); }
+
+.wx-effects { border-top: 2pt solid var(--accent); }
+
+.wx-meta {
+  margin-top: 8pt;
+  padding-top: 6pt;
+  border-top: 0.5pt solid var(--rule-hair);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  font-size: 8.5pt;
+  color: var(--ink-mute);
+}
+.wx-meta-item strong {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-right: 4pt;
+}
+
+/* ==========================================================================
+   HIGHER HQ / FRIENDLY FORCES
+   ========================================================================== */
+.higher-hq-block { margin: 6pt 0; }
+.hq-tier {
+  padding: 8pt 10pt;
+  border-left: 3pt solid var(--ink);
+  background: var(--surface-alt);
+  margin-bottom: 6pt;
+}
+.hq-tag {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4pt;
+}
+.hq-row {
+  display: grid;
+  grid-template-columns: 64pt minmax(0, 1fr);
+  gap: 10pt;
+  padding: 3pt 0;
+  font-size: 9.5pt;
+}
+.hq-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+
+.inline-kv { font-size: 9.5pt; margin: 4pt 0; }
+.inline-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-right: 4pt;
+}
+
+/* ==========================================================================
+   ATTD (attachments / detachments)
+   ========================================================================== */
+.attd-row {
+  display: grid;
+  grid-template-columns: 90pt minmax(0, 1fr);
+  gap: 12pt;
+  padding: 6pt 0;
+  border-top: 0.5pt solid var(--rule-hair);
+}
+.attd-row:first-child { border-top: 0; }
+.attd-row ul { margin: 0; padding-left: 14pt; }
+.attd-tag {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3pt 6pt;
+  text-align: center;
+  height: fit-content;
+}
+.attd-add { background: var(--ink); color: var(--paper); }
+.attd-sub { background: var(--accent); color: var(--paper); }
+[data-theme="dark"] .attd-add { background: var(--paper); color: var(--ink); }
+
+.clean-list { list-style: none; margin: 0; padding: 0; }
+.clean-list li {
+  padding: 3pt 0 3pt 16pt;
+  position: relative;
+  font-size: 9.5pt;
+  border-bottom: 0.25pt solid var(--rule-hair);
+}
+.clean-list li:last-child { border-bottom: 0; }
+.clean-list li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 10pt;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   COMMANDER'S INTENT
+   ========================================================================== */
+.intent-card { break-inside: avoid; }
+.intent-grid {
+  margin-top: 6pt;
+  border-top: 0.5pt solid var(--rule);
+  font-size: 0; /* collapse inline-block whitespace */
+}
+.intent-cell {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  padding: 10pt 12pt;
+  border-right: 0.5pt solid var(--rule);
+  border-bottom: 0.5pt solid var(--rule);
+  border-left: 0.5pt solid var(--rule);
+  font-size: 10pt;
+  break-inside: avoid;
+}
+.intent-cell + .intent-cell { border-left: 0; }
+.intent-cell-end {
+  display: block;
+  width: auto;
+  border-left: 0.5pt solid var(--rule);
+}
+.intent-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5pt;
+}
+.intent-body { font-size: 10pt; color: var(--ink); }
+
+.endstate-conditions { margin-top: 8pt; }
+.es-row {
+  display: block;
+  padding: 4pt 0 4pt 84pt;
+  position: relative;
+  border-bottom: 0.25pt solid var(--rule-hair);
+  font-size: 9.5pt;
+  min-height: 14pt;
+}
+.es-row:last-child { border-bottom: 0; }
+.es-row > .es-tag {
+  position: absolute;
+  top: 4pt;
+  left: 0;
+  width: 72pt;
+}
+.es-tag {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2pt 0;
+  text-align: left;
+  color: var(--ink);
+  border-left: 3pt solid var(--ink);
+  padding-left: 6pt;
+}
+.es-f { border-left-color: var(--ink); }
+.es-e { border-left-color: var(--accent); color: var(--accent); }
+.es-t { border-left-color: var(--duotone); color: var(--duotone); }
+.es-c { border-left-color: var(--mark); }
+
+.conop-overview {
+  padding: 10pt 12pt;
+  background: var(--surface-alt);
+  border-left: 3pt solid var(--ink);
+  margin: 6pt 0 10pt 0;
+  font-size: 10pt;
+  font-style: normal;
+}
+
+/* ==========================================================================
+   TASKS TO SUBORDINATE UNITS
+   ========================================================================== */
+.tasks-list { display: flex; flex-direction: column; gap: 0; margin-top: 6pt; }
+.task-card {
+  padding: 8pt 0;
+  border-top: 0.5pt solid var(--rule-hair);
+}
+.task-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10pt;
+  flex-wrap: wrap;
+  margin-bottom: 4pt;
+}
+.task-num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.task-unit {
+  font-size: 10.5pt;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+.task-callsign {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-left: auto;
+}
+.task-purpose,
+.task-priorities { font-size: 9.5pt; margin: 3pt 0; }
+.tlabel {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-right: 4pt;
+}
+.task-tasklist { margin: 4pt 0 4pt 18pt; font-size: 9.5pt; }
+
+/* ==========================================================================
+   CCIR
+   ========================================================================== */
+.ccir-grid {
+  margin-top: 4pt;
+  border-top: 0.5pt solid var(--rule);
+  font-size: 0;
+}
+.ccir-cell {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  padding: 8pt 10pt;
+  border-right: 0.5pt solid var(--rule);
+  border-bottom: 0.5pt solid var(--rule);
+  border-left: 0.5pt solid var(--rule);
+  font-size: 10pt;
+  break-inside: avoid;
+}
+.ccir-cell + .ccir-cell { border-left: 0; }
+.ccir-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4pt;
+}
+.ccir-pir .ccir-label { color: var(--accent); }
+.ccir-ffir .ccir-label { color: var(--duotone); }
+
+/* chip list (themes) */
+.chip-list { list-style: none; margin: 4pt 0; padding: 0; display: flex; gap: 4pt; flex-wrap: wrap; }
+.theme-chip {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3pt 8pt;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 0;
+}
+
+/* ==========================================================================
+   MISSION
+   ========================================================================== */
+.mission-block {
+  position: relative;
+  padding: 24pt 40pt 20pt;
+  border-top: 4pt solid var(--accent);
+  border-bottom: 4pt solid var(--accent);
+  margin: 8pt 0 0 0;
+  background: var(--surface-alt);
+}
+.mission-quote-open,
+.mission-quote-close {
+  position: absolute;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 56pt;
+  font-weight: 800;
+  line-height: 0.8;
+  color: var(--accent);
+}
+.mission-quote-open { top: 6pt; left: 12pt; }
+.mission-quote-close { bottom: -10pt; right: 12pt; }
+.mission-text {
+  font-size: 14pt;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-align: left;
+  margin: 0;
+  color: var(--ink);
+}
+
+.succession-list {
+  margin: 4pt 0 4pt 18pt;
+  font-size: 9.5pt;
+  counter-reset: succ;
+}
+
+/* ==========================================================================
+   ANNEX DIRECTORY + CARDS
+   ========================================================================== */
+.annex-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1pt solid var(--ink);
+  border-left: 0.5pt solid var(--rule);
+  margin-bottom: 20pt;
+}
+.annex-tile {
+  padding: 10pt;
+  border-right: 0.5pt solid var(--rule);
+  border-bottom: 0.5pt solid var(--rule);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 3pt;
+  text-decoration: none;
+  color: var(--ink);
+}
+.annex-tile:hover { background: var(--ink); color: var(--paper); }
+.annex-tile:hover .annex-letter { color: var(--paper); }
+.annex-tile:hover .annex-title-text { color: var(--paper); }
+.annex-tile:hover .annex-status { color: rgba(244, 241, 232, 0.7); }
+.annex-letter {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24pt;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  color: var(--accent);
+}
+.annex-title-text {
+  font-size: 8.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.annex-status {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+.annex-omitted,
+.annex-not_used { opacity: 0.4; }
+.annex-omitted .annex-letter,
+.annex-not_used .annex-letter { color: var(--ink-low); }
+
+.annex-card {
+  padding: 0;
+  margin: 16pt 0 0 0;
+  border-top: 2pt solid var(--ink);
+  border-bottom: 0.5pt solid var(--rule);
+  background: transparent;
+}
+.annex-card .card-accent { display: none; }
+.annex-details { margin: 0; padding: 14pt 0; }
+.annex-card-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 12pt;
+  padding: 0 0 10pt 0;
+  margin-bottom: 10pt;
+  border-bottom: 0.5pt solid var(--rule);
+}
+.annex-card-summary .num {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18pt;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  padding: 0;
+  border: 0;
+  text-transform: uppercase;
+}
+.annex-card-summary .card-title {
+  font-size: 14pt;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 0;
+}
+.annex-card-summary .chevron { margin-left: auto; }
+
+.annex-section { margin: 10pt 0 12pt 0; }
+.annex-section-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5pt;
+  padding-bottom: 3pt;
+  border-bottom: 0.5pt solid var(--rule);
+}
+.annex-section-label.small {
+  font-size: 6.5pt;
+  color: var(--ink-low);
+}
+
+.distribution-list {
+  columns: 2;
+  column-gap: 24pt;
+  margin: 4pt 0;
+  padding: 0;
+  list-style: none;
+  font-size: 9pt;
+}
+.distribution-list li {
+  padding: 2pt 0 2pt 14pt;
+  position: relative;
+  break-inside: avoid;
+  border-bottom: 0.25pt solid var(--rule-hair);
+}
+.distribution-list li::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14pt;
+  line-height: 0.5;
+}
+
+/* Callsigns */
+.callsign-group { margin-bottom: 10pt; }
+.callsign-group-heading {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 4pt 0;
+  border-top: 1pt solid var(--ink);
+  border-bottom: 0.5pt solid var(--rule);
+  margin-bottom: 4pt;
+}
+.callsign-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+.callsign-table td {
+  padding: 3pt 6pt;
+  border-bottom: 0.25pt solid var(--rule-hair);
+}
+.cs-unit { text-transform: uppercase; font-weight: 600; }
+.cs-dash { color: var(--ink-low); width: 12pt; text-align: center; }
+.cs-callsign {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  text-align: right;
+  width: 140pt;
+  text-transform: uppercase;
+}
+
+/* Appendices */
+.appendix-list { margin-top: 12pt; border-top: 1pt solid var(--ink); }
+.appendix-item {
+  padding: 0;
+  border-bottom: 0.5pt solid var(--rule);
+}
+.appendix-details { padding: 10pt 0; margin: 0; }
+.app-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10pt;
+  padding: 0 0 6pt 0;
+  margin: 0;
+}
+.app-head .mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.app-head strong {
+  font-size: 11pt;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+.app-head .chevron { margin-left: auto; }
+.app-subsection { margin: 6pt 0; }
+
+/* Frequency tables */
+.freq-table {
+  margin: 10pt 0;
+  border-top: 1pt solid var(--ink);
+  border-bottom: 1pt solid var(--ink);
+}
+.freq-table-title {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 5pt 0;
+  border-bottom: 0.5pt solid var(--rule);
+}
+.freq-sub { color: var(--ink-low); font-weight: 500; }
+.freq-channel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8.5pt;
+}
+.freq-channel-table th {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 4pt 6pt;
+  border-bottom: 0.75pt solid var(--ink);
+  text-align: left;
+  background: var(--surface-alt);
+}
+.freq-channel-table td {
+  padding: 4pt 6pt;
+  border-bottom: 0.25pt solid var(--rule-hair);
+  vertical-align: top;
+}
+.freq-th-ch, .freq-ch { text-align: center; width: 26pt; }
+.freq-th-freq, .freq-freq { width: 80pt; }
+.freq-name { font-weight: 700; color: var(--ink); letter-spacing: 0.04em; text-transform: uppercase; }
+.freq-freq { color: var(--accent); font-weight: 700; }
+.freq-purpose { color: var(--ink-mute); }
+
+/* ==========================================================================
+   AUTHENTICATION
+   ========================================================================== */
+.auth-block {
+  margin: 36pt 0 0 0;
+  padding: 18pt 0 24pt 0;
+  border-top: 4pt solid var(--ink);
+  border-bottom: 4pt solid var(--ink);
+}
+.auth-line {
+  display: block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14pt;
+}
+.auth-ack::before { content: "§§ "; color: var(--ink); margin-right: 4pt; }
+.auth-name {
+  display: block;
+  margin: 0 0 18pt 0;
+  line-height: 1;
+}
+.auth-surname {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24pt;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  vertical-align: baseline;
+}
+.auth-rank {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9.5pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-left: 6pt;
+  vertical-align: baseline;
+}
+.auth-official,
+.auth-distribution {
+  display: inline-block;
+  vertical-align: top;
+  width: 48%;
+  margin-right: 1.5%;
+  padding: 10pt 12pt;
+  border-left: 3pt solid var(--ink);
+  background: var(--surface-alt);
+}
+.auth-distribution { margin-right: 0; }
+.auth-official > div,
+.auth-distribution > div { font-size: 10pt; margin: 0 0 3pt 0; }
+.auth-official-tag,
+.auth-distro-tag {
+  display: block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6pt;
+}
+.auth-pos { color: var(--ink-mute); font-size: 9.5pt; }
+
+/* ==========================================================================
+   TYPED BODY (annex structured content)
+   ========================================================================== */
+.typed-body { margin-top: 4pt; }
+.tb-field {
+  padding: 6pt 0;
+  border-top: 0.5pt solid var(--rule-hair);
+  display: grid;
+  grid-template-columns: 120pt minmax(0, 1fr);
+  gap: 14pt;
+}
+.tb-field:first-child { border-top: 0; }
+.tb-field-label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding-top: 2pt;
+}
+.tb-field-body p { font-size: 9.5pt; margin: 0 0 4pt; }
+.tb-list { margin: 0; padding-left: 14pt; font-size: 9.5pt; }
+.tb-kv {
+  display: grid;
+  grid-template-columns: 120pt minmax(0, 1fr);
+  gap: 14pt;
+  padding: 4pt 0;
+  border-top: 0.5pt solid var(--rule-hair);
+  font-size: 9.5pt;
+}
+.tb-kv:first-child { border-top: 0; }
+.tb-kv-k {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tb-kv-v { color: var(--ink); }
+.tb-table-block {
+  padding: 6pt 0;
+  border-top: 0.5pt solid var(--rule-hair);
+}
+.tb-table-block:first-child { border-top: 0; }
+.tb-table-block .tb-field-label {
+  padding-top: 0;
+  margin-bottom: 6pt;
+}
+/* Auto-numbering prefix on top-level annex typed_body fields. */
+.tb-num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0;
+  margin-right: 4pt;
+}
+
+/* Split-render: summary table + per-entry detail cards for models with too
+   many columns to fit cleanly (JPITL, TST). The summary table shows enough
+   to scan the list; full-detail fields per entry render below. */
+.tb-detail-list {
+  margin-top: 10pt;
+  border-top: 0.75pt solid var(--ink);
+}
+.tb-detail-entry {
+  padding: 8pt 0;
+  border-bottom: 0.4pt solid var(--rule-hair);
+  break-inside: avoid;
+}
+.tb-detail-entry:last-child { border-bottom: 0.75pt solid var(--ink); }
+.tb-detail-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10pt;
+  flex-wrap: wrap;
+  margin-bottom: 5pt;
+  padding-bottom: 4pt;
+  border-bottom: 0.25pt solid var(--rule-hair);
+}
+.tb-detail-id {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.tb-detail-title {
+  font-size: 10pt;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.tb-detail-body { display: block; }
+.tb-detail-row {
+  display: grid;
+  grid-template-columns: 110pt minmax(0, 1fr);
+  gap: 10pt;
+  padding: 3pt 0;
+  font-size: 9pt;
+  align-items: baseline;
+  border-top: 0.25pt solid var(--rule-hair);
+}
+.tb-detail-row:first-child { border-top: 0; }
+.tb-detail-k {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+.tb-detail-v { color: var(--ink); }
+.tb-table {
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 8pt;
+  border-top: 1pt solid var(--ink);
+  border-bottom: 1pt solid var(--ink);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.tb-table th {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4pt 5pt;
+  text-align: left;
+  border-bottom: 0.75pt solid var(--ink);
+  background: var(--surface-alt);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.tb-table td {
+  padding: 4pt 5pt;
+  border-bottom: 0.25pt solid var(--rule-hair);
+  vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+/* ==========================================================================
+   PRINT — PAGE BREAKS + LINK STYLING
+   ========================================================================== */
+@media print {
+  a { color: var(--ink); text-decoration: none; }
+  /* Transparent body so @page background (watermark) can show through. */
+  html, body { background: transparent; }
+  /* Extend the cover hero beyond the 0.55in @page side margins so the black
+     plate bleeds edge-to-edge. Other cover children (meta grid, logo) keep
+     normal indentation. */
+  .cover-hero {
+    margin-left: -0.55in;
+    margin-right: -0.55in;
+  }
+  .cover { break-after: page; }
+  .doc-toc { break-before: page; break-inside: avoid; }
+  .paragraph { break-before: page; }
+  .annex-card { break-before: page; }
+  /* Don't let a card header orphan at the bottom of a page without its body.
+     Cards themselves can split — their atomic children (.task-card, .subpara,
+     .unit-root, .wx-row, .wx-period, .ref-list li) carry their own
+     break-inside: avoid above. */
+  .para-header { break-after: avoid; page-break-after: avoid; }
+  .card-head,
+  .annex-section-label,
+  .nested-head,
+  .wx-block-label,
+  .wx-struct-label,
+  .freq-table-title,
+  .callsign-group-heading { break-after: avoid; page-break-after: avoid; }
+  /* Pincer: "don't break BEFORE these content containers" combined with the
+     break-after: avoid above means WeasyPrint must put the preceding header
+     on the next page alongside the content, instead of orphaning the header. */
+  .tasks-list,
+  .intent-grid,
+  .ccir-grid,
+  .endstate-conditions,
+  .wx-periods,
+  .weather-rows,
+  .higher-hq-block,
+  .appendix-list,
+  .ref-list,
+  .wx-struct-grid,
+  .oakoc-grid,
+  .ascope-grid,
+  .distribution-list,
+  .callsign-table,
+  .freq-channel-table,
+  .annex-grid,
+  .doc-toc-paragraphs,
+  .doc-toc-annex-grid,
+  .taskorg-tree { break-before: avoid; page-break-before: avoid; }
+  /* Pin first child of each content container to its preceding header so
+     WeasyPrint can't orphan the header alone. */
+  .tasks-list > :first-child,
+  .intent-grid > :first-child,
+  .ccir-grid > :first-child,
+  .endstate-conditions > :first-child,
+  .wx-periods > :first-child,
+  .weather-rows > :first-child,
+  .appendix-list > :first-child,
+  .ref-list > :first-child,
+  .wx-struct-grid > :first-child,
+  .oakoc-grid > :first-child,
+  .ascope-grid > :first-child,
+  .distribution-list > :first-child,
+  .annex-grid > :first-child,
+  .doc-toc-paragraphs > :first-child,
+  .doc-toc-annex-grid > :first-child,
+  .taskorg-tree > :first-child,
+  .subpara-card > .subpara:first-of-type { break-before: avoid; page-break-before: avoid; }
+  .task-card,
+  .subpara,
+  .ref-list li,
+  .appendix-item > .appendix-details > .app-head { break-inside: avoid; }
+  .tb-table-block { break-inside: auto; }
+  details, details[open] > * { display: revert; }
+  summary { display: block; }
+  .chevron { display: none; }
+}

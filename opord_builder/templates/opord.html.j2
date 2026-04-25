@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+{%- set h = opord.header -%}
+{%- set class_str = h.classification.value + ('//' + h.classification_caveat if h.classification_caveat else '') -%}
+{%- set class_slug = h.classification.css_slug -%}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OPORD {{ h.operation_order_number }} — {{ h.operation_name }}</title>
+  <style>
+    @page {
+      size: Letter;
+      margin: 0.7in 0.55in 0.65in 0.55in;
+      {% if watermark_url %}
+      background-image: url("{{ watermark_url }}");
+      background-position: center center;
+      background-size: 420pt auto;
+      background-repeat: no-repeat;
+      {% endif %}
+      @top-center {
+        content: "{{ class_str }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700;
+        font-size: 7pt;
+        letter-spacing: 0.24em;
+        color: #ffffff;
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          transparent 38%,
+          var(--class-color) 38%,
+          var(--class-color) 62%,
+          transparent 62%,
+          transparent 100%
+        );
+        padding: 0 72pt;
+        text-align: center;
+        text-transform: uppercase;
+        vertical-align: middle;
+      }
+      @bottom-center {
+        content: "{{ class_str }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700;
+        font-size: 7pt;
+        letter-spacing: 0.24em;
+        color: #ffffff;
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          transparent 38%,
+          var(--class-color) 38%,
+          var(--class-color) 62%,
+          transparent 62%,
+          transparent 100%
+        );
+        padding: 0 72pt;
+        text-align: center;
+        text-transform: uppercase;
+        vertical-align: middle;
+      }
+      {% if h.page_icon %}
+      @top-right {
+        content: url("{{ h.page_icon }}");
+        width: 28pt;
+        height: 28pt;
+        padding: 2pt 4pt;
+        vertical-align: middle;
+      }
+      {% endif %}
+      @bottom-left {
+        content: "OPORD " "{{ h.operation_order_number }}" " / " "{{ h.operation_name }}";
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 6.5pt;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        color: #45443e;
+        padding: 3pt 0;
+        white-space: nowrap;
+        text-transform: uppercase;
+      }
+      @bottom-right {
+        content: "P " counter(page) " / " counter(pages);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 6.5pt;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        color: #45443e;
+        padding: 3pt 0;
+        white-space: nowrap;
+      }
+    }
+    @page :first {
+      background-image: none;
+      @top-right { content: none; }
+    }
+  </style>
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem("opord-theme");
+        if (t === "dark" || t === "light") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="classification-{{ class_slug }}">
+
+<button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="(function(b){var r=document.documentElement;var c=r.getAttribute('data-theme');var n=c==='dark'?'light':(c==='light'?'dark':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'light':'dark'));r.setAttribute('data-theme',n);try{localStorage.setItem('opord-theme',n);}catch(e){}})(this)">
+  <span class="tt-dot"></span>
+  <span class="tt-label-dark">Dark</span>
+  <span class="tt-label-light">Light</span>
+</button>
+
+
+{#- ================= Macros ================= -#}
+{%- macro para_open(num, slug, title, anchor=None, num_class='') -%}
+<section class="paragraph para-{{ slug }}" id="{{ anchor or ('para-' ~ slug) }}">
+<details open class="section-details">
+<summary class="para-header">
+    <div class="para-num{% if num_class %} {{ num_class }}{% endif %}">{{ num }}</div>
+    <h2 class="para-title">{{ title }}</h2>
+    <div class="para-stripe"></div>
+    <span class="chevron"></span>
+</summary>
+{%- endmacro -%}
+
+{%- macro sub(para, letter, j, label, body) -%}
+<div class="subpara">
+  <div class="subpara-label">
+    <span class="subpara-num">{{ para }}.{{ letter }}.({{ j }})</span>
+    <span class="subpara-title">{{ label }}</span>
+  </div>
+  <div class="subpara-body">{{ body }}</div>
+</div>
+{%- endmacro -%}
+
+{%- macro unit_card(unit, depth=0) -%}
+<div class="unit-card{% if depth == 0 %} unit-root{% endif %}" style="--d:{{ depth }}">
+  <div class="unit-header">
+    <div class="unit-name">{{ unit.name }}</div>
+    {% if unit.callsign %}<div class="unit-callsign">{{ unit.callsign }}</div>{% endif %}
+  </div>
+  <div class="unit-meta">
+    {% if unit.relationship %}<span class="chip chip-rel">{{ unit.relationship }}</span>{% endif %}
+    {% if unit.role %}<span class="chip chip-role">{{ unit.role }}</span>{% endif %}
+    {% if unit.commander %}<span class="unit-commander">{{ unit.commander }}</span>{% endif %}
+  </div>
+  {% if unit.subordinate_units %}
+  <div class="unit-children">
+    {% for child in unit.subordinate_units %}{{ unit_card(child, depth + 1) }}{% endfor %}
+  </div>
+  {% endif %}
+</div>
+{%- endmacro -%}
+
+{#- ================= Cover block ================= -#}
+<section class="cover">
+  <div class="cover-hero">
+    <div class="cover-eyebrow">
+      <span class="cover-eyebrow-tag">OPERATION ORDER</span>
+      <span class="cover-eyebrow-num">{{ h.operation_order_number }}</span>
+    </div>
+    <h1 class="cover-title">{{ h.operation_name }}</h1>
+    {% if h.author %}
+    <div class="cover-author">
+      <span class="cover-author-label">Drafted by</span>
+      <span class="cover-author-name">{{ h.author }}</span>
+    </div>
+    {% endif %}
+    <div class="cover-accent" data-serial="{{ generated_at }}"></div>
+  </div>
+  {% if h.logo %}
+  <div class="cover-logo-plate">
+    <img class="cover-logo" src="{{ h.logo }}" alt="Unit crest">
+  </div>
+  {% endif %}
+
+  <div class="cover-meta">
+    <div class="meta-card">
+      <div class="meta-label">Issuing Headquarters</div>
+      <div class="meta-value">{{ h.issuing_headquarters }}</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">Place of Issue</div>
+      <div class="meta-value">{{ h.place_of_issue }}</div>
+    </div>
+    <div class="meta-card mono">
+      <div class="meta-label">Date-Time Group</div>
+      <div class="meta-value">{{ h.dtg }}</div>
+    </div>
+    <div class="meta-card mono">
+      <div class="meta-label">Time Zone</div>
+      <div class="meta-value">{{ h.time_zone }}</div>
+    </div>
+    {% if h.copy_number %}
+    <div class="meta-card mono">
+      <div class="meta-label">Copy</div>
+      <div class="meta-value">{{ h.copy_number }}{% if h.number_of_copies %} <span class="of">of</span> {{ h.number_of_copies }}{% endif %}</div>
+    </div>
+    {% endif %}
+    {% if h.message_reference_number %}
+    <div class="meta-card mono">
+      <div class="meta-label">Message Ref. No.</div>
+      <div class="meta-value">{{ h.message_reference_number }}</div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if has_content(h.references) %}
+<section class="card card-references">
+  <div class="card-accent accent-refs"></div>
+  <div class="card-head">
+    <span class="card-eyebrow">(U)</span>
+    <h2 class="card-title">References</h2>
+  </div>
+  <ol class="ref-list">
+    {% for ref in h.references %}
+    <li>
+      <span class="ref-letter">{{ letter_for(loop.index) }}.</span>
+      <span class="ref-cite">{{ ref.citation }}</span>
+      {% if ref.description %}<span class="ref-desc">— {{ ref.description }}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if has_content(h.task_organization) %}
+<section class="card card-taskorg">
+  <div class="card-accent accent-taskorg"></div>
+  <div class="card-head">
+    <span class="card-eyebrow">(U)</span>
+    <h2 class="card-title">Task Organization</h2>
+    <span class="card-annex-ref">Annex A</span>
+  </div>
+  <div class="taskorg-tree">{{ unit_card(h.task_organization) }}</div>
+</section>
+{% elif h.task_organization_note %}
+<section class="card card-taskorg-note">
+  <div class="card-accent accent-taskorg"></div>
+  <div class="card-head">
+    <span class="card-eyebrow">(U)</span>
+    <h2 class="card-title">Task Organization</h2>
+  </div>
+  <p class="card-note">{{ h.task_organization_note }}</p>
+</section>
+{% endif %}
+
+{#- =================== TABLE OF CONTENTS =================== -#}
+<nav class="doc-toc" aria-label="Contents">
+  <div class="doc-toc-title">Contents</div>
+  <div class="doc-toc-paragraphs">
+    {% if has_content(opord.situation) %}<a href="#para-1" class="toc-para-link"><span class="toc-num">1</span>Situation</a>{% endif %}
+    <a href="#para-2" class="toc-para-link"><span class="toc-num">2</span>Mission</a>
+    {% if has_content(opord.execution) %}<a href="#para-3" class="toc-para-link"><span class="toc-num">3</span>Execution</a>{% endif %}
+    {% if has_content(opord.sustainment) %}<a href="#para-4" class="toc-para-link"><span class="toc-num">4</span>Sustainment</a>{% endif %}
+    {% if has_content(opord.command_and_signal) %}<a href="#para-5" class="toc-para-link"><span class="toc-num">5</span>Command and Signal</a>{% endif %}
+    <a href="#annexes" class="toc-para-link"><span class="toc-num">A</span>Annexes</a>
+    {% if has_content(opord.authentication) %}<a href="#authentication" class="toc-para-link"><span class="toc-num">§</span>Authentication</a>{% endif %}
+  </div>
+  <div class="doc-toc-annex-label">Annexes</div>
+  <div class="doc-toc-annex-grid">
+    {% for a in annex_directory %}
+    <a href="#annex-{{ a.letter }}" class="toc-annex-tile toc-annex-{{ a.status.css_slug }}">
+      <span class="toc-annex-letter">{{ a.letter }}</span>
+      <span class="toc-annex-title">{{ a.title }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</nav>
+
+{#- =================== PARAGRAPH 1 — SITUATION =================== -#}
+{% set s = opord.situation %}
+{% if has_content(s) %}
+{{ para_open(1, "1", "Situation") }}
+
+  {% set ns = namespace(i=0) %}
+  {% if has_content(s.area_of_interest) %}
+    {% set ns.i = ns.i + 1 %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-head"><span class="num mono">1.{{ letter_for(ns.i) }}</span><h3 class="card-title">Area of Interest</h3></div>
+      <p>{{ s.area_of_interest }}</p>
+    </div>
+  {% endif %}
+
+  {% if has_content(s.area_of_operations) %}
+    {% set ns.i = ns.i + 1 %}
+    {% set ao_letter = letter_for(ns.i) %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-head"><span class="num mono">1.{{ ao_letter }}</span><h3 class="card-title">Area of Operations</h3></div>
+      {% if has_content(s.area_of_operations.description) %}<p>{{ s.area_of_operations.description }}</p>{% endif %}
+
+      {% set subns = namespace(j=0) %}
+      {% if has_content(s.area_of_operations.terrain) %}
+        {% set subns.j = subns.j + 1 %}
+        {% set t = s.area_of_operations.terrain %}
+        <div class="nested">
+          <div class="nested-head"><span class="mono">1.{{ ao_letter }}.({{ subns.j }})</span><h4>Terrain — OAKOC</h4></div>
+          <div class="oakoc-grid">
+            {% if has_content(t.observation_and_fields_of_fire) %}<div class="oakoc-cell"><span class="oakoc-key">O</span><div><strong>Observation &amp; Fields of Fire.</strong> {{ t.observation_and_fields_of_fire }}</div></div>{% endif %}
+            {% if has_content(t.avenues_of_approach) %}<div class="oakoc-cell"><span class="oakoc-key">A</span><div><strong>Avenues of Approach.</strong> {{ t.avenues_of_approach }}</div></div>{% endif %}
+            {% if has_content(t.key_terrain) %}<div class="oakoc-cell"><span class="oakoc-key">K</span><div><strong>Key Terrain.</strong> {{ t.key_terrain }}</div></div>{% endif %}
+            {% if has_content(t.obstacles) %}<div class="oakoc-cell"><span class="oakoc-key">O</span><div><strong>Obstacles.</strong> {{ t.obstacles }}</div></div>{% endif %}
+            {% if has_content(t.cover_and_concealment) %}<div class="oakoc-cell"><span class="oakoc-key">C</span><div><strong>Cover &amp; Concealment.</strong> {{ t.cover_and_concealment }}</div></div>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if has_content(s.area_of_operations.weather) %}
+        {% set subns.j = subns.j + 1 %}
+        {% set w = s.area_of_operations.weather %}
+        <div class="nested">
+          <div class="nested-head"><span class="mono">1.{{ ao_letter }}.({{ subns.j }})</span><h4>Weather</h4></div>
+          <div class="weather-rows">
+            {% if has_content(w.visibility) %}<div class="wx-row"><span class="wx-row-k">Visibility</span><span class="wx-row-v">{{ w.visibility }}</span></div>{% endif %}
+            {% if has_content(w.winds) %}<div class="wx-row"><span class="wx-row-k">Winds</span><span class="wx-row-v">{{ w.winds }}</span></div>{% endif %}
+            {% if has_content(w.precipitation) %}<div class="wx-row"><span class="wx-row-k">Precipitation</span><span class="wx-row-v">{{ w.precipitation }}</span></div>{% endif %}
+            {% if has_content(w.cloud_cover) %}<div class="wx-row"><span class="wx-row-k">Cloud Cover</span><span class="wx-row-v">{{ w.cloud_cover }}</span></div>{% endif %}
+            {% if has_content(w.temperature_and_humidity) %}<div class="wx-row"><span class="wx-row-k">Temp / RH</span><span class="wx-row-v">{{ w.temperature_and_humidity }}</span></div>{% endif %}
+            {% if has_content(w.light_data) %}<div class="wx-row"><span class="wx-row-k">Light Data</span><span class="wx-row-v">{{ w.light_data }}</span></div>{% endif %}
+          </div>
+
+          {% if has_content(w.light_data_structured) %}
+          {% set ld = w.light_data_structured %}
+          <div class="wx-struct">
+            <div class="wx-struct-label">Astronomical Data{% if ld.date %} · {{ ld.date }}{% endif %}</div>
+            <div class="wx-struct-grid">
+              {% if ld.bmnt %}<div class="wx-item"><span class="wx-k">BMNT</span><span class="wx-v mono">{{ ld.bmnt }}</span></div>{% endif %}
+              {% if ld.sunrise %}<div class="wx-item"><span class="wx-k">Sunrise</span><span class="wx-v mono">{{ ld.sunrise }}</span></div>{% endif %}
+              {% if ld.sunset %}<div class="wx-item"><span class="wx-k">Sunset</span><span class="wx-v mono">{{ ld.sunset }}</span></div>{% endif %}
+              {% if ld.eent %}<div class="wx-item"><span class="wx-k">EENT</span><span class="wx-v mono">{{ ld.eent }}</span></div>{% endif %}
+              {% if ld.moonrise %}<div class="wx-item"><span class="wx-k">Moonrise</span><span class="wx-v mono">{{ ld.moonrise }}</span></div>{% endif %}
+              {% if ld.moonset %}<div class="wx-item"><span class="wx-k">Moonset</span><span class="wx-v mono">{{ ld.moonset }}</span></div>{% endif %}
+              {% if ld.moon_phase %}<div class="wx-item"><span class="wx-k">Phase</span><span class="wx-v">{{ ld.moon_phase }}</span></div>{% endif %}
+              {% if ld.percent_illumination is not none %}<div class="wx-item"><span class="wx-k">Illum</span><span class="wx-v mono">{{ ld.percent_illumination }}%</span></div>{% endif %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if has_content(w.climate_baseline) %}
+          <div class="wx-block">
+            <div class="wx-block-label">Climate Baseline</div>
+            <div class="wx-block-body">{{ w.climate_baseline }}</div>
+          </div>
+          {% endif %}
+
+          {% if has_content(w.forecast_by_period) %}
+          <div class="wx-block">
+            <div class="wx-block-label">Operation-Period Forecast</div>
+            <div class="wx-periods">
+              {% for f in w.forecast_by_period %}
+              <div class="wx-period">
+                <div class="wx-period-head">
+                  <span class="wx-period-phase">{{ f.phase_or_day }}</span>
+                  {% if f.period_start or f.period_end %}
+                  <span class="wx-period-window mono">
+                    {%- if f.period_start %}{{ f.period_start }}{% endif -%}
+                    {%- if f.period_end %} → {{ f.period_end }}{% endif -%}
+                  </span>
+                  {% endif %}
+                </div>
+                <div class="wx-period-grid">
+                  {% if f.visibility %}<div class="wx-period-cell"><span class="wx-period-k">Visibility</span><span class="wx-period-v">{{ f.visibility }}</span></div>{% endif %}
+                  {% if f.winds %}<div class="wx-period-cell"><span class="wx-period-k">Winds</span><span class="wx-period-v">{{ f.winds }}</span></div>{% endif %}
+                  {% if f.precipitation %}<div class="wx-period-cell"><span class="wx-period-k">Precip</span><span class="wx-period-v">{{ f.precipitation }}</span></div>{% endif %}
+                  {% if f.cloud_cover %}<div class="wx-period-cell"><span class="wx-period-k">Clouds</span><span class="wx-period-v">{{ f.cloud_cover }}</span></div>{% endif %}
+                  {% if f.temperature_and_humidity %}<div class="wx-period-cell"><span class="wx-period-k">Temp / RH</span><span class="wx-period-v">{{ f.temperature_and_humidity }}</span></div>{% endif %}
+                </div>
+                {% if f.effects_on_operations %}
+                <div class="wx-period-effect">
+                  <span class="wx-period-k">Effects on Ops</span>
+                  <span class="wx-period-v">{{ f.effects_on_operations }}</span>
+                </div>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if has_content(w.effects_on_operations) %}
+          <div class="wx-block wx-effects">
+            <div class="wx-block-label">Net Effects on Operations</div>
+            <div class="wx-block-body">{{ w.effects_on_operations }}</div>
+          </div>
+          {% endif %}
+
+          {% if has_content(w.forecast_confidence) or has_content(w.swo_product_reference) %}
+          <div class="wx-meta">
+            {% if has_content(w.forecast_confidence) %}<span class="wx-meta-item"><strong>Forecast confidence:</strong> {{ w.forecast_confidence }}</span>{% endif %}
+            {% if has_content(w.swo_product_reference) %}<span class="wx-meta-item"><strong>SWO product:</strong> {{ w.swo_product_reference }}</span>{% endif %}
+          </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if has_content(s.enemy_forces) %}
+    {% set ns.i = ns.i + 1 %}
+    {% set e_letter = letter_for(ns.i) %}
+    {% set e = s.enemy_forces %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-head"><span class="num mono">1.{{ e_letter }}</span><h3 class="card-title">Enemy Forces</h3></div>
+      {% set ens = namespace(j=0) %}
+      {% set e_fields = [
+        ('composition_disposition_strength', 'Composition, Disposition, and Strength'),
+        ('recent_activities', 'Recent Activities'),
+        ('capabilities', 'Capabilities'),
+        ('most_likely_coa', 'Most Likely Course of Action'),
+        ('most_dangerous_coa', 'Most Dangerous Course of Action'),
+      ] %}
+      {% for attr, label in e_fields %}
+        {% set val = e[attr] %}
+        {% if has_content(val) %}
+          {% set ens.j = ens.j + 1 %}
+          {{ sub('1', e_letter, ens.j, label, val) }}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if has_content(s.friendly_forces) %}
+    {% set ns.i = ns.i + 1 %}
+    {% set f_letter = letter_for(ns.i) %}
+    {% set f = s.friendly_forces %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-head"><span class="num mono">1.{{ f_letter }}</span><h3 class="card-title">Friendly Forces</h3></div>
+      {% if has_content(f.higher_headquarters) %}
+        {% set hh = f.higher_headquarters %}
+        <div class="higher-hq-block">
+          {% if hh.two_up_mission or hh.two_up_intent or hh.two_up_designation %}
+          <div class="hq-tier">
+            <div class="hq-tag">Two Levels Up{% if hh.two_up_designation %} · {{ hh.two_up_designation }}{% endif %}</div>
+            {% if hh.two_up_mission %}<div class="hq-row"><span class="hq-label">Mission</span><span>{{ hh.two_up_mission }}</span></div>{% endif %}
+            {% if hh.two_up_intent %}<div class="hq-row"><span class="hq-label">Intent</span><span>{{ hh.two_up_intent }}</span></div>{% endif %}
+          </div>
+          {% endif %}
+          {% if hh.one_up_mission or hh.one_up_intent or hh.one_up_designation %}
+          <div class="hq-tier">
+            <div class="hq-tag">One Level Up{% if hh.one_up_designation %} · {{ hh.one_up_designation }}{% endif %}</div>
+            {% if hh.one_up_mission %}<div class="hq-row"><span class="hq-label">Mission</span><span>{{ hh.one_up_mission }}</span></div>{% endif %}
+            {% if hh.one_up_intent %}<div class="hq-row"><span class="hq-label">Intent</span><span>{{ hh.one_up_intent }}</span></div>{% endif %}
+          </div>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if has_content(f.adjacent_units) %}<div class="inline-kv"><span class="inline-label">Adjacent Units.</span> {{ f.adjacent_units }}</div>{% endif %}
+      {% if has_content(f.other_units) %}<div class="inline-kv"><span class="inline-label">Other Units.</span> {{ f.other_units }}</div>{% endif %}
+    </div>
+  {% endif %}
+
+  {% if has_content(s.interagency_intergovernmental_ngo) %}
+    {% set ns.i = ns.i + 1 %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-head"><span class="num mono">1.{{ letter_for(ns.i) }}</span><h3 class="card-title">Interagency, Intergovernmental, and Nongovernmental Organizations</h3></div>
+      <p>{{ s.interagency_intergovernmental_ngo }}</p>
+    </div>
+  {% endif %}
+
+  {% if has_content(s.civil_considerations) %}
+    {% set ns.i = ns.i + 1 %}
+    {% set cc = s.civil_considerations %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-head"><span class="num mono">1.{{ letter_for(ns.i) }}</span><h3 class="card-title">Civil Considerations — ASCOPE</h3></div>
+      <div class="ascope-grid">
+        {% if has_content(cc.areas) %}<div class="ascope-cell"><span class="ascope-key">A</span><div><strong>Areas.</strong> {{ cc.areas }}</div></div>{% endif %}
+        {% if has_content(cc.structures) %}<div class="ascope-cell"><span class="ascope-key">S</span><div><strong>Structures.</strong> {{ cc.structures }}</div></div>{% endif %}
+        {% if has_content(cc.capabilities) %}<div class="ascope-cell"><span class="ascope-key">C</span><div><strong>Capabilities.</strong> {{ cc.capabilities }}</div></div>{% endif %}
+        {% if has_content(cc.organizations) %}<div class="ascope-cell"><span class="ascope-key">O</span><div><strong>Organizations.</strong> {{ cc.organizations }}</div></div>{% endif %}
+        {% if has_content(cc.people) %}<div class="ascope-cell"><span class="ascope-key">P</span><div><strong>People.</strong> {{ cc.people }}</div></div>{% endif %}
+        {% if has_content(cc.events) %}<div class="ascope-cell"><span class="ascope-key">E</span><div><strong>Events.</strong> {{ cc.events }}</div></div>{% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if has_content(s.attachments_and_detachments) %}
+    {% set ns.i = ns.i + 1 %}
+    {% set ad = s.attachments_and_detachments %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-head"><span class="num mono">1.{{ letter_for(ns.i) }}</span><h3 class="card-title">Attachments and Detachments</h3></div>
+      {% if has_content(ad.attachments) %}
+      <div class="attd-row"><span class="attd-tag attd-add">ATTACHED</span><ul>{% for a in ad.attachments %}<li>{{ a }}</li>{% endfor %}</ul></div>
+      {% endif %}
+      {% if has_content(ad.detachments) %}
+      <div class="attd-row"><span class="attd-tag attd-sub">DETACHED</span><ul>{% for d in ad.detachments %}<li>{{ d }}</li>{% endfor %}</ul></div>
+      {% endif %}
+      {% if has_content(ad.note) %}<div class="card-note">{{ ad.note }}</div>{% endif %}
+    </div>
+  {% endif %}
+
+  {% if has_content(s.assumptions) %}
+    {% set ns.i = ns.i + 1 %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-1"></div>
+      <div class="card-head"><span class="num mono">1.{{ letter_for(ns.i) }}</span><h3 class="card-title">Assumptions</h3></div>
+      <ol class="clean-list">{% for a in s.assumptions %}<li>{{ a }}</li>{% endfor %}</ol>
+    </div>
+  {% endif %}
+</section>
+{% endif %}
+
+{#- =================== PARAGRAPH 2 — MISSION =================== -#}
+{{ para_open(2, "2", "Mission") }}
+  <div class="mission-block">
+    <div class="mission-quote-open">&ldquo;</div>
+    <p class="mission-text">{{ opord.mission }}</p>
+    <div class="mission-quote-close">&rdquo;</div>
+  </div>
+</details>
+</section>
+
+{#- =================== PARAGRAPH 3 — EXECUTION =================== -#}
+{% set x = opord.execution %}
+{% if has_content(x) %}
+{{ para_open(3, "3", "Execution") }}
+
+  {% set xns = namespace(i=0) %}
+  {% if has_content(x.commanders_intent) %}
+    {% set xns.i = xns.i + 1 %}
+    {% set ci_letter = letter_for(xns.i) %}
+    {% set ci = x.commanders_intent %}
+    <div class="card subpara-card intent-card">
+      <div class="card-accent accent-3"></div>
+      <div class="card-head"><span class="num mono">3.{{ ci_letter }}</span><h3 class="card-title">Commander's Intent</h3></div>
+      <div class="intent-grid">
+        {% if has_content(ci.purpose) %}
+        <div class="intent-cell">
+          <div class="intent-label">Purpose</div>
+          <div class="intent-body">{{ ci.purpose }}</div>
+        </div>
+        {% endif %}
+        {% if has_content(ci.key_tasks) %}
+        <div class="intent-cell">
+          <div class="intent-label">Key Tasks</div>
+          <ul class="clean-list">{% for t in ci.key_tasks %}<li>{{ t }}</li>{% endfor %}</ul>
+        </div>
+        {% endif %}
+        {% if has_content(ci.end_state) or has_content(ci.end_state_friendly) or has_content(ci.end_state_enemy) or has_content(ci.end_state_terrain) or has_content(ci.end_state_civil) %}
+        <div class="intent-cell intent-cell-end">
+          <div class="intent-label">End State</div>
+          {% if has_content(ci.end_state) %}<div class="intent-body">{{ ci.end_state }}</div>{% endif %}
+          <div class="endstate-conditions">
+            {% if has_content(ci.end_state_friendly) %}<div class="es-row"><span class="es-tag es-f">Friendly</span><span>{{ ci.end_state_friendly }}</span></div>{% endif %}
+            {% if has_content(ci.end_state_enemy) %}<div class="es-row"><span class="es-tag es-e">Enemy</span><span>{{ ci.end_state_enemy }}</span></div>{% endif %}
+            {% if has_content(ci.end_state_terrain) %}<div class="es-row"><span class="es-tag es-t">Terrain</span><span>{{ ci.end_state_terrain }}</span></div>{% endif %}
+            {% if has_content(ci.end_state_civil) %}<div class="es-row"><span class="es-tag es-c">Civil</span><span>{{ ci.end_state_civil }}</span></div>{% endif %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if has_content(x.concept_of_operations) %}
+    {% set xns.i = xns.i + 1 %}
+    {% set co_letter = letter_for(xns.i) %}
+    {% set co = x.concept_of_operations %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-3"></div>
+      <div class="card-head"><span class="num mono">3.{{ co_letter }}</span><h3 class="card-title">Concept of Operations</h3></div>
+      {% if has_content(co.overview) %}<p class="conop-overview">{{ co.overview }}</p>{% endif %}
+      {% set cons = namespace(j=0) %}
+      {% set co_fields = [
+        ('maneuver', 'Maneuver'),
+        ('decisive_operation', 'Decisive Operation'),
+        ('shaping_operations', 'Shaping Operations'),
+        ('sustaining_operations', 'Sustaining Operations'),
+        ('reserve', 'Reserve'),
+        ('fires', 'Fires'),
+      ] %}
+      {% for attr, label in co_fields %}
+        {% set val = co[attr] %}
+        {% if has_content(val) %}
+          {% set cons.j = cons.j + 1 %}
+          {{ sub('3', co_letter, cons.j, label, val) }}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% set schemes = [
+    ('scheme_of_movement_and_maneuver', 'Scheme of Movement and Maneuver'),
+    ('scheme_of_mobility_countermobility', 'Scheme of Mobility and Countermobility'),
+    ('scheme_of_battlefield_obscuration', 'Scheme of Battlefield Obscuration'),
+    ('scheme_of_reconnaissance_and_security', 'Scheme of Reconnaissance and Security'),
+    ('scheme_of_intelligence', 'Scheme of Intelligence'),
+    ('scheme_of_fires', 'Scheme of Fires'),
+    ('scheme_of_protection', 'Scheme of Protection'),
+    ('stability', 'Stability'),
+    ('scheme_of_engineer_operations', 'Scheme of Engineer Operations'),
+    ('scheme_of_signal', 'Scheme of Signal'),
+    ('scheme_of_information_collection', 'Scheme of Information Collection'),
+    ('scheme_of_sustainment', 'Scheme of Sustainment'),
+    ('scheme_of_cema', 'Scheme of Cyberspace Electromagnetic Activities'),
+    ('scheme_of_information_operations', 'Scheme of Information Operations'),
+    ('scheme_of_airspace_control', 'Scheme of Airspace Control'),
+    ('scheme_of_military_deception', 'Scheme of Military Deception'),
+    ('scheme_of_space_operations', 'Scheme of Space Operations'),
+    ('assessment', 'Assessment'),
+  ] %}
+  {% for attr, label in schemes %}
+    {% set val = x[attr] %}
+    {% if has_content(val) %}
+      {% set xns.i = xns.i + 1 %}
+      <div class="card subpara-card">
+        <div class="card-accent accent-3"></div>
+        <div class="card-head"><span class="num mono">3.{{ letter_for(xns.i) }}</span><h3 class="card-title">{{ label }}</h3></div>
+        <p>{{ val }}</p>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  {% if has_content(x.tasks_to_subordinate_units) %}
+    {% set xns.i = xns.i + 1 %}
+    {% set tsu_letter = letter_for(xns.i) %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-3"></div>
+      <div class="card-head"><span class="num mono">3.{{ tsu_letter }}</span><h3 class="card-title">Tasks to Subordinate Units</h3></div>
+      <div class="tasks-list">
+        {% for t in x.tasks_to_subordinate_units %}
+        <div class="task-card">
+          <div class="task-head">
+            <span class="task-num mono">3.{{ tsu_letter }}.({{ loop.index }})</span>
+            <span class="task-unit">{{ t.unit }}</span>
+            {% if t.callsign %}<span class="task-callsign mono">{{ t.callsign }}</span>{% endif %}
+          </div>
+          {% if t.purpose %}<div class="task-purpose"><span class="tlabel">Purpose.</span> {{ t.purpose }}</div>{% endif %}
+          {% if t.tasks %}
+          <ol class="task-tasklist">{% for item in t.tasks %}<li>{{ item }}</li>{% endfor %}</ol>
+          {% endif %}
+          {% if t.priorities %}<div class="task-priorities"><span class="tlabel">Priorities.</span> {{ t.priorities }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if has_content(x.coordinating_instructions) %}
+    {% set xns.i = xns.i + 1 %}
+    {% set ci2 = letter_for(xns.i) %}
+    {% set co_ins = x.coordinating_instructions %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-3"></div>
+      <div class="card-head"><span class="num mono">3.{{ ci2 }}</span><h3 class="card-title">Coordinating Instructions</h3></div>
+      {% set coins_ns = namespace(j=0) %}
+      {% if has_content(co_ins.effective_time) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        {{ sub('3', ci2, coins_ns.j, 'Effective Time', co_ins.effective_time) }}
+      {% endif %}
+      {% if has_content(co_ins.ccir) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        <div class="subpara">
+          <div class="subpara-label">
+            <span class="subpara-num">3.{{ ci2 }}.({{ coins_ns.j }})</span>
+            <span class="subpara-title">Commander's Critical Information Requirements (CCIR)</span>
+          </div>
+          <div class="ccir-grid">
+            {% if has_content(co_ins.ccir.pir) %}
+            <div class="ccir-cell ccir-pir">
+              <div class="ccir-label">PIR · Priority Intelligence Requirements</div>
+              <ul class="clean-list">{% for p in co_ins.ccir.pir %}<li>{{ p }}</li>{% endfor %}</ul>
+            </div>
+            {% endif %}
+            {% if has_content(co_ins.ccir.ffir) %}
+            <div class="ccir-cell ccir-ffir">
+              <div class="ccir-label">FFIR · Friendly Force Information Requirements</div>
+              <ul class="clean-list">{% for f in co_ins.ccir.ffir %}<li>{{ f }}</li>{% endfor %}</ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      {% if has_content(co_ins.eefi) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        <div class="subpara">
+          <div class="subpara-label">
+            <span class="subpara-num">3.{{ ci2 }}.({{ coins_ns.j }})</span>
+            <span class="subpara-title">Essential Elements of Friendly Information (EEFI)</span>
+          </div>
+          <ul class="clean-list">{% for e in co_ins.eefi %}<li>{{ e }}</li>{% endfor %}</ul>
+        </div>
+      {% endif %}
+      {% if has_content(co_ins.time_line) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        <div class="subpara">
+          <div class="subpara-label">
+            <span class="subpara-num">3.{{ ci2 }}.({{ coins_ns.j }})</span>
+            <span class="subpara-title">Time Line</span>
+          </div>
+          <table class="tb-table">
+            <thead><tr><th>Event</th><th>DTG</th><th>Responsible</th><th>Notes</th></tr></thead>
+            <tbody>
+            {% for m in co_ins.time_line %}
+              <tr>
+                <td><strong>{{ m.event }}</strong></td>
+                <td class="mono">{{ m.dtg }}</td>
+                <td>{{ m.responsible or '' }}</td>
+                <td>{{ m.notes or '' }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+      {% if has_content(co_ins.earliest_movement_of_forces) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        {{ sub('3', ci2, coins_ns.j, 'Earliest Movement of Forces', co_ins.earliest_movement_of_forces) }}
+      {% endif %}
+      {% if has_content(co_ins.reconnaissance_and_surveillance_instructions) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        {{ sub('3', ci2, coins_ns.j, 'Reconnaissance and Surveillance Instructions', co_ins.reconnaissance_and_surveillance_instructions) }}
+      {% endif %}
+      {% if has_content(co_ins.orders_group) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        <div class="subpara">
+          <div class="subpara-label">
+            <span class="subpara-num">3.{{ ci2 }}.({{ coins_ns.j }})</span>
+            <span class="subpara-title">Orders Group</span>
+          </div>
+          <div class="tb-detail-list">
+            {% if has_content(co_ins.orders_group.purpose) %}<div class="tb-detail-row"><span class="tb-detail-k">Purpose</span><span class="tb-detail-v">{{ co_ins.orders_group.purpose }}</span></div>{% endif %}
+            {% if has_content(co_ins.orders_group.dtg) %}<div class="tb-detail-row"><span class="tb-detail-k">DTG</span><span class="tb-detail-v mono">{{ co_ins.orders_group.dtg }}</span></div>{% endif %}
+            {% if has_content(co_ins.orders_group.location) %}<div class="tb-detail-row"><span class="tb-detail-k">Location</span><span class="tb-detail-v">{{ co_ins.orders_group.location }}</span></div>{% endif %}
+            {% if has_content(co_ins.orders_group.attendees) %}<div class="tb-detail-row"><span class="tb-detail-k">Attendees</span><span class="tb-detail-v">{{ co_ins.orders_group.attendees }}</span></div>{% endif %}
+            {% if has_content(co_ins.orders_group.products_distributed) %}<div class="tb-detail-row"><span class="tb-detail-k">Products</span><span class="tb-detail-v">{{ co_ins.orders_group.products_distributed }}</span></div>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+      {% if has_content(co_ins.rehearsal) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        <div class="subpara">
+          <div class="subpara-label">
+            <span class="subpara-num">3.{{ ci2 }}.({{ coins_ns.j }})</span>
+            <span class="subpara-title">Rehearsal</span>
+          </div>
+          <div class="tb-detail-list">
+            {% if has_content(co_ins.rehearsal.type) %}<div class="tb-detail-row"><span class="tb-detail-k">Type</span><span class="tb-detail-v">{{ co_ins.rehearsal.type }}</span></div>{% endif %}
+            {% if has_content(co_ins.rehearsal.dtg) %}<div class="tb-detail-row"><span class="tb-detail-k">DTG</span><span class="tb-detail-v mono">{{ co_ins.rehearsal.dtg }}</span></div>{% endif %}
+            {% if has_content(co_ins.rehearsal.location) %}<div class="tb-detail-row"><span class="tb-detail-k">Location</span><span class="tb-detail-v">{{ co_ins.rehearsal.location }}</span></div>{% endif %}
+            {% if has_content(co_ins.rehearsal.participants) %}<div class="tb-detail-row"><span class="tb-detail-k">Participants</span><span class="tb-detail-v">{{ co_ins.rehearsal.participants }}</span></div>{% endif %}
+            {% if has_content(co_ins.rehearsal.method_notes) %}<div class="tb-detail-row"><span class="tb-detail-k">Method Notes</span><span class="tb-detail-v">{{ co_ins.rehearsal.method_notes }}</span></div>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+      {% set extras = [
+        ('fscm', 'Fire Support Coordination Measures'),
+        ('acm', 'Airspace Coordinating Measures'),
+        ('roe', 'Rules of Engagement'),
+        ('risk_reduction_control_measures', 'Risk-Reduction Control Measures'),
+        ('personnel_recovery', 'Personnel Recovery Coordination Measures'),
+        ('environmental_considerations', 'Environmental Considerations'),
+        ('cema', 'Cyberspace Electromagnetic Activities'),
+        ('other', 'Other Coordinating Instructions'),
+      ] %}
+      {% for attr, label in extras %}
+        {% set val = co_ins[attr] %}
+        {% if has_content(val) %}
+          {% set coins_ns.j = coins_ns.j + 1 %}
+          {{ sub('3', ci2, coins_ns.j, label, val) }}
+        {% endif %}
+      {% endfor %}
+      {% if has_content(co_ins.themes_and_messages) %}
+        {% set coins_ns.j = coins_ns.j + 1 %}
+        <div class="subpara">
+          <div class="subpara-label">
+            <span class="subpara-num">3.{{ ci2 }}.({{ coins_ns.j }})</span>
+            <span class="subpara-title">Themes and Messages</span>
+          </div>
+          <ul class="chip-list">{% for tm in co_ins.themes_and_messages %}<li class="theme-chip">{{ tm }}</li>{% endfor %}</ul>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</details>
+</section>
+{% endif %}
+
+{#- =================== PARAGRAPH 4 — SUSTAINMENT =================== -#}
+{% set su = opord.sustainment %}
+{% if has_content(su) %}
+{{ para_open(4, "4", "Sustainment") }}
+  {% set sns = namespace(i=0) %}
+
+  {% set sust_blocks = [
+    ('logistics', 'Logistics', [
+      ('sustainment_overlay', 'Sustainment Overlay'),
+      ('maintenance', 'Maintenance'),
+      ('transportation', 'Transportation'),
+      ('supply', 'Supply'),
+      ('field_services', 'Field Services'),
+      ('distribution', 'Distribution'),
+      ('contract_support', 'Operational Contract Support'),
+      ('general_engineering_support', 'General Engineering Support'),
+    ]),
+    ('personnel_services', 'Personnel Services Support', [
+      ('human_resources_support', 'Human Resources Support'),
+      ('financial_management', 'Financial Management'),
+      ('legal_support', 'Legal Support'),
+      ('religious_support', 'Religious Support'),
+      ('band_support', 'Band Support'),
+    ]),
+    ('health_services', 'Army Health System Support', [
+      ('medical_command_and_control', 'Medical Command and Control'),
+      ('medical_treatment', 'Medical Treatment'),
+      ('medical_evacuation', 'Medical Evacuation'),
+      ('dental_services', 'Dental Services'),
+      ('preventive_medicine', 'Preventive Medicine'),
+      ('combat_operational_stress_control', 'Combat and Operational Stress Control'),
+      ('veterinary_services', 'Veterinary Services'),
+      ('medical_logistics', 'Medical Logistics'),
+      ('medical_laboratory_services', 'Medical Laboratory Services'),
+      ('area_medical_support', 'Area Medical Support'),
+    ]),
+  ] %}
+  {% for block_attr, block_label, fields in sust_blocks %}
+    {% set block = su[block_attr] %}
+    {% if has_content(block) %}
+      {% set sns.i = sns.i + 1 %}
+      {% set bl_letter = letter_for(sns.i) %}
+      <div class="card subpara-card">
+        <div class="card-accent accent-4"></div>
+        <div class="card-head"><span class="num mono">4.{{ bl_letter }}</span><h3 class="card-title">{{ block_label }}</h3></div>
+        {% set bns = namespace(j=0) %}
+        {% for attr, label in fields %}
+          {% set val = block[attr] %}
+          {% if has_content(val) %}
+            {% set bns.j = bns.j + 1 %}
+            {{ sub('4', bl_letter, bns.j, label, val) }}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</details>
+</section>
+{% endif %}
+
+{#- =================== PARAGRAPH 5 — COMMAND AND SIGNAL =================== -#}
+{% set cs = opord.command_and_signal %}
+{% if has_content(cs) %}
+{{ para_open(5, "5", "Command and Signal") }}
+  {% set csns = namespace(i=0) %}
+  {% if has_content(cs.command) %}
+    {% set csns.i = csns.i + 1 %}
+    {% set cmd_letter = letter_for(csns.i) %}
+    {% set cmd = cs.command %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-5"></div>
+      <div class="card-head"><span class="num mono">5.{{ cmd_letter }}</span><h3 class="card-title">Command</h3></div>
+      {% set cmdns = namespace(j=0) %}
+      {% if has_content(cmd.location_of_commander) %}
+        {% set cmdns.j = cmdns.j + 1 %}
+        {{ sub('5', cmd_letter, cmdns.j, 'Location of the Commander', cmd.location_of_commander) }}
+      {% endif %}
+      {% if has_content(cmd.succession_of_command) %}
+        {% set cmdns.j = cmdns.j + 1 %}
+        <div class="subpara">
+          <div class="subpara-label">
+            <span class="subpara-num">5.{{ cmd_letter }}.({{ cmdns.j }})</span>
+            <span class="subpara-title">Succession of Command</span>
+          </div>
+          <ol class="succession-list">{% for p in cmd.succession_of_command %}<li>{{ p }}</li>{% endfor %}</ol>
+        </div>
+      {% endif %}
+      {% if has_content(cmd.command_posts) %}
+        {% set cmdns.j = cmdns.j + 1 %}
+        {{ sub('5', cmd_letter, cmdns.j, 'Command Posts', cmd.command_posts) }}
+      {% endif %}
+    </div>
+  {% endif %}
+  {% if has_content(cs.control) %}
+    {% set csns.i = csns.i + 1 %}
+    {% set ctrl_letter = letter_for(csns.i) %}
+    {% set ctrl = cs.control %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-5"></div>
+      <div class="card-head"><span class="num mono">5.{{ ctrl_letter }}</span><h3 class="card-title">Control</h3></div>
+      {% set ctns = namespace(j=0) %}
+      {% if has_content(ctrl.command_and_support_relationships) %}
+        {% set ctns.j = ctns.j + 1 %}
+        {{ sub('5', ctrl_letter, ctns.j, 'Command and Support Relationships', ctrl.command_and_support_relationships) }}
+      {% endif %}
+      {% if has_content(ctrl.liaison_requirements) %}
+        {% set ctns.j = ctns.j + 1 %}
+        {{ sub('5', ctrl_letter, ctns.j, 'Liaison Requirements', ctrl.liaison_requirements) }}
+      {% endif %}
+    </div>
+  {% endif %}
+  {% if has_content(cs.signal) %}
+    {% set csns.i = csns.i + 1 %}
+    {% set sig_letter = letter_for(csns.i) %}
+    {% set sig = cs.signal %}
+    <div class="card subpara-card">
+      <div class="card-accent accent-5"></div>
+      <div class="card-head"><span class="num mono">5.{{ sig_letter }}</span><h3 class="card-title">Signal</h3></div>
+      {% set signs = namespace(j=0) %}
+      {% set sig_fields = [
+        ('soi_edition', 'SOI Edition in Effect'),
+        ('methods_of_communication_by_echelon', 'Methods of Communication by Echelon'),
+        ('recognition_and_identification', 'Recognition and Identification Instructions'),
+        ('cema', 'Cyberspace Electromagnetic Activities'),
+      ] %}
+      {% for attr, label in sig_fields %}
+        {% set val = sig[attr] %}
+        {% if has_content(val) %}
+          {% set signs.j = signs.j + 1 %}
+          {{ sub('5', sig_letter, signs.j, label, val) }}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</details>
+</section>
+{% endif %}
+
+{#- =================== ANNEX DIRECTORY =================== -#}
+{{ para_open("A", "annex", "Annexes", anchor="annexes", num_class="annex-num") }}
+  <div class="annex-grid">
+    {% for a in annex_directory %}
+    <a href="#annex-{{ a.letter }}" class="annex-tile annex-{{ a.status.css_slug }}">
+      <div class="annex-letter mono">{{ a.letter }}</div>
+      <div class="annex-title-text">{{ a.title }}</div>
+      <div class="annex-status">{{ a.status.display_label }}</div>
+    </a>
+    {% endfor %}
+  </div>
+
+  {% for a in opord.annexes if a.is_published %}
+  <div class="card annex-card" id="annex-{{ a.letter }}">
+    <div class="card-accent accent-annex"></div>
+    <details open class="annex-details">
+    <summary class="card-head annex-card-summary">
+      <span class="num mono">Annex {{ a.letter }}</span>
+      <h3 class="card-title">{{ a.title }}</h3>
+      <span class="chevron"></span>
+    </summary>
+
+    {% if has_content(a.distribution_list) %}
+    <div class="annex-section">
+      <div class="annex-section-label">Distribution List</div>
+      <ul class="distribution-list">
+        {% for rec in a.distribution_list %}<li>{{ rec }}</li>{% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if has_content(a.body) %}
+    <div class="annex-section">
+      {% for para in a.body | paragraphs %}<p>{{ para }}</p>{% endfor %}
+    </div>
+    {% endif %}
+
+    {% if a.typed_body is not none %}
+    <div class="annex-section">
+      <div class="annex-section-label">Structured Content</div>
+      {{ render_typed_body_html(a.typed_body) | safe }}
+    </div>
+    {% endif %}
+
+    {% if has_content(a.call_sign_groups) %}
+    <div class="annex-section">
+      <div class="annex-section-label">Call Sign Assignments</div>
+      {% for group in a.call_sign_groups %}
+      <div class="callsign-group">
+        <div class="callsign-group-heading">{{ group.category }}</div>
+        <table class="callsign-table">
+          <tbody>
+            {% for entry in group.entries %}
+            <tr>
+              <td class="cs-unit">{{ entry.unit }}</td>
+              <td class="cs-dash">—</td>
+              <td class="cs-callsign mono">{{ entry.callsign }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if has_content(a.appendices) %}
+    <div class="appendix-list">
+      {% for ap in a.appendices %}
+      <div class="appendix-item" id="annex-{{ a.letter }}-app-{{ ap.number }}">
+        <details open class="appendix-details">
+        <summary class="app-head app-head-summary">
+          <span class="mono">App. {{ ap.number }} ({{ a.letter }})</span><strong>{{ ap.title }}</strong>
+          <span class="chevron"></span>
+        </summary>
+        {% if has_content(ap.distribution_list) %}
+        <div class="app-subsection">
+          <div class="annex-section-label small">Distribution List</div>
+          <ul class="distribution-list">
+            {% for rec in ap.distribution_list %}<li>{{ rec }}</li>{% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        {% if has_content(ap.body) %}
+          {% for para in ap.body | paragraphs %}<p>{{ para }}</p>{% endfor %}
+        {% endif %}
+        {% if has_content(ap.frequency_tables) %}
+          {% for ft in ap.frequency_tables %}
+          <div class="freq-table">
+            <div class="freq-table-title">
+              {{ ft.title }}{% if ft.sub_title %} <span class="freq-sub">· {{ ft.sub_title }}</span>{% endif %}
+            </div>
+            <table class="freq-channel-table">
+              <thead>
+                <tr>
+                  <th class="freq-th-name">Name</th>
+                  <th class="freq-th-ch">Ch</th>
+                  <th class="freq-th-freq">Frequency</th>
+                  <th class="freq-th-purpose">Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ch in ft.channels %}
+                <tr>
+                  <td class="mono freq-name">{{ ch.name }}</td>
+                  <td class="mono freq-ch">{{ ch.channel }}</td>
+                  <td class="mono freq-freq">{{ ch.frequency }}</td>
+                  <td class="freq-purpose">{{ ch.purpose }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endfor %}
+        {% endif %}
+        </details>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</details>
+</section>
+
+{#- =================== AUTHENTICATION =================== -#}
+{% set auth = opord.authentication %}
+{% if has_content(auth) %}
+<section class="auth-block" id="authentication">
+  {% if auth.acknowledge %}<div class="auth-line auth-ack">ACKNOWLEDGE.</div>{% endif %}
+  {% if auth.commander_last_name or auth.commander_rank %}
+  <div class="auth-name">
+    <span class="auth-surname">{{ (auth.commander_last_name or '') | upper }}</span>{% if auth.commander_rank %}<span class="auth-rank">, {{ auth.commander_rank }}</span>{% endif %}
+  </div>
+  {% endif %}
+  {% if auth.authenticating_officer_name or auth.authenticating_officer_position %}
+  <div class="auth-official">
+    <div class="auth-official-tag">OFFICIAL</div>
+    {% if auth.authenticating_officer_name %}<div>{{ auth.authenticating_officer_name }}</div>{% endif %}
+    {% if auth.authenticating_officer_position %}<div class="auth-pos">{{ auth.authenticating_officer_position }}</div>{% endif %}
+  </div>
+  {% endif %}
+  {% if has_content(auth.distribution) %}
+  <div class="auth-distribution">
+    <div class="auth-distro-tag">DISTRIBUTION</div>
+    <div>{{ auth.distribution }}</div>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
+</body>
+</html>

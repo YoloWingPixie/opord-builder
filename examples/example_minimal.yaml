@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=../schemas/opord.schema.json
+# Minimal OPORD — header + mission + a single commander's intent field.
+# Everything else is intentionally omitted to prove the renderer skips
+# empty sections without leaving any floating headings, empty cards, or
+# stub paragraphs.
+header:
+  classification: UNCLASSIFIED
+  issuing_headquarters: "Headquarters, 2d Battalion, 503d Infantry Regiment (Airborne)"
+  place_of_issue: "Grafenwoehr Training Area, Germany"
+  dtg: "181200ZAPR26"
+  operation_order_number: "26-05"
+  operation_name: "QUIET STEEL"
+  time_zone: "ZULU"
+  references:
+    - citation: "173d IBCT (A) WARNORD 26-05"
+
+mission: >
+  TF IRON conducts rehearsal operations 250600Z–251800ZAPR26 IOT validate
+  the OBJ HAMMER seizure sequence prior to OPORD 26-04 execution.
+
+execution:
+  commanders_intent:
+    purpose: "Shake out the TF IRON assault sequence in a controlled-force environment before the real thing."
