@@ -664,6 +664,7 @@ def _load_yaml_with_variables(
     if not isinstance(data, dict):
         return data, {}
     user_vars = data.pop("variables", None)
+    data_source_bindings = data.pop("data_sources", None)
     effective: dict[str, Any] = dict(extra_vars) if extra_vars else {}
     sanitized: dict[str, Any] = {}
     if user_vars is not None:
@@ -675,6 +676,10 @@ def _load_yaml_with_variables(
         effective.update(sanitized)
     if effective:
         data = _render_variables(data, effective)
+    if data_source_bindings:
+        from opord_builder.merge import resolve_data_sources
+
+        resolve_data_sources(data, data_source_bindings, effective, path.parent)
     return data, sanitized
 
 

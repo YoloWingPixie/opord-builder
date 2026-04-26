@@ -1,0 +1,56 @@
+kind: jpitl
+meta:
+  title: "JPITL for OP IRON STRIKE"
+  classification: UNCLASSIFIED
+  as_of_dtg: "181200ZAPR26"
+  approved_by: "JTCB"
+  version: "1.0"
+entries:
+  - target_number: "TGT 0042"
+    priority_rank: 1
+    target_name: "ENY MRC CP, OBJ {{ obj_primary }}"
+    target_description: "Motorized rifle company command post co-located with battalion LNO team — antenna cluster + 3-4 C2 vehicles on OBJ {{ obj_primary }} reverse slope."
+    category: "C2"
+    location: "32UMA123456"
+    component_tasked: "LAND"
+    desired_effect: "NEUTRALIZE"
+    authorized_engagement_means: ["M777 DS Btry (B/4-319)", "HIMARS (on GS request to BCT)"]
+    engagement_guidance: "Neutralize with FA HE/PD, two volleys TOT 190448Z. Avoid CDE encroachment on ALTENSTADT NFA to the south."
+    cde_level: "CDE-2"
+    approval_authority: "BCT Cdr (delegated from JFLCC)"
+    status: "APPROVED"
+    no_strike_crossref: "NSL — ALTENSTADT church/school cluster 500m south (protected sites)"
+    roe_constraints: "No ICM / cluster munitions; PID via ISR cue + callsign BRONCO 6 visual confirm."
+    review_dtg: "200600ZAPR26"
+    linked_hvt_rank: 1
+  - target_number: "TGT 0043"
+    priority_rank: 2
+    target_name: "ENY ADA: ZU-23-2, north spur OBJ {{ obj_primary }}"
+    target_description: "Twin 23mm AAA, ground role, with towed prime mover. Identified by BCT Puma UAS FMV 181830ZAPR26."
+    category: "AIR_DEFENSE"
+    location: "32UMA124454"
+    component_tasked: "AIR"
+    desired_effect: "DESTROY"
+    authorized_engagement_means: ["F-16 GBU-38 (VIPER 11/12)", "M777 ICM if approved"]
+    engagement_guidance: "SEAD between H-2 and H+10 to open VIPER 11/12 ingress corridor for follow-on CAS stack."
+    cde_level: "CDE-3"
+    approval_authority: "JFACC (TST category deconfliction via JTCB)"
+    status: "APPROVED"
+    review_dtg: "191000ZAPR26"
+    linked_hvt_rank: 2
+  - target_number: "TGT 0044"
+    priority_rank: 3
+    target_name: "Orlan-10 GCS, vic NAI 7"
+    target_description: "UAS ground control station: catapult launcher, 2-4 support vehicles, UHF data-link 902-928 MHz."
+    category: "ISR"
+    location: "32UMA155795"
+    component_tasked: "CYBER"
+    desired_effect: "DEGRADE"
+    authorized_engagement_means: ["BCT EW (non-kinetic jam)", "FA HE/PD if persistence detected after jam"]
+    engagement_guidance: "EW jam first per commander's escalation preference; kinetic only if GCS persists beyond 15 min after jam initiated."
+    cde_level: "CDE-1"
+    approval_authority: "BCT Cdr"
+    status: "PENDING"
+    roe_constraints: "Civilian presence within 1km — cyber/EW preferred, kinetic last resort."
+    review_dtg: "190600ZAPR26"
+    linked_hvt_rank: 4

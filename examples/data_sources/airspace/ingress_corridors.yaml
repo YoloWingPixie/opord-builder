@@ -1,0 +1,38 @@
+kind: ingress_corridors
+meta:
+  title: "Ingress/Egress Corridors for OP IRON STRIKE"
+  classification: UNCLASSIFIED
+entries:
+  - name: "MRR GOLD"
+    direction: "INGRESS"
+    waypoints:
+      - "CP DOG"
+      - "32UMA110380"
+      - "IP ALPHA"
+    altitude_floor_ft: 8000
+    altitude_ceiling_ft: 18000
+    active_dtg_start: "190430ZAPR26"
+    active_dtg_end: "190800ZAPR26"
+    purpose: "Primary strike ingress to OBJ {{ obj_primary }} IP ALPHA; deconflicts with ROZ HAMMER CAS stack below 5000."
+  - name: "MRR SILVER"
+    direction: "EGRESS"
+    waypoints:
+      - "32UMA150360"
+      - "32UMA080380"
+      - "CP DOG"
+    altitude_floor_ft: 10000
+    altitude_ceiling_ft: 20000
+    active_dtg_start: "190430ZAPR26"
+    active_dtg_end: "190800ZAPR26"
+    purpose: "Post-strike egress corridor; avoids MEZ NORTH and NFZ ALTENSTADT."
+  - name: "HELO LOW"
+    direction: "BIDIRECTIONAL"
+    waypoints:
+      - "32UMA085385"
+      - "32UMA120385"
+      - "32UMA140383"
+    altitude_floor_ft: 200
+    altitude_ceiling_ft: 800
+    active_dtg_start: "181200ZAPR26"
+    active_dtg_end: "200600ZAPR26"
+    purpose: "Rotary-wing low-altitude corridor to OBJ {{ obj_primary }}; MEDEVAC / CASEVAC / resupply."

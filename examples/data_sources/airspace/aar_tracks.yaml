@@ -1,0 +1,29 @@
+kind: aar_tracks
+meta:
+  title: "AAR Tracks for OP IRON STRIKE"
+  classification: UNCLASSIFIED
+entries:
+  - name: "TRACK ARCO"
+    anchor_primary: "32UMA060500"
+    anchor_secondary: "32UMA180500"
+    altitude_floor_ft: 23000
+    altitude_ceiling_ft: 25000
+    refueling_method: "BOOM"
+    tanker_types_supported: ["KC-135R", "KC-46A"]
+    tacan_channel: "63Y"
+    primary_freq: "260.5 AM"
+    secondary_freq: "261.0 AM"
+    active_dtg_start: "181200ZAPR26"
+    active_dtg_end: "200600ZAPR26"
+  - name: "TRACK SHELL"
+    anchor_primary: "32UMA060250"
+    anchor_secondary: "32UMA180250"
+    altitude_floor_ft: 18000
+    altitude_ceiling_ft: 20000
+    refueling_method: "DROGUE"
+    tanker_types_supported: ["KC-130J", "S-3B", "KC-46A"]
+    tacan_channel: "67Y"
+    primary_freq: "262.0 AM"
+    secondary_freq: "262.5 AM"
+    active_dtg_start: "181200ZAPR26"
+    active_dtg_end: "200600ZAPR26"

@@ -1,0 +1,22 @@
+kind: aic_sectors
+meta:
+  title: "AIC Sectors for OP IRON STRIKE"
+  classification: UNCLASSIFIED
+entries:
+  - sector_name: "RED 1"
+    controller_callsign: "MAGIC RED"
+    responsible_geography: "270-360 from BULLSEYE, 0-60 nm, 0-40000 ft"
+    primary_freq: "251.0 AM"
+    secondary_freq: "251.5 AM"
+    reports_to: "MAGIC"
+  - sector_name: "BLUE 1"
+    controller_callsign: "MAGIC BLUE"
+    responsible_geography: "000-090 from BULLSEYE, 0-60 nm, 0-40000 ft"
+    primary_freq: "253.5 AM"
+    secondary_freq: "254.0 AM"
+    reports_to: "MAGIC"
+  - sector_name: "STRIKE COORD"
+    controller_callsign: "MAGIC STRIKE"
+    responsible_geography: "ROZ HAMMER + egress; manages strike package push / check-out."
+    primary_freq: "260.0 AM"
+    reports_to: "MAGIC"

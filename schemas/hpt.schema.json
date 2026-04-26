@@ -1,0 +1,200 @@
+{
+  "$defs": {
+    "ClassificationLevel": {
+      "description": "U.S. Government classification markings permitted on an OPORD banner.",
+      "enum": [
+        "UNCLASSIFIED",
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ],
+      "title": "ClassificationLevel",
+      "type": "string"
+    },
+    "DataSourceMeta": {
+      "additionalProperties": false,
+      "description": "Provenance header carried by every standalone data-source document.",
+      "properties": {
+        "title": {
+          "description": "Document title (e.g. 'JPITL for OP IRON STRIKE').",
+          "title": "Title",
+          "type": "string"
+        },
+        "classification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClassificationLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Classification level of this data source."
+        },
+        "as_of_dtg": {
+          "anyOf": [
+            {
+              "description": "Military date-time group in DDHHMMZMONYY form (e.g. '181200ZAPR26').",
+              "pattern": "^\\d{6}Z[A-Z]{3}\\d{2}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Date-time group the data was current as of.",
+          "title": "As Of Dtg"
+        },
+        "approved_by": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Approving authority (e.g. 'JTCB', 'BN CDR').",
+          "title": "Approved By"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Version identifier for tracking revisions.",
+          "title": "Version"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Freeform notes or caveats.",
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "title": "DataSourceMeta",
+      "type": "object"
+    },
+    "HVT": {
+      "additionalProperties": false,
+      "description": "High-Value Target (or High-Payoff Target when hpt_nomination is True) per ATP 3-60.",
+      "properties": {
+        "priority_rank": {
+          "description": "Rank-ordered priority within the HVT/HPT list (1 = highest).",
+          "title": "Priority Rank",
+          "type": "integer"
+        },
+        "category": {
+          "description": "Warfighting-function category the target belongs to.",
+          "enum": [
+            "C2",
+            "FIRES",
+            "MANEUVER",
+            "AIR_DEFENSE",
+            "ISR",
+            "ENGINEER",
+            "LOGISTICS",
+            "CBRN",
+            "INFORMATION"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "target_description": {
+          "description": "Narrative description of the target: system, unit, facility, or individual.",
+          "title": "Target Description",
+          "type": "string"
+        },
+        "signature": {
+          "description": "Detectable signature(s) of the target (electronic, thermal, visual, pattern-of-life).",
+          "title": "Signature",
+          "type": "string"
+        },
+        "likely_locations": {
+          "description": "MGRS grids or named areas where the target is most likely to appear.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Likely Locations",
+          "type": "array"
+        },
+        "engagement_guidance": {
+          "description": "Commander's guidance for engaging this target (restrictions, priority, delivery).",
+          "title": "Engagement Guidance",
+          "type": "string"
+        },
+        "linked_pir": {
+          "description": "PIR numbers whose answer depends on observing or engaging this target.",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Linked Pir",
+          "type": "array"
+        },
+        "hpt_nomination": {
+          "default": false,
+          "description": "True when the target is nominated to the High-Payoff Target List (HPTL).",
+          "title": "Hpt Nomination",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "priority_rank",
+        "category",
+        "target_description",
+        "signature",
+        "engagement_guidance"
+      ],
+      "title": "HVT",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Standalone High-Payoff Target list.",
+  "properties": {
+    "kind": {
+      "const": "hpt",
+      "default": "hpt",
+      "title": "Kind",
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "#/$defs/DataSourceMeta",
+      "description": "Provenance metadata for this data source."
+    },
+    "entries": {
+      "description": "High-Payoff Target list entries.",
+      "items": {
+        "$ref": "#/$defs/HVT"
+      },
+      "title": "Entries",
+      "type": "array"
+    }
+  },
+  "required": [
+    "meta"
+  ],
+  "title": "HPTDocument",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/opord-builder/opord-builder/schemas/hpt.schema.json"
+}

@@ -1,0 +1,59 @@
+kind: tst
+meta:
+  title: "Time-Sensitive Targets for OP IRON STRIKE"
+  classification: UNCLASSIFIED
+  as_of_dtg: "181200ZAPR26"
+  approved_by: "JTCB"
+  version: "1.0"
+entries:
+  - tst_number: "TST-01"
+    priority_class: "TST-1"
+    category: "WMD"
+    target_description: "Suspected chemical munitions handling at forward ammo transfer point — unconfirmed presence of non-persistent chemical rounds."
+    expected_activity: "Vehicle transfer of sealed crates between TEL and storage bunker; chemical-protective posture (MOPP-2) observed on operators."
+    expected_locations: ["NAI 12 (NK 160 810)", "Secondary NAI 14 (NK 158 805)"]
+    activity_window: "190200ZAPR26 – 191200ZAPR26"
+    pid_standard: "Two independent sensor confirms (EO imagery + SIGINT emitter pattern) AND visual confirmation of protective posture."
+    engagement_authority: "JFLCC (retained for WMD-category TSTs)"
+    authorized_engagement_means: ["F-16 GBU-38 (VIPER 11/12)", "HIMARS PGM on JFLCC approval"]
+    cde_level: "CDE-4"
+    roe_constraints: "No engagement without positive WMD confirmation; otherwise re-categorize to JPITL standard cycle."
+    collection_requirements: [
+      "BCT Puma UAS orbit NAI 12 from 190100ZAPR26",
+      "EW/SIGINT cue on chemical-unit HF/VHF net (per ISR annex)",
+      "HUMINT debrief of ALTENSTADT refugees for corroboration"
+    ]
+    notification_requirements: ["JFACC (airspace deconfliction)", "Adjacent JSOTF", "CJTF SJA (LOAC review)", "BCT SURGEON (post-strike CBRN response)"]
+    expiration_criteria: "Neutralization confirmed via BDA OR 191200ZAPR26 elapsed without PID."
+    linked_pir: [1, 4]
+  - tst_number: "TST-02"
+    priority_class: "TST-1"
+    category: "ENEMY_LEADERSHIP"
+    target_description: "ENY MRB commander; identified via pattern-of-life + SIGINT voice-print (confidence: HIGH)."
+    expected_activity: "Movement between tactical CP on OBJ {{ obj_primary }} and rear CP vic NK 160 800; typically 1030Z daily."
+    expected_locations: ["OBJ {{ obj_primary }} reverse slope NK 142 783", "Route between CP and rear NK 150 795"]
+    activity_window: "190900ZAPR26 – 191130ZAPR26 (recurring daily pattern)"
+    pid_standard: "SIGINT voice-print + ISR visual of known vehicle (black Tigr-M with unique antenna)."
+    engagement_authority: "BCT Cdr"
+    authorized_engagement_means: ["HIMARS PGM", "FA HE/PD 155mm", "F-16 GBU-54"]
+    cde_level: "CDE-3"
+    roe_constraints: "No engagement within 500m of ALTENSTADT NFA or civilian vehicle presence."
+    collection_requirements: ["BCT Puma UAS orbit route NK 145-160", "SIGINT cue on MRB command net"]
+    notification_requirements: ["BCT S-2 (update intel picture)", "Adjacent battalion LNOs"]
+    expiration_criteria: "BDA confirms neutralization OR 191500ZAPR26."
+    linked_pir: [4]
+  - tst_number: "TST-03"
+    priority_class: "TST-2"
+    category: "LRF"
+    target_description: "Suspected SS-21 SRBM TEL repositioning forward; range ~120km threat to BCT rear."
+    expected_activity: "TEL erects from travel configuration to ready-to-launch; accompanying 2-vehicle support element (fuel + command)."
+    expected_locations: ["NAI 18 (NK 200 830)", "NAI 19 (NK 210 840)"]
+    activity_window: "Any time 181200ZAPR26 – {{ endex_dtg }}"
+    pid_standard: "EO imagery of erected TEL + SIGINT confirmation of launch-battery net activity."
+    engagement_authority: "JFLCC"
+    authorized_engagement_means: ["HIMARS PGM (prime)", "F-16 GBU-38 (alternate)"]
+    cde_level: "CDE-2"
+    collection_requirements: ["Theater ISR (U-2/Global Hawk) on NAI 18/19", "BCT EW cue on launch-battery net"]
+    notification_requirements: ["JFACC (airspace)", "Patriot battery (defensive hand-off if launch detected)"]
+    expiration_criteria: "Neutralization OR TEL displaces beyond BCT AO."
+    linked_pir: [2]

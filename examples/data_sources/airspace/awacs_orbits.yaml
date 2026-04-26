@@ -1,0 +1,26 @@
+kind: awacs_orbits
+meta:
+  title: "AWACS Orbits for OP IRON STRIKE"
+  classification: UNCLASSIFIED
+entries:
+  - callsign: "MAGIC"
+    platform: "E-3G Sentry"
+    orbit_center: "32UMA050380"
+    orbit_radius_nm: 30
+    altitude_ft: 31000
+    on_station_dtg: "181200ZAPR26"
+    off_station_dtg: "200600ZAPR26"
+    sector_of_responsibility: "Full AO coverage; owns bullseye and CAP check-ins."
+    primary_freq: "251.0 AM"
+    datalink_channel: "Link-16 NET 115"
+    owns_bullseye: "BULLSEYE"
+  - callsign: "DARKSTAR"
+    platform: "E-2D Hawkeye"
+    orbit_center: "32UMA230380"
+    orbit_radius_nm: 20
+    altitude_ft: 27000
+    on_station_dtg: "190300ZAPR26"
+    off_station_dtg: "191000ZAPR26"
+    sector_of_responsibility: "Eastern sector redundancy during Phase II peak."
+    primary_freq: "253.5 AM"
+    datalink_channel: "Link-16 NET 115"

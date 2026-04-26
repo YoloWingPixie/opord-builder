@@ -25,9 +25,11 @@ from opord_builder.renderer import (
     render_product_html,
     render_product_pdf,
     _inline_stylesheet,
+    _load_yaml_with_variables,
     _PRODUCT_ALIASES,
 )
 from opord_builder.schema import OPORD
+from opord_builder.schema.data_sources import DATA_SOURCE_REGISTRY
 
 
 class SchemaFormat(str, Enum):
@@ -55,17 +57,24 @@ app = typer.Typer(
 )
 
 
-def _build_opord_schema_dict() -> dict:
-    """Build the JSON Schema dict with OPORD-specific $schema, $id, title."""
-    schema_dict = OPORD.model_json_schema()
+def _build_schema_dict(
+    model: type, slug: str, title: str, description: str,
+) -> dict:
+    schema_dict = model.model_json_schema()
     schema_dict["$schema"] = "https://json-schema.org/draft/2020-12/schema"
-    schema_dict["$id"] = "https://github.com/opord-builder/opord-builder/schemas/opord.schema.json"
-    schema_dict.setdefault("title", "OPORD")
-    schema_dict.setdefault(
-        "description",
+    schema_dict["$id"] = (
+        f"https://github.com/opord-builder/opord-builder/schemas/{slug}.schema.json"
+    )
+    schema_dict.setdefault("title", title)
+    schema_dict.setdefault("description", description)
+    return schema_dict
+
+
+def _build_opord_schema_dict() -> dict:
+    return _build_schema_dict(
+        OPORD, "opord", "OPORD",
         "U.S. Army Operations Order per FM 6-0 (May 2022) Appendix D / ATP 5-0.2-1.",
     )
-    return schema_dict
 
 
 def _fmt_validation_error(exc: ValidationError, yaml_path: Path) -> str:
@@ -118,6 +127,59 @@ def render(
         typer.echo(f"  {kind:<8}  {path}  ({size:,} bytes)")
 
 
+@app.command(name="validate-source", help="Validate a standalone data-source YAML file.")
+def validate_source(
+    input_file: Path = typer.Argument(
+        ...,
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Path to the data-source YAML file.",
+    ),
+) -> None:
+    data, _ = _load_yaml_with_variables(input_file)
+
+    if not isinstance(data, dict) or "kind" not in data:
+        typer.secho(
+            f"File {input_file} is not a valid data-source document "
+            f"(missing top-level 'kind' field).",
+            fg=typer.colors.RED,
+            err=True,
+        )
+        raise typer.Exit(code=2)
+
+    kind = data["kind"]
+    model = DATA_SOURCE_REGISTRY.get(kind)
+    if model is None:
+        known = ", ".join(sorted(DATA_SOURCE_REGISTRY))
+        typer.secho(
+            f"Unknown data-source kind '{kind}'. Known kinds: {known}",
+            fg=typer.colors.RED,
+            err=True,
+        )
+        raise typer.Exit(code=2)
+
+    try:
+        doc = model.model_validate(data)
+    except ValidationError as exc:
+        typer.secho(_fmt_validation_error(exc, input_file), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=2)
+
+    entries = getattr(doc, "entries", [])
+    typer.secho(
+        f"✓ Valid {kind} data source: {input_file.name} ({len(entries)} entries)",
+        fg=typer.colors.GREEN,
+    )
+
+
+def _build_data_source_schema_dict(kind: str) -> dict:
+    return _build_schema_dict(
+        DATA_SOURCE_REGISTRY[kind], kind, kind.upper(),
+        f"Standalone {kind.upper()} data-source document.",
+    )
+
+
 @app.command(help="Emit the OPORD JSON Schema (Draft 2020-12).")
 def schema(
     out: Optional[Path] = typer.Option(
@@ -132,7 +194,52 @@ def schema(
         "-f",
         help="Output format.",
     ),
+    source_type: Optional[str] = typer.Option(
+        None,
+        "--source-type",
+        "-s",
+        help="Emit schema for a data-source type instead of OPORD (e.g. jpitl, tst, hpt, all).",
+    ),
 ) -> None:
+    # --- data-source schema mode ------------------------------------------
+    if source_type is not None:
+        if source_type == "all":
+            kinds = sorted(DATA_SOURCE_REGISTRY)
+        elif source_type in DATA_SOURCE_REGISTRY:
+            kinds = [source_type]
+        else:
+            known = ", ".join(sorted(DATA_SOURCE_REGISTRY))
+            typer.secho(
+                f"Unknown source type '{source_type}'. Known types: {known}",
+                fg=typer.colors.RED,
+                err=True,
+            )
+            raise typer.Exit(code=2)
+
+        for kind in kinds:
+            schema_dict = _build_data_source_schema_dict(kind)
+
+            if fmt is SchemaFormat.YAML:
+                text = yaml.safe_dump(schema_dict, sort_keys=False, width=100)
+            else:
+                text = json.dumps(schema_dict, indent=2, ensure_ascii=False) + "\n"
+
+            if out:
+                # When writing multiple kinds, treat --out as a directory.
+                if len(kinds) > 1:
+                    out_dir = out
+                    out_dir.mkdir(parents=True, exist_ok=True)
+                    dest = out_dir / f"{kind}.schema.json"
+                else:
+                    dest = out
+                    dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_text(text, encoding="utf-8")
+                _echo_wrote(f"{kind} schema", dest)
+            else:
+                sys.stdout.write(text)
+        return
+
+    # --- default OPORD schema mode ----------------------------------------
     schema_dict = _build_opord_schema_dict()
 
     if fmt is SchemaFormat.YAML:
@@ -464,6 +571,11 @@ def init(
         False, "--force", "-F",
         help="Overwrite existing files in target_dir (default: refuse if any collide).",
     ),
+    with_data_sources: bool = typer.Option(
+        False,
+        "--with-data-sources",
+        help="Scaffold a data_sources/ directory with targeting stubs.",
+    ),
 ) -> None:
     from opord_builder import scaffolds
 
@@ -476,6 +588,14 @@ def init(
         annex_dir / f"annex_{ltr.lower()}.yaml" for ltr in letters
     ]
 
+    if with_data_sources:
+        ds_dir = target_dir / "data_sources" / "fires"
+        planned += [
+            ds_dir / "jpitl.yaml",
+            ds_dir / "tst.yaml",
+            ds_dir / "hpt.yaml",
+        ]
+
     existing = [p for p in planned if p.exists()]
     if existing and not force:
         typer.secho(
@@ -486,10 +606,26 @@ def init(
             typer.secho(f"  {p}", err=True)
         raise typer.Exit(code=1)
 
+    # --- data-source block for main.yaml (when requested) -----------------
+    data_source_block = ""
+    if with_data_sources:
+        data_source_block = (
+            "data_sources:\n"
+            "  - source: data_sources/fires/jpitl.yaml\n"
+            "    target: annexes.D.typed_body.jpitl\n"
+            "  - source: data_sources/fires/tst.yaml\n"
+            "    target: annexes.D.typed_body.time_sensitive_targets\n"
+            "  - source: data_sources/fires/hpt.yaml\n"
+            "    target: annexes.D.typed_body.high_payoff_target_list"
+        )
+
     annex_includes = [f"annexes/annex_{ltr.lower()}.yaml" for ltr in letters]
     (target_dir / "main.yaml").write_text(
-        scaffolds.main_yaml(schema_rel_path="schemas/opord.schema.json",
-                            annex_files=annex_includes),
+        scaffolds.main_yaml(
+            schema_rel_path="schemas/opord.schema.json",
+            annex_files=annex_includes,
+            data_source_block=data_source_block,
+        ),
         encoding="utf-8",
     )
     _echo_wrote("main.yaml", target_dir / "main.yaml")
@@ -500,6 +636,18 @@ def init(
         f"  + {len(letters)} annex stubs under {annex_dir}/",
         fg=typer.colors.GREEN,
     )
+
+    if with_data_sources:
+        ds_dir = target_dir / "data_sources" / "fires"
+        ds_dir.mkdir(parents=True, exist_ok=True)
+        (ds_dir / "jpitl.yaml").write_text(scaffolds.jpitl_yaml(), encoding="utf-8")
+        (ds_dir / "tst.yaml").write_text(scaffolds.tst_yaml(), encoding="utf-8")
+        (ds_dir / "hpt.yaml").write_text(scaffolds.hpt_yaml(), encoding="utf-8")
+        typer.secho(
+            f"  + 3 data-source stubs under {ds_dir}/",
+            fg=typer.colors.GREEN,
+        )
+
     typer.secho(
         f"\nNext: edit {target_dir}/main.yaml and run "
         f"`opord render {target_dir}/main.yaml`.",

@@ -1,0 +1,40 @@
+kind: hpt
+meta:
+  title: "High-Payoff Target List for OP IRON STRIKE"
+  classification: UNCLASSIFIED
+  as_of_dtg: "181200ZAPR26"
+  approved_by: "BN CDR"
+  version: "1.0"
+entries:
+  - priority_rank: 1
+    category: "C2"
+    target_description: "ENY MRC CP OBJ {{ obj_primary }}"
+    signature: "Antenna cluster + C2 vehicles"
+    likely_locations: ["NK 142 783"]
+    engagement_guidance: "Neutralize with FA HE/PD — 2 volleys at TOT 190448Z."
+    linked_pir: [4]
+    hpt_nomination: true
+  - priority_rank: 2
+    category: "AIR_DEFENSE"
+    target_description: "ZU-23-2 NK 140 781"
+    signature: "Twin 23mm towed"
+    likely_locations: ["Northern spur"]
+    engagement_guidance: "SEAD H-2 to H+10 supporting VIPER 11/12 ingress."
+    linked_pir: [4]
+    hpt_nomination: true
+  - priority_rank: 3
+    category: "FIRES"
+    target_description: "82mm mortar section"
+    signature: "Q-53 radar acquisition; tube launch signature"
+    likely_locations: ["Reverse slope NK 145 787"]
+    engagement_guidance: "Destroy on first firing; counter-battery."
+    linked_pir: [4]
+    hpt_nomination: true
+  - priority_rank: 4
+    category: "ISR"
+    target_description: "Orlan-10 GCS"
+    signature: "Catapult + UHF 902-928 MHz + 2-4 vehicles"
+    likely_locations: ["NAI 7 NK 155 795"]
+    engagement_guidance: "DESTROY on acquisition; EW jam prior to kinetic."
+    linked_pir: [3]
+    hpt_nomination: true

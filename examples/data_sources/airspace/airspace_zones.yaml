@@ -1,0 +1,46 @@
+kind: airspace_zones
+meta:
+  title: "Airspace Zones for OP IRON STRIKE"
+  classification: UNCLASSIFIED
+entries:
+  - name: "ROZ HAMMER"
+    kind: "ROZ"
+    anchor_point: "32UMA142383"
+    radius_nm: 3
+    altitude_floor_ft: 0
+    altitude_ceiling_ft: 5000
+    active_dtg_start: "190430ZAPR26"
+    active_dtg_end: "190800ZAPR26"
+    purpose: "CAS stack over OBJ {{ obj_primary }} during Phase II assault; Puma UAS deconflict below 2000 AGL."
+  - name: "NFZ ALTENSTADT"
+    kind: "NFZ"
+    anchor_point: "32UMA115390"
+    radius_nm: 1
+    altitude_floor_ft: 0
+    altitude_ceiling_ft: 99999
+    active_dtg_start: "181200ZAPR26"
+    active_dtg_end: "200600ZAPR26"
+    purpose: "Protected civilian village; no fixed-wing overflight below 10000 AGL, no indirect fires, no UAS orbits inside ring."
+  - name: "MEZ NORTH"
+    kind: "MEZ"
+    anchor_point: "32UMA150480"
+    radius_nm: 25
+    altitude_floor_ft: 0
+    altitude_ceiling_ft: 60000
+    active_dtg_start: "181200ZAPR26"
+    active_dtg_end: "200600ZAPR26"
+    purpose: "Patriot missile engagement layer covering northern approach."
+    engagement_rules: "Patriot owns 0-60k. Fighters stay above 25000 AGL inside MEZ with IFF Mode 4 squawking. Crossing MEZ boundary requires AWACS check-in."
+  - name: "FEZ SOUTH"
+    kind: "FEZ"
+    polygon_vertices:
+      - "32UMA060300"
+      - "32UMA180300"
+      - "32UMA180200"
+      - "32UMA060200"
+    altitude_floor_ft: 5000
+    altitude_ceiling_ft: 45000
+    active_dtg_start: "181200ZAPR26"
+    active_dtg_end: "200600ZAPR26"
+    purpose: "Southern Fighter Engagement Zone — CAP sweeps between ANCHOR 1 and ANCHOR 2."
+    engagement_rules: "F-16 and F/A-18 flights; Patriot inhibited above 5000 AGL inside FEZ. All engagements on AWACS clearance."

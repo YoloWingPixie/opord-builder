@@ -118,6 +118,21 @@ from opord_builder.schema.annexes import (
     StrengthRollup,
     ThreatSpaceAsset,
 )
+from opord_builder.schema.data_sources import (
+    AARTrackDocument,
+    AICSectorDocument,
+    AWACSOrbitDocument,
+    AirspaceZoneDocument,
+    CAPTrackDocument,
+    DATA_SOURCE_REGISTRY,
+    DataSourceMeta,
+    DataTableDocument,
+    GeoRefDocument,
+    HPTDocument,
+    IngressCorridorDocument,
+    JPITLDocument,
+    TSTDocument,
+)
 from opord_builder.schema.shared import (
     ACM,
     ASRoute,
@@ -187,6 +202,20 @@ WARNO.model_rebuild()
 
 
 __all__ = [
+    # Data sources
+    "AARTrackDocument",
+    "AICSectorDocument",
+    "AWACSOrbitDocument",
+    "AirspaceZoneDocument",
+    "CAPTrackDocument",
+    "DATA_SOURCE_REGISTRY",
+    "DataSourceMeta",
+    "DataTableDocument",
+    "GeoRefDocument",
+    "HPTDocument",
+    "IngressCorridorDocument",
+    "JPITLDocument",
+    "TSTDocument",
     # Core
     "CANONICAL_ANNEXES",
     "RESERVED_LETTERS",

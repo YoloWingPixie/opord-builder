@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=../schemas/opord.schema.json
+# OPORD 26-04 — IRON STRIKE (data-sources example)
+# Demonstrates the data_sources: feature — targeting data for Annex D
+# (Fires) is authored in standalone YAML files and merged at render time.
+
+variables:
+  op_name: "IRON STRIKE"
+  op_num: "26-04"
+  h_hour: "190500ZAPR26"
+  h_minus_2: "190300ZAPR26"
+  endex_dtg: "200600ZAPR26"
+  obj_primary: "HAMMER"
+  obj_secondary: "ANVIL"
+  bct: "173d IBCT (A)"
+  tf: "TF IRON"
+  tf_callsign: "IRON 6"
+
+# ── External data-source bindings ──────────────────────────────────────
+# Each binding loads a standalone document, validates it against its
+# schema (kind → JPITLDocument, TSTDocument, HPTDocument), then injects
+# its entries list into the OPORD tree at the dotted target path.
+data_sources:
+  - source: data_sources/fires/jpitl.yaml
+    target: annexes.D.typed_body.jpitl
+  - source: data_sources/fires/tst.yaml
+    target: annexes.D.typed_body.time_sensitive_targets
+  - source: data_sources/fires/hpt.yaml
+    target: annexes.D.typed_body.high_payoff_target_list
+
+header:
+  classification: UNCLASSIFIED
+  issuing_headquarters: "Headquarters, 2d Battalion, 503d Infantry Regiment (Airborne), 173d IBCT (A)"
+  place_of_issue: "Grafenwoehr Training Area, Germany"
+  dtg: "181200ZAPR26"
+  message_reference_number: "FS-IRON-2604"
+  operation_order_number: "{{ op_num }}"
+  operation_name: "{{ op_name }}"
+  author: "MAJ J. Rivera, S3"
+  time_zone: "ZULU"
+  references:
+    - citation: "Map, Series M745, Germany Sheet L7432, Edition 5, Scale 1:50,000"
+    - citation: "173d IBCT (A) OPORD 26-02, FALCON SHIELD"
+      description: "Higher HQ order establishing the exercise framework"
+
+mission: >
+  2-503 IN (ABN) ({{ tf }}) conducts deliberate attack to seize OBJ
+  {{ obj_primary }} NLT {{ h_hour }} in order to destroy ENY MRC and
+  establish conditions for follow-on BCT operations toward OBJ
+  {{ obj_secondary }}.
+
+annexes:
+  - letter: D
+    typed_body:
+      letter: D
+      # jpitl, time_sensitive_targets, and high_payoff_target_list are
+      # injected from data_sources at render time.  All other list fields
+      # default to empty per the AnnexDData schema.
+    body: |
+      Fires annex with targeting data sourced from standalone documents.
+      See data_sources bindings for JPITL, TST, and HPT entries.
