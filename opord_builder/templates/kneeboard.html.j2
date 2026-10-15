@@ -153,8 +153,9 @@
     table.kb-table tr:last-child td { border-bottom: none; }
     .col-pos   { width: 10%; }
     .col-modex { width: 20%; font-weight: 700; }
-    .col-pers  { width: 42%; color: #6b6960; }
-    .col-laser { width: 28%; text-align: right; }
+    .col-pers  { width: 28%; color: #6b6960; }
+    .col-m3    { width: 20%; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; }
+    .col-laser { width: 22%; text-align: right; }
     table.kb-table th:last-child { text-align: right; }
     .col-laser {
       font-family: "JetBrains Mono", ui-monospace, monospace;
@@ -361,6 +362,7 @@
           <th class="col-pos">Pos</th>
           <th class="col-modex">Modex</th>
           <th class="col-pers">Pers</th>
+          <th class="col-m3">M3</th>
           <th class="col-laser">Laser</th>
         </tr></thead>
         <tbody>
@@ -369,11 +371,20 @@
             <td class="col-pos">{{ p.number }}</td>
             <td class="col-modex">{{ p.modex }}</td>
             <td class="col-pers">{{ p.pers or '' }}</td>
+            <td class="col-m3">{{ p.mode3 or '' }}</td>
             <td class="col-laser">{{ p.laser or '' }}</td>
           </tr>
         {% endfor %}
         </tbody>
       </table>
+    </div>
+    {% endif %}
+
+    {# ── IFF ── #}
+    {% if card.iff %}
+    <div class="kb-section accent-blue">
+      <div class="kb-label">IFF</div>
+      <div class="kb-text">{{ card.iff }}</div>
     </div>
     {% endif %}
 

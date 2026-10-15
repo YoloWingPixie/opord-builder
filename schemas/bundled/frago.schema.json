@@ -4249,6 +4249,10 @@
           "description": "Barometric altimeter setting (e.g. '29.92').",
           "type": "string"
         },
+        "iff": {
+          "description": "IFF line of the flight: mode 1, mode 4 and mode C. Mode 3 is per position.",
+          "type": "string"
+        },
         "weather": {
           "description": "One line of weather for the mission: clouds, visibility and surface wind of the forecast that covers it.",
           "type": "string"
@@ -4349,6 +4353,10 @@
         },
         "laser": {
           "description": "Laser PRF code (4-digit, e.g. '1781').",
+          "type": "string"
+        },
+        "mode3": {
+          "description": "IFF mode 3 code of the position (4 digits).",
           "type": "string"
         }
       },

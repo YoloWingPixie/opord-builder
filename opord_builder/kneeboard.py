@@ -145,6 +145,25 @@ def _instant(value: Any, period_start: _dt.datetime | None) -> str | None:
     return f"{when:%H%M}Z"
 
 
+def _iff_text(ident: Mapping[str, Any], standard, std) -> str:
+    """Flight IFF line `M1 20 · M4 ON · M-C ON`: the flight's identification, else the standard's squadron
+    mode 1 and IFF defaults. Mode 3 is per position."""
+    standard = (
+        standard if std else None
+    )  # only a flight the standard names takes its values
+    defaults = ((standard or {}).get("iff") or {}).get("defaults") or {}
+    squadron = ((standard or {}).get("squadrons") or {}).get(std.get("squadron"), {})
+    mode1 = ident.get("mode_1") or squadron.get("mode_1") or ""
+    mode4 = str(ident.get("mode_4") or defaults.get("mode_4") or "").upper()
+    mode_c = defaults.get("mode_c")
+    parts = [
+        f"M1 {mode1}" if mode1 else "",
+        f"M4 {mode4}" if mode4 else "",
+        "M-C ON" if mode_c is True else "",
+    ]
+    return " · ".join(p for p in parts if p)
+
+
 def _timing_text(spec: Mapping[str, Any] | None, period_start: _dt.datetime | None):
     """A time condition (at / window / not_after / not_before / on_order) -> kneeboard text, or ''."""
     if not spec:
@@ -373,18 +392,26 @@ def _card(
             f"positions[{n}].laser",
             warn,
         )
+        mode3 = (override.get("identification") or {}).get("mode_3") or (
+            std_members.get(n) or {}
+        ).get("mode_3", "")
         modex = override.get("board_number", "")
         pers = " / ".join(m["name"] for m in override.get("crew") or [])
         missing["modex"] |= not modex
         missing["pers"] |= not pers
         missing["laser"] |= not laser
-        positions.append({"number": n, "modex": modex, "pers": pers, "laser": laser})
+        position = {"number": n, "modex": modex, "pers": pers, "laser": laser}
+        if mode3:
+            position["mode3"] = mode3
+        positions.append(position)
     if missing["modex"]:
         warn("positions[].modex", "no board_number on a member override; left blank")
     if missing["pers"]:
         warn("positions[].pers", "no crew on a member override; left blank")
     if missing["laser"]:
         warn("positions[].laser", "no laser_code on the member or its SCL; left blank")
+
+    iff = _iff_text(ident, standard, std)
 
     # tacan: member 1 and flight
     lead_ident = (overrides.get(1) or {}).get("identification") or {}
@@ -473,6 +500,8 @@ def _card(
         "atc": _atc(flight, places, warn),
         "baro_alt": baro_alt,
     }
+    if iff:
+        card["iff"] = iff
     if wx:
         card["weather"] = wx
     if steerpoints:

@@ -747,3 +747,20 @@ def test_a_steerpoint_shows_the_time_of_its_route_point_timing():
     assert "time" not in card["steerpoints"][2]
     html = render_card_html(card)
     assert "<b>1405Z</b>" in html
+
+
+def test_the_card_has_an_iff_line_and_a_mode3_per_position():
+    ato = json.loads((MAXIMAL / "ato.json").read_text())
+    res = json.loads((MAXIMAL / "resources.json").read_text())
+    flight = next(f for m in ato["missions"] for f in m.get("flights", []))
+    flight.setdefault("identification", {}).update(mode_1="20", mode_4="on")
+    flight["count"] = 1
+    flight.setdefault("configuration", {})["member_overrides"] = [
+        {"member": 1, "identification": {"mode_3": "2101"}}
+    ]
+    cards, _ = build_cards(ato, merge_resources(ato, res), None, None)
+    card = next(c for c in cards if c["flight_callsign"] == flight["callsign"])
+    assert card["iff"] == "M1 20 · M4 ON"
+    assert card["positions"][0]["mode3"] == "2101"
+    html = render_card_html(card)
+    assert "M1 20 · M4 ON" in html and "2101" in html
