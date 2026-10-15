@@ -34,7 +34,12 @@ def _is_opord(path: Path) -> bool:
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
     except yaml.YAMLError:
         return False
-    return isinstance(data, dict) and "header" in data and "mission" in data
+    return (
+        isinstance(data, dict)
+        and ("header" in data or data.get("kind") == "opord")
+        and "mission" in data
+        and "document_kind" not in path.read_text(encoding="utf-8")
+    )
 
 
 def opord_files() -> list[Path]:
@@ -310,10 +315,10 @@ def test_annexes_by_letter_with_status_in_authoring_extension():
     assert from_openaix(doc, carry=False)[0] == model
 
 
-def test_unsorted_annexes_survive_in_the_overlay():
+def test_unsorted_annexes_keep_their_order():
     model = mini(annexes=[{"letter": "C", "body": "c"}, {"letter": "A", "body": "a"}])
     bundle = to_openaix(model)
-    assert "annexes" not in bundle.opord
+    assert list(bundle.opord["annexes"]) == ["C", "A"]
     assert from_openaix(bundle.opord, carry=False)[0] == model
 
 

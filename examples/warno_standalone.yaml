@@ -1,28 +1,45 @@
-# Standalone WARNO — no base_order, fully self-contained.
-# Issued before any higher-HQ OPORD exists; all fields declared on the WARNO.
-
-kind: warno
-warno_number: "01"
-previous_warnos: []
-classification: UNCLASSIFIED
-issuing_headquarters: "Headquarters, 3d Squadron, 2d Cavalry Regiment"
-place_of_issue: "Rose Barracks, Vilseck, Germany"
-dtg: "150800ZAPR26"
-time_zone: "ZULU"
-operation_name: "STEEL RAIN"
-operation_order_number: "TBP"
-author: "MAJ R. Okafor, S3"
-mission: "3-2 CR conducts movement-to-contact in AO SABER NLT 181200ZAPR26 IOT defeat forward ENY screen and set conditions for follow-on corps operations."
+$schema: urn:openaix:schema:opord:0.2.0-draft.1
+kind: opord
+schema_version: 0.2.0-draft.1
+meta:
+  author: MAJ R. Okafor, S3
+  classification: UNCLASSIFIED
+  id: warno-01
+  issued_at: '2026-04-15T08:00:00Z'
+  issuing_unit: Headquarters, 3d Squadron, 2d Cavalry Regiment
+  operation: STEEL RAIN
+  revision: '1'
+  title: WARNO 01
+issuing_headquarters: Headquarters, 3d Squadron, 2d Cavalry Regiment
+date_time: '2026-04-15T08:00:00Z'
+order_number: TBP
+operation_name: STEEL RAIN
+time_zone: Z
+extensions:
+  org.opord-builder.print:
+    place_of_issue: Rose Barracks, Vilseck, Germany
+  org.opord-builder.order:
+    document_kind: warno
+    warno_number: '01'
+    execution:
+      coordinating_instructions:
+        earliest_movement_of_forces: Troops may begin movement from current motor pools to AA SABER NLT
+          160600ZAPR26.
+        reconnaissance_and_surveillance_instructions: Sqdn Scout Troop executes zone reconnaissance IAW
+          forthcoming Annex L. S2 pushes initial graphics NLT 151800ZAPR26.
+        time_line:
+        - dtg: 160800ZAPR26
+          event: Confirmation Brief
+          responsible: Troop Cdrs
+        - dtg: 171200ZAPR26
+          event: OPORD Issue
+          responsible: Sqdn S3
+    annexes: {}
+mission:
+  statement: 3-2 CR conducts movement-to-contact in AO SABER NLT 181200ZAPR26 IOT defeat forward ENY screen
+    and set conditions for follow-on corps operations.
 execution:
   coordinating_instructions:
-    time_line:
-      - event: "Confirmation Brief"
-        dtg: "160800ZAPR26"
-        responsible: "Troop Cdrs"
-      - event: "OPORD Issue"
-        dtg: "171200ZAPR26"
-        responsible: "Sqdn S3"
-    earliest_movement_of_forces: "Troops may begin movement from current motor pools to AA SABER NLT 160600ZAPR26."
-    reconnaissance_and_surveillance_instructions: "Sqdn Scout Troop executes zone reconnaissance IAW forthcoming Annex L. S2 pushes initial graphics NLT 151800ZAPR26."
-    other: |
-      Troop commanders begin IPB immediately. LOGPAC coordination with BSB NLT 161000Z.
+    other:
+    - id: ci-1
+      instruction: Troop commanders begin IPB immediately. LOGPAC coordination with BSB NLT 161000Z.

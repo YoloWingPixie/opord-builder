@@ -1,197 +1,442 @@
-# FRAGO 01 to OPORD 26-04 (IRON STRIKE)
-# Issued ~1 hour before H-hour after new reconnaissance. Demonstrates:
-#   - base_order path resolution
-#   - sparse delta: Para 1 (enemy), Para 3 (new tasks + coord instructions)
-#     are updated; Para 2, 4, 5 inherit from base (→ "No change" stubs)
-#   - annex delta: Annex B (intel) gets new prose, Annex D (fires) gets
-#     updated typed_body with a revised JPITL entry
-#   - pull-through from the base OPORD three ways:
-#       * flat base variables:       {{ h_hour }}, {{ obj_primary }}, {{ tf }}
-#       * explicit base_vars ns:     {{ base_vars.bct }}
-#       * base model attributes:     {{ base.header.operation_name }},
-#                                    {{ base.execution.commanders_intent.end_state }}
-
+$schema: urn:openaix:schema:frago:0.2.0-draft.1
 kind: frago
-frago_number: "01"
-base_order: example_full.yaml
-previous_fragos: []
-
-variables:
-  # CAS flight-specific — these ADD to the base OPORD variables (op_name,
-  # h_hour, obj_primary, etc.) which flow through automatically.
-  viper_lead: "SP-420"
-  viper_wing: "SP-421"
-  viper_intra: "277.800 MHz"
-  magic_freq: "251.0 AM"
-  arco_freq: "260.5 AM"
-  arco_tacan: "63Y"
-  shell_freq: "262.0 AM"
-  shell_tacan: "67Y"
-  casino_freq: "249.5 AM"
-  jtac_callsign: "DAGGER 11"
-  jtac_freq: "238.9 AM"
-
-# classification, issuing_headquarters, place_of_issue, time_zone, author
-# are inherited from the base OPORD (example_full.yaml) — omit fields that
-# don't change from the base to keep the FRAGO DRY. Only the signing DTG
-# (always FRAGO-specific) is declared explicitly.
-dtg: "190130ZAPR26"
-
-situation:
-  enemy_forces:
-    recent_activities: |
-      UPDATE (BCT Puma FMV 190045ZAPR26): ENY armor reinforcement detected
-      vic NK 150 795 — assessed 2x T-72B3 + 1x BMP-2 support element
-      moving south on HIGHWAY 22. Arrival OBJ {{ obj_primary }} estimated
-      190600ZAPR26 (60 min after H-hour {{ h_hour }}). MLCOA revised accordingly.
-    most_likely_coa: |
-      Revised: ENY reinforces OBJ {{ obj_primary }} from the north NLT 190600Z
-      with armor package; defends forward slope with dug-in MRC + T-72 section.
-      Previous MLCOA (defend from reverse slope only) is superseded. This
-      directly threatens the base-order end state ("{{ base.execution.commanders_intent.end_state }}")
-      unless the armor package is destroyed prior to LOA.
-
-execution:
-  coordinating_instructions:
-    effective_time: "190200ZAPR26"
-    other: |
-      H-hour REMAINS {{ h_hour }} per base OPORD {{ base.header.operation_order_number }}
-      ({{ base.header.operation_name }}), issued by {{ base_vars.bct }}. Phase II timing
-      unchanged. Commander's intent purpose (base order) remains in force — this FRAGO
-      reorients A Co priority of engagement and shifts Scout Plt to observe NAI 8
-      (newly designated, see Annex B below) to preserve the base-order key task:
-      "Defeat ENY reserve counterattack forward of PL BRONZE." TF {{ base_vars.tf_callsign }}
-      retains control.
-  tasks_to_subordinate_units:
-    - unit: "A Co / 2-503 IN"
-      callsign: "ABLE 6"
-      purpose: "Refocus priority of engagement from dismounted MRC to armor reinforcement package."
+schema_version: 0.2.0-draft.1
+frago_number: '01'
+date_time: '2026-04-19T01:30:00Z'
+meta:
+  id: opord-26-04-frago-01
+  references:
+  - id: opord-26-04
+    revision: '1'
+  revision: '1'
+  title: FRAGO 01 to opord-26-04
+base_order:
+  id: opord-26-04
+  revision: '1'
+references:
+- id: opord-26-04
+  revision: '1'
+changes:
+- op: replace
+  path: /extensions/org.opord-builder.order/situation
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    area_of_interest: The area of interest extends 50 km beyond the AO boundary, encompassing HIGHWAY
+      22 eastbound to the BORDER (grid N7234) and all towns and transportation nodes that could resource
+      enemy reinforcement of OBJ HAMMER within 24 hours.
+    area_of_operations:
+      terrain:
+        avenues_of_approach: Two platoon-sized mounted AAs from the south (ROUTE CLUB, ROUTE SPADE); one
+          company-sized dismounted AA along the eastern treeline (ROUTE DIAMOND).
+        cover_and_concealment: Dense coniferous cover throughout the AO; limited cover in the cleared-fields
+          corridor (east-west). Urban cover in VIC ALTENSTADT (NK 115 790).
+        key_terrain: 'OBJ HAMMER (MR-342 ridge). Decisive terrain: the eastern spur, grid NK 142 783,
+          which controls observation of ENY fallback positions.'
+        observation_and_fields_of_fire: OBJ HAMMER sits on a 340m ridgeline offering 3–4 km observation
+          east; forest canopy restricts fields of fire to <200m off the ridge.
+        obstacles: Stream line along PL BRONZE (fordable for dismounts); mined wire obstacle belt templated
+          vicinity NK 138 779 (IPB-confirmed).
+      weather:
+        climate_baseline: 'Bavarian Oberpfalz late-April climatology: daytime 8–16°C, nightly 2–6°C; prevailing
+          winds W/SW 8–12 kt; monthly precipitation ~55 mm (primarily afternoon showers); freeze risk
+          LOW after 15 APR. Typical ceiling 3,500– 8,000 ft with 40–60% probability of BKN mid-level cloud.
+          Training area has historically experienced morning ground-fog episodes ≤2 km visibility until
+          ~0700L in valleys (ROUTE CLUB east leg).'
+        cloud_cover: BKN 4,500 ft; overcast by 181800Z; CAS ceiling remains above 3,000 ft AGL.
+        effects_on_operations: 'NET: weather FAVORS friendly operations across the campaign window. Decisive
+          Phase II (190500–190800Z) executes in a confirmed dry, clear window with 62% NVG-usable illumination
+          and ceilings well above CAS and UAS minimums. ENY Orlan-10 effectiveness reduced during Phase
+          I precip windows. Principal risks: trafficability on ROUTE CLUB post-1800Z 18 APR (mitigate
+          with ASR SPADE); overnight cold exposure in consolidation. No weather-driven branch or abort
+          trigger anticipated.'
+        forecast_by_period:
+        - cloud_cover: BKN 4,500 ft, dropping to OVC 3,500 ft by 181800Z.
+          effects_on_operations: FAVORS friendly reconnaissance (reduced ENY Orlan-10 utility in showers).
+            Trafficability on ROUTE CLUB degraded post-1800Z — consider ASR SPADE for wheel traffic. CAS
+            remains feasible; minimum ceiling >3,000 ft AGL.
+          period_end: 190100ZAPR26
+          period_start: 180600ZAPR26
+          phase_or_day: Phase I (Shaping, D-1 / 18 APR)
+          precipitation: 40% intermittent rain 181400–182000Z; 2–4 mm accum.
+          temperature_and_humidity: Hi 14°C / Lo 5°C; RH 70–85%.
+          visibility: 10 km dropping to 2 km 181400Z–182000Z in showers.
+          winds: W 10–15 kt, gusts 22 kt.
+        - cloud_cover: SCT 5,000 ft; CAS stack clear.
+          effects_on_operations: FAVORS friendly airborne / dismounted assault. 62% illum supports NVG
+            operations during H-hour window (BMNT 0518Z, LD at 0500Z). 12-min artillery prep timing matches
+            usable first-light. VIPER 11/12 CAS ingress corridor clear. No obscurant needed for breach
+            unless ENY counter-prep.
+          light_data:
+            bmnt: 0518Z
+            date: '2026-04-19'
+            eent: 1858Z
+            moon_phase: waxing gibbous
+            percent_illumination: 62.0
+            sunrise: 0558Z
+            sunset: 1818Z
+          period_end: 190800ZAPR26
+          period_start: 190500ZAPR26
+          phase_or_day: Phase II (Decisive, D-Day / 19 APR, 0500Z–0800Z)
+          precipitation: Dry window; 10% POP.
+          temperature_and_humidity: Hi 12°C (predicted peak 1400Z) / Lo 4°C at H-hour; RH 65%.
+          visibility: 10+ km; clear to partly cloudy.
+          winds: W 8–12 kt, backing SW.
+        - cloud_cover: SCT 5,000 ft; OVC 8,000 overnight.
+          effects_on_operations: Transition and hand-off to 1-503 IN unaffected. Overnight low 3°C with
+            wind chill ~0°C on OBJ HAMMER ridge — enforce cold-weather precautions for personnel in static
+            positions.
+          period_end: 200600ZAPR26
+          period_start: 190800ZAPR26
+          phase_or_day: Phase III (Consolidate, D-Day to D+1 / 19–20 APR)
+          precipitation: 10% POP 192000Z–200200Z — monitor.
+          temperature_and_humidity: Hi 15°C / Lo 3°C; RH 55–70%.
+          visibility: 10 km; afternoon SCT 5,000 ft.
+          winds: W 10 kt.
+        forecast_confidence: HIGH — 72-hr forecast; synoptic pattern stable; SWO confidence HIGH.
+        light_data: BMNT 0518Z · Sunrise 0558Z · Sunset 1818Z · EENT 1858Z · Moon 62% waxing gibbous
+        light_data_structured:
+          bmnt: 0518Z
+          date: '2026-04-19'
+          eent: 1858Z
+          moon_phase: waxing gibbous
+          moonrise: 1612Z
+          moonset: 0341Z
+          percent_illumination: 62.0
+          sunrise: 0558Z
+          sunset: 1818Z
+        precipitation: 40% chance intermittent rain 181400Z–182000Z; trafficability degraded on ROUTE
+          CLUB.
+        swo_product_reference: Annex B, Appendix 1, Tab B (Weather). SWO Product 26-04-WX-019 (173d IBCT
+          SWO, 181200ZAPR26).
+        temperature_and_humidity: Hi 14°C / Lo 4°C; RH 78%. Cold-weather injury risk LOW.
+        visibility: 8–10 km; daylight; reducing to 2 km with forecast afternoon precip.
+        winds: W 10–15 kt, gusts to 22 kt; favors friendly fires dispersion.
+    attachments_and_detachments:
+      attachments:
+      - 2d Plt / A Co / 54th BEB (OPCON from 181800ZAPR26)
+      - Btry B / 4-319 AFAR (DS from 180600ZAPR26)
+      detachments:
+      - Scout Plt / HHC / 2-503 IN (TACON to 173 RSTA, 180600ZAPR26–200600ZAPR26)
+      note: See Annex A (Task Organization) for detailed relationships.
+    civil_considerations:
+      areas: Training area bounded by civilian farmland north of PL STEEL; civilian access to forest mushroom-gathering
+        trails must be deconflicted.
+      capabilities: Local Bundeswehr MP can respond to training incidents within 20 min; Vilseck hospital
+        (Role 3 equivalent) 18 km east.
+      events: Easter holiday weekend active in adjacent villages; no impact on AO.
+      organizations: Bavarian Forestry Authority monitors live-fire boundary compliance.
+      people: Range workers (Bundeswehr civilians) transit range roads 0530–1800L. All movement on ROUTE
+        CLUB between those times requires range-control clearance.
+      structures: 'Protected: ALTENSTADT village chapel (NK 115 790); no direct or indirect fires within
+        500m. Historical marker at NK 121 788.'
+    enemy_forces:
+      capabilities: Defend in place; counterattack with a mounted platoon (+) within 2 hrs; disrupt with
+        indirect fires from 82mm mortars out to 4 km; limited UAS (Orlan-10 templated) capability for
+        ISR.
+      recent_activities: |-
+        UPDATE (BCT Puma FMV 190045ZAPR26): ENY armor reinforcement detected
+        vic NK 150 795 — assessed 2x T-72B3 + 1x BMP-2 support element
+        moving south on HIGHWAY 22. Arrival OBJ HAMMER estimated
+        190600ZAPR26 (60 min after H-hour 190500ZAPR26). MLCOA revised accordingly.
+    friendly_forces:
+      adjacent_units: 'NORTH: 1-503 IN conducts supporting attack to fix ENY on OBJ ANVIL. SOUTH: 4-319
+        AFAR provides GS fires. EAST: 173 RSTA conducts screen along HIGHWAY 22.'
+      other_units: Host-nation Bundeswehr liaison element co-located at BCT MAIN CP for range deconfliction
+        and civil coordination.
+    interagency_intergovernmental_ngo: Bundeswehr Grafenwoehr Training Area Command, Bavarian Red Cross
+      (range medical standby), and USAG Bavaria coordinate on training-area access, safety, and emergency
+      response.
+- op: replace
+  path: /extensions/org.opord-builder.order/execution
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    assessment: 'MOEs: (1) seizure of OBJ HAMMER by 190900Z; (2) enemy combat power on OBJ HAMMER reduced
+      below 30%; (3) friendly casualties below 10%. MOPs: breach complete NLT 190445Z; artillery rounds
+      on target per TVA; transition to follow-on NLT 200600Z. See Annex M.'
+    commanders_intent:
+      end_state_civil: No civilian casualties; ALTENSTADT village and cultural sites unaffected.
+      end_state_enemy: Enemy force on OBJ HAMMER destroyed or forced to withdraw east of HIGHWAY 22.
+      end_state_friendly: TF IRON consolidated on OBJ HAMMER, >90% combat power, Class V at 70% basic
+        load.
+      end_state_terrain: OBJ HAMMER (MR-342 ridge) and eastern spur under friendly control and observation.
+    concept_of_operations:
+      decisive_operation: A Co assaults OBJ HAMMER at 190500Z, seizes the ridge and eastern spur, and
+        consolidates.
+      fires: See Annex D. Priority of fires to A Co during Phase II.
+      maneuver: A Co conducts the decisive operation as the main effort with dismounted assault along
+        AA DIAMOND. B Co fixes ENY on OBJ ANVIL. C Co is reserve prepared to reinforce A Co or defeat
+        counterattack. D Co provides direct-fire support from SBF-1 (NK 132 778).
+      reserve: C Co is reserve, held at AA BRONZE, prepared to reinforce A Co (PRIORITY) or block enemy
+        counterattack along ROUTE DIAMOND.
+      shaping_operations: B Co fixes the ENY platoon on OBJ ANVIL; SAPPER 2 breaches the wire obstacle
+        belt at NK 138 779 NLT 190430Z; STEEL 6 delivers 12-minute artillery preparation on OBJ HAMMER
+        190448Z–190500Z.
+      sustaining_operations: Combat Trains (CTCP) established vicinity NK 118 772 by 190400Z. Ambulance
+        exchange point (AXP) at NK 125 776. CL III/V resupply by LMTV convoy from BSA every 8 hrs.
+    coordinating_instructions:
+      acm: Restricted Operations Zone over OBJ HAMMER 190400–190800Z to 5,000 ft AGL for friendly UAS.
+      cema: EW detection reports directly to BN S-2; no offensive effects at BN level.
+      environmental_considerations: No pyrotechnic use within 100m of ALTENSTADT; fuel/waste returned
+        to BSA.
+      fscm: Coordinated Fire Line along PL BRONZE. No-fire area 500m radius around ALTENSTADT village
+        (NK 115 790).
+      personnel_recovery: Isolated-personnel reporting to BN TOC; recovery by C Co on order. ISOPREP current
+        for all personnel.
+      risk_reduction_control_measures: All live-fire conducted under range-safety oversight. Chemlight
+        recognition signals for night movement. No-fire 500m bubble around ALTENSTADT. MOPP level 0 (mission-tailored).
+      themes_and_messages:
+      - We train hard to fight and win.
+      - We honor our host-nation partners.
+      - Every paratrooper is accountable.
+    scheme_of_cema: GPS, SATCOM, and FM remain unrestricted. No offensive cyber effects tasked at BN.
+      EW detection alarm to BN S-2 on any jamming above threshold.
+    scheme_of_military_deception: No deception operation planned for this mission.
+    scheme_of_reconnaissance_and_security: Scout Plt (TACON to 173 RSTA) screens along HIGHWAY 22 NLT
+      180600Z through 200600Z; provides early warning of eastern ENY movement. TF IRON R&S elements observe
+      OBJ HAMMER from OP 1 (NK 131 780) and OP 2 (NK 144 785) from 181200Z.
+    scheme_of_signal: 'FM primary, TACSAT secondary. Battalion command net, fires net, and logistics net
+      active. Data: Nett Warrior for COP. See Annex H.'
+    scheme_of_sustainment: See Paragraph 4 and Annex F.
+    stability: Not applicable for this mission — limited to training area; no host-nation civilian effects
+      beyond range deconfliction.
+    tasks_to_subordinate_units:
+    - callsign: ABLE 6
+      purpose: Refocus priority of engagement from dismounted MRC to armor reinforcement package.
       tasks:
-        - "Re-orient SBF-1 (NK 135 776) to engage armor approaching from NAI 8 (NK 150 795) on cue."
-        - "Hold assault timing — Phase II LD remains {{ h_hour }}."
-        - "Coordinate Javelin team placement with D Co Wpns for armor engagement priority."
-    - unit: "Scout Plt"
-      callsign: "SAPPER 2"
-      purpose: "Confirm armor package composition and timing of arrival at OBJ HAMMER."
+      - Re-orient SBF-1 (NK 135 776) to engage armor approaching from NAI 8 (NK 150 795) on cue.
+      - Hold assault timing — Phase II LD remains 190500ZAPR26.
+      - Coordinate Javelin team placement with D Co Wpns for armor engagement priority.
+      unit: A Co / 2-503 IN
+    - callsign: SAPPER 2
+      purpose: Confirm armor package composition and timing of arrival at OBJ HAMMER.
       tasks:
-        - "Establish OP vic NK 148 790 NLT 190300ZAPR26."
-        - "Report all armor observations via SPOT format to BN FIRES net within 3 minutes of observation."
-        - "BDA support after Phase II IOT confirm armor neutralization."
-
-# mission, sustainment, command_and_signal omitted → rendered as "No change" stubs.
-
-annexes:
-  - letter: B
-    title: "Intelligence"
-    body: |
+      - Establish OP vic NK 148 790 NLT 190300ZAPR26.
+      - Report all armor observations via SPOT format to BN FIRES net within 3 minutes of observation.
+      - BDA support after Phase II IOT confirm armor neutralization.
+      unit: Scout Plt
+- op: replace
+  path: /extensions/org.opord-builder.order/annexes/B
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    status: published
+    typed_body:
+      priority_intelligence_requirements:
+      - decision_supported: Commit C Co (reserve) to blocking position vic NK 128 787; redirect A Co priority
+          engagement to armor package.
+        indicators:
+        - 2+ T-72 class armor signature on HIGHWAY 22 south of GRID LINE 85
+        - MRB armor-net activity vic 150 810
+        ltiov: 190430ZAPR26
+        nai:
+        - NAI 8 (NK 150 795 on HIGHWAY 22)
+        number: 5
+        primary_collector: Scout Plt OP 3 (NK 148 790)
+        statement: When and in what composition will ENY armor reinforcement arrive at OBJ HAMMER from
+          the north?
+- op: replace
+  path: /extensions/org.opord-builder.order/annexes/D
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    status: published
+    typed_body:
+      jpitl:
+      - approval_authority: BCT Cdr
+        authorized_engagement_means:
+        - HIMARS PGM (prime)
+        - M777 HE/PD + VT (two-volley fire-for-effect)
+        - AH-64 Hellfire (on-call if VIPER 11/12 unavailable)
+        category: MANEUVER
+        cde_level: CDE-2
+        component_tasked: LAND
+        desired_effect: DESTROY
+        engagement_guidance: |-
+          Engage the armor package at NAI 8 BEFORE it reaches OBJ HAMMER. Two-volley
+          FFE on acquisition; shift to BDA with Scout Plt cueing. CDE-2 with CDE-3 weaponeering
+          substitution if civilian vehicles present within 500m. Effects must be complete prior
+          to H-hour (190500ZAPR26) to preserve Phase II tempo.
+        linked_hvt_rank: 5
+        location: 32UMA150795
+        priority_rank: 1
+        review_dtg: 190600ZAPR26
+        roe_constraints: No cluster munitions; PID via BCT Puma FMV + SIGINT confirm.
+        status: APPROVED
+        target_description: Reinforcing armor package moving south on HIGHWAY 22. Confirmed by BCT Puma
+          FMV 190045Z.
+        target_name: ENY armor package HWY 22 (2x T-72B3 + BMP-2)
+        target_number: TGT 0045
+- op: add
+  path: /extensions/org.opord-builder.kneeboard
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    cards:
+    - atc:
+      - frequency: 251.0 AM
+        name: AWACS (MAGIC)
+      - frequency: 249.5 AM
+        name: ASOC (CASINO)
+      - frequency: 238.9 AM
+        name: JTAC (DAGGER 11)
+      baro_alt: '29.92'
+      comms:
+        intra: 277.800 MHz
+        mids: Link-16 NET 115
+        phases:
+        - comm1: MAGIC PRI (251.0 AM)
+          comm2: INTRAFLIGHT (277.800 MHz)
+          phase: CHECK-IN
+        - comm1: CASINO ASOC (249.5 AM)
+          comm2: INTRAFLIGHT (277.800 MHz)
+          phase: PUSH
+        - comm1: DAGGER 11 JTAC (238.9 AM)
+          comm2: INTRAFLIGHT (277.800 MHz)
+          phase: ON STATION
+        - comm1: MAGIC PRI (251.0 AM)
+          comm2: INTRAFLIGHT (277.800 MHz)
+          phase: EGRESS
+      flight_callsign: VIPER11
+      fuel_plan:
+        bingo_lbs: 5000
+        joker_lbs: 6500
+        msn_req_lbs: 15200
+      msn_number: 26-04-CAS
+      notes: OP IRON STRIKE / TOT 190500ZAPR26
+      positions:
+      - laser: '1688'
+        modex: SP-420
+        number: 1
+        pers: ''
+      - laser: '1687'
+        modex: SP-421
+        number: 2
+        pers: ''
+      primary_objectives:
+      - CAS OBJ HAMMER — support TF IRON Phase II assault at H-hour 190500ZAPR26
+      - Destroy ENY armor reinforcement package on HWY 22 (JPITL TGT 0045)
+      secondary_objectives:
+      - BDA collection post-strike IOT confirm armor neutralization
+      tacan:
+        flight: 67Y
+        lead: 63Y
+      tankers:
+      - callsign: ARCO (TRK ARCO)
+        frequency: 260.5 AM
+        tacan: 63Y
+      - callsign: SHELL (TRK SHELL)
+        frequency: 262.0 AM
+        tacan: 67Y
+      weaponeering: 2x GBU-38 JDAM, 2x AIM-120C, 2x AIM-9X, 480 rnds 20mm
+- op: replace
+  path: /situation/enemy_forces
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    summary: Motorized rifle company (+) templated on OBJ HAMMER; est. 120 PAX with 4× BMP-2, 2× 82mm
+      mortar, 1× ZU-23 AAA, engineer squad. Company is dug in, two platoons forward, one in reserve.
+    courses_of_action:
+    - id: coa-most-likely
+      kind: most_likely
+      summary: |-
+        Revised: ENY reinforces OBJ HAMMER from the north NLT 190600Z
+        with armor package; defends forward slope with dug-in MRC + T-72 section.
+        Previous MLCOA (defend from reverse slope only) is superseded. This
+        directly threatens the base-order end state ("OBJ HAMMER under TF IRON control by 190900Z; ENY defeated in sector; TF postured for follow-on.")
+        unless the armor package is destroyed prior to LOA.
+    - id: coa-most-dangerous
+      kind: most_dangerous
+      summary: ENY pre-empts the attack with a spoiling raid at 180400Z against friendly assembly area
+        at GRAFENWOEHR (OBJ TUNGSTEN), followed by deliberate defense of OBJ HAMMER and commitment of
+        a reinforcing company (+) from the EAST.
+- op: replace
+  path: /execution/coordinating_instructions
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    effective_time: '2026-04-19T02:00:00Z'
+    ccir:
+      priority_intelligence_requirements:
+      - id: pir-1
+        question: Is the ENY obstacle belt at NK 138 779 mined or wire only?
+      - id: pir-2
+        question: What is the ENY reserve posture east of HIGHWAY 22?
+      - id: pir-3
+        question: Has ENY employed UAS ISR over the AO?
+      friendly_force_information_requirements:
+      - id: ffir-1
+        question: Any friendly unit below 75% combat power.
+      - id: ffir-2
+        question: Loss of communications with any company commander for >15 min.
+      - id: ffir-3
+        question: Breach asset (SAPPER 2) combat-ineffective.
+    eefi:
+    - id: eefi-1
+      item: Exact DTG of breach.
+    - id: eefi-2
+      item: Location of TF reserve (C Co).
+    - id: eefi-3
+      item: Artillery firing position of STEEL 6.
+    rules_of_engagement:
+    - id: roe-1
+      rule: Standard ROE per theater directive; hostile act / hostile intent only. Positive ID required
+        for all direct fire.
+    other:
+    - id: ci-1
+      instruction: |-
+        H-hour REMAINS 190500ZAPR26 per base OPORD 26-04
+        (IRON STRIKE), issued by 173d IBCT (A). Phase II timing
+        unchanged. Commander's intent purpose (base order) remains in force — this FRAGO
+        reorients A Co priority of engagement and shifts Scout Plt to observe NAI 8
+        (newly designated, see Annex B below) to preserve the base-order key task:
+        "Defeat ENY reserve counterattack forward of PL BRONZE." TF IRON 6
+        retains control.
+- op: remove
+  path: /execution/tasks_to_subordinate_units
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+- op: replace
+  path: /annexes/B
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    summary: |-
       UPDATE TO ANNEX B: New NAI 8 designated vic NK 150 795 covering armor avenue
-      of approach from the north on HIGHWAY 22 into OBJ {{ obj_primary }}. Scout Plt
+      of approach from the north on HIGHWAY 22 into OBJ HAMMER. Scout Plt
       assumes primary coverage of NAI 8; BCT Puma UAS retains orbit over NAI 7 per
       base order. SIGINT cueing on MRB armor net added to collection matrix. Collection
-      plan nests under the base-order mission: "{{ base.mission }}"
-    typed_body:
-      letter: B
-      priority_intelligence_requirements:
-        - number: 5
-          statement: "When and in what composition will ENY armor reinforcement arrive at OBJ {{ obj_primary }} from the north?"
-          decision_supported: "Commit C Co (reserve) to blocking position vic NK 128 787; redirect A Co priority engagement to armor package."
-          nai: ["NAI 8 (NK 150 795 on HIGHWAY 22)"]
-          ltiov: "190430ZAPR26"
-          indicators:
-            - "2+ T-72 class armor signature on HIGHWAY 22 south of GRID LINE 85"
-            - "MRB armor-net activity vic 150 810"
-          primary_collector: "Scout Plt OP 3 (NK 148 790)"
-  - letter: D
-    title: "Fires"
-    body: |
+      plan nests under the base-order mission: "TF IRON attacks NLT 190500ZAPR26 to seize OBJ HAMMER (vic. NK 142 783) IOT enable 173d IBCT (A) follow-on operations against OBJ FALCON."
+- op: replace
+  path: /annexes/D
+  target:
+    kind: opord
+    id: opord-26-04
+    revision: '1'
+  value:
+    summary: |-
       UPDATE TO ANNEX D: JPITL revised. New priority-1 target designated (armor package).
       SEAD window shifted to cover armor package approach. Fire support coordination
       measures unchanged.
-    typed_body:
-      letter: D
-      jpitl:
-        - target_number: "TGT 0045"
-          priority_rank: 1
-          target_name: "ENY armor package HWY 22 (2x T-72B3 + BMP-2)"
-          target_description: "Reinforcing armor package moving south on HIGHWAY 22. Confirmed by BCT Puma FMV 190045Z."
-          category: "MANEUVER"
-          location: "32UMA150795"
-          component_tasked: "LAND"
-          desired_effect: "DESTROY"
-          authorized_engagement_means:
-            - "HIMARS PGM (prime)"
-            - "M777 HE/PD + VT (two-volley fire-for-effect)"
-            - "AH-64 Hellfire (on-call if VIPER 11/12 unavailable)"
-          engagement_guidance: |
-            Engage the armor package at NAI 8 BEFORE it reaches OBJ {{ obj_primary }}. Two-volley
-            FFE on acquisition; shift to BDA with Scout Plt cueing. CDE-2 with CDE-3 weaponeering
-            substitution if civilian vehicles present within 500m. Effects must be complete prior
-            to H-hour ({{ h_hour }}) to preserve Phase II tempo.
-          cde_level: "CDE-2"
-          approval_authority: "BCT Cdr"
-          status: "APPROVED"
-          roe_constraints: "No cluster munitions; PID via BCT Puma FMV + SIGINT confirm."
-          review_dtg: "190600ZAPR26"
-          linked_hvt_rank: 5
-
-# Kneeboard cards — VIPER CAS package supporting FRAGO 01.
-# Variables from the base OPORD (op_name, op_num, h_hour, obj_primary) flow
-# through automatically. FRAGO-level variables (viper_lead, magic_freq, etc.)
-# add flight-specific data. No manual copy-paste of frequencies or callsigns.
-kneeboards:
-  - flight_callsign: "VIPER11"
-    msn_number: "{{ op_num }}-CAS"
-    positions:
-      - number: 1
-        modex: "{{ viper_lead }}"
-        pers: ""
-        laser: "1688"
-      - number: 2
-        modex: "{{ viper_wing }}"
-        pers: ""
-        laser: "1687"
-    tacan:
-      lead: "{{ arco_tacan }}"
-      flight: "{{ shell_tacan }}"
-    primary_objectives:
-      - "CAS OBJ {{ obj_primary }} — support {{ tf }} Phase II assault at H-hour {{ h_hour }}"
-      - "Destroy ENY armor reinforcement package on HWY 22 (JPITL TGT 0045)"
-    secondary_objectives:
-      - "BDA collection post-strike IOT confirm armor neutralization"
-    weaponeering: "2x GBU-38 JDAM, 2x AIM-120C, 2x AIM-9X, 480 rnds 20mm"
-    fuel_plan:
-      msn_req_lbs: 15200
-      joker_lbs: 6500
-      bingo_lbs: 5000
-    comms:
-      phases:
-        - phase: "CHECK-IN"
-          comm1: "MAGIC PRI ({{ magic_freq }})"
-          comm2: "INTRAFLIGHT ({{ viper_intra }})"
-        - phase: "PUSH"
-          comm1: "CASINO ASOC ({{ casino_freq }})"
-          comm2: "INTRAFLIGHT ({{ viper_intra }})"
-        - phase: "ON STATION"
-          comm1: "{{ jtac_callsign }} JTAC ({{ jtac_freq }})"
-          comm2: "INTRAFLIGHT ({{ viper_intra }})"
-        - phase: "EGRESS"
-          comm1: "MAGIC PRI ({{ magic_freq }})"
-          comm2: "INTRAFLIGHT ({{ viper_intra }})"
-      intra: "{{ viper_intra }}"
-      mids: "Link-16 NET 115"
-    tankers:
-      - callsign: "ARCO (TRK ARCO)"
-        frequency: "{{ arco_freq }}"
-        tacan: "{{ arco_tacan }}"
-      - callsign: "SHELL (TRK SHELL)"
-        frequency: "{{ shell_freq }}"
-        tacan: "{{ shell_tacan }}"
-    atc:
-      - name: "AWACS (MAGIC)"
-        frequency: "{{ magic_freq }}"
-      - name: "ASOC (CASINO)"
-        frequency: "{{ casino_freq }}"
-      - name: "JTAC ({{ jtac_callsign }})"
-        frequency: "{{ jtac_freq }}"
-    baro_alt: "29.92"
-    notes: "OP {{ op_name }} / TOT {{ h_hour }}"
+extensions:
+  org.opord-builder.order:
+    base_order_path: example_full.yaml

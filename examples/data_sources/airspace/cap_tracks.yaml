@@ -1,34 +1,101 @@
-kind: cap_tracks
+$schema: urn:openaix:schema:resources:0.2.0-draft.1
+kind: resources
+schema_version: 0.2.0-draft.1
 meta:
-  title: "CAP Tracks for OP IRON STRIKE"
+  id: cap_tracks
+  title: CAP Tracks for OP IRON STRIKE
   classification: UNCLASSIFIED
-entries:
-  - name: "ANCHOR 1"
-    anchor_point: "32UMA090320"
-    altitude_floor_ft: 20000
-    altitude_ceiling_ft: 28000
-    orbit_geometry: "RACETRACK"
-    orbit_heading: 90
-    orbit_leg_length_nm: 20
-    controller_callsign: "MAGIC"
-    primary_freq: "251.0 AM"
-    sector_of_responsibility: "Western sector, 270-360 from BULLSEYE, 0-60 nm."
-  - name: "ANCHOR 2"
-    anchor_point: "32UMA220320"
-    altitude_floor_ft: 20000
-    altitude_ceiling_ft: 28000
-    orbit_geometry: "RACETRACK"
-    orbit_heading: 270
-    orbit_leg_length_nm: 20
-    controller_callsign: "MAGIC"
-    primary_freq: "253.5 AM"
-    sector_of_responsibility: "Eastern sector, 000-090 from BULLSEYE, 0-60 nm."
-  - name: "CAP HIGH"
-    anchor_point: "32UMA140200"
-    altitude_floor_ft: 28000
-    altitude_ceiling_ft: 35000
-    orbit_geometry: "FIGURE_EIGHT"
-    orbit_leg_length_nm: 15
-    controller_callsign: "MAGIC"
-    primary_freq: "254.0 AM"
-    sector_of_responsibility: "High-cover CAP, TASK as OCA sweep on AWACS direction."
+resources:
+  control_measures:
+    anchor-1:
+      id: anchor-1
+      name: ANCHOR 1
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.933431084765
+          longitude: 7.731972164316
+      altitude:
+        lower:
+          value: 20000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 28000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            orbit_geometry: RACETRACK
+            orbit_heading: 90
+            orbit_leg_length_nm: 20.0
+            controller_callsign: MAGIC
+            primary_freq: 251.0 AM
+            sector_of_responsibility: Western sector, 270-360 from BULLSEYE, 0-60 nm.
+            anchor_point: 32UMA090320
+    anchor-2:
+      id: anchor-2
+      name: ANCHOR 2
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.935269899546
+          longitude: 7.913081643828
+      altitude:
+        lower:
+          value: 20000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 28000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            orbit_geometry: RACETRACK
+            orbit_heading: 270
+            orbit_leg_length_nm: 20.0
+            controller_callsign: MAGIC
+            primary_freq: 253.5 AM
+            sector_of_responsibility: Eastern sector, 000-090 from BULLSEYE, 0-60 nm.
+            anchor_point: 32UMA220320
+    cap-high:
+      id: cap-high
+      name: CAP HIGH
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.826264479433
+          longitude: 7.804295701683
+      altitude:
+        lower:
+          value: 28000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 35000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            orbit_geometry: FIGURE_EIGHT
+            orbit_leg_length_nm: 15.0
+            controller_callsign: MAGIC
+            primary_freq: 254.0 AM
+            sector_of_responsibility: High-cover CAP, TASK as OCA sweep on AWACS direction.
+            anchor_point: 32UMA140200
+extensions:
+  org.opord-builder.resources:
+    table: cap_tracks

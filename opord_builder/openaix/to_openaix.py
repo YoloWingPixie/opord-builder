@@ -141,10 +141,11 @@ def _jiptl_doc(opord: dict, targets: list) -> dict:
     }
 
 
-def _fresh(model: OPORD) -> Bundle:
+def _fresh(model: OPORD, jiptl: bool = True) -> Bundle:
     dump = model.model_dump(mode="json", exclude_unset=True, exclude_none=True)
     dump.pop("openaix_source", None)
     ctx = Ctx()
+    ctx.scratch["no_jiptl"] = not jiptl
     mp.encode(dump, ctx)
     res = _resources_doc(ctx.doc, ctx.resources) if ctx.resources else None
     jiptl = (
@@ -153,11 +154,11 @@ def _fresh(model: OPORD) -> Bundle:
     return Bundle(ctx.doc, res, jiptl, ctx.warnings)
 
 
-def to_openaix(model: OPORD, *, check: bool = True) -> Bundle:
+def to_openaix(model: OPORD, *, check: bool = True, jiptl: bool = True) -> Bundle:
     """Convert an OPORD to an OpenAIX bundle. When the model carries `openaix_source` (it was imported), only
     the paths in OWNED_PATHS are written over a copy of that original, so typed fields opord-builder lacks
     survive. With `check`, the result is validated and a failure raises OpenAIXExportError."""
-    fresh = _fresh(model)
+    fresh = _fresh(model, jiptl)
     out = fresh
     carry = model.openaix_source
     if carry:

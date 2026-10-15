@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:opord-builder:extension:measure:1",
+  "title": "Measure extension",
+  "description": "The `org.opord-builder.measure` extension on a control measure: the catalogue code of a measure whose type has none (AXIS, CFZ, SFA, RFZ, SAR, DZ/LZ/PZ, MRR), and the authoring fields of a data-source entry that the typed measure does not carry.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "description": "The control-measure code the authoring model used; only on a measure of type `org.opord-builder.measure`.",
+      "type": "string",
+      "minLength": 1
+    },
+    "extra": {
+      "description": "Authoring field -> value for the fields of the original entry that have no typed home in the measure or that do not read back exactly from it.",
+      "type": "object",
+      "minProperties": 1
+    }
+  }
+}

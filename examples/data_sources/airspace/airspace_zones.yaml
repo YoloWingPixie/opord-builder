@@ -1,46 +1,151 @@
-kind: airspace_zones
+$schema: urn:openaix:schema:resources:0.2.0-draft.1
+kind: resources
+schema_version: 0.2.0-draft.1
 meta:
-  title: "Airspace Zones for OP IRON STRIKE"
+  id: airspace_zones
+  title: Airspace Zones for OP IRON STRIKE
   classification: UNCLASSIFIED
-entries:
-  - name: "ROZ HAMMER"
-    kind: "ROZ"
-    anchor_point: "32UMA142383"
-    radius_nm: 3
-    altitude_floor_ft: 0
-    altitude_ceiling_ft: 5000
-    active_dtg_start: "190430ZAPR26"
-    active_dtg_end: "190800ZAPR26"
-    purpose: "CAS stack over OBJ {{ obj_primary }} during Phase II assault; Puma UAS deconflict below 2000 AGL."
-  - name: "NFZ ALTENSTADT"
-    kind: "NFZ"
-    anchor_point: "32UMA115390"
-    radius_nm: 1
-    altitude_floor_ft: 0
-    altitude_ceiling_ft: 99999
-    active_dtg_start: "181200ZAPR26"
-    active_dtg_end: "200600ZAPR26"
-    purpose: "Protected civilian village; no fixed-wing overflight below 10000 AGL, no indirect fires, no UAS orbits inside ring."
-  - name: "MEZ NORTH"
-    kind: "MEZ"
-    anchor_point: "32UMA150480"
-    radius_nm: 25
-    altitude_floor_ft: 0
-    altitude_ceiling_ft: 60000
-    active_dtg_start: "181200ZAPR26"
-    active_dtg_end: "200600ZAPR26"
-    purpose: "Patriot missile engagement layer covering northern approach."
-    engagement_rules: "Patriot owns 0-60k. Fighters stay above 25000 AGL inside MEZ with IFF Mode 4 squawking. Crossing MEZ boundary requires AWACS check-in."
-  - name: "FEZ SOUTH"
-    kind: "FEZ"
-    polygon_vertices:
-      - "32UMA060300"
-      - "32UMA180300"
-      - "32UMA180200"
-      - "32UMA060200"
-    altitude_floor_ft: 5000
-    altitude_ceiling_ft: 45000
-    active_dtg_start: "181200ZAPR26"
-    active_dtg_end: "200600ZAPR26"
-    purpose: "Southern Fighter Engagement Zone — CAP sweeps between ANCHOR 1 and ANCHOR 2."
-    engagement_rules: "F-16 and F/A-18 flights; Patriot inhibited above 5000 AGL inside FEZ. All engagements on AWACS clearance."
+resources:
+  control_measures:
+    roz-hammer:
+      id: roz-hammer
+      name: ROZ HAMMER
+      type: ROZ
+      active:
+        start: '2026-04-19T04:30:00Z'
+        end: '2026-04-19T08:00:00Z'
+      description: CAS stack over OBJ {{ obj_primary }} during Phase II assault; Puma UAS deconflict below
+        2000 AGL.
+      components:
+      - id: c1
+        operation: add
+        geometry:
+          kind: circle
+          center:
+            latitude: 49.990851080414
+            longitude: 7.803009659767
+          radius:
+            value: 3.0
+            unit: nm
+        lower_limit:
+          value: 0
+          unit: ft
+          reference: MSL
+        upper_limit:
+          value: 5000
+          unit: ft
+          reference: MSL
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            anchor_point: 32UMA142383
+    nfz-altenstadt:
+      id: nfz-altenstadt
+      name: NFZ ALTENSTADT
+      type: NFZ
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+      description: Protected civilian village; no fixed-wing overflight below 10000 AGL, no indirect fires,
+        no UAS orbits inside ring.
+      components:
+      - id: c1
+        operation: add
+        geometry:
+          kind: circle
+          center:
+            latitude: 49.996750796476
+            longitude: 7.765190053237
+          radius:
+            value: 1.0
+            unit: nm
+        lower_limit:
+          value: 0
+          unit: ft
+          reference: MSL
+        upper_limit:
+          value: 99999
+          unit: ft
+          reference: MSL
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            anchor_point: 32UMA115390
+    mez-north:
+      id: mez-north
+      name: MEZ NORTH
+      type: MEZ
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+      description: Patriot missile engagement layer covering northern approach.
+      components:
+      - id: c1
+        operation: add
+        geometry:
+          kind: circle
+          center:
+            latitude: 50.078188728535
+            longitude: 7.812017558204
+          radius:
+            value: 25.0
+            unit: nm
+        lower_limit:
+          value: 0
+          unit: ft
+          reference: MSL
+        upper_limit:
+          value: 60000
+          unit: ft
+          reference: MSL
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            engagement_rules: Patriot owns 0-60k. Fighters stay above 25000 AGL inside MEZ with IFF Mode
+              4 squawking. Crossing MEZ boundary requires AWACS check-in.
+            anchor_point: 32UMA150480
+    fez-south:
+      id: fez-south
+      name: FEZ SOUTH
+      type: FEZ
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+      description: Southern Fighter Engagement Zone — CAP sweeps between ANCHOR 1 and ANCHOR 2.
+      components:
+      - id: c1
+        operation: add
+        geometry:
+          kind: polygon
+          rings:
+          - - &id001
+              latitude: 49.914982952319
+              longitude: 7.690667686362
+            - latitude: 49.916749466693
+              longitude: 7.857778792672
+            - latitude: 49.826824791718
+              longitude: 7.859897937432
+            - latitude: 49.825063857763
+              longitude: 7.693096668133
+            - *id001
+        lower_limit:
+          value: 5000
+          unit: ft
+          reference: MSL
+        upper_limit:
+          value: 45000
+          unit: ft
+          reference: MSL
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            engagement_rules: F-16 and F/A-18 flights; Patriot inhibited above 5000 AGL inside FEZ. All
+              engagements on AWACS clearance.
+            polygon_vertices:
+            - 32UMA060300
+            - 32UMA180300
+            - 32UMA180200
+            - 32UMA060200
+extensions:
+  org.opord-builder.resources:
+    table: airspace_zones

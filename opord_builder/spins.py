@@ -214,8 +214,15 @@ def compose_spins(baseline: SPINS, amendment: SPINS) -> SPINS:
 def _source_table(
     block: SourceTableBlock, directory: Path, variables: dict
 ) -> TableBlock:
+    from opord_builder.load import load_document
+    from opord_builder.migrate import is_native
+    from opord_builder.migrate_spins import legacy_data_source
+
     path = directory / block.source
-    data, _ = _load_yaml_with_variables(path, extra_vars=variables)
+    if is_native(path):
+        data = legacy_data_source(load_document(path))
+    else:
+        data, _ = _load_yaml_with_variables(path, extra_vars=variables)
     model = (
         DATA_SOURCE_REGISTRY.get(data.get("kind")) if isinstance(data, dict) else None
     )
@@ -303,6 +310,12 @@ def _build_spins(data, variables, directory: Path) -> SPINS:
 
 
 def _read_spins(path: Path) -> SPINS:
+    from opord_builder.load import load_document
+    from opord_builder.migrate import is_native
+    from opord_builder.migrate_spins import legacy_spins_data
+
+    if is_native(path):
+        return _build_spins(legacy_spins_data(load_document(path)), {}, path.parent)
     data, variables = _load_yaml_with_variables(path)
     return _build_spins(data, variables, path.parent)
 
@@ -336,12 +349,24 @@ def load_default_spins(
     refs = {"spins": spins, "resources": resources, "ato": ato, "aco": aco}
     data["openaix"] = {
         **{k: str(Path(v).resolve()) for k, v in refs.items() if v},
-        **({"airfields": [str(Path(p).resolve()) for p in airfields]} if airfields else {}),
+        **(
+            {"airfields": [str(Path(p).resolve()) for p in airfields]}
+            if airfields
+            else {}
+        ),
     }
     if spins:
         source = json.loads(Path(spins).read_text(encoding="utf-8"))
         meta = source.get("meta", {})
-        for key in ("id", "title", "revision", "operation", "issuing_unit", "author", "issued_at"):
+        for key in (
+            "id",
+            "title",
+            "revision",
+            "operation",
+            "issuing_unit",
+            "author",
+            "issued_at",
+        ):
             if meta.get(key):
                 data["meta"][key] = meta[key]
         if source.get("scope") == "mission" and source.get("period"):

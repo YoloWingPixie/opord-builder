@@ -1,22 +1,62 @@
-kind: aic_sectors
+$schema: urn:openaix:schema:resources:0.2.0-draft.1
+kind: resources
+schema_version: 0.2.0-draft.1
 meta:
-  title: "AIC Sectors for OP IRON STRIKE"
+  id: aic_sectors
+  title: AIC Sectors for OP IRON STRIKE
   classification: UNCLASSIFIED
-entries:
-  - sector_name: "RED 1"
-    controller_callsign: "MAGIC RED"
-    responsible_geography: "270-360 from BULLSEYE, 0-60 nm, 0-40000 ft"
-    primary_freq: "251.0 AM"
-    secondary_freq: "251.5 AM"
-    reports_to: "MAGIC"
-  - sector_name: "BLUE 1"
-    controller_callsign: "MAGIC BLUE"
-    responsible_geography: "000-090 from BULLSEYE, 0-60 nm, 0-40000 ft"
-    primary_freq: "253.5 AM"
-    secondary_freq: "254.0 AM"
-    reports_to: "MAGIC"
-  - sector_name: "STRIKE COORD"
-    controller_callsign: "MAGIC STRIKE"
-    responsible_geography: "ROZ HAMMER + egress; manages strike package push / check-out."
-    primary_freq: "260.0 AM"
-    reports_to: "MAGIC"
+resources:
+  control_measures:
+    red-1:
+      id: red-1
+      name: RED 1
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: RED 1
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            controller_callsign: MAGIC RED
+            responsible_geography: 270-360 from BULLSEYE, 0-60 nm, 0-40000 ft
+            primary_freq: 251.0 AM
+            secondary_freq: 251.5 AM
+            reports_to: MAGIC
+    blue-1:
+      id: blue-1
+      name: BLUE 1
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: BLUE 1
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            controller_callsign: MAGIC BLUE
+            responsible_geography: 000-090 from BULLSEYE, 0-60 nm, 0-40000 ft
+            primary_freq: 253.5 AM
+            secondary_freq: 254.0 AM
+            reports_to: MAGIC
+    strike-coord:
+      id: strike-coord
+      name: STRIKE COORD
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: STRIKE COORD
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            controller_callsign: MAGIC STRIKE
+            responsible_geography: ROZ HAMMER + egress; manages strike package push / check-out.
+            primary_freq: 260.0 AM
+            reports_to: MAGIC
+extensions:
+  org.opord-builder.resources:
+    table: aic_sectors

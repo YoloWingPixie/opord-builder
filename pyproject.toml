@@ -36,6 +36,9 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["opord_builder"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"schemas" = "opord_builder/schemas"
+
 [tool.hatch.build]
 include = [
   "opord_builder/**/*.py",

@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:opord-builder:extension:kneeboard:1",
+  "title": "Kneeboard extension",
+  "description": "The `org.opord-builder.kneeboard` extension: kneeboard cards, or overrides of the card built from an ATO flight. On a flight, a card with no `flight_callsign` applies to that flight.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "cards": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/KneeboardCard"
+      }
+    }
+  },
+  "$defs": {
+    "KneeboardATCEntry": {
+      "additionalProperties": false,
+      "description": "Single ATC / control agency frequency entry.",
+      "properties": {
+        "name": {
+          "description": "Agency name (e.g. 'MARSHAL', 'TOWER', 'DEPARTURE', 'AI CV CONTROLLER').",
+          "type": "string"
+        },
+        "frequency": {
+          "description": "Frequency with optional button (e.g. '241.600 MHz (BTN 19)').",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "KneeboardCard": {
+      "additionalProperties": false,
+      "description": "A single kneeboard card for DCS World (768×1024 PNG) or print.\n\nCaptures the tactical data a pilot needs on the knee: flight lineup,\ncomms plan, fuel plan, objectives, tanker info, and ATC frequencies.\nValues can reference OPORD/FRAGO variables via Jinja2 interpolation.",
+      "properties": {
+        "title": {
+          "description": "Card title / header line (defaults to flight_callsign if blank).",
+          "type": "string"
+        },
+        "flight_callsign": {
+          "description": "Flight callsign (e.g. 'LINER32').",
+          "type": "string"
+        },
+        "msn_number": {
+          "description": "Mission or serial number.",
+          "type": "string"
+        },
+        "positions": {
+          "description": "Aircraft positions in the flight (lead, wingmen).",
+          "items": {
+            "$ref": "#/$defs/KneeboardPosition"
+          },
+          "type": "array"
+        },
+        "tacan": {
+          "description": "TACAN channel plan.",
+          "$ref": "#/$defs/KneeboardTACAN"
+        },
+        "timing": {
+          "description": "Package time on target and push.",
+          "$ref": "#/$defs/KneeboardTiming"
+        },
+        "primary_objectives": {
+          "description": "Primary mission objectives.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "secondary_objectives": {
+          "description": "Secondary mission objectives.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "weaponeering": {
+          "description": "Weaponeering notes / loadout.",
+          "type": "string"
+        },
+        "fuel_plan": {
+          "description": "Fuel planning figures.",
+          "$ref": "#/$defs/KneeboardFuelPlan"
+        },
+        "comms": {
+          "description": "Communications plan by phase.",
+          "$ref": "#/$defs/KneeboardCommsPlan"
+        },
+        "tankers": {
+          "description": "Tanker assignments.",
+          "items": {
+            "$ref": "#/$defs/KneeboardTanker"
+          },
+          "type": "array"
+        },
+        "atc": {
+          "description": "ATC / control agency frequencies.",
+          "items": {
+            "$ref": "#/$defs/KneeboardATCEntry"
+          },
+          "type": "array"
+        },
+        "baro_alt": {
+          "description": "Barometric altimeter setting (e.g. '29.92').",
+          "type": "string"
+        },
+        "notes": {
+          "description": "Freeform notes.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "KneeboardCommsPhase": {
+      "additionalProperties": false,
+      "description": "Radio assignments for one mission phase.",
+      "properties": {
+        "phase": {
+          "description": "Phase name (e.g. 'DECK OPS', 'REJOIN', 'PUSH', 'EGRESS', 'RECOVERY').",
+          "type": "string"
+        },
+        "comm1": {
+          "description": "COMM 1 radio assignment for this phase.",
+          "type": "string"
+        },
+        "comm2": {
+          "description": "COMM 2 radio assignment for this phase.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "KneeboardCommsPlan": {
+      "additionalProperties": false,
+      "description": "Complete communications plan for the kneeboard card.",
+      "properties": {
+        "phases": {
+          "description": "Radio assignments by mission phase.",
+          "items": {
+            "$ref": "#/$defs/KneeboardCommsPhase"
+          },
+          "type": "array"
+        },
+        "intra": {
+          "description": "Intraflight frequency (e.g. '276.500 MHz').",
+          "type": "string"
+        },
+        "mids": {
+          "description": "MIDS / Link-16 assignment.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "KneeboardFuelPlan": {
+      "additionalProperties": false,
+      "description": "Fuel planning figures in pounds.",
+      "properties": {
+        "msn_req_lbs": {
+          "description": "Mission-required fuel in pounds.",
+          "type": "integer"
+        },
+        "joker_lbs": {
+          "description": "Joker fuel state in pounds.",
+          "type": "integer"
+        },
+        "bingo_lbs": {
+          "description": "Bingo fuel state in pounds.",
+          "type": "integer"
+        },
+        "rcv_tank_lbs": {
+          "description": "Receive-tank fuel in pounds (carrier ops).",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "KneeboardPosition": {
+      "additionalProperties": false,
+      "description": "Single aircraft position within a flight.",
+      "properties": {
+        "number": {
+          "description": "Position in flight (1 = lead, 2 = wingman, etc.).",
+          "type": "integer"
+        },
+        "modex": {
+          "description": "Aircraft modex / side number (e.g. '420').",
+          "type": "string"
+        },
+        "pers": {
+          "description": "Pilot name, initials, or callsign.",
+          "type": "string"
+        },
+        "laser": {
+          "description": "Laser PRF code (4-digit, e.g. '1781').",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "KneeboardTACAN": {
+      "additionalProperties": false,
+      "description": "TACAN channel plan for the flight.",
+      "properties": {
+        "lead": {
+          "description": "Lead TACAN channel (e.g. '14Y').",
+          "type": "string"
+        },
+        "flight": {
+          "description": "Flight common TACAN channel (e.g. '77Y').",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "KneeboardTanker": {
+      "additionalProperties": false,
+      "description": "Tanker information entry.",
+      "properties": {
+        "callsign": {
+          "description": "Tanker callsign (e.g. 'SHELL21').",
+          "type": "string"
+        },
+        "frequency": {
+          "description": "Tanker primary frequency (e.g. '240.100 MHz').",
+          "type": "string"
+        },
+        "tacan": {
+          "description": "Tanker TACAN channel (e.g. '41Y').",
+          "type": "string"
+        },
+        "button": {
+          "description": "Radio button/preset reference (e.g. 'BTN 16').",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "KneeboardTiming": {
+      "additionalProperties": false,
+      "description": "Package timing figures for the flight.",
+      "properties": {
+        "tot": {
+          "description": "Time on target (e.g. '1030Z', '1030Z-1045Z', 'NLT 1045Z').",
+          "type": "string"
+        },
+        "push": {
+          "description": "Push time (e.g. '0950Z').",
+          "type": "string"
+        },
+        "push_point": {
+          "description": "Name of the push point.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

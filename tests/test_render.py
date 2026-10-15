@@ -109,7 +109,7 @@ def test_reserved_annex_letter_accepted_as_not_used():
 
 
 def test_typo_in_field_name_rejected():
-    data = yaml.safe_load(FULL.read_text())
+    data = load_opord(FULL).model_dump(mode="json", exclude_unset=True)
     data["mission_statement"] = "oops"  # typo, should be `mission`
     with pytest.raises(ValidationError):
         OPORD.model_validate(data)

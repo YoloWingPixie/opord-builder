@@ -9,10 +9,12 @@ import struct
 from pathlib import Path
 
 import pytest
+import yaml
 from typer.testing import CliRunner
 
 from opord_builder import renderer
 from opord_builder.cli import app
+from opord_builder.load import read
 from opord_builder.openaix.kneeboard import (
     build_cards,
     cards_from_files,
@@ -584,12 +586,16 @@ def test_cli_needs_a_source_and_ato_for_flight(tmp_path):
 def test_cli_combines_yaml_cards_with_ato(tmp_path):
     base = Path(__file__).parent.parent / "examples" / "example_minimal.yaml"
     yml = tmp_path / "opord.yaml"
-    yml.write_text(
-        base.read_text(encoding="utf-8")
-        + "\nkneeboards:\n  - flight_callsign: VIPER1\n    weaponeering: Other load\n"
-        "  - flight_callsign: HAWG2\n",
-        encoding="utf-8",
-    )
+    doc = read(base)
+    doc["extensions"] = {
+        "org.opord-builder.kneeboard": {
+            "cards": [
+                {"flight_callsign": "VIPER1", "weaponeering": "Other load"},
+                {"flight_callsign": "HAWG2"},
+            ]
+        }
+    }
+    yml.write_text(yaml.safe_dump(doc, sort_keys=False), encoding="utf-8")
     out = tmp_path / "png"
     r = CliRunner().invoke(
         app,

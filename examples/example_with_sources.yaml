@@ -1,242 +1,300 @@
-# yaml-language-server: $schema=../schemas/opord-authoring.schema.json
-# OPORD 26-04 — IRON STRIKE (data-sources example)
-# Demonstrates the data_sources: feature — airspace data for Annex C
-# (Operations) is authored in standalone YAML files and merged at render time.
-
-variables:
-  op_name: "IRON STRIKE"
-  op_num: "26-04"
-  h_hour: "190500ZAPR26"
-  h_minus_2: "190300ZAPR26"
-  endex_dtg: "200600ZAPR26"
-  obj_primary: "HAMMER"
-  obj_secondary: "ANVIL"
-  bct: "173d IBCT (A)"
-  tf: "TF IRON"
-  tf_callsign: "IRON 6"
-
-# ── External data-source bindings ──────────────────────────────────────
-# Each binding loads a standalone document, validates it against its
-# schema, then injects its entries list into the OPORD tree at the dotted target path.
-data_sources:
-  - source: data_sources/airspace/geo_refs.yaml
-    target: annexes.C.typed_body.airspace_control.geo_refs
-  - source: data_sources/airspace/cap_tracks.yaml
-    target: annexes.C.typed_body.airspace_control.cap_tracks
-
-header:
+$schema: urn:openaix:schema:opord:0.2.0-draft.1
+kind: opord
+schema_version: 0.2.0-draft.1
+meta:
+  author: MAJ J. Rivera, S3
   classification: UNCLASSIFIED
-  issuing_headquarters: "Headquarters, 2d Battalion, 503d Infantry Regiment (Airborne), 173d IBCT (A)"
-  place_of_issue: "Grafenwoehr Training Area, Germany"
-  dtg: "181200ZAPR26"
-  message_reference_number: "FS-IRON-2604"
-  operation_order_number: "{{ op_num }}"
-  operation_name: "{{ op_name }}"
-  author: "MAJ J. Rivera, S3"
-  time_zone: "ZULU"
-  references:
-    - citation: "Map, Series M745, Germany Sheet L7432, Edition 5, Scale 1:50,000"
-    - citation: "173d IBCT (A) OPORD 26-02, FALCON SHIELD"
-      description: "Higher HQ order establishing the exercise framework"
-
-mission: >
-  2-503 IN (ABN) ({{ tf }}) conducts deliberate attack to seize OBJ
-  {{ obj_primary }} NLT {{ h_hour }} in order to destroy ENY MRC and
-  establish conditions for follow-on BCT operations toward OBJ
-  {{ obj_secondary }}.
-
+  id: opord-26-04
+  issued_at: '2026-04-18T12:00:00Z'
+  issuing_unit: Headquarters, 2d Battalion, 503d Infantry Regiment (Airborne), 173d IBCT (A)
+  operation: IRON STRIKE
+  revision: '1'
+issuing_headquarters: Headquarters, 2d Battalion, 503d Infantry Regiment (Airborne), 173d IBCT (A)
+date_time: '2026-04-18T12:00:00Z'
+order_number: 26-04
+operation_name: IRON STRIKE
+time_zone: Z
+extensions:
+  org.opord-builder.print:
+    message_reference_number: FS-IRON-2604
+    place_of_issue: Grafenwoehr Training Area, Germany
+  org.opord-builder.order:
+    resources_path: resources/example_with_sources.yaml
+    header:
+      references:
+        x-173d-ibct-a-opord-26-02-falcon-shield:
+          description: Higher HQ order establishing the exercise framework
+    annexes:
+      D:
+        status: published
+        typed_body:
+          high_payoff_target_list:
+          - category: C2
+            engagement_guidance: Neutralize with FA HE/PD — 2 volleys at TOT 190448Z.
+            hpt_nomination: true
+            likely_locations:
+            - NK 142 783
+            linked_pir:
+            - 4
+            priority_rank: 1
+            signature: Antenna cluster + C2 vehicles
+            target_description: ENY MRC CP OBJ HAMMER
+          - category: AIR_DEFENSE
+            engagement_guidance: SEAD H-2 to H+10 supporting VIPER 11/12 ingress.
+            hpt_nomination: true
+            likely_locations:
+            - Northern spur
+            linked_pir:
+            - 4
+            priority_rank: 2
+            signature: Twin 23mm towed
+            target_description: ZU-23-2 NK 140 781
+          - category: FIRES
+            engagement_guidance: Destroy on first firing; counter-battery.
+            hpt_nomination: true
+            likely_locations:
+            - Reverse slope NK 145 787
+            linked_pir:
+            - 4
+            priority_rank: 3
+            signature: Q-53 radar acquisition; tube launch signature
+            target_description: 82mm mortar section
+          - category: ISR
+            engagement_guidance: DESTROY on acquisition; EW jam prior to kinetic.
+            hpt_nomination: true
+            likely_locations:
+            - NAI 7 NK 155 795
+            linked_pir:
+            - 3
+            priority_rank: 4
+            signature: Catapult + UHF 902-928 MHz + 2-4 vehicles
+            target_description: Orlan-10 GCS
+          jpitl:
+          - approval_authority: BCT Cdr (delegated from JFLCC)
+            authorized_engagement_means:
+            - M777 DS Btry (B/4-319)
+            - HIMARS (on GS request to BCT)
+            category: C2
+            cde_level: CDE-2
+            component_tasked: LAND
+            desired_effect: NEUTRALIZE
+            engagement_guidance: Neutralize with FA HE/PD, two volleys TOT 190448Z. Avoid CDE encroachment
+              on ALTENSTADT NFA to the south.
+            linked_hvt_rank: 1
+            location: 32UMA123456
+            no_strike_crossref: NSL — ALTENSTADT church/school cluster 500m south (protected sites)
+            priority_rank: 1
+            review_dtg: 200600ZAPR26
+            roe_constraints: No ICM / cluster munitions; PID via ISR cue + callsign BRONCO 6 visual confirm.
+            status: APPROVED
+            target_description: Motorized rifle company command post co-located with battalion LNO team
+              — antenna cluster + 3-4 C2 vehicles on OBJ HAMMER reverse slope.
+            target_name: ENY MRC CP, OBJ HAMMER
+            target_number: TGT 0042
+          - approval_authority: JFACC (TST category deconfliction via JTCB)
+            authorized_engagement_means:
+            - F-16 GBU-38 (VIPER 11/12)
+            - M777 ICM if approved
+            category: AIR_DEFENSE
+            cde_level: CDE-3
+            component_tasked: AIR
+            desired_effect: DESTROY
+            engagement_guidance: SEAD between H-2 and H+10 to open VIPER 11/12 ingress corridor for follow-on
+              CAS stack.
+            linked_hvt_rank: 2
+            location: 32UMA124454
+            priority_rank: 2
+            review_dtg: 191000ZAPR26
+            status: APPROVED
+            target_description: Twin 23mm AAA, ground role, with towed prime mover. Identified by BCT
+              Puma UAS FMV 181830ZAPR26.
+            target_name: 'ENY ADA: ZU-23-2, north spur OBJ HAMMER'
+            target_number: TGT 0043
+          - approval_authority: BCT Cdr
+            authorized_engagement_means:
+            - BCT EW (non-kinetic jam)
+            - FA HE/PD if persistence detected after jam
+            category: ISR
+            cde_level: CDE-1
+            component_tasked: CYBER
+            desired_effect: DEGRADE
+            engagement_guidance: EW jam first per commander's escalation preference; kinetic only if GCS
+              persists beyond 15 min after jam initiated.
+            linked_hvt_rank: 4
+            location: 32UMA155795
+            priority_rank: 3
+            review_dtg: 190600ZAPR26
+            roe_constraints: Civilian presence within 1km — cyber/EW preferred, kinetic last resort.
+            status: PENDING
+            target_description: 'UAS ground control station: catapult launcher, 2-4 support vehicles,
+              UHF data-link 902-928 MHz.'
+            target_name: Orlan-10 GCS, vic NAI 7
+            target_number: TGT 0044
+          time_sensitive_targets:
+            tst-01:
+              activity_window: 190200ZAPR26 – 191200ZAPR26
+              authorized_engagement_means:
+              - F-16 GBU-38 (VIPER 11/12)
+              - HIMARS PGM on JFLCC approval
+              category: WMD
+              cde_level: CDE-4
+              collection_requirements:
+              - BCT Puma UAS orbit NAI 12 from 190100ZAPR26
+              - EW/SIGINT cue on chemical-unit HF/VHF net (per ISR annex)
+              - HUMINT debrief of ALTENSTADT refugees for corroboration
+              engagement_authority: JFLCC (retained for WMD-category TSTs)
+              expected_activity: Vehicle transfer of sealed crates between TEL and storage bunker; chemical-protective
+                posture (MOPP-2) observed on operators.
+              expected_locations:
+              - NAI 12 (NK 160 810)
+              - Secondary NAI 14 (NK 158 805)
+              expiration_criteria: Neutralization confirmed via BDA OR 191200ZAPR26 elapsed without PID.
+              linked_pir:
+              - 1
+              - 4
+              notification_requirements:
+              - JFACC (airspace deconfliction)
+              - Adjacent JSOTF
+              - CJTF SJA (LOAC review)
+              - BCT SURGEON (post-strike CBRN response)
+              pid_standard: Two independent sensor confirms (EO imagery + SIGINT emitter pattern) AND
+                visual confirmation of protective posture.
+              roe_constraints: No engagement without positive WMD confirmation; otherwise re-categorize
+                to JPITL standard cycle.
+            tst-02:
+              activity_window: 190900ZAPR26 – 191130ZAPR26 (recurring daily pattern)
+              authorized_engagement_means:
+              - HIMARS PGM
+              - FA HE/PD 155mm
+              - F-16 GBU-54
+              category: ENEMY_LEADERSHIP
+              cde_level: CDE-3
+              collection_requirements:
+              - BCT Puma UAS orbit route NK 145-160
+              - SIGINT cue on MRB command net
+              engagement_authority: BCT Cdr
+              expected_activity: Movement between tactical CP on OBJ HAMMER and rear CP vic NK 160 800;
+                typically 1030Z daily.
+              expected_locations:
+              - OBJ HAMMER reverse slope NK 142 783
+              - Route between CP and rear NK 150 795
+              expiration_criteria: BDA confirms neutralization OR 191500ZAPR26.
+              linked_pir:
+              - 4
+              notification_requirements:
+              - BCT S-2 (update intel picture)
+              - Adjacent battalion LNOs
+              pid_standard: SIGINT voice-print + ISR visual of known vehicle (black Tigr-M with unique
+                antenna).
+              roe_constraints: No engagement within 500m of ALTENSTADT NFA or civilian vehicle presence.
+            tst-03:
+              activity_window: Any time 181200ZAPR26 – 200600ZAPR26
+              authorized_engagement_means:
+              - HIMARS PGM (prime)
+              - F-16 GBU-38 (alternate)
+              category: LRF
+              cde_level: CDE-2
+              collection_requirements:
+              - Theater ISR (U-2/Global Hawk) on NAI 18/19
+              - BCT EW cue on launch-battery net
+              engagement_authority: JFLCC
+              expected_activity: TEL erects from travel configuration to ready-to-launch; accompanying
+                2-vehicle support element (fuel + command).
+              expected_locations:
+              - NAI 18 (NK 200 830)
+              - NAI 19 (NK 210 840)
+              expiration_criteria: Neutralization OR TEL displaces beyond BCT AO.
+              linked_pir:
+              - 2
+              notification_requirements:
+              - JFACC (airspace)
+              - Patriot battery (defensive hand-off if launch detected)
+              pid_standard: EO imagery of erected TEL + SIGINT confirmation of launch-battery net activity.
+      C:
+        status: published
+        typed_body:
+          airspace_control:
+            cap_tracks:
+              anchor-1:
+                anchor_point: 32UMA090320
+                controller_callsign: MAGIC
+                orbit_geometry: RACETRACK
+                orbit_heading: 90
+                orbit_leg_length_nm: 20.0
+                primary_freq: 251.0 AM
+                sector_of_responsibility: Western sector, 270-360 from BULLSEYE, 0-60 nm.
+              anchor-2:
+                anchor_point: 32UMA220320
+                controller_callsign: MAGIC
+                orbit_geometry: RACETRACK
+                orbit_heading: 270
+                orbit_leg_length_nm: 20.0
+                primary_freq: 253.5 AM
+                sector_of_responsibility: Eastern sector, 000-090 from BULLSEYE, 0-60 nm.
+              cap-high:
+                anchor_point: 32UMA140200
+                controller_callsign: MAGIC
+                orbit_geometry: FIGURE_EIGHT
+                orbit_leg_length_nm: 15.0
+                primary_freq: 254.0 AM
+                sector_of_responsibility: High-cover CAP, TASK as OCA sweep on AWACS direction.
+            geo_refs:
+              bullseye:
+                coordinates: 32UMA100400
+              bullseye-alt:
+                coordinates: 32UMA220400
+              ip-alpha:
+                altitude_ft: 15000
+                coordinates: 32UMA105380
+              ip-bravo:
+                altitude_ft: 15000
+                coordinates: 32UMA180420
+              cp-dog:
+                altitude_ft: 18000
+                coordinates: 32UMA090450
+              tacan-graf:
+                altitude_ft: 1410
+                coordinates: 32UMA085385
+                kind: NAVAID
+                tacan_channel: 88X
+references:
+- id: map-series-m745-germany-sheet-l7432-edition-5
+  title: Map, Series M745, Germany Sheet L7432, Edition 5, Scale 1:50,000
+- id: x-173d-ibct-a-opord-26-02-falcon-shield
+  title: 173d IBCT (A) OPORD 26-02, FALCON SHIELD
+mission:
+  statement: 2-503 IN (ABN) (TF IRON) conducts deliberate attack to seize OBJ HAMMER NLT 190500ZAPR26
+    in order to destroy ENY MRC and establish conditions for follow-on BCT operations toward OBJ ANVIL.
 annexes:
-  - letter: D
-    typed_body:
-      letter: D
-      jpitl:
-      - target_number: TGT 0042
-        priority_rank: 1
-        target_name: ENY MRC CP, OBJ {{ obj_primary }}
-        target_description: Motorized rifle company command post co-located with battalion LNO team — antenna
-          cluster + 3-4 C2 vehicles on OBJ {{ obj_primary }} reverse slope.
-        category: C2
-        location: 32UMA123456
-        component_tasked: LAND
-        desired_effect: NEUTRALIZE
-        authorized_engagement_means:
-        - M777 DS Btry (B/4-319)
-        - HIMARS (on GS request to BCT)
-        engagement_guidance: Neutralize with FA HE/PD, two volleys TOT 190448Z. Avoid CDE encroachment on ALTENSTADT
-          NFA to the south.
-        cde_level: CDE-2
-        approval_authority: BCT Cdr (delegated from JFLCC)
-        status: APPROVED
-        no_strike_crossref: NSL — ALTENSTADT church/school cluster 500m south (protected sites)
-        roe_constraints: No ICM / cluster munitions; PID via ISR cue + callsign BRONCO 6 visual confirm.
-        review_dtg: 200600ZAPR26
-        linked_hvt_rank: 1
-      - target_number: TGT 0043
-        priority_rank: 2
-        target_name: 'ENY ADA: ZU-23-2, north spur OBJ {{ obj_primary }}'
-        target_description: Twin 23mm AAA, ground role, with towed prime mover. Identified by BCT Puma UAS FMV
-          181830ZAPR26.
-        category: AIR_DEFENSE
-        location: 32UMA124454
-        component_tasked: AIR
-        desired_effect: DESTROY
-        authorized_engagement_means:
-        - F-16 GBU-38 (VIPER 11/12)
-        - M777 ICM if approved
-        engagement_guidance: SEAD between H-2 and H+10 to open VIPER 11/12 ingress corridor for follow-on CAS
-          stack.
-        cde_level: CDE-3
-        approval_authority: JFACC (TST category deconfliction via JTCB)
-        status: APPROVED
-        review_dtg: 191000ZAPR26
-        linked_hvt_rank: 2
-      - target_number: TGT 0044
-        priority_rank: 3
-        target_name: Orlan-10 GCS, vic NAI 7
-        target_description: 'UAS ground control station: catapult launcher, 2-4 support vehicles, UHF data-link
-          902-928 MHz.'
-        category: ISR
-        location: 32UMA155795
-        component_tasked: CYBER
-        desired_effect: DEGRADE
-        authorized_engagement_means:
-        - BCT EW (non-kinetic jam)
-        - FA HE/PD if persistence detected after jam
-        engagement_guidance: EW jam first per commander's escalation preference; kinetic only if GCS persists
-          beyond 15 min after jam initiated.
-        cde_level: CDE-1
-        approval_authority: BCT Cdr
-        status: PENDING
-        roe_constraints: Civilian presence within 1km — cyber/EW preferred, kinetic last resort.
-        review_dtg: 190600ZAPR26
-        linked_hvt_rank: 4
+  D:
+    summary: Fires annex with the targeting lists (JPITL, TST, HPT) authored inline; the airspace data
+      comes from the data_sources bindings above.
+    targeting:
       time_sensitive_targets:
-      - tst_number: TST-01
-        priority_class: TST-1
-        category: WMD
-        target_description: Suspected chemical munitions handling at forward ammo transfer point — unconfirmed
-          presence of non-persistent chemical rounds.
-        expected_activity: Vehicle transfer of sealed crates between TEL and storage bunker; chemical-protective
-          posture (MOPP-2) observed on operators.
-        expected_locations:
-        - NAI 12 (NK 160 810)
-        - Secondary NAI 14 (NK 158 805)
-        activity_window: 190200ZAPR26 – 191200ZAPR26
-        pid_standard: Two independent sensor confirms (EO imagery + SIGINT emitter pattern) AND visual confirmation
-          of protective posture.
-        engagement_authority: JFLCC (retained for WMD-category TSTs)
-        authorized_engagement_means:
-        - F-16 GBU-38 (VIPER 11/12)
-        - HIMARS PGM on JFLCC approval
-        cde_level: CDE-4
-        roe_constraints: No engagement without positive WMD confirmation; otherwise re-categorize to JPITL standard
-          cycle.
-        collection_requirements:
-        - BCT Puma UAS orbit NAI 12 from 190100ZAPR26
-        - EW/SIGINT cue on chemical-unit HF/VHF net (per ISR annex)
-        - HUMINT debrief of ALTENSTADT refugees for corroboration
-        notification_requirements:
-        - JFACC (airspace deconfliction)
-        - Adjacent JSOTF
-        - CJTF SJA (LOAC review)
-        - BCT SURGEON (post-strike CBRN response)
-        expiration_criteria: Neutralization confirmed via BDA OR 191200ZAPR26 elapsed without PID.
-        linked_pir:
-        - 1
-        - 4
-      - tst_number: TST-02
-        priority_class: TST-1
-        category: ENEMY_LEADERSHIP
-        target_description: 'ENY MRB commander; identified via pattern-of-life + SIGINT voice-print (confidence:
-          HIGH).'
-        expected_activity: Movement between tactical CP on OBJ {{ obj_primary }} and rear CP vic NK 160 800;
-          typically 1030Z daily.
-        expected_locations:
-        - OBJ {{ obj_primary }} reverse slope NK 142 783
-        - Route between CP and rear NK 150 795
-        activity_window: 190900ZAPR26 – 191130ZAPR26 (recurring daily pattern)
-        pid_standard: SIGINT voice-print + ISR visual of known vehicle (black Tigr-M with unique antenna).
-        engagement_authority: BCT Cdr
-        authorized_engagement_means:
-        - HIMARS PGM
-        - FA HE/PD 155mm
-        - F-16 GBU-54
-        cde_level: CDE-3
-        roe_constraints: No engagement within 500m of ALTENSTADT NFA or civilian vehicle presence.
-        collection_requirements:
-        - BCT Puma UAS orbit route NK 145-160
-        - SIGINT cue on MRB command net
-        notification_requirements:
-        - BCT S-2 (update intel picture)
-        - Adjacent battalion LNOs
-        expiration_criteria: BDA confirms neutralization OR 191500ZAPR26.
-        linked_pir:
-        - 4
-      - tst_number: TST-03
-        priority_class: TST-2
-        category: LRF
-        target_description: Suspected SS-21 SRBM TEL repositioning forward; range ~120km threat to BCT rear.
-        expected_activity: TEL erects from travel configuration to ready-to-launch; accompanying 2-vehicle support
-          element (fuel + command).
-        expected_locations:
-        - NAI 18 (NK 200 830)
-        - NAI 19 (NK 210 840)
-        activity_window: Any time 181200ZAPR26 – {{ endex_dtg }}
-        pid_standard: EO imagery of erected TEL + SIGINT confirmation of launch-battery net activity.
-        engagement_authority: JFLCC
-        authorized_engagement_means:
-        - HIMARS PGM (prime)
-        - F-16 GBU-38 (alternate)
-        cde_level: CDE-2
-        collection_requirements:
-        - Theater ISR (U-2/Global Hawk) on NAI 18/19
-        - BCT EW cue on launch-battery net
-        notification_requirements:
-        - JFACC (airspace)
-        - Patriot battery (defensive hand-off if launch detected)
-        expiration_criteria: Neutralization OR TEL displaces beyond BCT AO.
-        linked_pir:
-        - 2
-      high_payoff_target_list:
-      - priority_rank: 1
-        category: C2
-        target_description: ENY MRC CP OBJ {{ obj_primary }}
-        signature: Antenna cluster + C2 vehicles
-        likely_locations:
-        - NK 142 783
-        engagement_guidance: Neutralize with FA HE/PD — 2 volleys at TOT 190448Z.
-        linked_pir:
-        - 4
-        hpt_nomination: true
-      - priority_rank: 2
-        category: AIR_DEFENSE
-        target_description: ZU-23-2 NK 140 781
-        signature: Twin 23mm towed
-        likely_locations:
-        - Northern spur
-        engagement_guidance: SEAD H-2 to H+10 supporting VIPER 11/12 ingress.
-        linked_pir:
-        - 4
-        hpt_nomination: true
-      - priority_rank: 3
-        category: FIRES
-        target_description: 82mm mortar section
-        signature: Q-53 radar acquisition; tube launch signature
-        likely_locations:
-        - Reverse slope NK 145 787
-        engagement_guidance: Destroy on first firing; counter-battery.
-        linked_pir:
-        - 4
-        hpt_nomination: true
-      - priority_rank: 4
-        category: ISR
-        target_description: Orlan-10 GCS
-        signature: Catapult + UHF 902-928 MHz + 2-4 vehicles
-        likely_locations:
-        - NAI 7 NK 155 795
-        engagement_guidance: DESTROY on acquisition; EW jam prior to kinetic.
-        linked_pir:
-        - 3
-        hpt_nomination: true
-    body: |
-      Fires annex with the targeting lists (JPITL, TST, HPT) authored inline; the airspace data comes from the data_sources bindings above.
+      - id: tst-01
+        tst_number: TST-01
+        priority: 1
+        target: tst-01
+      - id: tst-02
+        tst_number: TST-02
+        priority: 1
+        target: tst-02
+      - id: tst-03
+        tst_number: TST-03
+        priority: 2
+        target: tst-03
+  C:
+    airspace:
+      measures:
+      - bullseye
+      - bullseye-alt
+      - ip-alpha
+      - ip-bravo
+      - cp-dog
+      - tacan-graf
+      - anchor-1
+      - anchor-2
+      - cap-high
+resources_ref:
+  id: opord-26-04-resources
+  revision: '1'

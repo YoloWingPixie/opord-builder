@@ -1,34 +1,114 @@
-kind: geo_refs
+$schema: urn:openaix:schema:resources:0.2.0-draft.1
+kind: resources
+schema_version: 0.2.0-draft.1
 meta:
-  title: "Geographic Reference Points for OP IRON STRIKE"
+  id: geo_refs
+  title: Geographic Reference Points for OP IRON STRIKE
   classification: UNCLASSIFIED
-entries:
-  - name: "BULLSEYE"
-    kind: "BULLSEYE"
-    coordinates: "32UMA100400"
-    notes: "Primary bullseye — all BRAA calls reference this point. Elevation 0 MSL assumed for calls."
-  - name: "BULLSEYE ALT"
-    kind: "BULLSEYE"
-    coordinates: "32UMA220400"
-    notes: "Alternate bullseye for eastern sector if primary is jammed."
-  - name: "IP ALPHA"
-    kind: "IP"
-    coordinates: "32UMA105380"
-    altitude_ft: 15000
-    notes: "Strike IP for OBJ {{ obj_primary }} run-in from west; 15 nm final."
-  - name: "IP BRAVO"
-    kind: "IP"
-    coordinates: "32UMA180420"
-    altitude_ft: 15000
-    notes: "Alternate strike IP from north."
-  - name: "CP DOG"
-    kind: "CP"
-    coordinates: "32UMA090450"
-    altitude_ft: 18000
-    notes: "Inbound airspace contact point — check in with MAGIC before push."
-  - name: "TACAN GRAF"
-    kind: "NAVAID"
-    coordinates: "32UMA085385"
-    altitude_ft: 1410
-    tacan_channel: "88X"
-    notes: "Grafenwoehr AAF TACAN; 88X for area navigation."
+resources:
+  control_measures:
+    bullseye:
+      id: bullseye
+      name: BULLSEYE
+      type: POINT
+      roles:
+      - bullseye
+      active:
+        continuous: true
+      notes: Primary bullseye — all BRAA calls reference this point. Elevation 0 MSL assumed for calls.
+      position:
+        latitude: 50.005518097301
+        longitude: 7.744032070164
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            coordinates: 32UMA100400
+    bullseye-alt:
+      id: bullseye-alt
+      name: BULLSEYE ALT
+      type: POINT
+      roles:
+      - bullseye
+      active:
+        continuous: true
+      notes: Alternate bullseye for eastern sector if primary is jammed.
+      position:
+        latitude: 50.00720970594
+        longitude: 7.911460003574
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            coordinates: 32UMA220400
+    ip-alpha:
+      id: ip-alpha
+      name: IP ALPHA
+      type: POINT
+      roles:
+      - initial
+      active:
+        continuous: true
+      notes: Strike IP for OBJ {{ obj_primary }} run-in from west; 15 nm final.
+      position:
+        latitude: 49.98760956241
+        longitude: 7.751473746571
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            altitude_ft: 15000
+            coordinates: 32UMA105380
+    ip-bravo:
+      id: ip-bravo
+      name: IP BRAVO
+      type: POINT
+      roles:
+      - initial
+      active:
+        continuous: true
+      notes: Alternate strike IP from north.
+      position:
+        latitude: 50.024657138576
+        longitude: 7.855221678189
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            altitude_ft: 15000
+            coordinates: 32UMA180420
+    cp-dog:
+      id: cp-dog
+      name: CP DOG
+      type: POINT
+      roles:
+      - control
+      active:
+        continuous: true
+      notes: Inbound airspace contact point — check in with MAGIC before push.
+      position:
+        latitude: 50.050325210466
+        longitude: 7.7288942929
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            altitude_ft: 18000
+            coordinates: 32UMA090450
+    tacan-graf:
+      id: tacan-graf
+      name: TACAN GRAF
+      type: POINT
+      roles:
+      - fix
+      active:
+        continuous: true
+      notes: Grafenwoehr AAF TACAN; 88X for area navigation.
+      position:
+        latitude: 49.991801933778
+        longitude: 7.723461952485
+      extensions:
+        org.opord-builder.measure:
+          extra:
+            altitude_ft: 1410
+            tacan_channel: 88X
+            kind: NAVAID
+            coordinates: 32UMA085385
+extensions:
+  org.opord-builder.resources:
+    table: geo_refs

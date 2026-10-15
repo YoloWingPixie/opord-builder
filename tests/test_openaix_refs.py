@@ -15,7 +15,9 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def base() -> dict:
-    return yaml.safe_load((ROOT / "examples" / "example_minimal.yaml").read_text())
+    return load_opord(ROOT / "examples" / "example_minimal.yaml").model_dump(
+        mode="json", exclude_unset=True, exclude_none=True
+    )
 
 
 def appendix_with_table() -> dict:

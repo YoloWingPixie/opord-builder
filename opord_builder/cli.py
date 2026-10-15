@@ -171,6 +171,31 @@ def spins(
         _echo_wrote(f"SPINS {kind}", path)
 
 
+@app.command(help="Migrate authoring YAML to native OpenAIX documents (in place unless --out-dir is given).")
+def migrate(
+    sources: list[Path] = typer.Argument(..., exists=True, readable=True, help="Authoring files, or folders searched for *.yaml."),
+    out_dir: Optional[Path] = typer.Option(None, "--out-dir", "-o", help="Write the migrated files here instead of in place."),
+) -> None:
+    from opord_builder.migrate import legacy_kind, migrate_file
+
+    files = [f for s in sources for f in (sorted(s.rglob("*.yaml")) if s.is_dir() else [s])]
+    # a FRAGO or WARNO reads the variables of its base order, and an order its data sources, while it migrates
+    rank = ["frago", "warno", "opord", "spins", "data_source", "native"]
+    files.sort(key=lambda f: rank.index(legacy_kind(f)))
+    failed = 0
+    for src in files:
+        root = next((s for s in sources if s.is_dir() and s in src.parents), None)
+        dest = out_dir / src.relative_to(root.parent if root else src.parent) if out_dir else None
+        try:
+            for path in migrate_file(src, dest):
+                _echo_wrote("migrated", path)
+        except (ValueError, OSError, yaml.YAMLError, ValidationError) as exc:
+            failed += 1
+            typer.secho(f"{src}: {exc}", fg=typer.colors.RED, err=True)
+    if failed:
+        raise typer.Exit(code=1)
+
+
 @app.command(name="validate-source", help="Validate a standalone data-source YAML file.")
 def validate_source(
     input_file: Path = typer.Argument(
@@ -583,26 +608,24 @@ def kneeboard(
         )
 
 
-@app.command(name="validate-openaix", help="Validate OpenAIX JSON documents against the vendored schemas.")
+@app.command(name="validate-openaix", help="Validate OpenAIX documents (YAML or JSON), extensions included.")
 def validate_openaix(
-    files: list[Path] = typer.Argument(..., exists=True, dir_okay=False, readable=True, help="OpenAIX JSON files."),
+    files: list[Path] = typer.Argument(..., exists=True, dir_okay=False, readable=True, help="OpenAIX YAML or JSON files."),
 ) -> None:
-    from opord_builder.openaix.validate import validate as _validate_openaix
+    from opord_builder.load import read, validate_document
 
     failed = False
     for path in files:
         try:
-            document = json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
-            typer.secho(f"{path}: invalid JSON: {exc}", fg=typer.colors.RED, err=True)
+            errors = validate_document(read(path))
+        except (OSError, ValueError, yaml.YAMLError) as exc:
+            typer.secho(f"{path}: cannot read: {exc}", fg=typer.colors.RED, err=True)
             failed = True
             continue
-        errors = _validate_openaix(document)
         for err in errors:
             typer.secho(f"{path}: {err.pointer or '/'}: {err.message}", fg=typer.colors.RED, err=True)
-        if errors:
-            failed = True
-        else:
+        failed = failed or bool(errors)
+        if not errors:
             typer.echo(f"{path}: ok")
     if failed:
         raise typer.Exit(code=1)

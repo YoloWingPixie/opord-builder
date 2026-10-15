@@ -1,38 +1,91 @@
-kind: ingress_corridors
+$schema: urn:openaix:schema:resources:0.2.0-draft.1
+kind: resources
+schema_version: 0.2.0-draft.1
 meta:
-  title: "Ingress/Egress Corridors for OP IRON STRIKE"
+  id: ingress_corridors
+  title: Ingress/Egress Corridors for OP IRON STRIKE
   classification: UNCLASSIFIED
-entries:
-  - name: "MRR GOLD"
-    direction: "INGRESS"
-    waypoints:
-      - "CP DOG"
-      - "32UMA110380"
-      - "IP ALPHA"
-    altitude_floor_ft: 8000
-    altitude_ceiling_ft: 18000
-    active_dtg_start: "190430ZAPR26"
-    active_dtg_end: "190800ZAPR26"
-    purpose: "Primary strike ingress to OBJ {{ obj_primary }} IP ALPHA; deconflicts with ROZ HAMMER CAS stack below 5000."
-  - name: "MRR SILVER"
-    direction: "EGRESS"
-    waypoints:
-      - "32UMA150360"
-      - "32UMA080380"
-      - "CP DOG"
-    altitude_floor_ft: 10000
-    altitude_ceiling_ft: 20000
-    active_dtg_start: "190430ZAPR26"
-    active_dtg_end: "190800ZAPR26"
-    purpose: "Post-strike egress corridor; avoids MEZ NORTH and NFZ ALTENSTADT."
-  - name: "HELO LOW"
-    direction: "BIDIRECTIONAL"
-    waypoints:
-      - "32UMA085385"
-      - "32UMA120385"
-      - "32UMA140383"
-    altitude_floor_ft: 200
-    altitude_ceiling_ft: 800
-    active_dtg_start: "181200ZAPR26"
-    active_dtg_end: "200600ZAPR26"
-    purpose: "Rotary-wing low-altitude corridor to OBJ {{ obj_primary }}; MEDEVAC / CASEVAC / resupply."
+resources:
+  control_measures:
+    mrr-gold:
+      id: mrr-gold
+      name: MRR GOLD
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: CP DOG 32UMA110380 IP ALPHA
+      extensions:
+        org.opord-builder.measure:
+          code: MRR
+          extra:
+            direction: INGRESS
+            altitude_floor_ft: 8000
+            altitude_ceiling_ft: 18000
+            purpose: Primary strike ingress to OBJ {{ obj_primary }} IP ALPHA; deconflicts with ROZ HAMMER
+              CAS stack below 5000.
+            waypoints:
+            - CP DOG
+            - 32UMA110380
+            - IP ALPHA
+            active_dtg_start: 190430ZAPR26
+            active_dtg_end: 190800ZAPR26
+      active:
+        start: '2026-04-19T04:30:00Z'
+        end: '2026-04-19T08:00:00Z'
+    mrr-silver:
+      id: mrr-silver
+      name: MRR SILVER
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: 32UMA150360 32UMA080380 CP DOG
+      extensions:
+        org.opord-builder.measure:
+          code: MRR
+          extra:
+            direction: EGRESS
+            altitude_floor_ft: 10000
+            altitude_ceiling_ft: 20000
+            purpose: Post-strike egress corridor; avoids MEZ NORTH and NFZ ALTENSTADT.
+            waypoints:
+            - 32UMA150360
+            - 32UMA080380
+            - CP DOG
+            active_dtg_start: 190430ZAPR26
+            active_dtg_end: 190800ZAPR26
+      active:
+        start: '2026-04-19T04:30:00Z'
+        end: '2026-04-19T08:00:00Z'
+    helo-low:
+      id: helo-low
+      name: HELO LOW
+      type: org.opord-builder.measure
+      geometry:
+        kind: line
+        points:
+        - latitude: 49.991801933778
+          longitude: 7.723461952485
+        - latitude: 49.99232882356
+          longitude: 7.772279174685
+        - latitude: 49.990822265054
+          longitude: 7.800220119272
+      extensions:
+        org.opord-builder.measure:
+          code: MRR
+          extra:
+            direction: BIDIRECTIONAL
+            altitude_floor_ft: 200
+            altitude_ceiling_ft: 800
+            purpose: Rotary-wing low-altitude corridor to OBJ {{ obj_primary }}; MEDEVAC / CASEVAC / resupply.
+            waypoints:
+            - 32UMA085385
+            - 32UMA120385
+            - 32UMA140383
+            active_dtg_start: 181200ZAPR26
+            active_dtg_end: 200600ZAPR26
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+extensions:
+  org.opord-builder.resources:
+    table: ingress_corridors

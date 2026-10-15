@@ -420,3 +420,48 @@ class SPINS(_Base):
 
 for _model in (Section, Paragraph, ListItem, ListBlock, AddBlock, ReplaceBlock, SPINS):
     _model.model_rebuild()
+
+
+class SpinsMetaExtra(_Base):
+    """What OpenAIX `Metadata` cannot hold of a publication's metadata; the rest sits in the typed `meta`."""
+
+    handling: Text | None = None
+    references: list[PublicationReference] = Field(
+        default_factory=list,
+        description="Cited sources; their author, date, locator and URL have no typed home in OpenAIX.",
+    )
+
+
+class SpinsLayout(_Base):
+    """The `org.opord-builder.spins` extension at the top level of a native OpenAIX `spins` document: the publication
+    layout tree. Identification, scope, period and the pinned baseline are typed OpenAIX fields, not part of it."""
+
+    meta: SpinsMetaExtra | None = None
+    presentation: Presentation = Field(default_factory=Presentation)
+    sidecars: SpinsOpenAIXRefs | None = Field(
+        default=None,
+        description="OpenAIX files that `openaix_table` blocks read, relative to this document.",
+    )
+    content: list[Block] = Field(
+        default_factory=list,
+        description="Instructions in reading order. Numbering follows the effective hierarchy after amendments.",
+    )
+    changes: list[BlockChange] = Field(
+        default_factory=list,
+        description="Block-level amendments to the pinned baseline (`base`).",
+    )
+
+
+def spins_extension_schema() -> dict:
+    """JSON Schema 2020-12 of the `org.opord-builder.spins` extension, generated from `SpinsLayout`."""
+    schema = SpinsLayout.model_json_schema()
+    return {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:opord-builder:extension:spins:1",
+        "title": "SPINS extension",
+        "description": "The `org.opord-builder.spins` extension of an OpenAIX `spins` document: the publication layout tree.",
+        **{k: v for k, v in schema.items() if k not in ("title", "description")},
+    }
+
+
+SpinsLayout.model_rebuild()

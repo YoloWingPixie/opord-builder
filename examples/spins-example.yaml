@@ -1,13 +1,13 @@
-# yaml-language-server: $schema=../schemas/spins.schema.json
+$schema: urn:openaix:schema:spins:0.2.0-draft.1
 kind: spins
-schema_version: '0.3'
+schema_version: 0.2.0-draft.1
+scope: mission
 meta:
   id: training-session
   title: Special Instructions
   revision: '4'
   operation: Fictional DCS training exercise
   issuing_unit: Training Squadron
-scope: mission
 period:
   start: '2026-09-18T20:00:00Z'
   end: '2026-09-18T23:00:00Z'
@@ -15,42 +15,46 @@ base:
   id: training-standing
   revision: '3'
   path: spins-standing.yaml
-presentation:
-  font: serif
-  contents: true
-changes:
-  - op: add
-    before: standing
-    block:
-      kind: section
-      id: daily
-      role: part
-      title: Mission-period instructions
-      blocks:
+extensions:
+  org.opord-builder.spins:
+    presentation:
+      font: serif
+      contents: true
+    changes:
+    - op: add
+      block:
+        id: daily
+        kind: section
+        role: part
+        title: Mission-period instructions
+        blocks:
         - kind: paragraph
-          text: This part applies only to the effective mission period. The standing baseline remains a separate reusable source document.
-  - op: add
-    before: standing
-    block:
-      kind: section
-      id: change-summary
-      role: part
-      title: Changes to standing instructions
-      blocks:
+          text: This part applies only to the effective mission period. The standing baseline remains
+            a separate reusable source document.
+      before: standing
+    - op: add
+      block:
+        id: change-summary
+        kind: section
+        role: part
+        title: Changes to standing instructions
+        blocks:
         - kind: paragraph
           text:
-            - text: The check-in procedure in
-            - text: ' '
-            - target: check-in
-            - text: ' is replaced for this mission period.'
-  - op: replace
-    target: check-in
-    block:
-      kind: paragraph
-      id: check-in
-      lead: Initial check-in.
-      text:
-        - text: Check in with MAGIC before entering the exercise area. Use the agency and channel shown in
+          - text: The check-in procedure in
+          - text: ' '
+          - target: check-in
+          - text: ' is replaced for this mission period.'
+      before: standing
+    - op: replace
+      target: check-in
+      block:
+        id: check-in
+        kind: paragraph
+        lead: Initial check-in.
+        text:
+        - text: Check in with MAGIC before entering the exercise area. Use the agency and channel shown
+            in
         - text: ' '
         - target: channel-table
-        - text: '. State callsign, position, altitude, and mission number.'
+        - text: . State callsign, position, altitude, and mission number.

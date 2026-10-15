@@ -521,7 +521,6 @@ class Annexes:
         ordered = (
             annexes is not MISSING
             and annexes
-            and [a["letter"] for a in annexes] == sorted(a["letter"] for a in annexes)
             and len({a["letter"] for a in annexes}) == len(annexes)
         )
         if not ordered:
@@ -681,7 +680,7 @@ class Annexes:
         # JPITL -> jiptl document
         jp = tg.present(tb, "jpitl")
         built = [tg.jpitl_target(i) for i in jp]
-        if jp and all(built):
+        if jp and all(built) and not ctx.scratch.get("no_jiptl"):
             ctx.typed_lists.add(f"{path}.jpitl")
             targets = []
             for n, (item, (target, consumed)) in enumerate(zip(jp, built, strict=True)):
@@ -793,7 +792,7 @@ class Annexes:
     def dec(self, doc: dict, d: dict, ctx: Ctx, resources: dict | None = None) -> None:
         status = ctx.scratch.get("annex_status", MISSING)
         entries = doc.get("annexes") or {}
-        letters = sorted(entries) if status is MISSING else sorted(status)
+        letters = sorted(entries) if status is MISSING else list(status)
         letters = [x for x in letters if x in CANONICAL_ANNEXES_ALL]
         if not letters:
             return
@@ -908,7 +907,10 @@ class Annexes:
             for i, t in enumerate(ctx.scratch.get("jiptl_in", []))
         ]
         jp = [x for x in jp if x is not None]
-        ctx.scratch.setdefault("measure_lists", {})[lp] = len(jp)
+        stash = ctx.scratch["stash"]
+        whole = any(k.startswith(f"{lp}.") and k.endswith(".target_number") for k in stash)
+        if ctx.scratch["jiptl_in"] or not whole:  # whole entries in the overlay are the untyped list
+            ctx.scratch.setdefault("measure_lists", {})[lp] = len(jp)
         if jp:
             tb["jpitl"] = jp
         targeting = e.get("targeting") or {}

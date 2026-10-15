@@ -1,0 +1,537 @@
+$schema: urn:openaix:schema:resources:0.2.0-draft.1
+kind: resources
+meta:
+  id: opord-26-04-resources
+  revision: '1'
+  title: Resources of opord-26-04
+resources:
+  control_measures:
+    bullseye:
+      id: bullseye
+      name: BULLSEYE
+      type: POINT
+      roles:
+      - bullseye
+      active:
+        continuous: true
+      notes: Primary bullseye — all BRAA calls reference this point. Elevation 0 MSL assumed for calls.
+      position:
+        latitude: 50.005518097301
+        longitude: 7.744032070164
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    bullseye-alt:
+      id: bullseye-alt
+      name: BULLSEYE ALT
+      type: POINT
+      roles:
+      - bullseye
+      active:
+        continuous: true
+      notes: Alternate bullseye for eastern sector if primary is jammed.
+      position:
+        latitude: 50.00720970594
+        longitude: 7.911460003574
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    ip-alpha:
+      id: ip-alpha
+      name: IP ALPHA
+      type: POINT
+      roles:
+      - initial
+      active:
+        continuous: true
+      notes: Strike IP for OBJ HAMMER run-in from west; 15 nm final.
+      position:
+        latitude: 49.98760956241
+        longitude: 7.751473746571
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    ip-bravo:
+      id: ip-bravo
+      name: IP BRAVO
+      type: POINT
+      roles:
+      - initial
+      active:
+        continuous: true
+      notes: Alternate strike IP from north.
+      position:
+        latitude: 50.024657138576
+        longitude: 7.855221678189
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    cp-dog:
+      id: cp-dog
+      name: CP DOG
+      type: POINT
+      roles:
+      - control
+      active:
+        continuous: true
+      notes: Inbound airspace contact point — check in with MAGIC before push.
+      position:
+        latitude: 50.050325210466
+        longitude: 7.7288942929
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    tacan-graf:
+      id: tacan-graf
+      name: TACAN GRAF
+      type: POINT
+      roles:
+      - fix
+      active:
+        continuous: true
+      notes: Grafenwoehr AAF TACAN; 88X for area navigation.
+      position:
+        latitude: 49.991801933778
+        longitude: 7.723461952485
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    roz-hammer:
+      id: roz-hammer
+      name: ROZ HAMMER
+      type: ROZ
+      active:
+        start: '2026-04-19T04:30:00Z'
+        end: '2026-04-19T08:00:00Z'
+      description: CAS stack over OBJ HAMMER during Phase II assault; Puma UAS deconflict below 2000 AGL.
+      components:
+      - id: c1
+        operation: add
+        geometry:
+          kind: circle
+          center:
+            latitude: 49.990851080414
+            longitude: 7.803009659767
+          radius:
+            value: 3.0
+            unit: nm
+        lower_limit:
+          value: 0
+          unit: ft
+          reference: MSL
+        upper_limit:
+          value: 5000
+          unit: ft
+          reference: MSL
+      extensions:
+        org.opord-builder.authoring:
+          item: zone
+    nfz-altenstadt:
+      id: nfz-altenstadt
+      name: NFZ ALTENSTADT
+      type: NFZ
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+      description: Protected civilian village; no fixed-wing overflight below 10000 AGL, no indirect fires,
+        no UAS orbits inside ring.
+      components:
+      - id: c1
+        operation: add
+        geometry:
+          kind: circle
+          center:
+            latitude: 49.996750796476
+            longitude: 7.765190053237
+          radius:
+            value: 1.0
+            unit: nm
+        lower_limit:
+          value: 0
+          unit: ft
+          reference: MSL
+        upper_limit:
+          value: 99999
+          unit: ft
+          reference: MSL
+      extensions:
+        org.opord-builder.authoring:
+          item: zone
+    mez-north:
+      id: mez-north
+      name: MEZ NORTH
+      type: MEZ
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+      description: Patriot missile engagement layer covering northern approach.
+      components:
+      - id: c1
+        operation: add
+        geometry:
+          kind: circle
+          center:
+            latitude: 50.078188728535
+            longitude: 7.812017558204
+          radius:
+            value: 25.0
+            unit: nm
+        lower_limit:
+          value: 0
+          unit: ft
+          reference: MSL
+        upper_limit:
+          value: 60000
+          unit: ft
+          reference: MSL
+      extensions:
+        org.opord-builder.authoring:
+          item: zone
+    fez-south:
+      id: fez-south
+      name: FEZ SOUTH
+      type: FEZ
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+      description: Southern Fighter Engagement Zone — CAP sweeps between ANCHOR 1 and ANCHOR 2.
+      components:
+      - id: c1
+        operation: add
+        geometry:
+          kind: polygon
+          rings:
+          - - &id001
+              latitude: 49.914982952319
+              longitude: 7.690667686362
+            - latitude: 49.916749466693
+              longitude: 7.857778792672
+            - latitude: 49.826824791718
+              longitude: 7.859897937432
+            - latitude: 49.825063857763
+              longitude: 7.693096668133
+            - *id001
+        lower_limit:
+          value: 5000
+          unit: ft
+          reference: MSL
+        upper_limit:
+          value: 45000
+          unit: ft
+          reference: MSL
+      extensions:
+        org.opord-builder.authoring:
+          item: zone
+    inline-cap-reserve:
+      id: inline-cap-reserve
+      name: INLINE CAP RESERVE
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 50.188054990383
+          longitude: 8.019422599679
+      altitude:
+        lower:
+          value: 20000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 30000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.authoring:
+          item: cap
+    anchor-1:
+      id: anchor-1
+      name: ANCHOR 1
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.933431084765
+          longitude: 7.731972164316
+      altitude:
+        lower:
+          value: 20000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 28000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.authoring:
+          item: cap
+    anchor-2:
+      id: anchor-2
+      name: ANCHOR 2
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.935269899546
+          longitude: 7.913081643828
+      altitude:
+        lower:
+          value: 20000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 28000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.authoring:
+          item: cap
+    cap-high:
+      id: cap-high
+      name: CAP HIGH
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.826264479433
+          longitude: 7.804295701683
+      altitude:
+        lower:
+          value: 28000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 35000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.authoring:
+          item: cap
+    track-arco:
+      id: track-arco
+      name: TRACK ARCO
+      type: ORBIT
+      geometry:
+        kind: line
+        points:
+        - latitude: 50.094816674771
+          longitude: 7.685772824646
+        - latitude: 50.096594412174
+          longitude: 7.853508308666
+      altitude:
+        lower:
+          value: 23000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 25000
+          unit: ft
+          reference: MSL
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+      extensions:
+        org.opord-builder.authoring:
+          item: aar
+    track-shell:
+      id: track-shell
+      name: TRACK SHELL
+      type: ORBIT
+      geometry:
+        kind: line
+        points:
+        - latitude: 49.870023591172
+          longitude: 7.691883706293
+        - latitude: 49.87178731276
+          longitude: 7.858839699178
+      altitude:
+        lower:
+          value: 18000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 20000
+          unit: ft
+          reference: MSL
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+      extensions:
+        org.opord-builder.authoring:
+          item: aar
+    mrr-gold:
+      id: mrr-gold
+      name: MRR GOLD
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: CP DOG 32UMA110380 IP ALPHA
+      extensions:
+        org.opord-builder.measure:
+          code: MRR
+        org.opord-builder.authoring:
+          item: mrr
+      active:
+        start: '2026-04-19T04:30:00Z'
+        end: '2026-04-19T08:00:00Z'
+    mrr-silver:
+      id: mrr-silver
+      name: MRR SILVER
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: 32UMA150360 32UMA080380 CP DOG
+      extensions:
+        org.opord-builder.measure:
+          code: MRR
+        org.opord-builder.authoring:
+          item: mrr
+      active:
+        start: '2026-04-19T04:30:00Z'
+        end: '2026-04-19T08:00:00Z'
+    helo-low:
+      id: helo-low
+      name: HELO LOW
+      type: org.opord-builder.measure
+      geometry:
+        kind: line
+        points:
+        - latitude: 49.991801933778
+          longitude: 7.723461952485
+        - latitude: 49.99232882356
+          longitude: 7.772279174685
+        - latitude: 49.990822265054
+          longitude: 7.800220119272
+      extensions:
+        org.opord-builder.measure:
+          code: MRR
+        org.opord-builder.authoring:
+          item: mrr
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+    cfl-pl-bronze:
+      id: cfl-pl-bronze
+      name: CFL PL BRONZE
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: Along PL BRONZE NK 05 80 to NK 15 80
+      extensions:
+        org.opord-builder.measure:
+          code: CFL
+        org.opord-builder.authoring:
+          item: fscm
+      active:
+        continuous: true
+    nfa-altenstadt:
+      id: nfa-altenstadt
+      name: NFA ALTENSTADT
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: 500m radius around NK 115 790
+      extensions:
+        org.opord-builder.measure:
+          code: NFA
+        org.opord-builder.authoring:
+          item: fscm
+      active:
+        start: '2026-04-18T12:00:00Z'
+        end: '2026-04-20T06:00:00Z'
+    rfa-bsa-ctcp:
+      id: rfa-bsa-ctcp
+      name: RFA BSA/CTCP
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: CTCP NK 118 772 r=400m; BSA Grafenwoehr main r=600m
+      extensions:
+        org.opord-builder.measure:
+          code: RFA
+        org.opord-builder.authoring:
+          item: fscm
+      active:
+        continuous: true
+    aca-bronze-copper:
+      id: aca-bronze-copper
+      name: ACA BRONZE-COPPER
+      type: org.opord-builder.measure
+      geometry:
+        kind: description
+        text: Along PL BRONZE to PL COPPER, SFC-5000 ft AGL
+      extensions:
+        org.opord-builder.measure:
+          code: ACA
+        org.opord-builder.authoring:
+          item: fscm
+      active:
+        continuous: true
+  targets:
+    tst-01:
+      name: TST-01
+      kind: mobile
+      target_number: TST-01
+      description: Suspected chemical munitions handling at forward ammo transfer point — unconfirmed
+        presence of non-persistent chemical rounds.
+    tst-02:
+      name: TST-02
+      kind: mobile
+      target_number: TST-02
+      description: 'ENY MRB commander; identified via pattern-of-life + SIGINT voice-print (confidence:
+        HIGH).'
+    tst-03:
+      name: TST-03
+      kind: mobile
+      target_number: TST-03
+      description: Suspected SS-21 SRBM TEL repositioning forward; range ~120km threat to BCT rear.
+    hpt-1:
+      name: ENY MRC CP OBJ HAMMER
+      kind: mobile
+    hpt-2:
+      name: ZU-23-2 NK 140 781
+      kind: mobile
+    hpt-3:
+      name: 82mm mortar section
+      kind: mobile
+    hpt-4:
+      name: Orlan-10 GCS
+      kind: mobile
+    hpt-10:
+      name: INLINE — BMP staging area OBJ ANVIL
+      kind: mobile
+  threats:
+    sa-13-suspected-vic-nk-155-800-5km-ne:
+      name: SA-13 suspected vic NK 155 800 (5km NE)
+      kind: other
+    manpads-risk-on-obj-crest:
+      name: MANPADS risk on OBJ crest
+      kind: other
+    small-arms-pkm-belt-feds-on-obj-slopes:
+      name: Small-arms + PKM belt-feds on OBJ slopes
+      kind: other
+  channels:
+    dustoff:
+      name: DUSTOFF
+      frequency:
+        value: 40.5
+        unit: MHz
+        modulation: FM
+        band: fm
+      usage: MEDEVAC coordination — 9-line hand-off
+    range-ctl:
+      name: RANGE CTL
+      frequency:
+        value: 40.1
+        unit: MHz
+        modulation: FM
+        band: fm
+      usage: Grafenwoehr Range Control — emergency & cease-fire
+schema_version: 0.2.0-draft.1

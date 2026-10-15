@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from weasyprint import CSS as _WeasyCSS
 
 from opord_builder._paths import STYLESHEET, TEMPLATES_DIR
+from opord_builder.migrate import is_native, load_native_frago, load_native_warno
 from opord_builder.schema import FRAGO, OPORD, WARNO, CANONICAL_ANNEXES, RESERVED_LETTERS
 from opord_builder.schema._base import literal_value
 
@@ -691,9 +692,16 @@ def load_opord_with_vars(yaml_path: Path | str) -> tuple[OPORD, dict[str, Any]]:
     return OPORD.model_validate(data), user_vars
 
 
-def load_opord(yaml_path: Path | str) -> OPORD:
+def load_opord_legacy(yaml_path: Path | str) -> OPORD:
     opord, _ = load_opord_with_vars(yaml_path)
     return opord
+
+
+def load_opord(path: Path | str) -> OPORD:
+    """An OPORD from a native OpenAIX document, or from the old authoring YAML."""
+    from opord_builder.migrate import is_native, load_native_opord
+
+    return load_native_opord(path) if is_native(path) else load_opord_legacy(path)
 
 
 def _load_document_with_base(
@@ -716,6 +724,8 @@ def _load_document_with_base(
     ``base`` / ``base_vars`` / every base variable merged flat (delta
     variables of the same name override)."""
     kind = literal_value(model.model_fields["kind"])
+    if is_native(path):
+        return {"frago": load_native_frago, "warno": load_native_warno}[kind](path)
     base_required = model.model_fields["base_order"].is_required()
     with path.open("r", encoding="utf-8") as f:
         peek = yaml.load(f, Loader=_IncludeLoader)
@@ -738,7 +748,9 @@ def _load_document_with_base(
             + ("." if base_required else " or omitted.")
         )
     base_path = (path.parent / base_order).resolve()
-    base, base_vars = load_opord_with_vars(base_path)
+    base, base_vars = (
+        (load_opord(base_path), {}) if is_native(base_path) else load_opord_with_vars(base_path)
+    )
     extra: dict[str, Any] = {**base_vars, "base": base, "base_vars": base_vars}
     data, _ = _load_yaml_with_variables(path, extra_vars=extra)
     return model.model_validate(data), base

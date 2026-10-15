@@ -1,6 +1,6 @@
-# yaml-language-server: $schema=../schemas/spins.schema.json
+$schema: urn:openaix:schema:spins:0.2.0-draft.1
 kind: spins
-schema_version: '0.3'
+schema_version: 0.2.0-draft.1
 scope: standing
 meta:
   id: training-standing
@@ -8,152 +8,180 @@ meta:
   revision: '3'
   operation: Fictional DCS training exercise
   issuing_unit: Training Squadron
-  references:
-    - id: airspace-brief
-      title: Exercise airspace briefing
-      locator: Published mission briefing and map
-    - id: format-example
-      title: Historical NATO airspace SPINS
-      date: 23 June 2011
-      url: https://www.airportdata.com/portals/0/docs/Flight%20Permit%20Forms/Libyan%20airspace%20SPecial%20INStructions%20-%20SPINS%20-%20Edition%204%20-%2023%20June%202011.pdf
-presentation:
-  font: serif
-  contents: true
-content:
-  - kind: section
-    id: standing
-    role: part
-    title: Standing instructions
-    blocks:
-      - kind: section
-        id: general
+extensions:
+  org.opord-builder.spins:
+    meta:
+      references:
+      - id: airspace-brief
+        title: Exercise airspace briefing
+        locator: Published mission briefing and map
+      - id: format-example
+        title: Historical NATO airspace SPINS
+        date: 23 June 2011
+        url: https://www.airportdata.com/portals/0/docs/Flight%20Permit%20Forms/Libyan%20airspace%20SPecial%20INStructions%20-%20SPINS%20-%20Edition%204%20-%2023%20June%202011.pdf
+    presentation:
+      font: serif
+      contents: true
+    content:
+    - id: standing
+      kind: section
+      role: part
+      title: Standing instructions
+      blocks:
+      - id: general
+        kind: section
         title: General
         blocks:
-          - kind: paragraph
-            id: purpose
-            lead: Purpose.
-            text: These fictional instructions demonstrate a numbered SPINS publication. They are not real-world flight procedures.
-          - kind: paragraph
-            lead: Applicability.
-            text: These standing instructions apply to the exercise participants. Mission-period changes identify the baseline revision they amend.
-          - kind: note
-            text:
-              - text: Paragraph numbers and cross-references update automatically when instructions are inserted, moved, or removed.
-                marks: [italic]
-      - kind: section
-        id: communications
+        - id: purpose
+          kind: paragraph
+          lead: Purpose.
+          text: These fictional instructions demonstrate a numbered SPINS publication. They are not real-world
+            flight procedures.
+        - kind: paragraph
+          lead: Applicability.
+          text: These standing instructions apply to the exercise participants. Mission-period changes
+            identify the baseline revision they amend.
+        - kind: note
+          text:
+          - text: Paragraph numbers and cross-references update automatically when instructions are inserted,
+              moved, or removed.
+            marks:
+            - italic
+      - id: communications
+        kind: section
         title: Communications
         blocks:
+        - id: check-in
+          kind: paragraph
+          lead:
+          - text: Initial check-in.
+            marks:
+            - underline
+          text:
+          - text: Use the exercise control channel in
+          - text: ' '
+          - target: channel-table
+          - text: . Give callsign, position, altitude, and assigned mission.
+        - id: channel-table
+          kind: table
+          caption: Exercise communications
+          columns:
+          - key: agency
+            heading: Agency
+          - key: frequency
+            heading: Frequency
+            align: right
+          - key: purpose
+            heading: Purpose
+          rows:
+          - agency: MAGIC
+            frequency: 254.000 MHz AM
+            purpose: Exercise control
+          - agency: NORTH TOWER
+            frequency: 250.000 MHz AM
+            purpose: Local airfield coordination
+        - id: reports
+          kind: paragraph
+          lead: Reports.
+          text: Report the change in status using the published call sequence.
+          blocks:
           - kind: paragraph
-            id: check-in
-            lead:
-              - text: Initial check-in.
-                marks: [underline]
-            text:
-              - text: Use the exercise control channel in
-              - text: ' '
-              - target: channel-table
-              - text: '. Give callsign, position, altitude, and assigned mission.'
-          - kind: table
-            id: channel-table
-            caption: Exercise communications
-            columns:
-              - {key: agency, heading: Agency}
-              - {key: frequency, heading: Frequency, align: right}
-              - {key: purpose, heading: Purpose}
-            rows:
-              - {agency: MAGIC, frequency: 254.000 MHz AM, purpose: Exercise control}
-              - {agency: NORTH TOWER, frequency: 250.000 MHz AM, purpose: Local airfield coordination}
-          - kind: paragraph
-            id: reports
-            lead: Reports.
-            text: Report the change in status using the published call sequence.
+            text: Use the assigned mission number when identifying the task.
             blocks:
+            - kind: paragraph
+              text: If a report requires clarification, retain the original report context.
+              blocks:
               - kind: paragraph
-                text: Use the assigned mission number when identifying the task.
+                text: Clearly identify the corrected item.
                 blocks:
-                  - kind: paragraph
-                    text: If a report requires clarification, retain the original report context.
-                    blocks:
-                      - kind: paragraph
-                        text: Clearly identify the corrected item.
-                        blocks:
-                          - kind: paragraph
-                            id: deep-report
-                            text: A correction does not change unrelated instructions.
-      - kind: section
-        id: airspace
+                - id: deep-report
+                  kind: paragraph
+                  text: A correction does not change unrelated instructions.
+      - id: airspace
+        kind: section
         title: Airspace control
         blocks:
-          - kind: paragraph
-            lead: Published measures.
-            text:
-              - text: Use the measures in
-              - text: ' '
-              - citation: airspace-brief
-              - text: '. The following schematic demonstrates a figure embedded in the publication.'
-          - kind: figure
-            id: schematic
-            caption: Illustrative control-measure schematic; not a navigation chart
-            alt: A training area connected to a named entry gate by a corridor
-            src: assets/spins-measures.svg
-            width_percent: 85
-          - kind: section
-            id: restrictions
-            title: Restrictions
-            blocks:
-              - kind: paragraph
-                id: area-entry
-                lead: Area entry.
-                text: Obtain exercise-control clearance before entering an area for which clearance is required. Apply the exceptions and limitations in the assigned mission briefing.
-              - kind: list
-                style: lower_alpha
-                items:
-                  - text: Identify the requested area and intended activity.
-                  - text: Read back the clearance and its limits.
-                  - text: Report clear of the area when the assigned activity is complete.
-          - kind: source_table
-            id: patrol-table
-            caption: Patrol stations from the shared typed data source
-            source: data_sources/airspace/cap_tracks.yaml
-            columns:
-              - {key: name, field: name, heading: Station}
-              - {key: floor, field: altitude_floor_ft, heading: Floor (ft MSL), align: right}
-              - {key: ceiling, field: altitude_ceiling_ft, heading: Ceiling (ft MSL), align: right}
-              - {key: control, field: controller_callsign, heading: Control}
-      - kind: section
-        id: airfields
+        - kind: paragraph
+          lead: Published measures.
+          text:
+          - text: Use the measures in
+          - text: ' '
+          - citation: airspace-brief
+          - text: . The following schematic demonstrates a figure embedded in the publication.
+        - id: schematic
+          kind: figure
+          caption: Illustrative control-measure schematic; not a navigation chart
+          alt: A training area connected to a named entry gate by a corridor
+          src: assets/spins-measures.svg
+          width_percent: 85
+        - id: restrictions
+          kind: section
+          title: Restrictions
+          blocks:
+          - id: area-entry
+            kind: paragraph
+            lead: Area entry.
+            text: Obtain exercise-control clearance before entering an area for which clearance is required.
+              Apply the exceptions and limitations in the assigned mission briefing.
+          - kind: list
+            style: lower_alpha
+            items:
+            - text: Identify the requested area and intended activity.
+            - text: Read back the clearance and its limits.
+            - text: Report clear of the area when the assigned activity is complete.
+        - id: patrol-table
+          kind: source_table
+          caption: Patrol stations from the shared typed data source
+          source: data_sources/airspace/cap_tracks.yaml
+          columns:
+          - key: name
+            heading: Station
+            field: name
+          - key: floor
+            heading: Floor (ft MSL)
+            align: right
+            field: altitude_floor_ft
+          - key: ceiling
+            heading: Ceiling (ft MSL)
+            align: right
+            field: altitude_ceiling_ft
+          - key: control
+            heading: Control
+            field: controller_callsign
+      - id: airfields
+        kind: section
         title: Airfield procedures
         blocks:
-          - kind: section
-            id: north-field
-            title: NORTH FIELD
-            blocks:
-              - kind: paragraph
-                id: departure
-                lead: Departure.
-                text: Follow local control instructions and the departure route assigned in the flight briefing.
-              - kind: paragraph
-                lead: Entry into controlled exercise airspace.
-                text:
-                  - text: Local departure clearance does not replace the area-entry procedure in
-                  - text: ' '
-                  - target: area-entry
-                  - text: '.'
-              - kind: paragraph
-                lead: Recovery.
-                text: Coordinate the arrival with local control. Use the recovery and alternate instructions in the flight briefing.
-  - kind: section
-    id: appendix-report
-    role: appendix
-    title: Report example
-    blocks:
+        - id: north-field
+          kind: section
+          title: NORTH FIELD
+          blocks:
+          - id: departure
+            kind: paragraph
+            lead: Departure.
+            text: Follow local control instructions and the departure route assigned in the flight briefing.
+          - kind: paragraph
+            lead: Entry into controlled exercise airspace.
+            text:
+            - text: Local departure clearance does not replace the area-entry procedure in
+            - text: ' '
+            - target: area-entry
+            - text: .
+          - kind: paragraph
+            lead: Recovery.
+            text: Coordinate the arrival with local control. Use the recovery and alternate instructions
+              in the flight briefing.
+    - id: appendix-report
+      kind: section
+      role: appendix
+      title: Report example
+      blocks:
       - kind: note
         heading: EXAMPLE
         text: This appendix demonstrates automatically lettered list items.
       - kind: list
         style: lower_alpha
         items:
-          - {text: Callsign and mission identification.}
-          - {text: Current position and status.}
-          - {text: Requested coordination.}
+        - text: Callsign and mission identification.
+        - text: Current position and status.
+        - text: Requested coordination.

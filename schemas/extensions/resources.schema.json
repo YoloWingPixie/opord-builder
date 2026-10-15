@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:opord-builder:extension:resources:1",
+  "title": "Resources extension",
+  "description": "The `org.opord-builder.resources` extension of a `resources` document that was a standalone data-source file: its old kind and the provenance that `Metadata` cannot hold.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "table"
+  ],
+  "properties": {
+    "table": {
+      "description": "The kind of the old data-source document, which tells how to read its control measures back into entries.",
+      "enum": [
+        "cap_tracks",
+        "aar_tracks",
+        "awacs_orbits",
+        "aic_sectors",
+        "ingress_corridors",
+        "airspace_zones",
+        "geo_refs"
+      ]
+    },
+    "as_of_dtg": {
+      "description": "Date-time group the data was current as of.",
+      "type": "string",
+      "minLength": 1
+    },
+    "approved_by": {
+      "description": "Approving authority.",
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "description": "Freeform notes or caveats.",
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

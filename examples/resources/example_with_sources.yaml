@@ -1,0 +1,186 @@
+$schema: urn:openaix:schema:resources:0.2.0-draft.1
+kind: resources
+meta:
+  id: opord-26-04-resources
+  revision: '1'
+  title: Resources of opord-26-04
+resources:
+  control_measures:
+    bullseye:
+      id: bullseye
+      name: BULLSEYE
+      type: POINT
+      roles:
+      - bullseye
+      active:
+        continuous: true
+      notes: Primary bullseye — all BRAA calls reference this point. Elevation 0 MSL assumed for calls.
+      position:
+        latitude: 50.005518097301
+        longitude: 7.744032070164
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    bullseye-alt:
+      id: bullseye-alt
+      name: BULLSEYE ALT
+      type: POINT
+      roles:
+      - bullseye
+      active:
+        continuous: true
+      notes: Alternate bullseye for eastern sector if primary is jammed.
+      position:
+        latitude: 50.00720970594
+        longitude: 7.911460003574
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    ip-alpha:
+      id: ip-alpha
+      name: IP ALPHA
+      type: POINT
+      roles:
+      - initial
+      active:
+        continuous: true
+      notes: Strike IP for OBJ HAMMER run-in from west; 15 nm final.
+      position:
+        latitude: 49.98760956241
+        longitude: 7.751473746571
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    ip-bravo:
+      id: ip-bravo
+      name: IP BRAVO
+      type: POINT
+      roles:
+      - initial
+      active:
+        continuous: true
+      notes: Alternate strike IP from north.
+      position:
+        latitude: 50.024657138576
+        longitude: 7.855221678189
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    cp-dog:
+      id: cp-dog
+      name: CP DOG
+      type: POINT
+      roles:
+      - control
+      active:
+        continuous: true
+      notes: Inbound airspace contact point — check in with MAGIC before push.
+      position:
+        latitude: 50.050325210466
+        longitude: 7.7288942929
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    tacan-graf:
+      id: tacan-graf
+      name: TACAN GRAF
+      type: POINT
+      roles:
+      - fix
+      active:
+        continuous: true
+      notes: Grafenwoehr AAF TACAN; 88X for area navigation.
+      position:
+        latitude: 49.991801933778
+        longitude: 7.723461952485
+      extensions:
+        org.opord-builder.authoring:
+          item: geo_ref
+    anchor-1:
+      id: anchor-1
+      name: ANCHOR 1
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.933431084765
+          longitude: 7.731972164316
+      altitude:
+        lower:
+          value: 20000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 28000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.authoring:
+          item: cap
+    anchor-2:
+      id: anchor-2
+      name: ANCHOR 2
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.935269899546
+          longitude: 7.913081643828
+      altitude:
+        lower:
+          value: 20000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 28000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.authoring:
+          item: cap
+    cap-high:
+      id: cap-high
+      name: CAP HIGH
+      type: ORBIT
+      geometry:
+        kind: point
+        position:
+          latitude: 49.826264479433
+          longitude: 7.804295701683
+      altitude:
+        lower:
+          value: 28000
+          unit: ft
+          reference: MSL
+        upper:
+          value: 35000
+          unit: ft
+          reference: MSL
+      active:
+        continuous: true
+      extensions:
+        org.opord-builder.authoring:
+          item: cap
+  targets:
+    tst-01:
+      name: TST-01
+      kind: mobile
+      target_number: TST-01
+      description: Suspected chemical munitions handling at forward ammo transfer point — unconfirmed
+        presence of non-persistent chemical rounds.
+    tst-02:
+      name: TST-02
+      kind: mobile
+      target_number: TST-02
+      description: 'ENY MRB commander; identified via pattern-of-life + SIGINT voice-print (confidence:
+        HIGH).'
+    tst-03:
+      name: TST-03
+      kind: mobile
+      target_number: TST-03
+      description: Suspected SS-21 SRBM TEL repositioning forward; range ~120km threat to BCT rear.
+schema_version: 0.2.0-draft.1

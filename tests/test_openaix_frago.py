@@ -23,7 +23,7 @@ from opord_builder.openaix.from_openaix import from_openaix
 from opord_builder.openaix.registry import VENDOR_DIR
 from opord_builder.openaix.to_openaix import to_openaix
 from opord_builder.openaix.validate import validate
-from opord_builder.renderer import load_frago, render_frago_markdown
+from opord_builder.renderer import load_frago, load_opord, render_frago_markdown
 from opord_builder.schema.core import OPORD
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -274,7 +274,7 @@ def test_cli_frago_export_import(tmp_path):
 def test_cli_stale_base_fails(tmp_path):
     out = tmp_path / "frago"
     runner.invoke(app, ["export-openaix", str(FRAGO_YAML), "-o", str(out)])
-    base = yaml.safe_load((ROOT / "examples" / "example_full.yaml").read_text())
+    base = load_opord(ROOT / "examples" / "example_full.yaml").model_dump(mode="json", exclude_unset=True)
     base["header"]["revision"] = "2"
     base_path = tmp_path / "base.yaml"
     base_path.write_text(yaml.safe_dump(base, sort_keys=False))
