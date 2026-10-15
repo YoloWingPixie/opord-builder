@@ -1,4 +1,4 @@
-"""Kneeboards from an OpenAIX ATO (phase 2): fixture, cards, merge, CLI, golden HTML."""
+"""Kneeboard cards (dicts) from an OpenAIX ATO: cards, overrides, files, golden HTML."""
 
 from __future__ import annotations
 
@@ -10,20 +10,20 @@ from pathlib import Path
 
 import pytest
 import yaml
-from typer.testing import CliRunner
 
-from opord_builder import renderer
-from opord_builder.cli import app
-from opord_builder.load import read
-from opord_builder.openaix.kneeboard import (
+from opord_builder import render
+from opord_builder.kneeboard import (
     build_cards,
+    cards_from_document,
     cards_from_files,
-    load_document,
+    merge,
     merge_resources,
-    merge_with_yaml,
+    render_card_html,
+    render_card_png,
+    render_cards,
+    validate_cards,
 )
 from opord_builder.openaix.validate import validate
-from opord_builder.schema.shared import KneeboardCard
 
 FIX = Path(__file__).parent / "fixtures" / "openaix" / "atomic-thunder"
 ATO = FIX / "ato.json"
@@ -31,6 +31,7 @@ RES = FIX / "resources.json"
 OPORD = FIX / "opord.json"
 GOLDEN = FIX / "viper-1.html"
 STAMP = "141200ZOCT26"
+EXT = "org.opord-builder.kneeboard"
 
 
 @pytest.fixture(scope="module")
@@ -79,27 +80,22 @@ def test_fixture_shape(docs):
     assert ato["missions"][1]["tasking"]["kind"] == "refueling"
 
 
-def test_load_document_rejects_wrong_kind_and_invalid(tmp_path):
-    with pytest.raises(ValueError, match="expected an OpenAIX 'ato'"):
-        load_document(RES, "ato")
-    bad = tmp_path / "bad.json"
-    bad.write_text('{"kind": "ato"}')
-    with pytest.raises(ValueError, match="not a valid OpenAIX ato"):
-        load_document(bad, "ato")
-
-
-# ----------------------------------------------------------------- table rows
+# ----------------------------------------------------------------------- table rows
 
 
 def test_header_fields(docs):
     c, _ = card_for(docs)
-    assert (c.flight_callsign, c.title, c.msn_number) == ("Viper 1", "Viper 1", "4101")
+    assert (c["flight_callsign"], c["title"], c["msn_number"]) == (
+        "Viper 1",
+        "Viper 1",
+        "4101",
+    )
 
 
 def test_one_card_per_flight(docs):
     ato, _, res = docs
     cards, _ = build_cards(ato, res)
-    assert [c.flight_callsign for c in cards] == ["Viper 1", "Shell 1"]
+    assert [c["flight_callsign"] for c in cards] == ["Viper 1", "Shell 1"]
 
 
 def test_unknown_flight_lists_known_ids(docs):
@@ -110,9 +106,9 @@ def test_unknown_flight_lists_known_ids(docs):
 
 def test_positions_count_and_laser_from_scl(docs):
     c, _ = card_for(docs)
-    assert [p.number for p in c.positions] == [1, 2, 3, 4]
+    assert [p["number"] for p in c["positions"]] == [1, 2, 3, 4]
     # member 2 has its own laser_code; the others take the SCL's
-    assert [p.laser for p in c.positions] == ["1688", "1687", "1688", "1688"]
+    assert [p["laser"] for p in c["positions"]] == ["1688", "1687", "1688", "1688"]
 
 
 def test_aircraft_laser_code_beats_the_scl(docs):
@@ -121,12 +117,12 @@ def test_aircraft_laser_code_beats_the_scl(docs):
             o.pop("laser_code", None)
 
     c, _ = card_for(docs, mutate=mut)
-    assert {p.laser for p in c.positions} == {"1688"}
+    assert {p["laser"] for p in c["positions"]} == {"1688"}
 
 
 def test_board_number_and_crew_fill_modex_and_pers(docs):
     c, w = card_for(docs)
-    assert [(p.modex, p.pers) for p in c.positions] == [
+    assert [(p["modex"], p["pers"]) for p in c["positions"]] == [
         ("401", "Maverick"),
         ("402", "Goose"),
         ("403", "Iceman"),
@@ -141,7 +137,7 @@ def test_board_number_and_crew_fill_modex_and_pers(docs):
             o.pop("crew", None)
 
     c, w = card_for(docs, mutate=mut)
-    assert all(p.modex == "" and p.pers == "" for p in c.positions)
+    assert all(p["modex"] == "" and p["pers"] == "" for p in c["positions"])
     assert has_warning(w, "Viper 1: positions[].modex")
     assert has_warning(w, "Viper 1: positions[].pers")
 
@@ -158,32 +154,32 @@ def test_member_scl_override_changes_laser(docs):
         )
 
     c, _ = card_for(docs, mutate=mut)
-    assert [p.laser for p in c.positions] == ["1688", "1687", "1511", "1688"]
+    assert [p["laser"] for p in c["positions"]] == ["1688", "1687", "1511", "1688"]
 
 
 def test_tacan_lead_and_flight(docs):
     c, w = card_for(docs)
-    assert (c.tacan.lead, c.tacan.flight) == ("14Y", "77Y")
+    assert (c["tacan"]["lead"], c["tacan"]["flight"]) == ("14Y", "77Y")
 
     def mut(ato, res):
         viper(ato)["configuration"].pop("member_overrides")
 
     c, w = card_for(docs, mutate=mut)
-    assert c.tacan.lead == "" and has_warning(w, "tacan.lead")
+    assert c["tacan"]["lead"] == "" and has_warning(w, "tacan.lead")
 
 
 def test_objectives_and_weaponeering(docs):
     c, _ = card_for(docs)
-    assert c.primary_objectives == [
+    assert c["primary_objectives"] == [
         "Destroy hardened shelters at the fictional airbase"
     ]
-    assert c.weaponeering == "Viper OCA (4x GBU-12, 2x AIM-120, 2x AIM-9)"
+    assert c["weaponeering"] == "Viper OCA (4x GBU-12, 2x AIM-120, 2x AIM-9)"
 
 
 def test_fuel_plan_lb_and_kg_conversion(docs):
     c, w = card_for(docs)
-    f = c.fuel_plan
-    assert (f.msn_req_lbs, f.joker_lbs, f.bingo_lbs, f.rcv_tank_lbs) == (
+    f = c["fuel_plan"]
+    assert (f["msn_req_lbs"], f["joker_lbs"], f["bingo_lbs"], f["rcv_tank_lbs"]) == (
         5200,
         2800,
         1500,
@@ -195,24 +191,26 @@ def test_fuel_plan_lb_and_kg_conversion(docs):
         viper(ato)["fuel"].pop("mission_required")
 
     c, w = card_for(docs, mutate=no_req)
-    assert c.fuel_plan.msn_req_lbs == 0 and has_warning(w, "fuel_plan.msn_req_lbs")
+    assert c["fuel_plan"]["msn_req_lbs"] == 0 and has_warning(
+        w, "fuel_plan.msn_req_lbs"
+    )
 
     def mut(ato, res):
         viper(ato)["fuel"]["joker"] = {"value": 1000, "unit": "kg"}
 
     c, _ = card_for(docs, mutate=mut)
-    assert c.fuel_plan.joker_lbs == 2205
+    assert c["fuel_plan"]["joker_lbs"] == 2205
 
     def req_kg(ato, res):
         viper(ato)["fuel"]["mission_required"] = {"value": 2000, "unit": "kg"}
 
     c, _ = card_for(docs, mutate=req_kg)
-    assert c.fuel_plan.msn_req_lbs == 4409
+    assert c["fuel_plan"]["msn_req_lbs"] == 4409
 
 
 def test_comms_phases_grouped_by_activities(docs):
     c, w = card_for(docs)
-    rows = [(p.phase, p.comm1, p.comm2) for p in c.comms.phases]
+    rows = [(p["phase"], p["comm1"], p["comm2"]) for p in c["comms"]["phases"]]
     assert rows == [
         # no `activities`: the complete mission
         ("ALL PHASES", "Overlord control: 251.0 MHz AM (BTN 1)", ""),
@@ -222,8 +220,10 @@ def test_comms_phases_grouped_by_activities(docs):
         # from the flight's comm_plan
         ("RECOVERY", "Spang Tower: 257.8 MHz AM (BTN 6)", ""),
     ]
-    assert c.comms.intra == "276.5 MHz AM"
-    assert all("Shell" not in p.comm1 for p in c.comms.phases)  # under tankers[]
+    assert c["comms"]["intra"] == "276.5 MHz AM"
+    assert all(
+        "Shell" not in p["comm1"] for p in c["comms"]["phases"]
+    )  # under tankers[]
     assert not has_warning(w, "comms.phases")
 
 
@@ -235,7 +235,11 @@ def test_unknown_activity_and_comm_plan_warn(docs):
     c, w = card_for(docs, mutate=mut)
     assert has_warning(w, "activity 'nowhere' is not an activity of the flight")
     assert has_warning(w, "comm_plan 'no-such-plan' is not in the resources")
-    assert [p.phase for p in c.comms.phases] == ["ALL PHASES", "DEPARTURE", "PUSH"]
+    assert [p["phase"] for p in c["comms"]["phases"]] == [
+        "ALL PHASES",
+        "DEPARTURE",
+        "PUSH",
+    ]
 
 
 def test_without_activities_everything_is_one_phase(docs):
@@ -247,17 +251,17 @@ def test_without_activities_everything_is_one_phase(docs):
             a.pop("activities", None)
 
     c, _ = card_for(docs, mutate=mut)
-    (phase,) = c.comms.phases
-    assert phase.phase == "ALL PHASES"
-    assert phase.comm1 == "Overlord control: 251.0 MHz AM (BTN 1)"
-    assert phase.comm2 == (
+    (phase,) = c["comms"]["phases"]
+    assert phase["phase"] == "ALL PHASES"
+    assert phase["comm1"] == "Overlord control: 251.0 MHz AM (BTN 1)"
+    assert phase["comm2"] == (
         "Strike common: 133.5 MHz AM (BTN 2) / Spang Ground: 121.8 MHz AM (BTN 3)"
     )
 
 
 def test_mids_from_link16_flight_channels_and_lead_station(docs):
     c, w = card_for(docs)
-    assert c.comms.mids == "Link 16 STN 01201 FTR 7 MSN 3 TEAM 01202/01203/01204"
+    assert c["comms"]["mids"] == "Link 16 STN 01201 FTR 7 MSN 3 TEAM 01202/01203/01204"
     assert not has_warning(w, "comms.mids")
 
 
@@ -276,7 +280,7 @@ def test_link16_all_fields_and_flight_only(docs):
         }
 
     c, _ = card_for(docs, mutate=mut)
-    assert c.comms.mids == (
+    assert c["comms"]["mids"] == (
         "Link 16 STN 01300 FTR 7 MSN 3 SPL 4 TEAM 01301 DONOR 01400/01401"
     )
 
@@ -293,13 +297,13 @@ def test_mids_falls_back_to_the_datalink_text_fields(docs):
         )
 
     c, w = card_for(docs, mutate=mut)
-    assert c.comms.mids == "Link 16 Net 1 STN 01201"
+    assert c["comms"]["mids"] == "Link 16 Net 1 STN 01201"
     assert not has_warning(w, "comms.mids")
 
 
 def test_timing_tot_and_push_from_the_package(docs):
     c, w = card_for(docs)
-    assert c.timing.model_dump() == {
+    assert c["timing"] == {
         "tot": "1030Z +/-5 MIN",
         "push": "0950Z",
         "push_point": "IVORY",  # the control measure's name, not its identifier
@@ -340,7 +344,7 @@ def test_time_conditions_read_as_kneeboard_text(docs, spec, text):
         ato["packages"][0]["time_on_target"] = spec
 
     c, _ = card_for(docs, mutate=mut)
-    assert c.timing.tot == text
+    assert c["timing"]["tot"] == text
 
 
 def test_timing_is_blank_with_warnings_when_the_package_gives_none(docs):
@@ -349,14 +353,14 @@ def test_timing_is_blank_with_warnings_when_the_package_gives_none(docs):
             ato["packages"][0].pop(k)
 
     c, w = card_for(docs, mutate=mut)
-    assert c.timing is None
+    assert "timing" not in c
     assert has_warning(w, "Viper 1: timing.tot") and has_warning(w, "timing.push")
 
     def no_package(ato, res):
         ato["missions"][0].pop("package")
 
     c, w = card_for(docs, mutate=no_package)
-    assert c.timing is None and has_warning(
+    assert "timing" not in c and has_warning(
         w, "Viper 1: timing: mission has no package"
     )
 
@@ -366,44 +370,44 @@ def test_push_point_without_a_known_measure_shows_its_identifier(docs):
         res["resources"]["control_measures"] = {}
 
     c, _ = card_for(docs, mutate=mut)
-    assert c.timing.push_point == "push-ivory"
+    assert c["timing"]["push_point"] == "push-ivory"
 
 
 def test_baro_alt_from_the_opord_forecast_for_takeoff(docs):
     opord = json.loads(OPORD.read_text())
     c, w = card_for(docs, opord=opord)
-    assert c.baro_alt == "29.92 inHg" and not has_warning(w, "baro_alt")
+    assert c["baro_alt"] == "29.92 inHg" and not has_warning(w, "baro_alt")
 
     def late(ato, res):  # takeoff in the second forecast window
         viper(ato)["launch"]["takeoff"] = "2026-10-14T13:00:00Z"
 
     c, _ = card_for(docs, mutate=late, opord=opord)
-    assert c.baro_alt == "30.05 inHg"
+    assert c["baro_alt"] == "30.05 inHg"
 
     opord["situation"]["area_of_operations"]["weather"]["forecasts"][0]["altimeter"] = {
         "value": 1013.25,
         "unit": "hPa",
     }
     c, _ = card_for(docs, opord=opord)
-    assert c.baro_alt == "1013.25 hPa"
+    assert c["baro_alt"] == "1013.25 hPa"
 
 
 def test_baro_alt_warns_without_an_opord_or_altimeter(docs):
     c, w = card_for(docs)
-    assert c.baro_alt == "" and has_warning(w, "Viper 1: baro_alt: no OpenAIX opord")
+    assert c["baro_alt"] == "" and has_warning(w, "Viper 1: baro_alt: no OpenAIX opord")
     opord = json.loads(OPORD.read_text())
     for f in opord["situation"]["area_of_operations"]["weather"]["forecasts"]:
         f.pop("altimeter")
     c, w = card_for(docs, opord=opord)
-    assert c.baro_alt == "" and has_warning(
+    assert c["baro_alt"] == "" and has_warning(
         w, "the opord has no WeatherForecast.altimeter"
     )
 
 
 def test_tankers(docs):
     c, _ = card_for(docs)
-    (t,) = c.tankers
-    assert (t.callsign, t.frequency, t.tacan, t.button) == (
+    (t,) = c["tankers"]
+    assert (t["callsign"], t["frequency"], t["tacan"], t["button"]) == (
         "Shell 1",
         "240.1 MHz AM",
         "41Y",
@@ -417,12 +421,12 @@ def test_tanker_not_serving_flight_is_excluded(docs):
         ato["missions"][0].pop("support")
 
     c, w = card_for(docs, mutate=mut)
-    assert c.tankers == [] and has_warning(w, "no Refueling mission")
+    assert c["tankers"] == [] and has_warning(w, "no Refueling mission")
 
 
 def test_atc_from_launch_and_recovery_fields(docs):
     c, _ = card_for(docs)
-    assert [(a.name, a.frequency) for a in c.atc] == [
+    assert [(a["name"], a["frequency"]) for a in c["atc"]] == [
         ("ETAD GROUND", "121.8 MHz AM"),
         ("ETAD TOWER", "257.8 MHz AM"),
         ("ETAD APPROACH", "263.0 MHz AM"),
@@ -434,7 +438,7 @@ def test_atc_distinct_recovery_field(docs):
         viper(ato)["recovery"]["destination"] = "etar"
 
     c, _ = card_for(docs, mutate=mut)
-    assert c.atc[-1].name == "ETAR TOWER"
+    assert c["atc"][-1]["name"] == "ETAR TOWER"
 
 
 # ------------------------------------------------------------------- warnings
@@ -457,10 +461,14 @@ def test_missing_sources_warn_and_stay_blank(docs):
         ato["missions"][0]["tasking"].pop("objective")
 
     c, w = card_for(docs, mutate=mut)
-    assert c.comms.intra == "" and c.comms.mids == "" and c.comms.phases == []
-    assert c.atc == [] and c.primary_objectives == []
-    assert c.fuel_plan.joker_lbs == 0 and c.fuel_plan.rcv_tank_lbs == 4000
-    assert all(p.laser == "" for p in c.positions)
+    assert (
+        c["comms"]["intra"] == ""
+        and c["comms"]["mids"] == ""
+        and c["comms"]["phases"] == []
+    )
+    assert c["atc"] == [] and c["primary_objectives"] == []
+    assert c["fuel_plan"]["joker_lbs"] == 0 and c["fuel_plan"]["rcv_tank_lbs"] == 4000
+    assert all(p["laser"] == "" for p in c["positions"])
     for field in (
         "positions[].laser",
         "tacan.flight",
@@ -478,46 +486,48 @@ def test_missing_sources_warn_and_stay_blank(docs):
 # ----------------------------------------------------------------- YAML merge
 
 
-def yaml_card(**kw):
-    return KneeboardCard(flight_callsign="VIPER1", **kw)
+# ------------------------------------------------------------------ overrides
 
 
-def test_yaml_modex_override_wins_field_by_field(docs):
+def override(**kw):
+    return {"flight_callsign": "VIPER1", **kw}
+
+
+def test_override_modex_wins_field_by_field(docs):
     c, _ = card_for(docs)
-    y = yaml_card(positions=[{"number": 1, "modex": "411"}])
-    (m,), warns = merge_with_yaml([c], [y])
-    assert m.positions[0].modex == "411"
-    assert [p.laser for p in m.positions] == ["1688", "1687", "1688", "1688"]
-    assert len(m.positions) == 4 and m.flight_callsign == "Viper 1"
+    y = override(positions=[{"number": 1, "modex": "411"}])
+    (m,), warns = merge([c], [y])
+    assert m["positions"][0]["modex"] == "411"
+    assert [p["laser"] for p in m["positions"]] == ["1688", "1687", "1688", "1688"]
+    assert len(m["positions"]) == 4 and m["flight_callsign"] == "Viper 1"
     assert has_warning(
         warns, "positions[0].modex: YAML value '411' overrides ATO value '401'"
     )
+    assert c["positions"][0]["modex"] == "401"  # inputs are not mutated
 
-    def blank(
-        ato, res
-    ):  # ATO board number blank: filling a blank is not a disagreement
+    def blank(ato, res):  # blank ATO board number: filling a blank is no disagreement
         for o in viper(ato)["configuration"]["member_overrides"]:
             o.pop("board_number")
 
     c, _ = card_for(docs, mutate=blank)
-    (m,), warns = merge_with_yaml([c], [y])
-    assert m.positions[0].modex == "411" and warns == []
+    (m,), warns = merge([c], [y])
+    assert m["positions"][0]["modex"] == "411" and warns == []
 
 
-def test_yaml_disagreement_warns(docs):
+def test_override_disagreement_warns(docs):
     c, _ = card_for(docs)
-    y = yaml_card(
+    y = override(
         positions=[{"number": 1, "laser": "1511"}],
         tacan={"lead": "99Y"},
         weaponeering="Different load",
     )
-    (m,), warns = merge_with_yaml([c], [y])
-    assert (m.positions[0].laser, m.tacan.lead, m.tacan.flight) == (
+    (m,), warns = merge([c], [y])
+    assert (m["positions"][0]["laser"], m["tacan"]["lead"], m["tacan"]["flight"]) == (
         "1511",
         "99Y",
         "77Y",
     )
-    assert m.weaponeering == "Different load"
+    assert m["weaponeering"] == "Different load"
     assert len(warns) == 3
     assert has_warning(
         warns, "positions[0].laser: YAML value '1511' overrides ATO value '1688'"
@@ -525,16 +535,90 @@ def test_yaml_disagreement_warns(docs):
     assert has_warning(warns, "tacan.lead") and has_warning(warns, "weaponeering")
 
 
-def test_yaml_equal_value_is_silent_and_unmatched_cards_are_kept(docs):
+def test_equal_override_is_silent_and_unmatched_cards_are_kept(docs):
     c, _ = card_for(docs)
-    other = KneeboardCard(flight_callsign="Hawg 2")
-    merged, warns = merge_with_yaml([c], [yaml_card(msn_number="4101"), other])
-    assert warns == [] and [m.flight_callsign for m in merged] == ["Viper 1", "Hawg 2"]
-    merged, _ = merge_with_yaml([c], [other], keep_unmatched=False)
-    assert [m.flight_callsign for m in merged] == ["Viper 1"]
+    other = {"flight_callsign": "Hawg 2"}
+    merged, warns = merge([c], [override(msn_number="4101"), other])
+    assert warns == [] and [m["flight_callsign"] for m in merged] == [
+        "Viper 1",
+        "Hawg 2",
+    ]
+    merged, _ = merge([c], [other], keep_unmatched=False)
+    assert [m["flight_callsign"] for m in merged] == ["Viper 1"]
 
 
-# ------------------------------------------------------------------------ CLI
+def test_bad_card_names_its_json_pointer():
+    validate_cards([{"flight_callsign": "A"}])
+    with pytest.raises(ValueError, match="/cards/1/tacan/lead"):
+        validate_cards([{}, {"tacan": {"lead": 14}}])
+
+
+# ------------------------------------------------------------------------ files
+
+
+def write_ato_with_overrides(tmp_path, flight_card=None, top_cards=None):
+    ato = json.loads(ATO.read_text())
+    if flight_card:
+        viper(ato).setdefault("extensions", {})[EXT] = {"cards": [flight_card]}
+    if top_cards:
+        ato.setdefault("extensions", {})[EXT] = {"cards": top_cards}
+    path = tmp_path / "ato.json"
+    path.write_text(json.dumps(ato))
+    return path
+
+
+def test_cards_from_files_builds_every_flight():
+    cards, _ = cards_from_files(ATO, RES)
+    assert [c["flight_callsign"] for c in cards] == ["Viper 1", "Shell 1"]
+    cards, _ = cards_from_files(ATO, RES, "shell-1")
+    assert [c["flight_callsign"] for c in cards] == ["Shell 1"]
+
+
+def test_cards_from_files_rejects_wrong_kind():
+    with pytest.raises(ValueError, match="expected an OpenAIX 'ato'"):
+        cards_from_files(RES, RES)
+
+
+def test_flight_extension_card_without_callsign_applies_to_its_flight(tmp_path):
+    path = write_ato_with_overrides(
+        tmp_path, flight_card={"notes": "Check in with AWACS", "tacan": {"lead": "99Y"}}
+    )
+    cards, warns = cards_from_files(path, RES)
+    assert cards[0]["notes"] == "Check in with AWACS"
+    assert cards[0]["tacan"] == {"lead": "99Y", "flight": "77Y"}
+    assert has_warning(warns, "tacan.lead: YAML value '99Y' overrides ATO value '14Y'")
+    assert "notes" not in cards[1]
+
+
+def test_top_level_cards_merge_and_unmatched_are_added(tmp_path):
+    path = write_ato_with_overrides(
+        tmp_path,
+        top_cards=[
+            {"flight_callsign": "Viper 1", "weaponeering": "Own load"},
+            {"flight_callsign": "Hawg 2", "msn_number": "9"},
+        ],
+    )
+    cards, _ = cards_from_files(path, RES)
+    assert [c["flight_callsign"] for c in cards] == ["Viper 1", "Shell 1", "Hawg 2"]
+    assert cards[0]["weaponeering"] == "Own load"
+    cards, _ = cards_from_files(path, RES, "viper-1")
+    assert [c["flight_callsign"] for c in cards] == ["Viper 1"]
+
+
+def test_cards_from_files_opord_adds_the_altimeter():
+    cards, warns = cards_from_files(ATO, RES, "viper-1", OPORD)
+    assert cards[0]["baro_alt"] == "29.92 inHg" and not has_warning(warns, "baro_alt")
+
+
+def test_cards_from_document_reads_the_extension(tmp_path):
+    path = tmp_path / "frago.yaml"
+    doc = json.loads(OPORD.read_text())
+    doc["extensions"] = {EXT: {"cards": [{"flight_callsign": "Hawg 2", "notes": "x"}]}}
+    path.write_text(yaml.safe_dump(doc))
+    assert cards_from_document(path) == [{"flight_callsign": "Hawg 2", "notes": "x"}]
+
+
+# ----------------------------------------------------------------- rendering
 
 
 def png_size(path: Path) -> tuple[int, int]:
@@ -543,87 +627,23 @@ def png_size(path: Path) -> tuple[int, int]:
     return struct.unpack(">II", data[16:24])
 
 
-def test_cli_ato_flight_writes_768x1024_png(tmp_path):
-    r = CliRunner().invoke(
-        app,
-        [
-            "kneeboard",
-            "--ato",
-            str(ATO),
-            "--flight",
-            "viper-1",
-            "--resources",
-            str(RES),
-            "-o",
-            str(tmp_path),
-        ],
-    )
-    assert r.exit_code == 0, r.output
-    (png,) = tmp_path.glob("*.png")
-    assert png_size(png) == (768, 1024)
-    assert "warning: Viper 1: baro_alt" in r.output  # warnings go to stderr
+def test_render_cards_writes_numbered_768x1024_pngs(tmp_path):
+    cards, _ = cards_from_files(ATO, RES)
+    paths = render_cards(cards, tmp_path / "out", "op")
+    assert [p.name for p in paths] == ["op_kneeboard_001.png", "op_kneeboard_002.png"]
+    assert all(png_size(p) == (768, 1024) for p in paths)
+    assert png_size(render_card_png(cards[0], tmp_path / "one.png")) == (768, 1024)
 
 
-def test_cli_without_flight_renders_every_flight(tmp_path):
-    r = CliRunner().invoke(
-        app,
-        ["kneeboard", "--ato", str(ATO), "--resources", str(RES), "-o", str(tmp_path)],
-    )
-    assert r.exit_code == 0, r.output
-    assert len(list(tmp_path.glob("*.png"))) == 2
-
-
-def test_cli_needs_a_source_and_ato_for_flight(tmp_path):
-    runner = CliRunner()
-    assert runner.invoke(app, ["kneeboard"]).exit_code == 2
-    assert runner.invoke(app, ["kneeboard", "--flight", "viper-1"]).exit_code == 2
-    r = runner.invoke(
-        app, ["kneeboard", "--ato", str(ATO), "--flight", "nope", "-o", str(tmp_path)]
-    )
-    assert r.exit_code == 2 and "no flight 'nope'" in r.output
-
-
-def test_cli_combines_yaml_cards_with_ato(tmp_path):
-    base = Path(__file__).parent.parent / "examples" / "example_minimal.yaml"
-    yml = tmp_path / "opord.yaml"
-    doc = read(base)
-    doc["extensions"] = {
-        "org.opord-builder.kneeboard": {
-            "cards": [
-                {"flight_callsign": "VIPER1", "weaponeering": "Other load"},
-                {"flight_callsign": "HAWG2"},
-            ]
-        }
-    }
-    yml.write_text(yaml.safe_dump(doc, sort_keys=False), encoding="utf-8")
-    out = tmp_path / "png"
-    r = CliRunner().invoke(
-        app,
-        [
-            "kneeboard",
-            str(yml),
-            "--ato",
-            str(ATO),
-            "--resources",
-            str(RES),
-            "-o",
-            str(out),
-        ],
-    )
-    assert r.exit_code == 0, r.output
-    assert "weaponeering: YAML value 'Other load' overrides ATO value" in r.output
-    assert (
-        len(list(out.glob("opord_kneeboard_*.png"))) == 3
-    )  # Viper 1 (merged), Shell 1, Hawg 2
-
-
-# --------------------------------------------------------------- golden HTML
+def test_sparse_card_renders_without_undefined():
+    html = render_card_html({"flight_callsign": "Hawg 2", "positions": [{"number": 1}]})
+    assert "Hawg 2" in html and "Undefined" not in html
 
 
 def test_rendered_html_matches_golden(monkeypatch):
-    monkeypatch.setattr(renderer, "_now_utc_stamp", lambda: STAMP)
-    cards, _ = cards_from_files(ATO, RES, "viper-1", opord_path=OPORD)
-    html = renderer.render_kneeboard_html(cards[0])
+    monkeypatch.setattr(render, "stamp", lambda: STAMP)
+    cards, _ = cards_from_files(ATO, RES, "viper-1", OPORD)
+    html = render_card_html(cards[0])
     if os.environ.get(
         "UPDATE_GOLDEN"
     ):  # UPDATE_GOLDEN=1 uv run pytest tests/test_openaix_kneeboard.py
@@ -650,30 +670,3 @@ def test_golden_shows_the_gameplay_fields():
         "29.92 inHg",
     ):
         assert text in html, text
-
-
-def test_cli_opord_adds_the_altimeter(tmp_path):
-    r = CliRunner().invoke(
-        app,
-        [
-            "kneeboard",
-            "--ato",
-            str(ATO),
-            "--flight",
-            "viper-1",
-            "--resources",
-            str(RES),
-            "--opord",
-            str(OPORD),
-            "-o",
-            str(tmp_path),
-        ],
-    )
-    assert r.exit_code == 0, r.output
-    assert "baro_alt" not in r.output
-    assert len(list(tmp_path.glob("*.png"))) == 1
-
-
-def test_cli_opord_needs_an_ato(tmp_path):
-    r = CliRunner().invoke(app, ["kneeboard", "--opord", str(OPORD)])
-    assert r.exit_code == 2 and "--opord" in r.output

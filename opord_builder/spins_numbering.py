@@ -3,7 +3,7 @@
 from collections import Counter
 from dataclasses import dataclass, field
 
-from opord_builder.renderer import letter_for
+from opord_builder.format import letter_for
 from opord_builder.schema.spins import (
     SPINS,
     ListBlock,

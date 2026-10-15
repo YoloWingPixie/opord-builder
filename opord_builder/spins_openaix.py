@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import json
-from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from opord_builder.openaix import convert
-from opord_builder.openaix.validate import validate
+from opord_builder import format as fmt
+from opord_builder.load import DocumentError, load_document
 from opord_builder.schema.spins import (
     NoteBlock,
     OpenAIXTableBlock,
@@ -25,7 +23,6 @@ KINDS = {
     "resources": {"resources"},
     "airfield": {"airfield", "carrier", "farp"},
 }
-MAX_LISTED_ERRORS = 5
 _MISSING = object()
 
 
@@ -76,35 +73,12 @@ def resolve(document: Any, pointer: str) -> Any:
 
 # --------------------------------------------------------------------------- value text
 
-_VERTICAL_WORDS = {"surface": "SFC", "unlimited": "UNL"}
-_RECOVERY_CASES = {"case_i": "Case I", "case_ii": "Case II", "case_iii": "Case III"}
-
-
-def _number(value: float) -> str:
-    return format(Decimal(str(value)).normalize(), "f")
-
-
-def _altitude(alt: dict[str, Any]) -> str:
-    if alt["unit"] == "flight_level":
-        return f"FL{int(alt['value']):03d}"
-    return f"{_number(alt['value'])} {alt['unit']} {alt['reference']}"
-
-
-def _bearing(b: dict[str, Any]) -> str:
-    value = b["value"]
-    text = f"{int(value):03d}" if float(value).is_integer() else f"{value:05.1f}"
-    return f"{text}° {'M' if b['reference'] == 'magnetic' else 'T'}"
-
 
 def _time(value: Any, where: str) -> str:
-    if isinstance(value, str):
-        try:
-            return convert.rfc3339_to_dtg(value, where, warnings=[])
-        except convert.ConvertError:
-            return value
-    if isinstance(value, dict) and "offset_minutes" in value:
-        minutes = value["offset_minutes"]
-        return f"T{'+' if minutes >= 0 else '-'}{_number(abs(minutes))} min"
+    if isinstance(value, str) or (
+        isinstance(value, dict) and "offset_minutes" in value
+    ):
+        return fmt.window(value)
     raise ValueError(f"{where}: unrecognized time value")
 
 
@@ -115,46 +89,43 @@ def format_value(value: Any, where: str = "value") -> str:
     if isinstance(value, bool):
         return "Yes" if value else "No"
     if isinstance(value, (int, float)):
-        return _number(value)
+        return fmt.number(value)
     if isinstance(value, str):
-        return _time(value, where) if value[:4].isdigit() and "T" in value else value
+        return fmt.dtg(value) if fmt.RFC3339.fullmatch(value) else value
     if isinstance(value, list):
         parts = [format_value(item, f"{where}[{i}]") for i, item in enumerate(value)]
         return ", ".join(part for part in parts if part)
     if isinstance(value, dict):
         keys = set(value)
         unit = value.get("unit")
-        if keys == {"surface"} or keys == {"unlimited"}:
-            return _VERTICAL_WORDS[next(iter(keys))]
+        if keys in ({"surface"}, {"unlimited"}):
+            return fmt.VERTICAL[next(iter(keys))]
         if keys == {"offset_minutes"}:
             return _time(value, where)
         if "lower" in keys and "upper" in keys:
             return f"{format_value(value['lower'], where)} to {format_value(value['upper'], where)}"
         if unit in ("MHz", "kHz") and "value" in keys:
-            return convert.format_frequency(value, where)
+            return fmt.frequency(value)
         if "reference" in keys and unit in ("ft", "m", "flight_level"):
-            return _altitude(value)
+            return fmt.altitude(value)
         if "reference" in keys and "value" in keys and unit is None:
-            return _bearing(value)
+            return fmt.bearing(value)
         if "value" in keys and unit is not None:
-            return f"{_number(value['value'])} {unit}"
+            return f"{fmt.number(value['value'])} {unit}"
         if {"channel", "band"} <= keys:
-            text = convert.format_tacan(value)
-            return (
-                f"{text} ({value['identifier']})" if value.get("identifier") else text
-            )
+            return fmt.tacan(value)
         if {"case", "window"} <= keys:  # a carrier RecoveryWindow
-            text = f"{_RECOVERY_CASES.get(value['case'], value['case'])} {format_value(value['window'], where)}"
+            text = f"{fmt.CASES.get(value['case'], value['case'])} {format_value(value['window'], where)}"
             if value.get("brc"):
-                text += f", BRC {_bearing(value['brc'])}"
+                text += f", BRC {fmt.bearing(value['brc'])}"
             return text
         if {"start", "end"} <= keys:
             return f"{_time(value['start'], where)} to {_time(value['end'], where)}"
         if {"latitude", "longitude"} <= keys:
-            return f"{_number(value['latitude'])}, {_number(value['longitude'])}"
+            return f"{fmt.number(value['latitude'])}, {fmt.number(value['longitude'])}"
         if isinstance(value.get("frequency"), dict):
             who = value.get("callsign") or value.get("role") or value.get("name")
-            freq = convert.format_frequency(value["frequency"], where)
+            freq = fmt.frequency(value["frequency"])
             return f"{who} {freq}" if who else freq
         raise ValueError(
             f"{where}: an object with keys {sorted(keys)} has no text form;"
@@ -169,7 +140,7 @@ def _describe(identifier: str, record: Any) -> str:
         return identifier
     name = record.get("name") or record.get("callsign") or identifier
     if isinstance(record.get("frequency"), dict):
-        return f"{name} ({convert.format_frequency(record['frequency'])})"
+        return f"{name} ({fmt.frequency(record['frequency'])})"
     if record.get("ident"):
         return f"{name} ({record['ident']})"
     return str(name)
@@ -205,24 +176,15 @@ class OpenAIXSources:
     @staticmethod
     def _load(source: str, path: Path) -> tuple[Path, Any]:
         try:
-            document = json.loads(path.read_text(encoding="utf-8"))
-        except OSError as exc:
-            raise OpenAIXTableError(
-                f"openaix {source} file {path}: {exc.strerror or exc}"
-            ) from exc
-        except json.JSONDecodeError as exc:
-            raise OpenAIXTableError(
-                f"openaix {source} file {path}: invalid JSON: {exc}"
-            ) from exc
-        errors = validate(document)
-        if errors:
-            shown = "; ".join(str(e) for e in errors[:MAX_LISTED_ERRORS])
-            more = len(errors) - MAX_LISTED_ERRORS
+            document = load_document(path)
+        except DocumentError as exc:
+            shown = "; ".join(
+                f"{e.pointer or '/'}: {e.message}" for e in exc.errors[:5]
+            )
             raise OpenAIXTableError(
                 f"openaix {source} file {path} is not valid OpenAIX: {shown}"
-                + (f"; and {more} more" if more > 0 else "")
-            )
-        kind = document.get("kind")
+            ) from exc
+        kind = document.get("kind") if isinstance(document, dict) else None
         if kind not in KINDS[source]:
             raise OpenAIXTableError(
                 f"openaix {source} file {path}: kind is {kind!r}, expected {sorted(KINDS[source])}"

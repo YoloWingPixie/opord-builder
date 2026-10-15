@@ -6,7 +6,6 @@ vars:
   PROJECT_NAME: opord-builder
   SOURCE_DIR: opord_builder
   TEST_DIR: tests
-  SCHEMA_PATH: schemas/opord-authoring.schema.json
   OUT_DIR: output
 
 tasks:
@@ -108,34 +107,9 @@ tasks:
 
   # ── Schema ─────────────────────────────────────────────────
 
-  schema:generate:
-    desc: "Regenerate the JSON Schema from Pydantic models"
-    deps: [setup]
-    cmds:
-      - uv run opord schema -o {{.SCHEMA_PATH}}
-    sources:
-      - "{{.SOURCE_DIR}}/schema/**/*.py"
-    generates:
-      - "{{.SCHEMA_PATH}}"
 
-  schema:check:
-    desc: "Fail if the committed authoring and SPINS schemas are stale"
-    deps: [setup]
-    cmds:
-      - uv run opord schema --check -o {{.SCHEMA_PATH}}
-      - uv run opord schema --document-type spins --check -o schemas/spins.schema.json
 
-  schema:docs:
-    desc: "Generate human-readable schema docs into docs/schema/"
-    deps: [setup:dev]
-    cmds:
-      - uv run opord docs
 
-  schema:spins:
-    desc: "Generate the SPINS publication JSON Schema"
-    deps: [setup]
-    cmds:
-      - uv run opord schema --document-type spins --out schemas/spins.schema.json
 
   render:spins:
     desc: "Render a SPINS publication (usage: task render:spins -- input.yaml)"
@@ -278,20 +252,18 @@ tasks:
   # ── Check ──────────────────────────────────────────────────
 
   check:
-    desc: "Fast gate: schema freshness and tests"
+    desc: "Fast gate: tests"
     cmds:
-      - task: schema:check
       - task: test
 
   # ── CI ─────────────────────────────────────────────────────
 
   ci:
-    desc: "Run all CI checks (format check → lint → test → schema freshness)"
+    desc: "Run all CI checks (format check → lint → test)"
     cmds:
       - task: format:check
       - task: lint
       - task: test
-      - task: schema:check
 
   # ── Housekeeping ───────────────────────────────────────────
 

@@ -41,50 +41,136 @@
           "title": "After"
         },
         "block": {
-          "discriminator": {
-            "mapping": {
-              "figure": "#/$defs/FigureBlock",
-              "list": "#/$defs/ListBlock",
-              "note": "#/$defs/NoteBlock",
-              "openaix_table": "#/$defs/OpenAIXTableBlock",
-              "paragraph": "#/$defs/Paragraph",
-              "reference": "#/$defs/ReferenceBlock",
-              "section": "#/$defs/Section",
-              "source_table": "#/$defs/SourceTableBlock",
-              "table": "#/$defs/TableBlock"
-            },
-            "propertyName": "kind"
-          },
-          "oneOf": [
-            {
-              "$ref": "#/$defs/Section"
-            },
-            {
-              "$ref": "#/$defs/Paragraph"
-            },
-            {
-              "$ref": "#/$defs/ListBlock"
-            },
-            {
-              "$ref": "#/$defs/TableBlock"
-            },
-            {
-              "$ref": "#/$defs/SourceTableBlock"
-            },
-            {
-              "$ref": "#/$defs/OpenAIXTableBlock"
-            },
-            {
-              "$ref": "#/$defs/FigureBlock"
-            },
-            {
-              "$ref": "#/$defs/NoteBlock"
-            },
-            {
-              "$ref": "#/$defs/ReferenceBlock"
-            }
+          "title": "Block",
+          "type": "object",
+          "required": [
+            "kind"
           ],
-          "title": "Block"
+          "properties": {
+            "kind": {
+              "enum": [
+                "figure",
+                "list",
+                "note",
+                "openaix_table",
+                "paragraph",
+                "reference",
+                "section",
+                "source_table",
+                "table"
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "figure"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/FigureBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "list"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/ListBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "note"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/NoteBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "openaix_table"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/OpenAIXTableBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "paragraph"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/Paragraph"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "reference"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/ReferenceBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "section"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/Section"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "source_table"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/SourceTableBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "table"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/TableBlock"
+              }
+            }
+          ]
         },
         "before": {
           "anyOf": [
@@ -306,47 +392,133 @@
         },
         "blocks": {
           "items": {
-            "discriminator": {
-              "mapping": {
-                "figure": "#/$defs/FigureBlock",
-                "list": "#/$defs/ListBlock",
-                "note": "#/$defs/NoteBlock",
-                "openaix_table": "#/$defs/OpenAIXTableBlock",
-                "paragraph": "#/$defs/Paragraph",
-                "reference": "#/$defs/ReferenceBlock",
-                "section": "#/$defs/Section",
-                "source_table": "#/$defs/SourceTableBlock",
-                "table": "#/$defs/TableBlock"
-              },
-              "propertyName": "kind"
+            "type": "object",
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "figure",
+                  "list",
+                  "note",
+                  "openaix_table",
+                  "paragraph",
+                  "reference",
+                  "section",
+                  "source_table",
+                  "table"
+                ]
+              }
             },
-            "oneOf": [
+            "allOf": [
               {
-                "$ref": "#/$defs/Section"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "figure"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/FigureBlock"
+                }
               },
               {
-                "$ref": "#/$defs/Paragraph"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "list"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/ListBlock"
+                }
               },
               {
-                "$ref": "#/$defs/ListBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "note"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/NoteBlock"
+                }
               },
               {
-                "$ref": "#/$defs/TableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "openaix_table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/OpenAIXTableBlock"
+                }
               },
               {
-                "$ref": "#/$defs/SourceTableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "paragraph"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/Paragraph"
+                }
               },
               {
-                "$ref": "#/$defs/OpenAIXTableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "reference"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/ReferenceBlock"
+                }
               },
               {
-                "$ref": "#/$defs/FigureBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "section"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/Section"
+                }
               },
               {
-                "$ref": "#/$defs/NoteBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "source_table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/SourceTableBlock"
+                }
               },
               {
-                "$ref": "#/$defs/ReferenceBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/TableBlock"
+                }
               }
             ]
           },
@@ -648,47 +820,133 @@
         },
         "blocks": {
           "items": {
-            "discriminator": {
-              "mapping": {
-                "figure": "#/$defs/FigureBlock",
-                "list": "#/$defs/ListBlock",
-                "note": "#/$defs/NoteBlock",
-                "openaix_table": "#/$defs/OpenAIXTableBlock",
-                "paragraph": "#/$defs/Paragraph",
-                "reference": "#/$defs/ReferenceBlock",
-                "section": "#/$defs/Section",
-                "source_table": "#/$defs/SourceTableBlock",
-                "table": "#/$defs/TableBlock"
-              },
-              "propertyName": "kind"
+            "type": "object",
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "figure",
+                  "list",
+                  "note",
+                  "openaix_table",
+                  "paragraph",
+                  "reference",
+                  "section",
+                  "source_table",
+                  "table"
+                ]
+              }
             },
-            "oneOf": [
+            "allOf": [
               {
-                "$ref": "#/$defs/Section"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "figure"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/FigureBlock"
+                }
               },
               {
-                "$ref": "#/$defs/Paragraph"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "list"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/ListBlock"
+                }
               },
               {
-                "$ref": "#/$defs/ListBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "note"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/NoteBlock"
+                }
               },
               {
-                "$ref": "#/$defs/TableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "openaix_table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/OpenAIXTableBlock"
+                }
               },
               {
-                "$ref": "#/$defs/SourceTableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "paragraph"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/Paragraph"
+                }
               },
               {
-                "$ref": "#/$defs/OpenAIXTableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "reference"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/ReferenceBlock"
+                }
               },
               {
-                "$ref": "#/$defs/FigureBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "section"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/Section"
+                }
               },
               {
-                "$ref": "#/$defs/NoteBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "source_table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/SourceTableBlock"
+                }
               },
               {
-                "$ref": "#/$defs/ReferenceBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/TableBlock"
+                }
               }
             ]
           },
@@ -888,50 +1146,136 @@
           "type": "string"
         },
         "block": {
-          "discriminator": {
-            "mapping": {
-              "figure": "#/$defs/FigureBlock",
-              "list": "#/$defs/ListBlock",
-              "note": "#/$defs/NoteBlock",
-              "openaix_table": "#/$defs/OpenAIXTableBlock",
-              "paragraph": "#/$defs/Paragraph",
-              "reference": "#/$defs/ReferenceBlock",
-              "section": "#/$defs/Section",
-              "source_table": "#/$defs/SourceTableBlock",
-              "table": "#/$defs/TableBlock"
-            },
-            "propertyName": "kind"
-          },
-          "oneOf": [
-            {
-              "$ref": "#/$defs/Section"
-            },
-            {
-              "$ref": "#/$defs/Paragraph"
-            },
-            {
-              "$ref": "#/$defs/ListBlock"
-            },
-            {
-              "$ref": "#/$defs/TableBlock"
-            },
-            {
-              "$ref": "#/$defs/SourceTableBlock"
-            },
-            {
-              "$ref": "#/$defs/OpenAIXTableBlock"
-            },
-            {
-              "$ref": "#/$defs/FigureBlock"
-            },
-            {
-              "$ref": "#/$defs/NoteBlock"
-            },
-            {
-              "$ref": "#/$defs/ReferenceBlock"
-            }
+          "title": "Block",
+          "type": "object",
+          "required": [
+            "kind"
           ],
-          "title": "Block"
+          "properties": {
+            "kind": {
+              "enum": [
+                "figure",
+                "list",
+                "note",
+                "openaix_table",
+                "paragraph",
+                "reference",
+                "section",
+                "source_table",
+                "table"
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "figure"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/FigureBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "list"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/ListBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "note"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/NoteBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "openaix_table"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/OpenAIXTableBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "paragraph"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/Paragraph"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "reference"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/ReferenceBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "section"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/Section"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "source_table"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/SourceTableBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "table"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/TableBlock"
+              }
+            }
+          ]
         }
       },
       "required": [
@@ -983,47 +1327,133 @@
         },
         "blocks": {
           "items": {
-            "discriminator": {
-              "mapping": {
-                "figure": "#/$defs/FigureBlock",
-                "list": "#/$defs/ListBlock",
-                "note": "#/$defs/NoteBlock",
-                "openaix_table": "#/$defs/OpenAIXTableBlock",
-                "paragraph": "#/$defs/Paragraph",
-                "reference": "#/$defs/ReferenceBlock",
-                "section": "#/$defs/Section",
-                "source_table": "#/$defs/SourceTableBlock",
-                "table": "#/$defs/TableBlock"
-              },
-              "propertyName": "kind"
+            "type": "object",
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "figure",
+                  "list",
+                  "note",
+                  "openaix_table",
+                  "paragraph",
+                  "reference",
+                  "section",
+                  "source_table",
+                  "table"
+                ]
+              }
             },
-            "oneOf": [
+            "allOf": [
               {
-                "$ref": "#/$defs/Section"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "figure"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/FigureBlock"
+                }
               },
               {
-                "$ref": "#/$defs/Paragraph"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "list"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/ListBlock"
+                }
               },
               {
-                "$ref": "#/$defs/ListBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "note"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/NoteBlock"
+                }
               },
               {
-                "$ref": "#/$defs/TableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "openaix_table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/OpenAIXTableBlock"
+                }
               },
               {
-                "$ref": "#/$defs/SourceTableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "paragraph"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/Paragraph"
+                }
               },
               {
-                "$ref": "#/$defs/OpenAIXTableBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "reference"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/ReferenceBlock"
+                }
               },
               {
-                "$ref": "#/$defs/FigureBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "section"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/Section"
+                }
               },
               {
-                "$ref": "#/$defs/NoteBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "source_table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/SourceTableBlock"
+                }
               },
               {
-                "$ref": "#/$defs/ReferenceBlock"
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "table"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/TableBlock"
+                }
               }
             ]
           },
@@ -1159,11 +1589,12 @@
     },
     "SpinsOpenAIXRefs": {
       "additionalProperties": false,
-      "description": "OpenAIX files (relative to this YAML) that `openaix_table` blocks read.",
+      "description": "OpenAIX files (relative to this document) that `openaix_table` blocks read.",
       "properties": {
         "ato": {
           "anyOf": [
             {
+              "minLength": 1,
               "type": "string"
             },
             {
@@ -1171,12 +1602,13 @@
             }
           ],
           "default": null,
-          "description": "Path to an OpenAIX ATO document (flights, missions, tasking).",
+          "description": "Path to an OpenAIX ATO document.",
           "title": "Ato"
         },
         "aco": {
           "anyOf": [
             {
+              "minLength": 1,
               "type": "string"
             },
             {
@@ -1184,12 +1616,13 @@
             }
           ],
           "default": null,
-          "description": "Path to an OpenAIX ACO document (airspace control measures).",
+          "description": "Path to an OpenAIX ACO document.",
           "title": "Aco"
         },
         "resources": {
           "anyOf": [
             {
+              "minLength": 1,
               "type": "string"
             },
             {
@@ -1197,12 +1630,13 @@
             }
           ],
           "default": null,
-          "description": "Path to an OpenAIX resources document (channels, frequencies, callsigns).",
+          "description": "Path to an OpenAIX resources document.",
           "title": "Resources"
         },
         "spins": {
           "anyOf": [
             {
+              "minLength": 1,
               "type": "string"
             },
             {
@@ -1210,7 +1644,7 @@
             }
           ],
           "default": null,
-          "description": "Path to an OpenAIX SPINS document (typed SPINS data).",
+          "description": "Path to an OpenAIX SPINS document.",
           "title": "Spins"
         },
         "airfields": {
@@ -1397,47 +1831,133 @@
     "content": {
       "description": "Instructions in reading order. Numbering follows the effective hierarchy after amendments.",
       "items": {
-        "discriminator": {
-          "mapping": {
-            "figure": "#/$defs/FigureBlock",
-            "list": "#/$defs/ListBlock",
-            "note": "#/$defs/NoteBlock",
-            "openaix_table": "#/$defs/OpenAIXTableBlock",
-            "paragraph": "#/$defs/Paragraph",
-            "reference": "#/$defs/ReferenceBlock",
-            "section": "#/$defs/Section",
-            "source_table": "#/$defs/SourceTableBlock",
-            "table": "#/$defs/TableBlock"
-          },
-          "propertyName": "kind"
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "figure",
+              "list",
+              "note",
+              "openaix_table",
+              "paragraph",
+              "reference",
+              "section",
+              "source_table",
+              "table"
+            ]
+          }
         },
-        "oneOf": [
+        "allOf": [
           {
-            "$ref": "#/$defs/Section"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "figure"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/FigureBlock"
+            }
           },
           {
-            "$ref": "#/$defs/Paragraph"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "list"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/ListBlock"
+            }
           },
           {
-            "$ref": "#/$defs/ListBlock"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "note"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/NoteBlock"
+            }
           },
           {
-            "$ref": "#/$defs/TableBlock"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "openaix_table"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/OpenAIXTableBlock"
+            }
           },
           {
-            "$ref": "#/$defs/SourceTableBlock"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "paragraph"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/Paragraph"
+            }
           },
           {
-            "$ref": "#/$defs/OpenAIXTableBlock"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "reference"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/ReferenceBlock"
+            }
           },
           {
-            "$ref": "#/$defs/FigureBlock"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "section"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/Section"
+            }
           },
           {
-            "$ref": "#/$defs/NoteBlock"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "source_table"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/SourceTableBlock"
+            }
           },
           {
-            "$ref": "#/$defs/ReferenceBlock"
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "table"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/TableBlock"
+            }
           }
         ]
       },
@@ -1447,23 +1967,55 @@
     "changes": {
       "description": "Block-level amendments to the pinned baseline (`base`).",
       "items": {
-        "discriminator": {
-          "mapping": {
-            "add": "#/$defs/AddBlock",
-            "remove": "#/$defs/RemoveBlock",
-            "replace": "#/$defs/ReplaceBlock"
-          },
-          "propertyName": "op"
+        "type": "object",
+        "required": [
+          "op"
+        ],
+        "properties": {
+          "op": {
+            "enum": [
+              "add",
+              "remove",
+              "replace"
+            ]
+          }
         },
-        "oneOf": [
+        "allOf": [
           {
-            "$ref": "#/$defs/AddBlock"
+            "if": {
+              "properties": {
+                "op": {
+                  "const": "add"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/AddBlock"
+            }
           },
           {
-            "$ref": "#/$defs/ReplaceBlock"
+            "if": {
+              "properties": {
+                "op": {
+                  "const": "remove"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/RemoveBlock"
+            }
           },
           {
-            "$ref": "#/$defs/RemoveBlock"
+            "if": {
+              "properties": {
+                "op": {
+                  "const": "replace"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/ReplaceBlock"
+            }
           }
         ]
       },

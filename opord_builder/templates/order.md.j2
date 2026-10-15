@@ -1,0 +1,163 @@
+{#- One Markdown template for an OPORD, a FRAGO and a WARNO. `eff` holds the header values to print. -#}
+{%- macro tree(uid, depth=0) -%}
+{% set u = units[uid] %}{% set rel = unit_ext.get(uid, {}).get('relationship') or rels.get(uid) %}
+{{ '    ' * depth }}- **{{ u.name }}**{% if u.callsign %} — `{{ u.callsign }}`{% endif %}{% if rel %} _{{ rel }}_{% endif %}
+{% if u.unit_type %}
+{{ '    ' * depth }}  _Role:_ {{ u.unit_type }}
+{% endif %}
+{% if u.commander %}
+{{ '    ' * depth }}  _Commander:_ {{ u.commander }}
+{% endif %}
+{% for c in kids.get(uid, []) %}
+{{ tree(c, depth + 1) }}
+{% endfor %}
+{%- endmacro -%}
+{%- set banner = eff.classification ~ ('//' ~ eff.caveat if eff.caveat else '') -%}
+{%- set stub = {'frago': 'No change from base OPORD ' ~ eff.op_number ~ '.', 'warno': 'To be published in forthcoming OPORD.'} -%}
+{% if o.kind == 'opord' %}
+**{{ banner }}**
+
+{% if print.copy_number and print.number_of_copies -%}
+Copy {{ print.copy_number }} of {{ print.number_of_copies }} copies
+{%- elif print.copy_number -%}
+Copy {{ print.copy_number }}
+{%- endif %}
+{{ eff.hq }}
+{{ eff.place }}
+{{ eff.dtg }}
+{% if print.message_reference_number %}Message Reference Number: {{ print.message_reference_number }}
+{% endif %}
+
+# OPERATION ORDER {{ eff.op_number }} — {{ eff.op_name }}
+
+{% if doc.references %}
+**(U) References.**
+{% for ref in doc.references %}
+  {{ letter_for(loop.index) }}. {{ ref.title }}{% if x.header and x.header.references and x.header.references.get(ref.id) %} — {{ x.header.references[ref.id].description }}{% endif %}
+
+{% endfor %}
+{% endif %}
+
+**(U) Time Zone Used Throughout the OPORD:** {{ eff.tz }}
+
+{% if units %}
+**(U) Task Organization.**
+
+{% for r in kids.get(none, []) %}
+{{ tree(r) }}
+{% endfor %}
+{% elif x.header and x.header.task_organization_note %}
+**(U) Task Organization.** {{ x.header.task_organization_note }}
+{% endif %}
+
+---
+{% else %}
+# {{ 'FRAGO' if o.kind == 'frago' else 'WARNO' }} {{ eff.number }}{% if eff.op_number %} {{ 'to' if o.kind == 'frago' else 'for' }} OPORD {{ eff.op_number }}{% endif %}{% if eff.op_name %} — {{ eff.op_name }}{% endif %}
+
+**Classification:** {{ banner }}
+**Issuing HQ:** {{ eff.hq }}
+**Place of Issue:** {{ eff.place }}
+{% if print.message_reference_number %}**Message Reference Number:** {{ print.message_reference_number }}
+{% endif %}**{{ 'FRAGO' if o.kind == 'frago' else 'WARNO' }} Signed:** {{ eff.dtg }}{% if eff.tz %} ({{ eff.tz }}){% endif %}
+
+{% if o.base %}**Base OPORD Signed:** {{ eff.base_dtg }}
+{% endif %}
+{% if eff.author %}**Drafted by:** {{ eff.author }}{% endif %}
+
+## References
+
+{% if o.base %}
+a. OPORD {{ eff.op_number }} ({{ eff.op_name }}), {{ o.base.issuing_headquarters }}, {{ eff.base_dtg }} — {{ 'base order modified by this FRAGO.' if o.kind == 'frago' else 'higher HQ order this WARNO prepares subordinates to execute.' }}
+{% else %}
+a. Higher HQ order — TBP (forthcoming OPORD will be referenced here).
+{% endif %}
+{% for prev in eff.previous %}
+{{ letter_for(loop.index + 1) }}. {{ prev }}
+{% endfor %}
+
+{% endif %}
+{% for key, title in paragraphs_list %}
+{% set num = loop.index %}
+{% set shown = (key in o.shown) if o.kind == 'frago' else true %}
+{% set body = section(key, num|string, ('statement',) if key == 'mission' else ()) if shown else '' %}
+{% if key == 'mission' and shown and doc.mission %}
+{% set body = '> ' ~ doc.mission.statement ~ '\n\n' ~ body %}
+{% endif %}
+{% if o.kind == 'opord' and (body or key == 'mission') or o.kind != 'opord' %}
+## {{ num }}. (U) {{ title }}
+
+{% if body %}
+{{ body }}
+{% else %}
+*{{ stub[o.kind] }}*
+{% endif %}
+{% endif %}
+
+{% endfor %}
+{% set dir = directory(o) %}
+{% if o.kind == 'opord' %}
+---
+
+{% endif %}
+{% set a = eff.auth %}
+{% if eff.ack %}**ACKNOWLEDGE.**
+{% endif %}
+{% if a.commander_name or a.commander_rank %}
+**{{ (a.commander_name or '') | upper }}**{% if a.commander_rank %}, {{ a.commander_rank }}{% endif %}
+
+{% endif %}
+{% if a.authenticator_name or a.authenticator_position %}
+**OFFICIAL:**
+{% if a.authenticator_name %}{{ a.authenticator_name }}
+{% endif %}
+{% if a.authenticator_position %}{{ a.authenticator_position }}
+{% endif %}
+
+{% endif %}
+{% if o.kind == 'opord' %}
+**ANNEXES:**
+
+| Letter | Title | Status |
+|:------:|:------|:------:|
+{% for d in dir %}
+| **{{ d.letter }}** | {{ d.title }} | {{ d.status|replace('_', ' ')|title }} |
+{% endfor %}
+
+{% endif %}
+{% for d in dir if d.status == 'published' and (o.kind != 'frago' or ('annex:' ~ d.letter) in o.shown) %}
+{% if loop.first and o.kind != 'opord' %}
+## {{ 'Annex Changes' if o.kind == 'frago' else 'Annexes Published With This WARNO' }}
+
+{% endif %}
+{% set v = annex_view(d.letter) %}
+### Annex {{ d.letter }} — {{ d.title }}{% if o.kind == 'frago' %} — Updated{% endif %}
+
+{% if v.intro %}{{ v.intro }}
+
+{% endif %}
+{% if v.content %}
+**Structured Content**
+
+{{ v.content }}
+
+{% endif %}
+{% if v.appendices %}
+{{ v.appendices }}
+
+{% endif %}
+{% endfor %}
+{% if o.kind == 'frago' and not annex_letters %}
+## Annex Changes
+
+*No annex changes — all annexes inherit from base OPORD {{ eff.op_number }}.*
+
+{% endif %}
+{% if eff.distribution %}
+**DISTRIBUTION:** {{ eff.distribution if eff.distribution is string else eff.distribution|join('; ') }}
+
+{% endif %}
+{% if o.kind == 'opord' %}
+---
+
+**{{ banner }}**
+{% endif %}

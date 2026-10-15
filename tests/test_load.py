@@ -10,7 +10,6 @@ import pytest
 import yaml
 
 from opord_builder.load import DocumentError, load_document, read, validate_document
-from opord_builder.migrate import migrate_file
 
 REPO = Path(__file__).resolve().parent.parent
 DOCS = sorted(
@@ -67,7 +66,3 @@ def test_include_resolves_relative_to_the_including_file(tmp_path):
 def test_timestamps_stay_text(tmp_path):
     (tmp_path / "t.yaml").write_text("when: 2026-04-18T12:00:00Z\n")
     assert read(tmp_path / "t.yaml") == {"when": "2026-04-18T12:00:00Z"}
-
-
-def test_migrating_a_native_file_changes_nothing():
-    assert migrate_file(REPO / "examples/example_full.yaml") == []

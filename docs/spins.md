@@ -1,28 +1,32 @@
 # Writing SPINS
 
+A SPINS file is an OpenAIX `spins` document, in YAML or JSON. Identification (`meta`), `scope`, `period` and `base` are the typed OpenAIX fields. The publication layout, which OpenAIX does not type, is the extension `org.opord-builder.spins`: `content` (the blocks), `presentation`, `changes` (block amendments), `sidecars` (OpenAIX files that `openaix_table` blocks read) and `meta` (`handling` and `references`). The generator validates the document and the extension (`schemas/extensions/spins.schema.json`) and reports errors as JSON Pointers.
+
 Write instructions in their reading order. Nest related instructions under a section or paragraph. The generator assigns all printed numbers, contents entries, table and figure captions, and citation numbers.
 
 ```yaml
 kind: spins
-schema_version: '0.3'
+schema_version: 0.2.0-draft.1
 scope: standing
 meta:
   id: squadron-standing
   title: Special Instructions
   revision: '1'
-content:
-  - kind: section
-    title: Airfield procedures
-    blocks:
-      - kind: paragraph
-        id: north-field-arrival
-        lead: NORTH FIELD arrival.
-        text: Coordinate your arrival with local control.
-      - kind: paragraph
-        text:
-          - text: 'For arrival coordination, see '
-          - target: north-field-arrival
-          - text: '.'
+extensions:
+  org.opord-builder.spins:
+    content:
+      - kind: section
+        title: Airfield procedures
+        blocks:
+          - kind: paragraph
+            id: north-field-arrival
+            lead: NORTH FIELD arrival.
+            text: Coordinate your arrival with local control.
+          - kind: paragraph
+            text:
+              - text: 'For arrival coordination, see '
+              - target: north-field-arrival
+              - text: '.'
 ```
 
 The section becomes **1**. Its paragraphs become **1.1** and **1.2**. The link prints **Paragraph 1.1**. Insert another paragraph before the arrival procedure and the reference becomes **Paragraph 1.2** automatically. An `id` is optional unless you need to link to or amend that block. Use a descriptive name, never a printed number.
@@ -35,10 +39,10 @@ The section becomes **1**. Its paragraphs become **1.1** and **1.2**. The link p
 | `paragraph` | `text` | Prose, optional emphasized `lead`, and optional nested `blocks`. |
 | `list` | `items` | Each item has `text` and optional `blocks`; choose a marker `style`. |
 | `table` | `caption`, `columns`, `rows` | Each column has `key` and `heading`; each row supplies exactly those keys. |
-| `source_table` | `caption`, `source`, `columns` | Build a table from an existing typed data source. Each column also selects a scalar `field`. |
+| `openaix_table` | `caption`, `source`, `pointer`, `columns` | Build a table from a typed OpenAIX document listed under `sidecars` (`ato`, `aco`, `spins`, `resources`, `airfields`). Each column selects a `field`, a JSON Pointer relative to the row. |
 | `figure` | `caption`, `alt`, `src` | Embed a local image. Optional `width_percent` controls its width. |
 | `note` | `text` | A numbered note with an optional `heading`. |
-| `reference` | `reference` | Display an entry from `meta.references`. |
+| `reference` | `reference` | Display an entry from the extension's `meta.references`. |
 
 A section's optional `role` is `section`, `part`, `annex`, or `appendix`. Parts use Roman numerals; annexes use letters; appendices use decimal numbers. Each starts a local hierarchy. References include the enclosing scope, such as **Part III, Paragraph 2.1**. Ordinary sections, paragraphs, and lists share a decimal sequence. Tables, figures, notes, and bibliography entries have separate document-wide counters. A table between two paragraphs does not create a gap in the paragraph numbers.
 
@@ -59,11 +63,11 @@ text:
   - text: ' for the complete briefing.'
 ```
 
-Marks are `bold`, `italic`, `underline`, and `code`. Text runs preserve spaces, so quote leading or trailing spaces. A `target` links to a block's `id`. A `citation` links to an `id` in `meta.references`. The generator supplies visible reference numbers. Optional `text` on either link supplies descriptive wording when needed. Literal text is escaped; it is not interpreted as HTML.
+Marks are `bold`, `italic`, `underline`, and `code`. Text runs preserve spaces, so quote leading or trailing spaces. A `target` links to a block's `id`. A `citation` links to an `id` in the extension's `meta.references`. The generator supplies visible reference numbers. Optional `text` on either link supplies descriptive wording when needed. Literal text is escaped; it is not interpreted as HTML.
 
 ## Reusing standing instructions
 
-A mission document sets `scope: mission`, an effective `period` with timezone offsets, and a `base` with the standing document's `id`, exact `revision`, and relative `path`. Its `changes` can:
+A mission document sets `scope: mission`, an effective `period` with timezone offsets, and a `base` with the standing document's `id`, exact `revision`, and relative `path`. The `changes` in its extension can:
 
 - `add` a `block` at the root or inside a section/paragraph identified by `parent`; optional `before` or `after` selects a sibling anchor.
 - `replace` a `target` with a `block` that retains the target's `id`.
@@ -73,7 +77,7 @@ Amendment targets, parents, and insertion anchors refer to baseline identifiers.
 
 Baseline bibliography entries carry forward; conflicting definitions fail. Classification and handling carry forward when absent from the mission metadata. Presentation fields inherit unless the mission overrides them. Other mission metadata is authored on the mission document.
 
-The existing `!include` and `variables` loader is available. Image and source-table paths resolve relative to the SPINS file that owns them, including its standing baseline. An included fragment uses its owning SPINS file's asset directory. Supported image extensions are PNG, JPEG, GIF, WebP, and SVG. HTML embeds images and CSS; PDF uses that same rendered document. Markdown image data URLs require viewer support.
+`!include` is available. Image and sidecar paths resolve relative to the SPINS file that owns them, including its standing baseline. An included fragment uses its owning SPINS file's asset directory. Supported image extensions are PNG, JPEG, GIF, WebP, and SVG. HTML embeds images and CSS; PDF uses that same rendered document. Markdown image data URLs require viewer support.
 
 ## Generate and inspect
 
@@ -86,4 +90,4 @@ task test:spins
 
 Read the [standing source](../examples/spins-standing.yaml), [mission amendments](../examples/spins-example.yaml), [generated HTML](spins-example.html), and [complete field reader](complete-schema.html#current-SPINS). The examples are fictional DCS training content. See the [research sources](spins-sources.html) and [requirements](requirements/spins.md) for the format evidence and verification contract.
 
-SPINS 0.3 provides publication structure rather than prescribing a mandatory chapter list. It does not validate the operational correctness of procedures or import ATO tasking. ATO remains a separate proposal in the complete field reader.
+SPINS provides publication structure rather than prescribing a mandatory chapter list. It does not validate the operational correctness of procedures or import ATO tasking. ATO remains a separate proposal in the complete field reader.

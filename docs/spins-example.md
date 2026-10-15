@@ -131,13 +131,13 @@ Figure 1. Illustrative control-measure schematic; not a navigation chart
 
 <a id="node-patrol-table"></a>
 
-**Table 2. Patrol stations from the shared typed data source**
+**Table 2. Patrol stations from the shared resources document**
 
-| Station | Floor (ft MSL) | Ceiling (ft MSL) | Control |
+| Station | Floor | Ceiling | Control |
 | :--- | ---: | ---: | :--- |
-| ANCHOR 1 | 20000 | 28000 | MAGIC |
-| ANCHOR 2 | 20000 | 28000 | MAGIC |
-| CAP HIGH | 28000 | 35000 | MAGIC |
+| ANCHOR 1 | 20000 ft MSL | 28000 ft MSL | MAGIC |
+| ANCHOR 2 | 20000 ft MSL | 28000 ft MSL | MAGIC |
+| CAP HIGH | 28000 ft MSL | 35000 ft MSL | MAGIC |
 
 
 <a id="node-airfields"></a>

@@ -11,6 +11,7 @@ import yaml
 from jsonschema import Draft202012Validator
 
 from opord_builder._paths import EXTENSION_SCHEMAS_DIR
+from opord_builder.openaix.registry import schemas
 from opord_builder.openaix.validate import (
     FORMAT_CHECKER,
     OpenAIXError,
@@ -92,6 +93,20 @@ def extension_validators() -> dict[str, Draft202012Validator]:
     return out
 
 
+@cache
+def schema_index() -> dict[str, dict[str, Any]]:
+    """`$id` -> schema, for the vendored OpenAIX schemas and the extension schemas."""
+    index = {s["$id"]: s for s in schemas().values()}
+    for path in sorted(EXTENSION_SCHEMAS_DIR.glob("*.schema.json")):
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        index[schema["$id"]] = schema
+    return index
+
+
+def ext_schema(name: str) -> dict[str, Any]:
+    return schema_index()[f"urn:opord-builder:extension:{name}:1"]
+
+
 def check_extensions(doc: dict[str, Any], base: tuple = ()) -> list[OpenAIXError]:
     """Validate the `org.opord-builder.*` groups of `doc.extensions`, and those on ATO flights and control measures."""
     errors = []
@@ -131,4 +146,60 @@ def load_document(path: Path | str) -> dict[str, Any]:
         raise DocumentError(path, [OpenAIXError("", str(exc))]) from exc
     if errors := validate_document(doc):
         raise DocumentError(path, errors)
+    return doc
+
+
+def load_resources(doc: dict, path: Path | str) -> dict | None:
+    """The resources document an order reaches through `resources_ref`, found by the order extension's
+    `resources_path` or else as `resources.{yaml,yml,json}` beside it. Its id and revision must match the reference."""
+    ref = doc.get("resources_ref")
+    if not ref:
+        return None
+    here = Path(path).resolve().parent
+    named = (doc.get("extensions", {}).get(ORDER) or {}).get("resources_path")
+    found = next(
+        (
+            p
+            for p in (
+                [here / named]
+                if named
+                else [here / f"resources.{e}" for e in ("yaml", "yml", "json")]
+            )
+            if p.is_file()
+        ),
+        None,
+    )
+    if found is None:
+        raise DocumentError(
+            path,
+            [
+                OpenAIXError(
+                    "/resources_ref", f"no resources document for {ref['id']!r}"
+                )
+            ],
+        )
+    res = load_document(found)
+    meta = res.get("meta", {})
+    if (meta.get("id"), meta.get("revision")) != (ref["id"], ref["revision"]):
+        raise DocumentError(
+            path,
+            [
+                OpenAIXError(
+                    "/resources_ref",
+                    f"{found.name} is {meta.get('id')!r} revision {meta.get('revision')!r}",
+                )
+            ],
+        )
+    return res
+
+
+def at(doc: Any, pointer: str) -> Any:
+    """The value at a JSON Pointer, or None."""
+    for key in (
+        k.replace("~1", "/").replace("~0", "~") for k in pointer.split("/")[1:]
+    ):
+        try:
+            doc = doc[int(key) if isinstance(doc, list) else key]
+        except (KeyError, IndexError, TypeError, ValueError):
+            return None
     return doc

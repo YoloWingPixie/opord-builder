@@ -10,6 +10,8 @@ meta:
   issuing_unit: Training Squadron
 extensions:
   org.opord-builder.spins:
+    sidecars:
+      resources: data_sources/airspace/cap_tracks.yaml
     meta:
       references:
       - id: airspace-brief
@@ -130,24 +132,26 @@ extensions:
             - text: Read back the clearance and its limits.
             - text: Report clear of the area when the assigned activity is complete.
         - id: patrol-table
-          kind: source_table
-          caption: Patrol stations from the shared typed data source
-          source: data_sources/airspace/cap_tracks.yaml
+          kind: openaix_table
+          caption: Patrol stations from the shared resources document
+          source: resources
+          pointer: /resources/control_measures
+          rows: entries
           columns:
           - key: name
             heading: Station
-            field: name
+            field: /name
           - key: floor
-            heading: Floor (ft MSL)
+            heading: Floor
             align: right
-            field: altitude_floor_ft
+            field: /altitude/lower
           - key: ceiling
-            heading: Ceiling (ft MSL)
+            heading: Ceiling
             align: right
-            field: altitude_ceiling_ft
+            field: /altitude/upper
           - key: control
             heading: Control
-            field: controller_callsign
+            field: /extensions/org.opord-builder.measure/extra/controller_callsign
       - id: airfields
         kind: section
         title: Airfield procedures

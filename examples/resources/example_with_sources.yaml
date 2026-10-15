@@ -18,9 +18,6 @@ resources:
       position:
         latitude: 50.005518097301
         longitude: 7.744032070164
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     bullseye-alt:
       id: bullseye-alt
       name: BULLSEYE ALT
@@ -33,9 +30,6 @@ resources:
       position:
         latitude: 50.00720970594
         longitude: 7.911460003574
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     ip-alpha:
       id: ip-alpha
       name: IP ALPHA
@@ -48,9 +42,6 @@ resources:
       position:
         latitude: 49.98760956241
         longitude: 7.751473746571
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     ip-bravo:
       id: ip-bravo
       name: IP BRAVO
@@ -63,9 +54,6 @@ resources:
       position:
         latitude: 50.024657138576
         longitude: 7.855221678189
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     cp-dog:
       id: cp-dog
       name: CP DOG
@@ -78,9 +66,6 @@ resources:
       position:
         latitude: 50.050325210466
         longitude: 7.7288942929
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     tacan-graf:
       id: tacan-graf
       name: TACAN GRAF
@@ -93,9 +78,6 @@ resources:
       position:
         latitude: 49.991801933778
         longitude: 7.723461952485
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     anchor-1:
       id: anchor-1
       name: ANCHOR 1
@@ -116,9 +98,6 @@ resources:
           reference: MSL
       active:
         continuous: true
-      extensions:
-        org.opord-builder.authoring:
-          item: cap
     anchor-2:
       id: anchor-2
       name: ANCHOR 2
@@ -139,9 +118,6 @@ resources:
           reference: MSL
       active:
         continuous: true
-      extensions:
-        org.opord-builder.authoring:
-          item: cap
     cap-high:
       id: cap-high
       name: CAP HIGH
@@ -162,9 +138,6 @@ resources:
           reference: MSL
       active:
         continuous: true
-      extensions:
-        org.opord-builder.authoring:
-          item: cap
   targets:
     tst-01:
       name: TST-01

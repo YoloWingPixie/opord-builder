@@ -1,28 +1,33 @@
-"""Build kneeboard cards from an OpenAIX ATO (0.2.0-draft.1 gameplay fields included).
+"""Kneeboard cards (plain dicts) from an OpenAIX ATO, with hand-authored overrides, rendered to 768x1024 PNG.
 
-`build_cards(ato, resources, flight_id, opord)` returns one `KneeboardCard` per `Flight` plus a list of
-warnings. The optional OpenAIX `opord` supplies the altimeter setting (`WeatherForecast.altimeter`). A cell whose source is missing is left blank and gets a warning; no value is
-ever made up. `merge_with_yaml` lays hand-authored YAML cards over the ATO cards
-(same flight callsign): explicit YAML values win field by field, with a warning
-wherever they disagree with a value the ATO supplied.
+`build_cards(ato, resources, flight_id, opord)` returns one card dict per `Flight` plus warnings. A cell whose source
+is missing is left blank and gets a warning; no value is ever made up. The optional `opord` supplies the altimeter
+setting (`WeatherForecast.altimeter`). The `org.opord-builder.kneeboard` extension (`{"cards": [...]}`) on an
+OPORD/FRAGO/ATO or on an ATO flight overrides cards: `merge` lays them over the built cards, explicit values winning
+field by field with a warning wherever they disagree with a value the ATO supplied.
+
+A card dict has the shape of `KneeboardCard` in `schemas/extensions/kneeboard.schema.json`.
 """
 
 from __future__ import annotations
 
+import copy
 import datetime as _dt
-import json
 import re
+import shutil
+import subprocess
+import tempfile
+import warnings as _warnings
 from collections.abc import Mapping
+from functools import cache
 from pathlib import Path
 from typing import Any
 
-from opord_builder.openaix.convert import (
-    ConvertError,
-    format_frequency,
-    format_tacan,
-)
-from opord_builder.openaix.validate import validate
-from opord_builder.schema.shared import KneeboardCard
+from jsonschema import Draft202012Validator
+
+from opord_builder import load
+from opord_builder.format import frequency as fmt_frequency
+from opord_builder.openaix.validate import OpenAIXError, pointer
 
 KG_TO_LB = 2.2046226218
 ALL_PHASES = (
@@ -30,26 +35,7 @@ ALL_PHASES = (
 )
 
 
-# ------------------------------------------------------------------------ loading
-
-
-def load_document(path: Path | str, kind: str) -> dict[str, Any]:
-    """Read a JSON file, check `kind` and validate it. Raises ValueError listing pointers."""
-    path = Path(path)
-    try:
-        doc = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        raise ValueError(f"{path}: not valid JSON: {exc}") from exc
-    if not isinstance(doc, dict) or doc.get("kind") != kind:
-        found = doc.get("kind") if isinstance(doc, dict) else type(doc).__name__
-        raise ValueError(
-            f"{path}: expected an OpenAIX {kind!r} document, found {found!r}"
-        )
-    errors = validate(doc)
-    if errors:
-        lines = "\n".join(f"  {e}" for e in errors[:20])
-        raise ValueError(f"{path}: not a valid OpenAIX {kind} document:\n{lines}")
-    return doc
+# ------------------------------------------------------------------------ resources
 
 
 def merge_resources(
@@ -80,8 +66,13 @@ def _mass_lb(mass: Mapping[str, Any] | None) -> int:
     return round(value * KG_TO_LB) if mass["unit"] == "kg" else round(value)
 
 
+def fmt_tacan(t: Mapping[str, Any]) -> str:
+    """`14Y`; the card shows the channel only, not the identifier `format.tacan` appends."""
+    return f"{t['channel']}{t['band']}"
+
+
 def _freq(channel: Mapping[str, Any]) -> str:
-    return format_frequency(channel["frequency"])
+    return fmt_frequency(channel["frequency"])
 
 
 def _norm(callsign: str) -> str:
@@ -222,7 +213,7 @@ def build_cards(
     resources: Mapping[str, Any] | None = None,
     flight_id: str | None = None,
     opord: Mapping[str, Any] | None = None,
-) -> tuple[list[KneeboardCard], list[str]]:
+) -> tuple[list[dict[str, Any]], list[str]]:
     """One card per Flight (or only `flight_id`). `opord` is an optional OpenAIX opord for the altimeter setting.
     Returns (cards, warnings)."""
     res = dict(resources) if resources is not None else merge_resources(ato, None)
@@ -246,7 +237,7 @@ def _card(
     res: Mapping[str, Any],
     opord: Mapping[str, Any] | None,
     warnings: list[str],
-) -> KneeboardCard:
+) -> dict[str, Any]:
     callsign = flight["callsign"]
 
     def warn(field: str, why: str) -> None:
@@ -288,8 +279,8 @@ def _card(
     lead = lead_ident.get("tacan")
     common = ident.get("tacan")
     tacan = {
-        "lead": format_tacan(lead) if lead else "",
-        "flight": format_tacan(common) if common else "",
+        "lead": fmt_tacan(lead) if lead else "",
+        "flight": fmt_tacan(common) if common else "",
     }
     if not lead:
         warn("tacan.lead", "member 1 has no identification.tacan; left blank")
@@ -340,23 +331,24 @@ def _card(
     baro_alt, problem = _altimeter(opord, launch.get("takeoff"))
     if problem:
         warn("baro_alt", problem)
-    return KneeboardCard.model_validate(
-        {
-            "title": callsign,
-            "flight_callsign": callsign,
-            "msn_number": mission["mission_number"],
-            "positions": positions,
-            "tacan": tacan,
-            "timing": timing,
-            "primary_objectives": [objective] if objective else [],
-            "weaponeering": (scl or {}).get("name", ""),
-            "fuel_plan": fuel_plan,
-            "comms": comms,
-            "tankers": tankers,
-            "atc": _atc(flight, places, warn),
-            "baro_alt": baro_alt,
-        }
-    )
+    card = {
+        "title": callsign,
+        "flight_callsign": callsign,
+        "msn_number": mission["mission_number"],
+        "positions": positions,
+        "tacan": tacan,
+        "primary_objectives": [objective] if objective else [],
+        "weaponeering": (scl or {}).get("name", ""),
+        "comms": comms,
+        "tankers": tankers,
+        "atc": _atc(flight, places, warn),
+        "baro_alt": baro_alt,
+    }
+    if timing:
+        card["timing"] = timing
+    if fuel_plan:
+        card["fuel_plan"] = fuel_plan
+    return card
 
 
 def _tankers(flight, mission, missions, channels, warn):
@@ -405,7 +397,7 @@ def _tankers(flight, mission, missions, channels, warn):
                 {
                     "callsign": name,
                     "frequency": _freq(ch) if ch else "",
-                    "tacan": format_tacan(tac) if tac else "",
+                    "tacan": fmt_tacan(tac) if tac else "",
                     "button": f"BTN {preset}" if preset else "",
                     "channel": t.get("channel"),
                 }
@@ -538,7 +530,7 @@ def _atc(flight, places, warn) -> list[dict[str, str]]:
             out.append(
                 {
                     "name": f"{label} {f['role'].replace('_', ' ').upper()}",
-                    "frequency": format_frequency(f["frequency"]),
+                    "frequency": fmt_frequency(f["frequency"]),
                 }
             )
         if not place.get("frequencies"):
@@ -548,7 +540,7 @@ def _atc(flight, places, warn) -> list[dict[str, str]]:
     return out
 
 
-# ------------------------------------------------------------------------ YAML merge
+# ------------------------------------------------------------------------ overrides
 
 
 def _blank(v: Any) -> bool:
@@ -589,68 +581,191 @@ def _merge(base: Any, over: Any, path: str, callsign: str, warnings: list[str]) 
     return over
 
 
-def merge_with_yaml(
-    ato_cards: list[KneeboardCard],
-    yaml_cards: list[KneeboardCard],
+def merge(
+    cards: list[dict[str, Any]],
+    overrides: list[dict[str, Any]],
     keep_unmatched: bool = True,
-) -> tuple[list[KneeboardCard], list[str]]:
-    """YAML cards win field by field (explicitly set fields only), warning on disagreement."""
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Override cards win field by field, matched to `cards` by flight callsign; warn on disagreement.
+    Override cards with no matching card are appended as they are when `keep_unmatched`."""
     warnings: list[str] = []
-    by_key: dict[str, KneeboardCard] = {}
-    for y in yaml_cards:
-        by_key.setdefault(_norm(y.flight_callsign), y)
+    by_key: dict[str, dict[str, Any]] = {}
+    for o in overrides:
+        by_key.setdefault(_norm(o.get("flight_callsign", "")), o)
     used: set[str] = set()
-    merged: list[KneeboardCard] = []
-    for card in ato_cards:
-        key = _norm(card.flight_callsign)
-        y = by_key.get(key)
-        if y is None:
+    merged: list[dict[str, Any]] = []
+    for card in cards:
+        key = _norm(card["flight_callsign"])
+        o = by_key.get(key)
+        if o is None:
             merged.append(card)
             continue
         used.add(key)
-        over = y.model_dump(mode="json", exclude_unset=True)
-        over.pop("flight_callsign", None)
-        data = _merge(
-            card.model_dump(mode="json"), over, "", card.flight_callsign, warnings
-        )
-        merged.append(KneeboardCard.model_validate(data))
+        over = {k: v for k, v in o.items() if k != "flight_callsign"}
+        merged.append(_merge(card, over, "", card["flight_callsign"], warnings))
     if keep_unmatched:
-        merged += [y for k, y in by_key.items() if k not in used]
+        merged += [copy.deepcopy(o) for k, o in by_key.items() if k not in used]
     return merged, warnings
+
+
+def document_overrides(doc: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """The cards of a document's top-level `org.opord-builder.kneeboard` extension."""
+    ext = (doc.get("extensions") or {}).get(load.KNEEBOARD) or {}
+    return copy.deepcopy(ext.get("cards") or [])
+
+
+def flight_overrides(ato: Mapping[str, Any], flight_id: str | None = None):
+    """Cards from `org.opord-builder.kneeboard` on ATO flights; a card with no `flight_callsign` takes the flight's."""
+    out: list[dict[str, Any]] = []
+    for m in ato.get("missions") or []:
+        for f in m.get("flights") or []:
+            if flight_id is not None and f["id"] != flight_id:
+                continue
+            for card in document_overrides(f):
+                card.setdefault("flight_callsign", f["callsign"])
+                out.append(card)
+    return out
+
+
+# ------------------------------------------------------------------------ validation
+
+
+@cache
+def _validator() -> Draft202012Validator:
+    schema = load.ext_schema("kneeboard")
+    return Draft202012Validator(
+        {"$ref": "#/$defs/KneeboardCard", "$defs": schema["$defs"]}
+    )
+
+
+def validate_cards(cards: list[dict[str, Any]], base: str = "cards") -> None:
+    """Check cards against the kneeboard extension schema. Raises ValueError naming each JSON Pointer."""
+    errors = [
+        OpenAIXError(pointer((base, i, *e.absolute_path)), e.message)
+        for i, card in enumerate(cards)
+        for e in _validator().iter_errors(card)
+    ]
+    if errors:
+        lines = "\n".join(f"  {e}" for e in errors[:20])
+        raise ValueError(f"invalid kneeboard card:\n{lines}")
+
+
+# ------------------------------------------------------------------------ files
+
+
+def _document(path: Path | str, kind: str) -> dict[str, Any]:
+    doc = load.load_document(path)
+    if doc.get("kind") != kind:
+        raise ValueError(
+            f"{path}: expected an OpenAIX {kind!r} document, found {doc.get('kind')!r}"
+        )
+    return doc
 
 
 def cards_from_files(
     ato_path: Path | str,
     resources_path: Path | str | None = None,
     flight_id: str | None = None,
-    yaml_cards: list[KneeboardCard] | None = None,
     opord_path: Path | str | None = None,
-) -> tuple[list[KneeboardCard], list[str]]:
-    """Load, validate, build and (optionally) merge. `opord_path` is an OpenAIX opord for the altimeter setting.
-    Raises ValueError on bad input."""
-    ato = load_document(ato_path, "ato")
-    res_doc = load_document(resources_path, "resources") if resources_path else None
-    opord = load_document(opord_path, "opord") if opord_path else None
-    ref = ato.get("resources_ref")
-    if (
-        ref
-        and res_doc
-        and (res_doc.get("meta") or {}).get("id") not in (None, ref["id"])
-    ):
-        note = f"resources document id {res_doc['meta']['id']!r} differs from ATO resources_ref {ref['id']!r}"
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Load the ATO (and its resources: `resources_path`, else the document its `resources_ref` names), build the
+    cards, lay the overrides over them (ATO flights, ATO top level, then the OPORD's top level) and validate the
+    result. Raises ValueError (DocumentError included) on bad input."""
+    ato = _document(ato_path, "ato")
+    opord = _document(opord_path, "opord") if opord_path else None
+    note = None
+    if resources_path:
+        res_doc = _document(resources_path, "resources")
+        ref = ato.get("resources_ref")
+        if ref and (res_doc.get("meta") or {}).get("id") not in (None, ref["id"]):
+            note = (
+                f"resources document id {res_doc['meta']['id']!r} "
+                f"differs from ATO resources_ref {ref['id']!r}"
+            )
     else:
-        note = None
-    try:
-        cards, warnings = build_cards(
-            ato, merge_resources(ato, res_doc), flight_id, opord
-        )
-    except ConvertError as exc:
-        raise ValueError(str(exc)) from exc
+        res_doc = load.load_resources(ato, ato_path)
+    cards, warnings = build_cards(ato, merge_resources(ato, res_doc), flight_id, opord)
     if note:
         warnings.insert(0, note)
-    if yaml_cards:
-        cards, extra = merge_with_yaml(
-            cards, yaml_cards, keep_unmatched=flight_id is None
-        )
+    overrides = flight_overrides(ato, flight_id) + document_overrides(ato)
+    if opord:
+        overrides += document_overrides(opord)
+    if overrides:
+        cards, extra = merge(cards, overrides, keep_unmatched=flight_id is None)
         warnings += extra
+    validate_cards(cards)
     return cards, warnings
+
+
+def cards_from_document(path: Path | str) -> list[dict[str, Any]]:
+    """The cards of an OPORD/FRAGO's `org.opord-builder.kneeboard` extension, as authored (no ATO)."""
+    cards = document_overrides(load.load_document(path))
+    validate_cards(cards)
+    return cards
+
+
+# ------------------------------------------------------------------------ rendering
+
+
+def render_card_html(card: Mapping[str, Any], index: int = 0) -> str:
+    """One card as self-contained HTML sized for 768x1024."""
+    from opord_builder import render
+
+    return (
+        render.env(True)
+        .get_template("kneeboard.html.j2")
+        .render(card=card, card_index=index, generated_at=render.stamp())
+    )
+
+
+def render_card_png(
+    card: Mapping[str, Any], out_path: Path | str, index: int = 0
+) -> Path:
+    """One card to a 768x1024 PNG: HTML -> PDF via WeasyPrint, then `pdftoppm` (poppler-utils). Without poppler
+    the PDF is kept beside `out_path` instead and its path returned."""
+    from weasyprint import HTML
+
+    from opord_builder._paths import TEMPLATES_DIR
+
+    html = render_card_html(card, index)
+    out_path = Path(out_path)
+    with tempfile.TemporaryDirectory() as tmp:
+        pdf_path = Path(tmp) / "card.pdf"
+        HTML(string=html, base_url=str(TEMPLATES_DIR)).write_pdf(target=str(pdf_path))
+        if shutil.which("pdftoppm"):
+            prefix = Path(tmp) / "card"
+            subprocess.run(
+                [
+                    "pdftoppm",
+                    "-png",
+                    "-r",
+                    "96",
+                    "-singlefile",
+                    str(pdf_path),
+                    str(prefix),
+                ],
+                check=True,
+                capture_output=True,
+            )
+            shutil.move(str(prefix.with_suffix(".png")), str(out_path))
+            return out_path
+        fallback = out_path.with_suffix(".pdf")
+        shutil.move(str(pdf_path), str(fallback))
+        _warnings.warn(
+            f"pdftoppm not found - wrote PDF instead: {fallback}. "
+            "Install poppler-utils for PNG output.",
+            stacklevel=2,
+        )
+        return fallback
+
+
+def render_cards(
+    cards: list[Mapping[str, Any]], out_dir: Path | str, stem: str
+) -> list[Path]:
+    """Every card to `<stem>_kneeboard_001.png`, ... (DCS sorts kneeboard pages alphanumerically)."""
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    return [
+        render_card_png(card, out_dir / f"{stem}_kneeboard_{i + 1:03d}.png", i)
+        for i, card in enumerate(cards)
+    ]

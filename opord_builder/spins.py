@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import base64
-import json
 from copy import deepcopy
-from enum import Enum
 from html import escape
 from pathlib import Path
 
@@ -13,8 +11,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup
 
 from opord_builder._paths import SPINS_DEFAULT_LAYOUT, TEMPLATES_DIR
-from opord_builder.renderer import _load_yaml_with_variables, _render_document_all
-from opord_builder.schema.data_sources import DATA_SOURCE_REGISTRY
+from opord_builder.load import SPINS as SPINS_NS
+from opord_builder.load import load_document, read
 from opord_builder.schema.spins import (
     SPINS,
     CrossReference,
@@ -23,8 +21,6 @@ from opord_builder.schema.spins import (
     OpenAIXTableBlock,
     Paragraph,
     Section,
-    SourceTableBlock,
-    TableBlock,
     TextRun,
     iter_blocks,
     iter_values,
@@ -211,74 +207,26 @@ def compose_spins(baseline: SPINS, amendment: SPINS) -> SPINS:
     return SPINS.model_validate(result.model_dump())
 
 
-def _source_table(
-    block: SourceTableBlock, directory: Path, variables: dict
-) -> TableBlock:
-    from opord_builder.load import load_document
-    from opord_builder.migrate import is_native
-    from opord_builder.migrate_spins import legacy_data_source
-
-    path = directory / block.source
-    if is_native(path):
-        data = legacy_data_source(load_document(path))
-    else:
-        data, _ = _load_yaml_with_variables(path, extra_vars=variables)
-    model = (
-        DATA_SOURCE_REGISTRY.get(data.get("kind")) if isinstance(data, dict) else None
-    )
-    if model is None:
-        raise ValueError(f"{path}: unknown standalone data-source kind")
-    source = model.model_validate(data)
-    if not source.entries:
-        raise ValueError(f"{path}: source table has no entries")
-    rows = []
-    for entry in source.entries:
-        row = {}
-        for column in block.columns:
-            if column.field not in type(entry).model_fields:
-                raise ValueError(f"{path}: unknown field {column.field!r}")
-            value = getattr(entry, column.field)
-            if isinstance(value, Enum):
-                value = value.value
-            if value is not None and not isinstance(value, (str, int, float, bool)):
-                raise ValueError(
-                    f"{path}: field {column.field!r} must be scalar for a source table"
-                )
-            row[column.key] = "" if value is None else str(value)
-        rows.append(row)
-    return TableBlock(
-        kind="table",
-        id=block.id,
-        caption=block.caption,
-        columns=[column.model_dump(exclude={"field"}) for column in block.columns],
-        rows=rows,
-    )
-
-
-def _prepare_blocks(blocks, directory, variables, openaix=None):
+def _prepare_blocks(blocks, directory, openaix=None):
     prepared = []
     openaix = openaix or OpenAIXSources(None, directory)
     for original in blocks:
         block = original.model_copy(deep=True)
-        if isinstance(block, SourceTableBlock):
-            block = _source_table(block, directory, variables)
-        elif isinstance(block, OpenAIXTableBlock):
+        if isinstance(block, OpenAIXTableBlock):
             block = openaix_table(block, openaix)
             if block is None:
                 continue
         elif isinstance(block, FigureBlock):
             block.src = str((directory / block.src).resolve())
         elif isinstance(block, Section):
-            block.blocks = _prepare_blocks(block.blocks, directory, variables, openaix)
+            block.blocks = _prepare_blocks(block.blocks, directory, openaix)
             if not block.blocks:
                 continue  # every child was skipped: leave no empty heading
         elif isinstance(block, Paragraph):
-            block.blocks = _prepare_blocks(block.blocks, directory, variables, openaix)
+            block.blocks = _prepare_blocks(block.blocks, directory, openaix)
         elif isinstance(block, ListBlock):
             for item in block.items:
-                item.blocks = _prepare_blocks(
-                    item.blocks, directory, variables, openaix
-                )
+                item.blocks = _prepare_blocks(item.blocks, directory, openaix)
         prepared.append(block)
     return prepared
 
@@ -292,13 +240,13 @@ def _check_cross_references(document: SPINS) -> None:
             )
 
 
-def _build_spins(data, variables, directory: Path) -> SPINS:
+def _build_spins(data, directory: Path) -> SPINS:
     document = SPINS.model_validate(data)
     openaix = OpenAIXSources(document.openaix, directory)
-    document.content = _prepare_blocks(document.content, directory, variables, openaix)
+    document.content = _prepare_blocks(document.content, directory, openaix)
     for change in document.changes:
         if change.op in ("add", "replace"):
-            prepared = _prepare_blocks([change.block], directory, variables, openaix)
+            prepared = _prepare_blocks([change.block], directory, openaix)
             if not prepared:
                 raise ValueError(
                     f"amendment {change.op} block {change.block.id!r} has no OpenAIX data to show"
@@ -309,19 +257,34 @@ def _build_spins(data, variables, directory: Path) -> SPINS:
     return document
 
 
-def _read_spins(path: Path) -> SPINS:
-    from opord_builder.load import load_document
-    from opord_builder.migrate import is_native
-    from opord_builder.migrate_spins import legacy_spins_data
+def _publication(doc: dict) -> dict:
+    """The SPINS model data of a native `spins` document: typed fields plus the layout extension."""
+    layout = (doc.get("extensions") or {}).get(SPINS_NS) or {}
+    meta = {**doc.get("meta", {}), **layout.get("meta", {})}
+    data = {
+        "kind": "spins",
+        "schema_version": "0.3",
+        "scope": doc["scope"],
+        "meta": meta,
+    }
+    data.update({k: doc[k] for k in ("period", "base") if k in doc})
+    data.update(
+        {k: layout[k] for k in ("presentation", "content", "changes") if k in layout}
+    )
+    if "sidecars" in layout:
+        data["openaix"] = layout["sidecars"]
+    return data
 
-    if is_native(path):
-        return _build_spins(legacy_spins_data(load_document(path)), {}, path.parent)
-    data, variables = _load_yaml_with_variables(path)
-    return _build_spins(data, variables, path.parent)
+
+def _read_spins(path: Path) -> SPINS:
+    doc = load_document(path)
+    if doc.get("kind") != "spins":
+        raise ValueError(f"{path}: kind is {doc.get('kind')!r}, expected 'spins'")
+    return _build_spins(_publication(doc), path.parent)
 
 
 def load_spins(path: Path | str) -> SPINS:
-    """Load local YAML/includes, typed source tables, and one pinned standing baseline."""
+    """Load a native SPINS document, its OpenAIX tables, and one pinned standing baseline."""
     path = Path(path).resolve()
     document = _read_spins(path)
     if document.base:
@@ -345,7 +308,7 @@ def load_default_spins(
 
     Publication metadata and period come from the OpenAIX SPINS document when it has them.
     Sections whose data is absent are left out."""
-    data, variables = _load_yaml_with_variables(SPINS_DEFAULT_LAYOUT)
+    data = _publication(load_document(SPINS_DEFAULT_LAYOUT))
     refs = {"spins": spins, "resources": resources, "ato": ato, "aco": aco}
     data["openaix"] = {
         **{k: str(Path(v).resolve()) for k, v in refs.items() if v},
@@ -356,7 +319,7 @@ def load_default_spins(
         ),
     }
     if spins:
-        source = json.loads(Path(spins).read_text(encoding="utf-8"))
+        source = read(spins)
         meta = source.get("meta", {})
         for key in (
             "id",
@@ -373,7 +336,7 @@ def load_default_spins(
             data["scope"] = "mission"
         if source.get("period"):
             data["period"] = source["period"]
-    return _build_spins(data, variables, SPINS_DEFAULT_LAYOUT.parent)
+    return _build_spins(data, SPINS_DEFAULT_LAYOUT.parent)
 
 
 def _image_uri(block: FigureBlock) -> str:
@@ -440,7 +403,6 @@ def _context(document):
     document.content = _prepare_blocks(
         document.content,
         Path.cwd(),
-        {},
         OpenAIXSources(document.openaix, Path.cwd()),
     )
     numbering = number_publication(document)
@@ -521,14 +483,18 @@ def render_spins_all(
     write_html=True,
     write_pdf=True,
 ):
-    return _render_document_all(
-        out_dir,
-        stem,
-        render_md_fn=lambda: render_spins_markdown(document),
-        render_html_fn=lambda: render_spins_html(document),
-        render_pdf_fn=lambda path, html: render_spins_pdf(document, path, html=html),
-        prepare_html_fn=lambda html: html,
-        write_markdown=write_markdown,
-        write_html=write_html,
-        write_pdf=write_pdf,
-    )
+    """Write the requested formats into `out_dir` and return {format: path}."""
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = {}
+    if write_markdown:
+        out["markdown"] = out_dir / f"{stem}.md"
+        out["markdown"].write_text(render_spins_markdown(document), encoding="utf-8")
+    if write_html or write_pdf:
+        html = render_spins_html(document)
+        if write_html:
+            out["html"] = out_dir / f"{stem}.html"
+            out["html"].write_text(html, encoding="utf-8")
+        if write_pdf:
+            out["pdf"] = render_spins_pdf(document, out_dir / f"{stem}.pdf", html=html)
+    return out

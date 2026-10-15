@@ -39,7 +39,6 @@
   --class-color: #165a35;
   --class-ink:   #ffffff;
 }
-
 [data-theme="dark"] {
   --paper:       #0d0d0b;
   --paper-soft:  #14140f;
@@ -60,7 +59,6 @@
   --duotone-soft:#3a0f12;
   --class-ink:   #ffffff;
 }
-
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper:       #0d0d0b;
@@ -81,21 +79,18 @@
     --duotone-soft:#3a0f12;
   }
 }
-
 @media print {
   :root { color-scheme: light; }
 }
-
 /* Classification per body class */
-body.classification-unclassified    { --class-color: #165a35; }
-body.classification-cui             { --class-color: #7a1faa; }
-body.classification-confidential    { --class-color: #1d4fa0; }
-body.classification-secret          { --class-color: #b21f2d; }
-body.classification-top-secret      { --class-color: #b21f2d; }
-
+body.classification-unclassified { --class-color: #165a35; }
+body.classification-cui { --class-color: #7a1faa; }
+body.classification-confidential { --class-color: #1d4fa0; }
+body.classification-secret { --class-color: #b21f2d; }
+body.classification-top-secret { --class-color: #b21f2d; }
 * { box-sizing: border-box; }
-
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: var(--paper);
@@ -106,20 +101,24 @@ html, body {
   font-feature-settings: "kern" 1, "liga" 0;
   -webkit-font-smoothing: antialiased;
 }
-
-.mono, .num, code, pre {
+.mono,
+.num,
+code,
+pre {
   font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular,
                Menlo, "DejaVu Sans Mono", Consolas, monospace;
   font-feature-settings: "tnum" 1, "zero" 1;
 }
-
 p { margin: 0 0 0.55em 0; }
-ul, ol { margin: 0.2em 0 0.55em 1.2em; padding: 0; }
+ul,
+ol { margin: 0.2em 0 0.55em 1.2em; padding: 0; }
 li { margin: 0.12em 0; }
 a { color: var(--ink); }
-strong, b { font-weight: 700; }
-
-/* FRAGO-specific elements: "No change" stubs, revision callouts, and the
+strong,
+b { font-weight: 700; }
+/* FRAGO-specific elements: "No change" stubs,
+revision callouts,
+and the
    base-mission quote shown when a FRAGO leaves Para 2 unchanged. */
 .no-change {
   display: flex;
@@ -140,10 +139,10 @@ strong, b { font-weight: 700; }
   color: var(--ink-low);
 }
 .no-change-body { color: var(--ink-mute); }
-
 /* WARNO-specific "To be published" stub. Semantically distinct from
    .no-change (which means "inherited unchanged"): TBP means "not decided
-   yet." Keeps the .no-change box structure, repaints it as a pending/amber
+   yet." Keeps the .no-change box structure,
+repaints it as a pending/amber
    accent so readers don't confuse a preliminary WARNO with a delta. */
 .no-change.tbp {
   border-left-color: #b07a1a;
@@ -153,30 +152,9 @@ strong, b { font-weight: 700; }
 .tbp-tag {
   color: #7a4e00;
 }
-.warno-planning-timeline td.mono,
-.warno-planning-timeline .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
-.frago-note {
-  margin: 6pt 0;
-  padding: 4pt 10pt;
-  border-left: 3pt solid var(--accent);
-  background: var(--accent-soft);
-  color: var(--ink);
-  font-size: 9pt;
-  font-style: italic;
-}
-.frago-base-mission {
-  margin: 8pt 0 0 0;
-  padding: 8pt 12pt;
-  border-left: 2pt solid var(--rule-soft);
-  color: var(--ink-mute);
-  font-size: 9.5pt;
-  font-style: italic;
-  background: var(--surface-alt);
-}
-.frago-changes { margin-top: 4pt; }
-
 /* Standalone fires-product export (JPITL / TST / HPTL).
-   Minimal cover with OPORD reference, then the list rendered via the normal
+   Minimal cover with OPORD reference,
+then the list rendered via the normal
    typed-body table paths. */
 .product-cover {
   margin: 0 0 20pt 0;
@@ -244,20 +222,7 @@ strong, b { font-weight: 700; }
   padding: 20pt 0;
   text-align: center;
 }
-
-/* Undefined {{ var }} references surface as styled monospace inline markers
-   so authors spot typos visually in the rendered document instead of silently
-   seeing an empty gap. */
-.undefined-var {
-  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.92em;
-  color: var(--accent);
-  background: var(--accent-soft);
-  padding: 0 3pt;
-  border: 0.5pt solid var(--accent);
-  border-radius: 2pt;
-}
-
+/* Undefined {{ var }}
 /* Overflow safety net — prevents long tokens from pushing grids/tables past
    the page edge. Mid-word break (overflow-wrap: anywhere) is opt-in per-class. */
 * { min-width: 0; }
@@ -267,8 +232,8 @@ table {
   table-layout: fixed;
   border-collapse: collapse;
 }
-th, td { overflow-wrap: break-word; }
-
+th,
+td { overflow-wrap: break-word; }
 /* ---------- SCREEN FRAME --------------------------------------------------- */
 @media screen {
   .paragraph,
@@ -291,8 +256,6 @@ th, td { overflow-wrap: break-word; }
     margin-right: -64px;
   }
 }
-
-
 /* ---------- THEME TOGGLE --------------------------------------------------- */
 .theme-toggle {
   position: fixed;
@@ -324,11 +287,11 @@ th, td { overflow-wrap: break-word; }
 }
 [data-theme="dark"] .theme-toggle .tt-dot { background: var(--paper); }
 .theme-toggle .tt-label-light { display: none; }
-.theme-toggle .tt-label-dark  { display: inline; }
+.theme-toggle .tt-label-dark { display: inline; }
 [data-theme="dark"] .theme-toggle .tt-label-light { display: inline; }
-[data-theme="dark"] .theme-toggle .tt-label-dark  { display: none; }
-@media print { .theme-toggle { display: none; } }
-
+[data-theme="dark"] .theme-toggle .tt-label-dark { display: none; }
+@media print { .theme-toggle { display: none; }
+}
 /* ---------- CHEVRONS (summary arrows) ------------------------------------- */
 summary { cursor: pointer; list-style: none; }
 summary::-webkit-details-marker { display: none; }
@@ -345,7 +308,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
 @media print {
   .chevron { display: none; }
 }
-
 /* ==========================================================================
    COVER
    ========================================================================== */
@@ -408,7 +370,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   margin-left: auto;
 }
 .cover-eyebrow-num::before { content: "№ "; color: rgba(244,241,232,0.6); }
-
 .cover-title {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 54pt;
@@ -437,7 +398,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   height: auto;
   object-fit: contain;
 }
-
 .cover-author {
   display: flex;
   align-items: baseline;
@@ -462,7 +422,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   text-transform: uppercase;
   color: var(--paper);
 }
-
 .cover-accent {
   width: 100%;
   height: 6pt;
@@ -482,7 +441,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   letter-spacing: 0.04em;
   color: rgba(244,241,232,0.65);
 }
-
 .cover-meta {
   margin-top: 18pt;
   display: grid;
@@ -531,9 +489,10 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   font-size: 9pt;
   margin: 0 2pt;
 }
-
 /* ==========================================================================
-   GENERIC CARD  (horizontal-rule framed, no shadows, no corners)
+   GENERIC CARD  (horizontal-rule framed,
+no shadows,
+no corners)
    ========================================================================== */
 .card {
   position: relative;
@@ -554,7 +513,7 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   background: var(--ink);
   border-radius: 0;
 }
-.accent-refs    { background: var(--ink); }
+.accent-refs { background: var(--ink); }
 .accent-taskorg { background: var(--accent); }
 .accent-1 { background: var(--ink); }
 .accent-2 { background: var(--accent); }
@@ -562,7 +521,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
 .accent-4 { background: var(--ink); }
 .accent-5 { background: var(--ink); }
 .accent-annex { background: var(--ink); }
-
 .card-head {
   display: flex;
   align-items: baseline;
@@ -603,7 +561,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   padding-left: 10pt;
   margin: 6pt 0 0 0;
 }
-
 .card-references .ref-list,
 .ref-list {
   margin: 4pt 0 0 0;
@@ -632,8 +589,8 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
 }
 .ref-cite { color: var(--ink); }
 .ref-desc { color: var(--ink-mute); margin-left: 4pt; }
-
-/* Task Organization — flat row-per-unit, hierarchy by indent + rule.
+/* Task Organization — flat row-per-unit,
+hierarchy by indent + rule.
    Depth indent is driven by a --d custom property set inline on each
    .unit-card by the template. break-inside: avoid on the root unit only;
    leaf rows are free to split if absolutely needed so a deep tree never
@@ -654,7 +611,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   border-bottom-color: var(--ink);
   break-inside: avoid;
 }
-
 .unit-header {
   display: flex;
   align-items: baseline;
@@ -695,7 +651,7 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   text-transform: uppercase;
   color: var(--ink-mute);
 }
-.chip-rel  { color: var(--ink); }
+.chip-rel { color: var(--ink); }
 .chip-role { color: var(--accent); }
 .unit-commander {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -703,11 +659,9 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   font-style: italic;
   color: var(--ink-mute);
 }
-
 @media print {
   .card.card-taskorg { break-inside: auto; }
 }
-
 /* ==========================================================================
    DOC TOC  (Swiss index plate)
    ========================================================================== */
@@ -758,7 +712,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   line-height: 1;
 }
 .toc-para-link:hover .toc-num { color: var(--paper); }
-
 .doc-toc-annex-label {
   font-family: "JetBrains Mono", ui-monospace, monospace;
   font-size: 7pt;
@@ -804,9 +757,10 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
 .toc-annex-not_used { opacity: 0.42; }
 .toc-annex-omitted .toc-annex-letter,
 .toc-annex-not_used .toc-annex-letter { color: var(--ink-low); }
-
 /* ==========================================================================
-   PARAGRAPH SECTIONS  (giant plate number, thick rule, summary row)
+   PARAGRAPH SECTIONS  (giant plate number,
+thick rule,
+summary row)
    ========================================================================== */
 .paragraph {
   margin: 28pt 0 0 0;
@@ -856,543 +810,16 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   align-self: end;
   margin-bottom: 6pt;
 }
-
-/* Sub-paragraphs — tight kv-style rows */
-.subpara {
-  display: grid;
-  grid-template-columns: 76pt minmax(0, 1fr);
-  gap: 14pt;
-  padding: 8pt 0;
-  border-top: 0.5pt solid var(--rule-hair);
-}
-.subpara:first-child { border-top: 0; }
-.subpara-label { display: flex; flex-direction: column; gap: 2pt; }
-.subpara-num {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7.5pt;
-  font-weight: 700;
-  letter-spacing: 0;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-.subpara-title {
-  font-size: 9.5pt;
-  font-weight: 700;
-  letter-spacing: -0.005em;
-  text-transform: uppercase;
-  color: var(--ink);
-  line-height: 1.15;
-}
-.subpara-body { font-size: 10pt; color: var(--ink-soft); }
-
-/* Hierarchical paragraph numbers (1.B, 3.C.(1)) use zero letter-spacing so PDF
-   readers preserve them as a single searchable string. */
-.subpara-card .num {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 9pt;
-  font-weight: 700;
-  letter-spacing: 0;
-  color: var(--accent);
-  text-transform: uppercase;
-  margin-right: 4pt;
-}
 .card-head .num { flex-shrink: 0; }
-
-/* Nested block (OAKOC, weather, etc., inside a card) */
+/* Nested block (OAKOC,
+weather,
+etc.,
+inside a card) */
 .nested {
   margin-top: 10pt;
   padding-top: 8pt;
   border-top: 0.5pt solid var(--rule-hair);
 }
-.nested-head {
-  display: flex;
-  align-items: baseline;
-  gap: 8pt;
-  margin-bottom: 6pt;
-}
-.nested-head .mono {
-  font-size: 7.5pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-.nested-head h4 {
-  margin: 0;
-  font-size: 10.5pt;
-  font-weight: 700;
-  letter-spacing: -0.005em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-/* ==========================================================================
-   OAKOC / ASCOPE / WEATHER GRIDS
-   ========================================================================== */
-.oakoc-grid,
-.ascope-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  border-top: 0.5pt solid var(--rule);
-  border-left: 0.5pt solid var(--rule);
-}
-.oakoc-cell,
-.ascope-cell {
-  display: grid;
-  grid-template-columns: 24pt minmax(0, 1fr);
-  gap: 8pt;
-  padding: 8pt 10pt;
-  border-right: 0.5pt solid var(--rule);
-  border-bottom: 0.5pt solid var(--rule);
-  font-size: 9pt;
-  line-height: 1.4;
-}
-.oakoc-key,
-.ascope-key {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 22pt;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.9;
-  color: var(--accent);
-}
-.oakoc-cell strong,
-.ascope-cell strong {
-  display: block;
-  font-size: 7.5pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  margin-bottom: 2pt;
-}
-
-.weather-rows {
-  margin-top: 4pt;
-  border-top: 0.5pt solid var(--rule);
-}
-.wx-row,
-.wx-period-cell {
-  display: grid;
-  grid-template-columns: var(--wx-gutter, 64pt) minmax(0, 1fr);
-  gap: 8pt;
-  align-items: baseline;
-}
-.wx-row {
-  --wx-gutter: 90pt;
-  gap: 12pt;
-  padding: 5pt 0;
-  border-bottom: 0.5pt solid var(--rule-hair);
-  font-size: 9.5pt;
-  break-inside: avoid;
-}
-.wx-row:last-child { border-bottom: 0.5pt solid var(--rule); }
-.wx-row-k,
-.wx-period-k {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 6.5pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-low);
-}
-.wx-row-k { padding-top: 2pt; }
-.wx-row-v,
-.wx-period-v { color: var(--ink); }
-
-.wx-struct {
-  margin-top: 10pt;
-  padding: 0;
-  border-top: 2pt solid var(--ink);
-  border-bottom: 0.5pt solid var(--rule);
-}
-.wx-struct-label {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-low);
-  padding: 6pt 0;
-  border-bottom: 0.5pt solid var(--rule);
-}
-.wx-struct-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
-}
-.wx-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 5pt 10pt 5pt 0;
-  border-right: 0.5pt solid var(--rule-hair);
-  border-bottom: 0.5pt solid var(--rule-hair);
-  font-size: 9.5pt;
-}
-.wx-k {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-low);
-}
-.wx-v { font-weight: 700; color: var(--ink); }
-.wx-v.mono { font-size: 9pt; letter-spacing: 0.04em; }
-
-.wx-block {
-  margin-top: 12pt;
-  border-top: 0.75pt solid var(--rule);
-  padding-top: 8pt;
-}
-.wx-block-label {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 4pt;
-}
-.wx-block-body { font-size: 9.5pt; color: var(--ink-soft); }
-
-.wx-periods {
-  margin-top: 6pt;
-  border-top: 1pt solid var(--ink);
-}
-.wx-period {
-  padding: 8pt 0;
-  border-bottom: 0.5pt solid var(--rule-hair);
-  break-inside: avoid;
-}
-.wx-period:last-child { border-bottom: 1pt solid var(--ink); }
-.wx-period-head {
-  display: flex;
-  align-items: baseline;
-  gap: 12pt;
-  flex-wrap: wrap;
-  margin-bottom: 6pt;
-}
-.wx-period-phase {
-  font-size: 10pt;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.005em;
-  color: var(--ink);
-}
-.wx-period-window {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 8pt;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-  margin-left: auto;
-}
-.wx-period-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4pt 18pt;
-  margin-bottom: 6pt;
-}
-.wx-period-cell { font-size: 9pt; }
-.wx-period-effect {
-  display: grid;
-  grid-template-columns: 64pt minmax(0, 1fr);
-  gap: 8pt;
-  margin-top: 4pt;
-  padding-top: 6pt;
-  border-top: 0.25pt solid var(--rule-hair);
-  font-size: 9pt;
-}
-.wx-period-effect .wx-period-k { color: var(--accent); }
-.wx-period-effect .wx-period-v { color: var(--ink-soft); }
-
-.wx-effects { border-top: 2pt solid var(--accent); }
-
-.wx-meta {
-  margin-top: 8pt;
-  padding-top: 6pt;
-  border-top: 0.5pt solid var(--rule-hair);
-  display: flex;
-  gap: 24pt;
-  flex-wrap: wrap;
-  font-size: 8.5pt;
-  color: var(--ink-mute);
-}
-.wx-meta-item strong {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  margin-right: 4pt;
-}
-
-/* ==========================================================================
-   HIGHER HQ / FRIENDLY FORCES
-   ========================================================================== */
-.higher-hq-block { margin: 6pt 0; }
-.hq-tier {
-  padding: 8pt 10pt;
-  border-left: 3pt solid var(--ink);
-  background: var(--surface-alt);
-  margin-bottom: 6pt;
-}
-.hq-tag {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 4pt;
-}
-.hq-row {
-  display: grid;
-  grid-template-columns: 64pt minmax(0, 1fr);
-  gap: 10pt;
-  padding: 3pt 0;
-  font-size: 9.5pt;
-}
-.hq-label {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-low);
-}
-
-.inline-kv { font-size: 9.5pt; margin: 4pt 0; }
-.inline-label {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7.5pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-right: 4pt;
-}
-
-/* ==========================================================================
-   ATTD (attachments / detachments)
-   ========================================================================== */
-.attd-row {
-  display: grid;
-  grid-template-columns: 90pt minmax(0, 1fr);
-  gap: 12pt;
-  padding: 6pt 0;
-  border-top: 0.5pt solid var(--rule-hair);
-}
-.attd-row:first-child { border-top: 0; }
-.attd-row ul { margin: 0; padding-left: 14pt; }
-.attd-tag {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 3pt 6pt;
-  text-align: center;
-  height: fit-content;
-}
-.attd-add { background: var(--ink); color: var(--paper); }
-.attd-sub { background: var(--accent); color: var(--paper); }
-[data-theme="dark"] .attd-add { background: var(--paper); color: var(--ink); }
-
-.clean-list { list-style: none; margin: 0; padding: 0; }
-.clean-list li {
-  padding: 3pt 0 3pt 16pt;
-  position: relative;
-  font-size: 9.5pt;
-  border-bottom: 0.25pt solid var(--rule-hair);
-}
-.clean-list li:last-child { border-bottom: 0; }
-.clean-list li::before {
-  content: "▸";
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-  font-size: 10pt;
-  line-height: 1.3;
-}
-
-/* ==========================================================================
-   COMMANDER'S INTENT
-   ========================================================================== */
-.intent-card { break-inside: avoid; }
-.intent-grid {
-  margin-top: 6pt;
-  border-top: 0.5pt solid var(--rule);
-  font-size: 0; /* collapse inline-block whitespace */
-}
-.intent-cell {
-  display: inline-block;
-  vertical-align: top;
-  width: 50%;
-  padding: 10pt 12pt;
-  border-right: 0.5pt solid var(--rule);
-  border-bottom: 0.5pt solid var(--rule);
-  border-left: 0.5pt solid var(--rule);
-  font-size: 10pt;
-  break-inside: avoid;
-}
-.intent-cell + .intent-cell { border-left: 0; }
-.intent-cell-end {
-  display: block;
-  width: auto;
-  border-left: 0.5pt solid var(--rule);
-}
-.intent-label {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 5pt;
-}
-.intent-body { font-size: 10pt; color: var(--ink); }
-
-.endstate-conditions { margin-top: 8pt; }
-.es-row {
-  display: block;
-  padding: 4pt 0 4pt 84pt;
-  position: relative;
-  border-bottom: 0.25pt solid var(--rule-hair);
-  font-size: 9.5pt;
-  min-height: 14pt;
-}
-.es-row:last-child { border-bottom: 0; }
-.es-row > .es-tag {
-  position: absolute;
-  top: 4pt;
-  left: 0;
-  width: 72pt;
-}
-.es-tag {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 2pt 0;
-  text-align: left;
-  color: var(--ink);
-  border-left: 3pt solid var(--ink);
-  padding-left: 6pt;
-}
-.es-f { border-left-color: var(--ink); }
-.es-e { border-left-color: var(--accent); color: var(--accent); }
-.es-t { border-left-color: var(--duotone); color: var(--duotone); }
-.es-c { border-left-color: var(--mark); }
-
-.conop-overview {
-  padding: 10pt 12pt;
-  background: var(--surface-alt);
-  border-left: 3pt solid var(--ink);
-  margin: 6pt 0 10pt 0;
-  font-size: 10pt;
-  font-style: normal;
-}
-
-/* ==========================================================================
-   TASKS TO SUBORDINATE UNITS
-   ========================================================================== */
-.tasks-list { display: flex; flex-direction: column; gap: 0; margin-top: 6pt; }
-.task-card {
-  padding: 8pt 0;
-  border-top: 0.5pt solid var(--rule-hair);
-}
-.task-head {
-  display: flex;
-  align-items: baseline;
-  gap: 10pt;
-  flex-wrap: wrap;
-  margin-bottom: 4pt;
-}
-.task-num {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7.5pt;
-  font-weight: 700;
-  letter-spacing: 0;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-.task-unit {
-  font-size: 10.5pt;
-  font-weight: 800;
-  letter-spacing: -0.005em;
-  text-transform: uppercase;
-}
-.task-callsign {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 8pt;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--accent);
-  margin-left: auto;
-}
-.task-purpose,
-.task-priorities { font-size: 9.5pt; margin: 3pt 0; }
-.tlabel {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-right: 4pt;
-}
-.task-tasklist { margin: 4pt 0 4pt 18pt; font-size: 9.5pt; }
-
-/* ==========================================================================
-   CCIR
-   ========================================================================== */
-.ccir-grid {
-  margin-top: 4pt;
-  border-top: 0.5pt solid var(--rule);
-  font-size: 0;
-}
-.ccir-cell {
-  display: inline-block;
-  vertical-align: top;
-  width: 50%;
-  padding: 8pt 10pt;
-  border-right: 0.5pt solid var(--rule);
-  border-bottom: 0.5pt solid var(--rule);
-  border-left: 0.5pt solid var(--rule);
-  font-size: 10pt;
-  break-inside: avoid;
-}
-.ccir-cell + .ccir-cell { border-left: 0; }
-.ccir-label {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 4pt;
-}
-.ccir-pir .ccir-label { color: var(--accent); }
-.ccir-ffir .ccir-label { color: var(--duotone); }
-
-/* chip list (themes) */
-.chip-list { list-style: none; margin: 4pt 0; padding: 0; display: flex; gap: 4pt; flex-wrap: wrap; }
-.theme-chip {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 8.5pt;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  padding: 3pt 8pt;
-  background: var(--ink);
-  color: var(--paper);
-  border-radius: 0;
-}
-
 /* ==========================================================================
    MISSION
    ========================================================================== */
@@ -1424,13 +851,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   margin: 0;
   color: var(--ink);
 }
-
-.succession-list {
-  margin: 4pt 0 4pt 18pt;
-  font-size: 9.5pt;
-  counter-reset: succ;
-}
-
 /* ==========================================================================
    ANNEX DIRECTORY + CARDS
    ========================================================================== */
@@ -1485,7 +905,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
 .annex-not_used { opacity: 0.4; }
 .annex-omitted .annex-letter,
 .annex-not_used .annex-letter { color: var(--ink-low); }
-
 .annex-card {
   padding: 0;
   margin: 16pt 0 0 0;
@@ -1520,7 +939,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   margin: 0;
 }
 .annex-card-summary .chevron { margin-left: auto; }
-
 .annex-section { margin: 10pt 0 12pt 0; }
 .annex-section-label {
   font-family: "JetBrains Mono", ui-monospace, monospace;
@@ -1533,146 +951,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   padding-bottom: 3pt;
   border-bottom: 0.5pt solid var(--rule);
 }
-.annex-section-label.small {
-  font-size: 6.5pt;
-  color: var(--ink-low);
-}
-
-.distribution-list {
-  columns: 2;
-  column-gap: 24pt;
-  margin: 4pt 0;
-  padding: 0;
-  list-style: none;
-  font-size: 9pt;
-}
-.distribution-list li {
-  padding: 2pt 0 2pt 14pt;
-  position: relative;
-  break-inside: avoid;
-  border-bottom: 0.25pt solid var(--rule-hair);
-}
-.distribution-list li::before {
-  content: "·";
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 14pt;
-  line-height: 0.5;
-}
-
-/* Callsigns */
-.callsign-group { margin-bottom: 10pt; }
-.callsign-group-heading {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  padding: 4pt 0;
-  border-top: 1pt solid var(--ink);
-  border-bottom: 0.5pt solid var(--rule);
-  margin-bottom: 4pt;
-}
-.callsign-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 9pt;
-}
-.callsign-table td {
-  padding: 3pt 6pt;
-  border-bottom: 0.25pt solid var(--rule-hair);
-}
-.cs-unit { text-transform: uppercase; font-weight: 600; }
-.cs-dash { color: var(--ink-low); width: 12pt; text-align: center; }
-.cs-callsign {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--accent);
-  text-align: right;
-  width: 140pt;
-  text-transform: uppercase;
-}
-
-/* Appendices */
-.appendix-list { margin-top: 12pt; border-top: 1pt solid var(--ink); }
-.appendix-item {
-  padding: 0;
-  border-bottom: 0.5pt solid var(--rule);
-}
-.appendix-details { padding: 10pt 0; margin: 0; }
-.app-head {
-  display: flex;
-  align-items: baseline;
-  gap: 10pt;
-  padding: 0 0 6pt 0;
-  margin: 0;
-}
-.app-head .mono {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7.5pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.app-head strong {
-  font-size: 11pt;
-  font-weight: 800;
-  letter-spacing: -0.005em;
-  text-transform: uppercase;
-}
-.app-head .chevron { margin-left: auto; }
-.app-subsection { margin: 6pt 0; }
-
-/* Frequency tables */
-.freq-table {
-  margin: 10pt 0;
-  border-top: 1pt solid var(--ink);
-  border-bottom: 1pt solid var(--ink);
-}
-.freq-table-title {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 7.5pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  padding: 5pt 0;
-  border-bottom: 0.5pt solid var(--rule);
-}
-.freq-sub { color: var(--ink-low); font-weight: 500; }
-.freq-channel-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 8.5pt;
-}
-.freq-channel-table th {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 6.5pt;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  padding: 4pt 6pt;
-  border-bottom: 0.75pt solid var(--ink);
-  text-align: left;
-  background: var(--surface-alt);
-}
-.freq-channel-table td {
-  padding: 4pt 6pt;
-  border-bottom: 0.25pt solid var(--rule-hair);
-  vertical-align: top;
-}
-.freq-th-ch, .freq-ch { text-align: center; width: 26pt; }
-.freq-th-freq, .freq-freq { width: 80pt; }
-.freq-name { font-weight: 700; color: var(--ink); letter-spacing: 0.04em; text-transform: uppercase; }
-.freq-freq { color: var(--accent); font-weight: 700; }
-.freq-purpose { color: var(--ink-mute); }
-
 /* ==========================================================================
    AUTHENTICATION
    ========================================================================== */
@@ -1742,7 +1020,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   margin-bottom: 6pt;
 }
 .auth-pos { color: var(--ink-mute); font-size: 9.5pt; }
-
 /* ==========================================================================
    TYPED BODY (annex structured content)
    ========================================================================== */
@@ -1801,9 +1078,9 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   letter-spacing: 0;
   margin-right: 4pt;
 }
-
 /* Split-render: summary table + per-entry detail cards for models with too
-   many columns to fit cleanly (JPITL, TST). The summary table shows enough
+   many columns to fit cleanly (JPITL,
+TST). The summary table shows enough
    to scan the list; full-detail fields per entry render below. */
 .tb-detail-list {
   margin-top: 10pt;
@@ -1831,12 +1108,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   letter-spacing: 0.04em;
   color: var(--accent);
   text-transform: uppercase;
-}
-.tb-detail-title {
-  font-size: 10pt;
-  font-weight: 700;
-  letter-spacing: -0.005em;
-  color: var(--ink);
 }
 .tb-detail-body { display: block; }
 .tb-detail-row {
@@ -1890,7 +1161,6 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   overflow-wrap: anywhere;
   line-height: 1.35;
 }
-
 /* ==========================================================================
    PRINT — PAGE BREAKS + LINK STYLING
    ========================================================================== */
@@ -1971,3 +1241,4 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
   summary { display: block; }
   .chevron { display: none; }
 }
+

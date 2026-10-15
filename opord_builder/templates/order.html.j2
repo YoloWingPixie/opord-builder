@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+{%- from '_page.html.j2' import page_css -%}
+{#- One HTML template for an OPORD, a FRAGO and a WARNO. `eff` holds the header values to print. -#}
+{%- set banner = eff.classification ~ ('//' ~ eff.caveat if eff.caveat else '') -%}
+{%- set slug = eff.classification|lower|replace(' ', '-') -%}
+{%- set word = {'opord': 'OPERATION ORDER', 'frago': 'FRAGO', 'warno': 'WARNO'}[o.kind] -%}
+{%- set stub = {'frago': ['No change', 'No change from base OPORD ' ~ eff.op_number ~ '.'], 'warno': ['TBP', 'To be published in forthcoming OPORD.']} -%}
+{%- macro para_open(num, slug, title, anchor=None, num_class='') -%}
+<section class="paragraph para-{{ slug }}" id="{{ anchor or ('para-' ~ slug) }}">
+<details open class="section-details">
+<summary class="para-header">
+    <div class="para-num{% if num_class %} {{ num_class }}{% endif %}">{{ num }}</div>
+    <h2 class="para-title">{{ title }}</h2>
+    <div class="para-stripe"></div>
+    <span class="chevron"></span>
+</summary>
+{%- endmacro -%}
+{%- macro unit_card(uid, depth=0) -%}
+{% set u = units[uid] %}{% set rel = unit_ext.get(uid, {}).get('relationship') or rels.get(uid) %}
+<div class="unit-card{% if depth == 0 %} unit-root{% endif %}" style="--d:{{ depth }}">
+  <div class="unit-header">
+    <div class="unit-name">{{ u.name }}</div>
+    {% if u.callsign %}<div class="unit-callsign">{{ u.callsign }}</div>{% endif %}
+  </div>
+  <div class="unit-meta">
+    {% if rel %}<span class="chip chip-rel">{{ rel }}</span>{% endif %}
+    {% if u.unit_type %}<span class="chip chip-role">{{ u.unit_type }}</span>{% endif %}
+    {% if u.commander %}<span class="unit-commander">{{ u.commander }}</span>{% endif %}
+  </div>
+  {% if kids.get(uid) %}
+  <div class="unit-children">{% for c in kids[uid] %}{{ unit_card(c, depth + 1) }}{% endfor %}</div>
+  {% endif %}
+</div>
+{%- endmacro -%}
+{%- macro card(num, title, body, accent=1) -%}
+<div class="card subpara-card"><div class="card-accent accent-{{ accent }}"></div>
+<div class="card-head"><span class="num mono">{{ num }}</span><h3 class="card-title">{{ title }}</h3></div>{{ body|safe }}</div>
+{%- endmacro -%}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ word }} {{ eff.number or eff.op_number }} — {{ eff.op_name }}</title>
+  <style>{{ page_css(banner, o.kind|upper ~ ' ' ~ (eff.number or eff.op_number) ~ ' / ' ~ eff.op_name, print.page_icon, watermark_url) }}</style>
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem("opord-theme");
+        if (t === "dark" || t === "light") { document.documentElement.setAttribute("data-theme", t); }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="classification-{{ slug }}">
+
+<button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="(function(b){var r=document.documentElement;var c=r.getAttribute('data-theme');var n=c==='dark'?'light':(c==='light'?'dark':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'light':'dark'));r.setAttribute('data-theme',n);try{localStorage.setItem('opord-theme',n);}catch(e){}})(this)">
+  <span class="tt-dot"></span>
+  <span class="tt-label-dark">Dark</span>
+  <span class="tt-label-light">Light</span>
+</button>
+
+<section class="cover">
+  <div class="cover-hero">
+    <div class="cover-eyebrow">
+      <span class="cover-eyebrow-tag">{{ word }}{% if o.kind != 'opord' %} № {{ eff.number }}{% endif %}</span>
+      <span class="cover-eyebrow-num">{% if o.kind == 'opord' %}{{ eff.op_number }}{% elif eff.op_number %}{{ 'to' if o.kind == 'frago' else 'for' }} OPORD {{ eff.op_number }}{% endif %}</span>
+    </div>
+    <h1 class="cover-title">{{ eff.op_name }}</h1>
+    {% if eff.author %}
+    <div class="cover-author"><span class="cover-author-label">Drafted by</span><span class="cover-author-name">{{ eff.author }}</span></div>
+    {% endif %}
+    <div class="cover-accent" data-serial="{{ generated_at }}"></div>
+  </div>
+  {% if print.logo %}
+  <div class="cover-logo-plate"><img class="cover-logo" src="{{ print.logo }}" alt="Unit crest"></div>
+  {% endif %}
+  <div class="cover-meta">
+    <div class="meta-card"><div class="meta-label">Issuing Headquarters</div><div class="meta-value">{{ eff.hq }}</div></div>
+    <div class="meta-card"><div class="meta-label">Place of Issue</div><div class="meta-value">{{ eff.place }}</div></div>
+    <div class="meta-card mono"><div class="meta-label">{{ 'Date-Time Group' if o.kind == 'opord' else word ~ ' Signed' }}</div><div class="meta-value">{{ eff.dtg }}</div></div>
+    {% if o.base and o.kind != 'opord' %}
+    <div class="meta-card mono"><div class="meta-label">Base DTG</div><div class="meta-value">{{ eff.base_dtg }}</div></div>
+    {% endif %}
+    <div class="meta-card mono"><div class="meta-label">Time Zone</div><div class="meta-value">{{ eff.tz }}</div></div>
+    {% if print.copy_number %}
+    <div class="meta-card mono"><div class="meta-label">Copy</div><div class="meta-value">{{ print.copy_number }}{% if print.number_of_copies %} <span class="of">of</span> {{ print.number_of_copies }}{% endif %}</div></div>
+    {% endif %}
+    {% if print.message_reference_number %}
+    <div class="meta-card mono"><div class="meta-label">Message Ref. No.</div><div class="meta-value">{{ print.message_reference_number }}</div></div>
+    {% endif %}
+  </div>
+</section>
+
+{% if doc.references or o.base or eff.previous %}
+<section class="card card-references">
+  <div class="card-accent accent-refs"></div>
+  <div class="card-head"><span class="card-eyebrow">(U)</span><h2 class="card-title">References</h2></div>
+  <ol class="ref-list">
+    {% if o.kind != 'opord' %}
+    <li><span class="ref-letter">a.</span>
+      <span class="ref-cite">{% if o.base %}OPORD {{ eff.op_number }} ({{ eff.op_name }}), {{ o.base.issuing_headquarters }}, signed {{ eff.base_dtg }}{% else %}Higher HQ order — TBP{% endif %}</span>
+      {% if o.base %}<span class="ref-desc">— {{ 'base order modified by this FRAGO' if o.kind == 'frago' else 'higher HQ order this WARNO prepares subordinates to execute' }}</span>{% endif %}</li>
+    {% for prev in eff.previous %}<li><span class="ref-letter">{{ letter_for(loop.index + 1) }}.</span><span class="ref-cite">{{ prev }}</span></li>{% endfor %}
+    {% else %}
+    {% for ref in doc.references %}
+    <li><span class="ref-letter">{{ letter_for(loop.index) }}.</span><span class="ref-cite">{{ ref.title }}</span>
+      {% set d = (x.header.references or {}).get(ref.id) if x.header else none %}{% if d %}<span class="ref-desc">— {{ d.description }}</span>{% endif %}</li>
+    {% endfor %}
+    {% endif %}
+  </ol>
+</section>
+{% endif %}
+
+{% if o.kind == 'opord' %}
+{% if units %}
+<section class="card card-taskorg">
+  <div class="card-accent accent-taskorg"></div>
+  <div class="card-head"><span class="card-eyebrow">(U)</span><h2 class="card-title">Task Organization</h2><span class="card-annex-ref">Annex A</span></div>
+  <div class="taskorg-tree">{% for r in kids.get(none, []) %}{{ unit_card(r) }}{% endfor %}</div>
+</section>
+{% elif x.header and x.header.task_organization_note %}
+<section class="card card-taskorg-note">
+  <div class="card-accent accent-taskorg"></div>
+  <div class="card-head"><span class="card-eyebrow">(U)</span><h2 class="card-title">Task Organization</h2></div>
+  <p class="card-note">{{ x.header.task_organization_note }}</p>
+</section>
+{% endif %}
+{% endif %}
+
+{% set dir = directory(o) %}
+{% set bodies = {} %}
+{% for key, title in paragraphs_list %}
+{% set shown = (key in o.shown) if o.kind == 'frago' else true %}
+{% set _ = bodies.update({key: section(key, loop.index|string, ('statement',) if key == 'mission' else ()) if shown else ''}) %}
+{% endfor %}
+{% set visible = [] %}
+{% for key, title in paragraphs_list %}{% if o.kind != 'opord' or bodies[key] or key == 'mission' %}{% set _ = visible.append((key, title, loop.index)) %}{% endif %}{% endfor %}
+
+<nav class="doc-toc" aria-label="Contents">
+  <div class="doc-toc-title">Contents</div>
+  <div class="doc-toc-paragraphs">
+    {% for key, title, n in visible %}<a href="#para-{{ n }}" class="toc-para-link"><span class="toc-num">{{ n }}</span>{{ title }}</a>{% endfor %}
+    {% if o.kind == 'opord' %}<a href="#annexes" class="toc-para-link"><span class="toc-num">A</span>Annexes</a>{% endif %}
+    {% if eff.auth %}<a href="#authentication" class="toc-para-link"><span class="toc-num">§</span>Authentication</a>{% endif %}
+  </div>
+  {% if o.kind == 'opord' %}
+  <div class="doc-toc-annex-label">Annexes</div>
+  <div class="doc-toc-annex-grid">
+    {% for a in dir %}<a href="#annex-{{ a.letter }}" class="toc-annex-tile toc-annex-{{ a.status }}"><span class="toc-annex-letter">{{ a.letter }}</span><span class="toc-annex-title">{{ a.title }}</span></a>{% endfor %}
+  </div>
+  {% endif %}
+</nav>
+
+{% for key, title, n in visible %}
+{{ para_open(n, n|string, title) }}
+{% if key == 'mission' and bodies[key] == '' and o.kind == 'opord' or key == 'mission' and doc.mission and (o.kind != 'frago' or key in o.shown) %}
+  <div class="mission-block"><div class="mission-quote-open">&ldquo;</div><p class="mission-text">{{ doc.mission.statement }}</p><div class="mission-quote-close">&rdquo;</div></div>
+{% endif %}
+{% if bodies[key] %}
+  {{ bodies[key]|safe }}
+{% elif not (key == 'mission' and doc.mission and (o.kind != 'frago' or key in o.shown)) %}
+  <div class="no-change{% if o.kind == 'warno' %} tbp{% endif %}"><span class="no-change-tag{% if o.kind == 'warno' %} tbp-tag{% endif %}">§ {{ stub[o.kind][0] }}</span><span class="no-change-body">{{ stub[o.kind][1] }}</span></div>
+{% endif %}
+</details>
+</section>
+{% endfor %}
+
+{% set shown_annexes = dir|selectattr('status', 'equalto', 'published')|selectattr('letter', 'in', annex_letters)|list %}
+{% if o.kind == 'opord' or shown_annexes or o.kind == 'frago' %}
+{{ para_open('A', 'annex', 'Annexes' if o.kind != 'frago' else 'Annex Changes', anchor='annexes', num_class='annex-num') }}
+  {% if o.kind == 'opord' %}
+  <div class="annex-grid">
+    {% for a in dir %}
+    <a href="#annex-{{ a.letter }}" class="annex-tile annex-{{ a.status }}">
+      <div class="annex-letter mono">{{ a.letter }}</div><div class="annex-title-text">{{ a.title }}</div><div class="annex-status">{{ a.status|replace('_', ' ')|title }}</div>
+    </a>
+    {% endfor %}
+  </div>
+  {% elif not shown_annexes %}
+  <div class="no-change"><span class="no-change-tag">§ No change</span><span class="no-change-body">No annex changes — all annexes inherit from base OPORD {{ eff.op_number }}.</span></div>
+  {% endif %}
+  {% for a in shown_annexes %}
+  {% set v = annex_view(a.letter) %}
+  <div class="card annex-card" id="annex-{{ a.letter }}">
+    <div class="card-accent accent-annex"></div>
+    <details open class="annex-details">
+    <summary class="card-head annex-card-summary"><span class="num mono">Annex {{ a.letter }}</span><h3 class="card-title">{{ a.title }}{% if o.kind == 'frago' %} — Updated{% endif %}</h3><span class="chevron"></span></summary>
+    {% if v.intro %}<div class="annex-section">{% for para in v.intro|paragraphs %}<p>{{ para }}</p>{% endfor %}</div>{% endif %}
+    {% if v.content %}<div class="annex-section"><div class="annex-section-label">Structured Content</div><div class="typed-body">{{ v.content|safe }}</div></div>{% endif %}
+    {% if v.appendices %}<div class="annex-section"><div class="typed-body">{{ v.appendices|safe }}</div></div>{% endif %}
+    </details>
+  </div>
+  {% endfor %}
+</details>
+</section>
+{% endif %}
+
+{% set a = eff.auth %}
+{% if a or eff.distribution %}
+<section class="auth-block" id="authentication">
+  {% if eff.ack %}<div class="auth-line auth-ack">ACKNOWLEDGE.</div>{% endif %}
+  {% if a.commander_name or a.commander_rank %}
+  <div class="auth-name"><span class="auth-surname">{{ (a.commander_name or '') | upper }}</span>{% if a.commander_rank %}<span class="auth-rank">, {{ a.commander_rank }}</span>{% endif %}</div>
+  {% endif %}
+  {% if a.authenticator_name or a.authenticator_position %}
+  <div class="auth-official"><div class="auth-official-tag">OFFICIAL</div>
+    {% if a.authenticator_name %}<div>{{ a.authenticator_name }}</div>{% endif %}
+    {% if a.authenticator_position %}<div class="auth-pos">{{ a.authenticator_position }}</div>{% endif %}</div>
+  {% endif %}
+  {% if eff.distribution %}
+  <div class="auth-distribution"><div class="auth-distro-tag">DISTRIBUTION</div><div>{{ eff.distribution if eff.distribution is string else eff.distribution|join('; ') }}</div></div>
+  {% endif %}
+</section>
+{% endif %}
+
+</body>
+</html>

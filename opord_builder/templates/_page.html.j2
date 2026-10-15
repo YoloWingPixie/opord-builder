@@ -1,0 +1,34 @@
+{%- macro mbox(name, content, extra='') -%}
+      @{{ name }} {
+        content: {{ content }};
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 700;
+        font-size: 7pt;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        {{ extra }}
+      }
+{%- endmacro -%}
+{%- macro bar(name, banner) -%}
+{{ mbox(name, '"' ~ banner ~ '"', 'color: #ffffff; text-align: center; vertical-align: middle; padding: 0 72pt; background: linear-gradient(to bottom, transparent 0%, transparent 38%, var(--class-color) 38%, var(--class-color) 62%, transparent 62%, transparent 100%);') }}
+{%- endmacro -%}
+{%- macro page_css(banner, left, icon, watermark) -%}
+    @page {
+      size: Letter;
+      margin: 0.7in 0.55in 0.65in 0.55in;
+      {% if watermark %}
+      background-image: url("{{ watermark }}");
+      background-position: center center;
+      background-size: 420pt auto;
+      background-repeat: no-repeat;
+      {% endif %}
+{{ bar('top-center', banner) }}
+{{ bar('bottom-center', banner) }}
+      {% if icon %}
+      @top-right { content: url("{{ icon }}"); width: 28pt; height: 28pt; padding: 2pt 4pt; vertical-align: middle; }
+      {% endif %}
+{{ mbox('bottom-left', '"' ~ left ~ '"', 'font-size: 6.5pt; letter-spacing: 0.22em; color: #45443e; padding: 3pt 0; white-space: nowrap;') }}
+{{ mbox('bottom-right', '"P " counter(page) " / " counter(pages)', 'font-size: 6.5pt; letter-spacing: 0.22em; color: #45443e; padding: 3pt 0; white-space: nowrap; text-transform: none;') }}
+    }
+    @page :first { background-image: none; @top-right { content: none; } }
+{%- endmacro -%}

@@ -9,11 +9,10 @@ from pathlib import Path
 
 import pytest
 import yaml
-from pydantic import ValidationError
+from spinsdoc import native
 
 from opord_builder._paths import SPINS_DEFAULT_LAYOUT
-from opord_builder.openaix import convert
-from opord_builder.schema.spins import SPINS
+from opord_builder.load import DocumentError, load_document
 from opord_builder.spins import (
     load_default_spins,
     load_spins,
@@ -62,7 +61,7 @@ def write(tmp, blocks, refs=None, **extra):
         {"spins": "spins.json", "resources": "resources.json"} if refs is None else refs
     )
     path = tmp / "s.yaml"
-    path.write_text(yaml.safe_dump(spins_doc(blocks, openaix=refs, **extra)))
+    path.write_text(yaml.safe_dump(native(spins_doc(blocks, openaix=refs, **extra))))
     return path
 
 
@@ -97,7 +96,7 @@ def test_entries_rows_use_map_keys():
 
 def test_default_layout_is_a_valid_shipped_resource():
     assert SPINS_DEFAULT_LAYOUT.name == "spins-default.yaml"
-    SPINS.model_validate(yaml.safe_load(SPINS_DEFAULT_LAYOUT.read_text()))
+    load_document(SPINS_DEFAULT_LAYOUT)
     assert "opord_builder/templates/**/*" in (ROOT / "pyproject.toml").read_text()
     text = SPINS_DEFAULT_LAYOUT.read_text()
     assert "TODO(openaix" not in text
@@ -243,10 +242,12 @@ def test_column_pointing_at_an_unreadable_object_names_the_column(workdir):
 
 
 @pytest.mark.parametrize("pointer", ["no-slash", "/bad~2escape"])
-def test_malformed_pointers_fail_model_validation(workdir, pointer):
-    with pytest.raises(ValidationError):
+def test_malformed_pointers_fail_extension_validation(workdir, pointer):
+    with pytest.raises(
+        DocumentError, match=r"/extensions/org.opord-builder.spins/content/0/blocks/0"
+    ):
         load_spins(write(workdir, [table(pointer=pointer)]))
-    with pytest.raises(ValidationError):
+    with pytest.raises(DocumentError):
         load_spins(
             write(
                 workdir,
@@ -271,7 +272,7 @@ def test_wrong_kind_missing_and_malformed_files(workdir):
     with pytest.raises(ValueError, match="nope.json"):
         load_spins(write(workdir, [table()], refs={"spins": "nope.json"}))
     (workdir / "bad.json").write_text("{")
-    with pytest.raises(ValueError, match="invalid JSON"):
+    with pytest.raises(ValueError, match="bad.json"):
         load_spins(write(workdir, [table()], refs={"spins": "bad.json"}))
 
 
@@ -301,7 +302,7 @@ def test_relative_paths_resolve_from_the_yaml(workdir):
     sub.mkdir()
     path = sub / "s.yaml"
     path.write_text(
-        yaml.safe_dump(spins_doc([table()], openaix={"spins": "../spins.json"}))
+        yaml.safe_dump(native(spins_doc([table()], openaix={"spins": "../spins.json"})))
     )
     assert "Darkstar control" in render_spins_markdown(load_spins(path))
 
@@ -328,16 +329,11 @@ def test_format_value(value, text):
     assert format_value(value) == text
 
 
-def test_frequency_uses_the_shared_convert_helper():
-    freq = {"value": 253.15, "unit": "MHz", "modulation": "AM"}
-    assert format_value(freq) == convert.format_frequency(freq)
-
-
 def test_amendment_can_add_an_openaix_table(workdir):
     base = spins_doc(
         [{"kind": "paragraph", "id": "p", "text": "x"}], openaix={"spins": "spins.json"}
     )
-    (workdir / "base.yaml").write_text(yaml.safe_dump(base))
+    (workdir / "base.yaml").write_text(yaml.safe_dump(native(base)))
     mission = spins_doc([], scope="mission", openaix={"spins": "spins.json"})
     mission["content"] = []
     mission["meta"]["id"] = "m"
@@ -349,5 +345,5 @@ def test_amendment_can_add_an_openaix_table(workdir):
             "block": {"kind": "section", "title": "Nets", "blocks": [table()]},
         }
     ]
-    (workdir / "m.yaml").write_text(yaml.safe_dump(mission))
+    (workdir / "m.yaml").write_text(yaml.safe_dump(native(mission)))
     assert "Darkstar control" in render_spins_markdown(load_spins(workdir / "m.yaml"))

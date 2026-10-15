@@ -2,6 +2,7 @@ from copy import deepcopy
 
 import pytest
 from pydantic import ValidationError
+from spinsdoc import native
 
 from opord_builder.schema.spins import SPINS
 from opord_builder.spins import compose_spins, render_spins_html
@@ -476,30 +477,37 @@ def test_mission_requires_an_ordered_timezone_aware_period():
             SPINS.model_validate(document(scope="mission", period=period))
 
 
-def test_source_tables_use_the_canonical_registry(tmp_path):
+def test_resources_table_reads_typed_fields_and_measure_extras(tmp_path):
+    import shutil
     from pathlib import Path
 
     import yaml
 
     from opord_builder.spins import load_spins
 
-    source_path = (
+    source = (
         Path(__file__).resolve().parents[1]
         / "examples/data_sources/airspace/cap_tracks.yaml"
     )
+    shutil.copy(source, tmp_path / "cap_tracks.yaml")
+    measure = "/extensions/org.opord-builder.measure/extra/controller_callsign"
     block = {
-        "kind": "source_table",
+        "kind": "openaix_table",
         "caption": "Stations",
-        "source": str(source_path),
-        "columns": [{"key": "name", "heading": "Station", "field": "name"}],
+        "source": "resources",
+        "pointer": "/resources/control_measures",
+        "rows": "entries",
+        "columns": [
+            {"key": "name", "heading": "Station", "field": "/name"},
+            {"key": "floor", "heading": "Floor", "field": "/altitude/lower"},
+            {"key": "control", "heading": "Control", "field": measure},
+        ],
     }
+    data = document([block], openaix={"resources": "cap_tracks.yaml"})
     path = tmp_path / "spins.yaml"
-    path.write_text(yaml.safe_dump(document([block])))
-    assert "ANCHOR 1" in render_spins_html(load_spins(path))
-    block["columns"][0]["field"] = "unknown"
-    path.write_text(yaml.safe_dump(document([block])))
-    with pytest.raises(ValueError, match="unknown field 'unknown'"):
-        load_spins(path)
+    path.write_text(yaml.safe_dump(native(data)))
+    html = render_spins_html(load_spins(path))
+    assert "ANCHOR 1" in html and "20000 ft MSL" in html and "MAGIC" in html
 
 
 def test_figures_resolve_from_each_owning_document_and_are_renumbered(tmp_path):
@@ -526,13 +534,15 @@ def test_figures_resolve_from_each_owning_document_and_are_renumbered(tmp_path):
         "alt": "Map",
         "src": "map.svg",
     }
-    (standing_dir / "standing.yaml").write_text(yaml.safe_dump(document([figure])))
+    (standing_dir / "standing.yaml").write_text(
+        yaml.safe_dump(native(document([figure])))
+    )
     new_figure = {**figure, "id": "mission-map"}
     overlay = mission([{"op": "add", "before": "map", "block": new_figure}])
     overlay.base.path = "standing/standing.yaml"
-    data = overlay.model_dump(mode="json")
+    data = overlay.model_dump(mode="json", exclude_none=True)
     data["content"] = [{"kind": "paragraph", "text": [{"target": "map"}]}]
-    (tmp_path / "mission.yaml").write_text(yaml.safe_dump(data))
+    (tmp_path / "mission.yaml").write_text(yaml.safe_dump(native(data)))
     html = render_spins_html(load_spins(tmp_path / "mission.yaml"))
     assert (
         "data:image/svg+xml;base64,"
@@ -548,8 +558,7 @@ def test_figures_resolve_from_each_owning_document_and_are_renumbered(tmp_path):
     assert 'src="http' not in html
 
 
-def test_cli_schema_rendering_and_validation(tmp_path):
-    import json
+def test_cli_rendering_and_validation(tmp_path):
     from pathlib import Path
 
     from typer.testing import CliRunner
@@ -557,11 +566,6 @@ def test_cli_schema_rendering_and_validation(tmp_path):
     from opord_builder.cli import app
 
     runner = CliRunner()
-    schema_result = runner.invoke(app, ["schema", "--document-type", "spins"])
-    assert schema_result.exit_code == 0, schema_result.output
-    exported = json.loads(schema_result.output)
-    assert exported["properties"]["kind"]["const"] == "spins"
-    assert "label" not in exported["$defs"]["Paragraph"]["properties"]
     example = Path(__file__).resolve().parents[1] / "examples/spins-example.yaml"
     result = runner.invoke(
         app, ["spins", str(example), "-o", str(tmp_path), "--no-pdf"]
@@ -634,15 +638,16 @@ def test_mission_inherits_presentation_and_overrides_only_authored_fields():
     assert 'class="publication-contents"' not in html
 
 
-def test_includes_and_variables_feed_spins_prose(tmp_path):
+def test_includes_feed_spins_prose(tmp_path):
     from opord_builder.spins import load_spins
 
     (tmp_path / "instructions.yaml").write_text(
-        '- kind: paragraph\n  text: "Contact {{ control }}."\n'
+        '- kind: paragraph\n  text: "Contact MAGIC."\n'
     )
     path = tmp_path / "spins.yaml"
     path.write_text(
-        "kind: spins\nschema_version: '0.3'\nscope: standing\nmeta: {id: example, title: Instructions, revision: '1'}\nvariables: {control: MAGIC}\ncontent: !include instructions.yaml\n"
+        "kind: spins\nschema_version: 0.2.0-draft.1\nscope: standing\nmeta: {id: example, title: Instructions, revision: '1'}\n"
+        "extensions:\n  org.opord-builder.spins:\n    content: !include instructions.yaml\n"
     )
     assert "Contact MAGIC." in render_spins_html(load_spins(path))
 
@@ -665,3 +670,15 @@ def test_added_identity_cannot_redirect_a_later_amendment():
     )
     with pytest.raises(ValueError, match="identifiers conflict"):
         compose_spins(baseline, amendment)
+
+
+def test_extension_schema_file_is_fresh():
+    import json
+    from pathlib import Path
+
+    from opord_builder.schema.spins import spins_extension_schema
+
+    committed = (
+        Path(__file__).resolve().parents[1] / "schemas/extensions/spins.schema.json"
+    )
+    assert json.loads(committed.read_text(encoding="utf-8")) == spins_extension_schema()

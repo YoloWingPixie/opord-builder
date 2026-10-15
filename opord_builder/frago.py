@@ -56,7 +56,8 @@ def diff_documents(base: dict, merged: dict) -> list[tuple[str, str, Any]]:
 
 
 def order_ref(doc: dict) -> dict[str, str]:
-    return {"id": doc["meta"]["id"], "revision": doc["meta"]["revision"]}
+    meta = doc.get("meta") or {}
+    return {"id": meta.get("id"), "revision": meta.get("revision")}
 
 
 def changes_for(base: dict, merged: dict) -> list[dict]:
@@ -123,4 +124,18 @@ def apply_changes(doc: dict, changes: list[dict]) -> dict:
             raise FragoChangeError(
                 f"{ch['path']}: {op} target not found in the base"
             ) from exc
+    return out
+
+
+def touched(changes: list[dict]) -> set[str]:
+    """The paragraphs (`situation`, `execution`, ...) and annexes (`annex:B`) that the changes touch."""
+    out = set()
+    for ch in changes:
+        keys = [_unesc(k) for k in ch["path"].split("/")[1:]]
+        if keys[0] == EXTENSIONS:
+            keys = keys[2:] if keys[1].endswith(".order") else []
+        if keys[:1] == ["annexes"] and len(keys) > 1:
+            out.add(f"annex:{keys[1]}")
+        elif keys:
+            out.add(keys[0])
     return out

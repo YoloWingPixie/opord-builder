@@ -18,9 +18,6 @@ resources:
       position:
         latitude: 50.005518097301
         longitude: 7.744032070164
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     bullseye-alt:
       id: bullseye-alt
       name: BULLSEYE ALT
@@ -33,9 +30,6 @@ resources:
       position:
         latitude: 50.00720970594
         longitude: 7.911460003574
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     ip-alpha:
       id: ip-alpha
       name: IP ALPHA
@@ -48,9 +42,6 @@ resources:
       position:
         latitude: 49.98760956241
         longitude: 7.751473746571
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     ip-bravo:
       id: ip-bravo
       name: IP BRAVO
@@ -63,9 +54,6 @@ resources:
       position:
         latitude: 50.024657138576
         longitude: 7.855221678189
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     cp-dog:
       id: cp-dog
       name: CP DOG
@@ -78,9 +66,6 @@ resources:
       position:
         latitude: 50.050325210466
         longitude: 7.7288942929
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     tacan-graf:
       id: tacan-graf
       name: TACAN GRAF
@@ -93,9 +78,6 @@ resources:
       position:
         latitude: 49.991801933778
         longitude: 7.723461952485
-      extensions:
-        org.opord-builder.authoring:
-          item: geo_ref
     roz-hammer:
       id: roz-hammer
       name: ROZ HAMMER
@@ -123,9 +105,6 @@ resources:
           value: 5000
           unit: ft
           reference: MSL
-      extensions:
-        org.opord-builder.authoring:
-          item: zone
     nfz-altenstadt:
       id: nfz-altenstadt
       name: NFZ ALTENSTADT
@@ -154,9 +133,6 @@ resources:
           value: 99999
           unit: ft
           reference: MSL
-      extensions:
-        org.opord-builder.authoring:
-          item: zone
     mez-north:
       id: mez-north
       name: MEZ NORTH
@@ -184,9 +160,6 @@ resources:
           value: 60000
           unit: ft
           reference: MSL
-      extensions:
-        org.opord-builder.authoring:
-          item: zone
     fez-south:
       id: fez-south
       name: FEZ SOUTH
@@ -219,9 +192,6 @@ resources:
           value: 45000
           unit: ft
           reference: MSL
-      extensions:
-        org.opord-builder.authoring:
-          item: zone
     anchor-1:
       id: anchor-1
       name: ANCHOR 1
@@ -242,9 +212,6 @@ resources:
           reference: MSL
       active:
         continuous: true
-      extensions:
-        org.opord-builder.authoring:
-          item: cap
     anchor-2:
       id: anchor-2
       name: ANCHOR 2
@@ -265,9 +232,6 @@ resources:
           reference: MSL
       active:
         continuous: true
-      extensions:
-        org.opord-builder.authoring:
-          item: cap
     cap-high:
       id: cap-high
       name: CAP HIGH
@@ -288,9 +252,6 @@ resources:
           reference: MSL
       active:
         continuous: true
-      extensions:
-        org.opord-builder.authoring:
-          item: cap
     track-arco:
       id: track-arco
       name: TRACK ARCO
@@ -314,9 +275,6 @@ resources:
       active:
         start: '2026-04-18T12:00:00Z'
         end: '2026-04-20T06:00:00Z'
-      extensions:
-        org.opord-builder.authoring:
-          item: aar
     track-shell:
       id: track-shell
       name: TRACK SHELL
@@ -340,9 +298,6 @@ resources:
       active:
         start: '2026-04-18T12:00:00Z'
         end: '2026-04-20T06:00:00Z'
-      extensions:
-        org.opord-builder.authoring:
-          item: aar
     mrr-gold:
       id: mrr-gold
       name: MRR GOLD
@@ -353,8 +308,6 @@ resources:
       extensions:
         org.opord-builder.measure:
           code: MRR
-        org.opord-builder.authoring:
-          item: mrr
       active:
         start: '2026-04-19T04:30:00Z'
         end: '2026-04-19T08:00:00Z'
@@ -368,8 +321,6 @@ resources:
       extensions:
         org.opord-builder.measure:
           code: MRR
-        org.opord-builder.authoring:
-          item: mrr
       active:
         start: '2026-04-19T04:30:00Z'
         end: '2026-04-19T08:00:00Z'
@@ -389,8 +340,6 @@ resources:
       extensions:
         org.opord-builder.measure:
           code: MRR
-        org.opord-builder.authoring:
-          item: mrr
       active:
         start: '2026-04-18T12:00:00Z'
         end: '2026-04-20T06:00:00Z'
@@ -404,8 +353,6 @@ resources:
       extensions:
         org.opord-builder.measure:
           code: CFL
-        org.opord-builder.authoring:
-          item: fscm
       active:
         continuous: true
     nfa-altenstadt:
@@ -418,8 +365,6 @@ resources:
       extensions:
         org.opord-builder.measure:
           code: NFA
-        org.opord-builder.authoring:
-          item: fscm
       active:
         start: '2026-04-18T12:00:00Z'
         end: '2026-04-20T06:00:00Z'
@@ -433,8 +378,6 @@ resources:
       extensions:
         org.opord-builder.measure:
           code: RFA
-        org.opord-builder.authoring:
-          item: fscm
       active:
         continuous: true
     aca-bronze-copper:
@@ -447,8 +390,6 @@ resources:
       extensions:
         org.opord-builder.measure:
           code: ACA
-        org.opord-builder.authoring:
-          item: fscm
       active:
         continuous: true
   targets:

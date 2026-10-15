@@ -8,16 +8,16 @@ Grafenwoehr Training Area, Germany
 
 **(U) References.**
   a. 173d IBCT (A) WARNORD 26-05
+
 **(U) Time Zone Used Throughout the OPORD:** ZULU
 
 
 ---
 
-
-
 ## 2. (U) Mission
 
 > TF IRON conducts rehearsal operations 250600Z–251800ZAPR26 IOT validate the OBJ HAMMER seizure sequence prior to OPORD 26-04 execution.
+
 
 
 ## 3. (U) Execution
@@ -25,8 +25,6 @@ Grafenwoehr Training Area, Germany
 ### 3.a. Commander's Intent
 
 **3.a.(1) Purpose.** Shake out the TF IRON assault sequence in a controlled-force environment before the real thing.
-
-
 
 
 
@@ -63,8 +61,6 @@ Grafenwoehr Training Area, Germany
 | **X** | Not Used | Not Used |
 | **Y** | Not Used | Not Used |
 | **Z** | Distribution | Omitted |
-
-
 
 ---
 

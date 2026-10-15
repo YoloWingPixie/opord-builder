@@ -1,6 +1,6 @@
-"""OPORD builder — Pydantic schema + YAML loader + Markdown/HTML/PDF renderers."""
+"""Render OpenAIX orders (OPORD, FRAGO, WARNO), SPINS and kneeboards."""
 
-from opord_builder.schema import OPORD
-from opord_builder.renderer import render_markdown, render_pdf, render_all, load_opord
+from opord_builder.order import Order, load_order
+from opord_builder.render import render_all, render_html, render_markdown
 
-__all__ = ["OPORD", "render_markdown", "render_pdf", "render_all", "load_opord"]
+__all__ = ["Order", "load_order", "render_all", "render_html", "render_markdown"]

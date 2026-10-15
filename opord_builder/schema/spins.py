@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from datetime import datetime
+from enum import Enum
 from typing import Annotated, Literal
 
 from pydantic import (
@@ -18,7 +19,6 @@ from pydantic import (
 from pydantic_core import PydanticCustomError
 
 from opord_builder.schema._base import _Base
-from opord_builder.schema.core import ClassificationLevel, OpenAIXRefs
 
 Text = Annotated[str, Field(min_length=1)]
 BlockId = Annotated[str, Field(pattern=r"^[a-z][a-z0-9_.-]*$")]
@@ -35,6 +35,16 @@ def _timestamp_input(value):
 
 
 Timestamp = Annotated[AwareDatetime, BeforeValidator(_timestamp_input)]
+
+
+class ClassificationLevel(str, Enum):
+    """Classification markings permitted on a banner."""
+
+    UNCLASSIFIED = "UNCLASSIFIED"
+    CUI = "CUI"
+    CONFIDENTIAL = "CONFIDENTIAL"
+    SECRET = "SECRET"
+    TOP_SECRET = "TOP SECRET"
 
 
 class PublicationReference(_Base):
@@ -250,8 +260,21 @@ class OpenAIXTableBlock(AnchoredBlock):
         return self
 
 
-class SpinsOpenAIXRefs(OpenAIXRefs):
-    """OpenAIX files (relative to this YAML) that `openaix_table` blocks read."""
+class SpinsOpenAIXRefs(_Base):
+    """OpenAIX files (relative to this document) that `openaix_table` blocks read."""
+
+    ato: Text | None = Field(
+        default=None, description="Path to an OpenAIX ATO document."
+    )
+    aco: Text | None = Field(
+        default=None, description="Path to an OpenAIX ACO document."
+    )
+    resources: Text | None = Field(
+        default=None, description="Path to an OpenAIX resources document."
+    )
+    spins: Text | None = Field(
+        default=None, description="Path to an OpenAIX SPINS document."
+    )
 
     airfields: list[Text] = Field(
         default_factory=list,
@@ -452,9 +475,33 @@ class SpinsLayout(_Base):
     )
 
 
+def _dispatch(node):
+    """Rewrite each discriminated `oneOf` as an `if/then` per tag, so an error names the field and not the block."""
+    if isinstance(node, list):
+        return [_dispatch(n) for n in node]
+    if not isinstance(node, dict):
+        return node
+    node = {k: _dispatch(v) for k, v in node.items()}
+    disc = node.pop("discriminator", None)
+    if disc is None or "oneOf" not in node:
+        return node
+    tag, mapping = disc["propertyName"], disc["mapping"]
+    del node["oneOf"]
+    node.update(
+        type="object",
+        required=[tag],
+        properties={tag: {"enum": list(mapping)}},
+        allOf=[
+            {"if": {"properties": {tag: {"const": value}}}, "then": {"$ref": ref}}
+            for value, ref in mapping.items()
+        ],
+    )
+    return node
+
+
 def spins_extension_schema() -> dict:
     """JSON Schema 2020-12 of the `org.opord-builder.spins` extension, generated from `SpinsLayout`."""
-    schema = SpinsLayout.model_json_schema()
+    schema = _dispatch(SpinsLayout.model_json_schema())
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": "urn:opord-builder:extension:spins:1",
