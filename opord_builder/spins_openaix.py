@@ -6,17 +6,20 @@ from pathlib import Path
 from typing import Any
 
 from opord_builder import format as fmt
+from opord_builder.format import FORECAST_HEAD, forecast_row
 from opord_builder.load import DocumentError, load_document
 from opord_builder.schema.spins import (
     NoteBlock,
     OpenAIXTableBlock,
     SpinsOpenAIXRefs,
     TableBlock,
+    WeatherBlock,
 )
 
-SOURCES = ("ato", "aco", "spins", "resources", "airfield")
+SOURCES = ("opord", "ato", "aco", "spins", "resources", "airfield")
 # Documents of each source must carry one of these `kind` values.
 KINDS = {
+    "opord": {"opord"},
     "ato": {"ato"},
     "aco": {"aco"},
     "spins": {"spins"},
@@ -329,3 +332,43 @@ def _safe(row: Any, pointer: str) -> Any:
 
 def _present(value: Any) -> bool:
     return value is not _MISSING and value not in (None, "", [], {})
+
+
+def weather_table(
+    block: WeatherBlock, sources: OpenAIXSources
+) -> TableBlock | NoteBlock | None:
+    """The forecast table of a weather block: the same cells as the order's paragraph 1."""
+    forecasts: list[dict] = []
+    for path, document in sources.documents(block.source):
+        try:
+            target = resolve(document, block.pointer)
+        except ValueError as exc:
+            raise OpenAIXTableError(
+                f"weather {block.id or block.caption!r}: pointer {block.pointer!r} in {path}: {exc}"
+            ) from exc
+        if isinstance(target, dict):
+            target = target.get("forecasts")
+        if isinstance(target, list):
+            forecasts += target
+    rows = [forecast_row(f, {}) for f in forecasts]
+    cols = [c for c in FORECAST_HEAD if any(r[c] for r in rows)]
+    if rows:
+        return TableBlock(
+            kind="table",
+            id=block.id,
+            caption=block.caption,
+            columns=[{"key": c, "heading": FORECAST_HEAD[c]} for c in cols],
+            rows=[{c: r[c] for c in cols} for r in rows],
+        )
+    if block.empty == "skip":
+        return None
+    if block.empty == "notice":
+        return NoteBlock(
+            kind="note",
+            id=block.id,
+            heading="NOT PROVIDED",
+            text=f"No weather was provided for: {block.caption}.",
+        )
+    raise OpenAIXTableError(
+        f"weather {block.id or block.caption!r}: pointer {block.pointer!r} gave no forecasts"
+    )

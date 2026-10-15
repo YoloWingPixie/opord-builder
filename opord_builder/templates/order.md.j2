@@ -22,8 +22,10 @@ Copy {{ print.copy_number }} of {{ print.number_of_copies }} copies
 {%- elif print.copy_number -%}
 Copy {{ print.copy_number }}
 {%- endif %}
-{{ eff.hq }}
-{{ eff.place }}
+{% if eff.hq %}{{ eff.hq }}
+{% endif %}
+{% if eff.place %}{{ eff.place }}
+{% endif %}
 {{ eff.dtg }}
 {% if print.message_reference_number %}Message Reference Number: {{ print.message_reference_number }}
 {% endif %}

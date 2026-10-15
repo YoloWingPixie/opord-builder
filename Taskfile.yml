@@ -105,11 +105,19 @@ tasks:
       - "{{.SOURCE_DIR}}/templates/**/*"
       - "{{.TEST_DIR}}/**/*.py"
 
-  # ── Schema ─────────────────────────────────────────────────
+  # ── Generated docs ─────────────────────────────────────────
 
+  docs:generate:
+    desc: "Regenerate the schema docs and bundled schemas"
+    deps: [setup]
+    cmds:
+      - uv run opord docs
 
-
-
+  docs:check:
+    desc: "Fail when a generated schema doc is stale"
+    deps: [setup]
+    cmds:
+      - uv run opord docs --check
 
   render:spins:
     desc: "Render a SPINS publication (usage: task render:spins -- input.yaml)"
@@ -252,18 +260,20 @@ tasks:
   # ── Check ──────────────────────────────────────────────────
 
   check:
-    desc: "Fast gate: tests"
+    desc: "Fast gate: tests and generated docs"
     cmds:
       - task: test
+      - task: docs:check
 
   # ── CI ─────────────────────────────────────────────────────
 
   ci:
-    desc: "Run all CI checks (format check → lint → test)"
+    desc: "Run all CI checks (format check → lint → test → docs check)"
     cmds:
       - task: format:check
       - task: lint
       - task: test
+      - task: docs:check
 
   # ── Housekeeping ───────────────────────────────────────────
 

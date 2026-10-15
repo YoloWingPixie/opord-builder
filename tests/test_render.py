@@ -259,3 +259,56 @@ def test_a_frago_applied_to_its_base_still_validates(orders):
     from opord_builder.load import validate_document
 
     assert validate_document(orders["frago_01_iron_strike"].doc) == []
+
+
+# --------------------------------------------------------------------------- typed weather
+
+
+def test_weather_formatters():
+    from opord_builder.format import altimeter, clouds, forecast_line, forecast_row
+
+    assert altimeter({"value": 29.92, "unit": "inHg"}) == "A2992"
+    assert altimeter({"value": 1013, "unit": "hPa"}) == "Q1013"
+    layers = [
+        {"coverage": "few", "base": {"value": 3000, "unit": "ft", "reference": "AGL"}},
+        {
+            "coverage": "broken",
+            "base": {"value": 8000, "unit": "ft", "reference": "AGL"},
+        },
+    ]
+    assert clouds(layers) == "FEW030 BKN080"
+    f = {
+        "clouds": layers,
+        "visibility": {"value": 10, "unit": "km"},
+        "wind_speed": {"value": 12, "unit": "kt"},
+    }
+    assert forecast_line(f) == "FEW030 BKN080 · VIS 10 km · WIND 12 kt"
+    row = forecast_row(
+        {"visibility": {"value": 10, "unit": "km"}}, {"visibility": "afternoon haze"}
+    )
+    assert (
+        row["visibility"] == "10 km; afternoon haze"
+    )  # the note holds what the typed field could not
+
+
+def test_paragraph_one_prints_a_forecast_table_from_typed_weather(orders):
+    md = render.render_markdown(orders["example_full"])
+    assert (
+        "| Period | Surface Wind | Visibility | Clouds | Temperature | Precipitation | Effects |"
+        in md
+    )
+    assert (
+        "| 10 km; afternoon SCT 5,000 ft. |" in md
+    )  # a typed 10 km with the text that remains
+    assert "| Date | BMNT | Sunrise | Sunset | EENT | Moonrise | Moonset | Moon |" in md
+    assert "| 2026-04-19 | 190518ZAPR26 |" in md and "waxing gibbous 62%" in md
+
+
+def test_forecast_table_columns_follow_the_typed_values():
+    o = load_order(REPO / "tests/fixtures/openaix/atomic-thunder/opord.json")
+    md = render.render_markdown(o)
+    assert "| Period | Clouds | Altimeter | Winds Aloft |" in md
+    assert (
+        "| 140800ZOCT26 to 141200ZOCT26 | SCT040 | A2992 | 18000 ft MSL 270° T / 35 kt |"
+        in md
+    )

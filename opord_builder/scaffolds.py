@@ -12,7 +12,7 @@ body: "TODO: {title} narrative."
 """
 
 MAIN = """\
-# yaml-language-server: $schema=https://example.invalid/replace-with-schemas/bundled/opord.schema.json
+# Add `# yaml-language-server: $schema=<path to schemas/bundled/opord.schema.json>` for editor completion.
 # OPORD skeleton: replace the TODO markers before distribution.
 $schema: urn:openaix:schema:opord:0.2.0-draft.1
 kind: opord

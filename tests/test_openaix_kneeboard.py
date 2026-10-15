@@ -670,3 +670,56 @@ def test_golden_shows_the_gameplay_fields():
         "29.92 inHg",
     ):
         assert text in html, text
+
+
+# --------------------------------------------------------------- weather line and steerpoints
+
+MAXIMAL = (
+    Path(__file__).resolve().parent.parent
+    / "opord_builder"
+    / "openaix"
+    / "vendor"
+    / "examples"
+    / "maximal"
+)
+
+
+def maximal_cards(**patch):
+    ato = json.loads((MAXIMAL / "ato.json").read_text())
+    res = json.loads((MAXIMAL / "resources.json").read_text())
+    opord = json.loads((MAXIMAL / "opord.json").read_text())
+    for flight in (f for m in ato["missions"] for f in m.get("flights", [])):
+        flight.update(patch.get("flight", {}))
+    for route in res["resources"]["routes"].values():
+        for i, p in enumerate(route["points"]):
+            if patch.get("unnumbered"):
+                p.pop("number", None)
+            else:
+                p["number"] = 10 + i
+    return build_cards(ato, merge_resources(ato, res), None, opord)
+
+
+def test_the_card_has_one_weather_line_for_the_forecast_that_covers_the_mission():
+    cards, _ = maximal_cards()
+    assert cards[0]["weather"] == "FEW090 · VIS 10 km · WIND 230° T / 12 kt"
+
+
+def test_steerpoints_use_the_route_point_number_else_the_position():
+    numbered = maximal_cards()[0][0]["steerpoints"]
+    assert numbered[0]["number"] == 10 and numbered[0]["mgrs"].startswith("37S")
+    plain = maximal_cards(unnumbered=True)[0][0]["steerpoints"]
+    assert [s["number"] for s in plain] == list(range(1, len(plain) + 1))
+    assert set(numbered[0]) == {"number", "name", "mgrs", "altitude", "action"}
+
+
+def test_a_flight_without_a_route_warns_and_has_no_steerpoints():
+    cards, warnings = maximal_cards()
+    flight = next(c for c in cards if "steerpoints" not in c)
+    assert any(
+        w.startswith(f"{flight['flight_callsign']}: steerpoints:") for w in warnings
+    )
+
+
+def test_steerpoints_and_weather_render_on_the_card():
+    html = render_card_html(maximal_cards()[0][0])
+    assert "Steerpoints" in html and "FEW090 · VIS 10 km" in html

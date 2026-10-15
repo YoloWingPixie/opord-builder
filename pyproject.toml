@@ -22,7 +22,6 @@ dependencies = [
 dev = [
   "pytest>=8.0",
   "pypdfium2>=4.30",
-  "json-schema-for-humans>=1.0",
   "ruff>=0.6",
 ]
 

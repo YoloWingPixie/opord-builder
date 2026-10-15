@@ -60,54 +60,28 @@ The area of interest extends 50 km beyond the AO boundary, encompassing HIGHWAY 
 - **Cover and Concealment:** Dense coniferous cover throughout the AO; limited cover in the cleared-fields corridor (east-west). Urban cover in VIC ALTENSTADT (NK 115 790).
 #### 1.b.(3) Weather
 
+- **Effects on Operations:** NET: weather FAVORS friendly operations across the campaign window. Decisive Phase II (190500–190800Z) executes in a confirmed dry, clear window with 62% NVG-usable illumination and ceilings well above CAS and UAS minimums. ENY Orlan-10 effectiveness reduced during Phase I precip windows. Principal risks: trafficability on ROUTE CLUB post-1800Z 18 APR (mitigate with ASR SPADE); overnight cold exposure in consolidation. No weather-driven branch or abort trigger anticipated.
+
+**Forecast**
+
+| Period | Surface Wind | Visibility | Clouds | Temperature | Precipitation | Effects |
+|---|---|---|---|---|---|---|
+| Phase I (Shaping, D-1 / 18 APR) 180600ZAPR26 to 190100ZAPR26 | W 10–15 kt, gusts 22 kt. | 10 km dropping to 2 km 181400Z–182000Z in showers. | BKN 4,500 ft, dropping to OVC 3,500 ft by 181800Z. | Hi 14°C / Lo 5°C; RH 70–85%. | 40% intermittent rain 181400–182000Z; 2–4 mm accum. | FAVORS friendly reconnaissance (reduced ENY Orlan-10 utility in showers). Trafficability on ROUTE CLUB degraded post-1800Z — consider ASR SPADE for wheel traffic. CAS remains feasible; minimum ceiling >3,000 ft AGL. |
+| Phase II (Decisive, D-Day / 19 APR, 0500Z–0800Z) 190500ZAPR26 to 190800ZAPR26 | W 8–12 kt, backing SW. | 10+ km; clear to partly cloudy. | SCT 5,000 ft; CAS stack clear. | Hi 12°C (predicted peak 1400Z) / Lo 4°C at H-hour; RH 65%. | Dry window; 10% POP. | FAVORS friendly airborne / dismounted assault. 62% illum supports NVG operations during H-hour window (BMNT 0518Z, LD at 0500Z). 12-min artillery prep timing matches usable first-light. VIPER 11/12 CAS ingress corridor clear. No obscurant needed for breach unless ENY counter-prep. |
+| Phase III (Consolidate, D-Day to D+1 / 19–20 APR) 190800ZAPR26 to 200600ZAPR26 | W 10 kt. | 10 km; afternoon SCT 5,000 ft. | SCT 5,000 ft; OVC 8,000 overnight. | Hi 15°C / Lo 3°C; RH 55–70%. | 10% POP 192000Z–200200Z — monitor. | Transition and hand-off to 1-503 IN unaffected. Overnight low 3°C with wind chill ~0°C on OBJ HAMMER ridge — enforce cold-weather precautions for personnel in static positions. |
+
+**Light Data**
+
+| Date | BMNT | Sunrise | Sunset | EENT | Moonrise | Moonset | Moon |
+|---|---|---|---|---|---|---|---|
+| 2026-04-19 | 190518ZAPR26 | 190558ZAPR26 | 191818ZAPR26 | 191858ZAPR26 | 191612ZAPR26 | 190341ZAPR26 | waxing gibbous 62% |
+
 - **Visibility:** 8–10 km; daylight; reducing to 2 km with forecast afternoon precip.
 - **Winds:** W 10–15 kt, gusts to 22 kt; favors friendly fires dispersion.
 - **Precipitation:** 40% chance intermittent rain 181400Z–182000Z; trafficability degraded on ROUTE CLUB.
 - **Cloud Cover:** BKN 4,500 ft; overcast by 181800Z; CAS ceiling remains above 3,000 ft AGL.
 - **Temperature and Humidity:** Hi 14°C / Lo 4°C; RH 78%. Cold-weather injury risk LOW.
-- **Light Data:** BMNT 0518Z · Sunrise 0558Z · Sunset 1818Z · EENT 1858Z · Moon 62% waxing gibbous
-
-**Light Data Structured**
-
-- **Date:** 2026-04-19
-- **Bmnt:** 0518Z
-- **Sunrise:** 0558Z
-- **Sunset:** 1818Z
-- **Eent:** 1858Z
-- **Moonrise:** 1612Z
-- **Moonset:** 0341Z
-- **Moon Phase:** waxing gibbous
-- **Percent Illumination:** 62
 - **Climate Baseline:** Bavarian Oberpfalz late-April climatology: daytime 8–16°C, nightly 2–6°C; prevailing winds W/SW 8–12 kt; monthly precipitation ~55 mm (primarily afternoon showers); freeze risk LOW after 15 APR. Typical ceiling 3,500– 8,000 ft with 40–60% probability of BKN mid-level cloud. Training area has historically experienced morning ground-fog episodes ≤2 km visibility until ~0700L in valleys (ROUTE CLUB east leg).
-
-**Forecast by Period**
-
-| Cloud Cover | Effects on Operations | Period End | Period Start | Phase or Day |
-|---|---|---|---|---|
-| BKN 4,500 ft, dropping to OVC 3,500 ft by 181800Z. | FAVORS friendly reconnaissance (reduced ENY Orlan-10 utility in showers). Trafficability on ROUTE CLUB degraded post-1800Z — consider ASR SPADE for wheel traffic. CAS remains feasible; minimum ceiling >3,000 ft AGL. | 190100ZAPR26 | 180600ZAPR26 | Phase I (Shaping, D-1 / 18 APR) |
-| SCT 5,000 ft; CAS stack clear. | FAVORS friendly airborne / dismounted assault. 62% illum supports NVG operations during H-hour window (BMNT 0518Z, LD at 0500Z). 12-min artillery prep timing matches usable first-light. VIPER 11/12 CAS ingress corridor clear. No obscurant needed for breach unless ENY counter-prep. | 190800ZAPR26 | 190500ZAPR26 | Phase II (Decisive, D-Day / 19 APR, 0500Z–0800Z) |
-| SCT 5,000 ft; OVC 8,000 overnight. | Transition and hand-off to 1-503 IN unaffected. Overnight low 3°C with wind chill ~0°C on OBJ HAMMER ridge — enforce cold-weather precautions for personnel in static positions. | 200600ZAPR26 | 190800ZAPR26 | Phase III (Consolidate, D-Day to D+1 / 19–20 APR) |
-
-**BKN 4,500 ft, dropping to OVC 3,500 ft by 181800Z.**
-- **Precipitation:** 40% intermittent rain 181400–182000Z; 2–4 mm accum.
-- **Temperature and Humidity:** Hi 14°C / Lo 5°C; RH 70–85%.
-- **Visibility:** 10 km dropping to 2 km 181400Z–182000Z in showers.
-- **Winds:** W 10–15 kt, gusts 22 kt.
-
-**SCT 5,000 ft; CAS stack clear.**
-- **Precipitation:** Dry window; 10% POP.
-- **Temperature and Humidity:** Hi 12°C (predicted peak 1400Z) / Lo 4°C at H-hour; RH 65%.
-- **Visibility:** 10+ km; clear to partly cloudy.
-- **Winds:** W 8–12 kt, backing SW.
-- **Light Data:** Bmnt: 0518Z; Date: 2026-04-19; Eent: 1858Z; Moon Phase: waxing gibbous; Percent Illumination: 62; Sunrise: 0558Z; Sunset: 1818Z
-
-**SCT 5,000 ft; OVC 8,000 overnight.**
-- **Precipitation:** 10% POP 192000Z–200200Z — monitor.
-- **Temperature and Humidity:** Hi 15°C / Lo 3°C; RH 55–70%.
-- **Visibility:** 10 km; afternoon SCT 5,000 ft.
-- **Winds:** W 10 kt.
-
-- **Effects on Operations:** NET: weather FAVORS friendly operations across the campaign window. Decisive Phase II (190500–190800Z) executes in a confirmed dry, clear window with 62% NVG-usable illumination and ceilings well above CAS and UAS minimums. ENY Orlan-10 effectiveness reduced during Phase I precip windows. Principal risks: trafficability on ROUTE CLUB post-1800Z 18 APR (mitigate with ASR SPADE); overnight cold exposure in consolidation. No weather-driven branch or abort trigger anticipated.
 - **Forecast Confidence:** HIGH — 72-hr forecast; synoptic pattern stable; SWO confidence HIGH.
 - **Swo Product Reference:** Annex B, Appendix 1, Tab B (Weather). SWO Product 26-04-WX-019 (173d IBCT SWO, 181200ZAPR26).
 ### 1.c. Enemy Forces

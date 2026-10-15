@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../schemas/bundled/frago.schema.json
 $schema: urn:openaix:schema:frago:0.2.0-draft.1
 kind: frago
 schema_version: 0.2.0-draft.1
@@ -46,67 +47,7 @@ changes:
           Training area has historically experienced morning ground-fog episodes ≤2 km visibility until
           ~0700L in valleys (ROUTE CLUB east leg).'
         cloud_cover: BKN 4,500 ft; overcast by 181800Z; CAS ceiling remains above 3,000 ft AGL.
-        effects_on_operations: 'NET: weather FAVORS friendly operations across the campaign window. Decisive
-          Phase II (190500–190800Z) executes in a confirmed dry, clear window with 62% NVG-usable illumination
-          and ceilings well above CAS and UAS minimums. ENY Orlan-10 effectiveness reduced during Phase
-          I precip windows. Principal risks: trafficability on ROUTE CLUB post-1800Z 18 APR (mitigate
-          with ASR SPADE); overnight cold exposure in consolidation. No weather-driven branch or abort
-          trigger anticipated.'
-        forecast_by_period:
-        - cloud_cover: BKN 4,500 ft, dropping to OVC 3,500 ft by 181800Z.
-          effects_on_operations: FAVORS friendly reconnaissance (reduced ENY Orlan-10 utility in showers).
-            Trafficability on ROUTE CLUB degraded post-1800Z — consider ASR SPADE for wheel traffic. CAS
-            remains feasible; minimum ceiling >3,000 ft AGL.
-          period_end: 190100ZAPR26
-          period_start: 180600ZAPR26
-          phase_or_day: Phase I (Shaping, D-1 / 18 APR)
-          precipitation: 40% intermittent rain 181400–182000Z; 2–4 mm accum.
-          temperature_and_humidity: Hi 14°C / Lo 5°C; RH 70–85%.
-          visibility: 10 km dropping to 2 km 181400Z–182000Z in showers.
-          winds: W 10–15 kt, gusts 22 kt.
-        - cloud_cover: SCT 5,000 ft; CAS stack clear.
-          effects_on_operations: FAVORS friendly airborne / dismounted assault. 62% illum supports NVG
-            operations during H-hour window (BMNT 0518Z, LD at 0500Z). 12-min artillery prep timing matches
-            usable first-light. VIPER 11/12 CAS ingress corridor clear. No obscurant needed for breach
-            unless ENY counter-prep.
-          light_data:
-            bmnt: 0518Z
-            date: '2026-04-19'
-            eent: 1858Z
-            moon_phase: waxing gibbous
-            percent_illumination: 62.0
-            sunrise: 0558Z
-            sunset: 1818Z
-          period_end: 190800ZAPR26
-          period_start: 190500ZAPR26
-          phase_or_day: Phase II (Decisive, D-Day / 19 APR, 0500Z–0800Z)
-          precipitation: Dry window; 10% POP.
-          temperature_and_humidity: Hi 12°C (predicted peak 1400Z) / Lo 4°C at H-hour; RH 65%.
-          visibility: 10+ km; clear to partly cloudy.
-          winds: W 8–12 kt, backing SW.
-        - cloud_cover: SCT 5,000 ft; OVC 8,000 overnight.
-          effects_on_operations: Transition and hand-off to 1-503 IN unaffected. Overnight low 3°C with
-            wind chill ~0°C on OBJ HAMMER ridge — enforce cold-weather precautions for personnel in static
-            positions.
-          period_end: 200600ZAPR26
-          period_start: 190800ZAPR26
-          phase_or_day: Phase III (Consolidate, D-Day to D+1 / 19–20 APR)
-          precipitation: 10% POP 192000Z–200200Z — monitor.
-          temperature_and_humidity: Hi 15°C / Lo 3°C; RH 55–70%.
-          visibility: 10 km; afternoon SCT 5,000 ft.
-          winds: W 10 kt.
         forecast_confidence: HIGH — 72-hr forecast; synoptic pattern stable; SWO confidence HIGH.
-        light_data: BMNT 0518Z · Sunrise 0558Z · Sunset 1818Z · EENT 1858Z · Moon 62% waxing gibbous
-        light_data_structured:
-          bmnt: 0518Z
-          date: '2026-04-19'
-          eent: 1858Z
-          moon_phase: waxing gibbous
-          moonrise: 1612Z
-          moonset: 0341Z
-          percent_illumination: 62.0
-          sunrise: 0558Z
-          sunset: 1818Z
         precipitation: 40% chance intermittent rain 181400Z–182000Z; trafficability degraded on ROUTE
           CLUB.
         swo_product_reference: Annex B, Appendix 1, Tab B (Weather). SWO Product 26-04-WX-019 (173d IBCT
@@ -114,6 +55,28 @@ changes:
         temperature_and_humidity: Hi 14°C / Lo 4°C; RH 78%. Cold-weather injury risk LOW.
         visibility: 8–10 km; daylight; reducing to 2 km with forecast afternoon precip.
         winds: W 10–15 kt, gusts to 22 kt; favors friendly fires dispersion.
+        forecasts:
+        - phase_or_day: Phase I (Shaping, D-1 / 18 APR)
+          visibility: 10 km dropping to 2 km 181400Z–182000Z in showers.
+          winds: W 10–15 kt, gusts 22 kt.
+          precipitation: 40% intermittent rain 181400–182000Z; 2–4 mm accum.
+          cloud_cover: BKN 4,500 ft, dropping to OVC 3,500 ft by 181800Z.
+          temperature_and_humidity: Hi 14°C / Lo 5°C; RH 70–85%.
+        - phase_or_day: Phase II (Decisive, D-Day / 19 APR, 0500Z–0800Z)
+          visibility: 10+ km; clear to partly cloudy.
+          winds: W 8–12 kt, backing SW.
+          precipitation: Dry window; 10% POP.
+          cloud_cover: SCT 5,000 ft; CAS stack clear.
+          temperature_and_humidity: Hi 12°C (predicted peak 1400Z) / Lo 4°C at H-hour; RH 65%.
+        - phase_or_day: Phase III (Consolidate, D-Day to D+1 / 19–20 APR)
+          visibility: afternoon SCT 5,000 ft.
+          winds: W 10 kt.
+          precipitation: 10% POP 192000Z–200200Z — monitor.
+          cloud_cover: SCT 5,000 ft; OVC 8,000 overnight.
+          temperature_and_humidity: Hi 15°C / Lo 3°C; RH 55–70%.
+        light_data:
+          '2026-04-19':
+            moon_phase: waxing gibbous
     attachments_and_detachments:
       attachments:
       - 2d Plt / A Co / 54th BEB (OPCON from 181800ZAPR26)

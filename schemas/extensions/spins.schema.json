@@ -57,7 +57,8 @@
                 "reference",
                 "section",
                 "source_table",
-                "table"
+                "table",
+                "weather"
               ]
             }
           },
@@ -168,6 +169,18 @@
               },
               "then": {
                 "$ref": "#/$defs/TableBlock"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "weather"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/WeatherBlock"
               }
             }
           ]
@@ -407,7 +420,8 @@
                   "reference",
                   "section",
                   "source_table",
-                  "table"
+                  "table",
+                  "weather"
                 ]
               }
             },
@@ -518,6 +532,18 @@
                 },
                 "then": {
                   "$ref": "#/$defs/TableBlock"
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "weather"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/WeatherBlock"
                 }
               }
             ]
@@ -835,7 +861,8 @@
                   "reference",
                   "section",
                   "source_table",
-                  "table"
+                  "table",
+                  "weather"
                 ]
               }
             },
@@ -946,6 +973,18 @@
                 },
                 "then": {
                   "$ref": "#/$defs/TableBlock"
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "weather"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/WeatherBlock"
                 }
               }
             ]
@@ -1162,7 +1201,8 @@
                 "reference",
                 "section",
                 "source_table",
-                "table"
+                "table",
+                "weather"
               ]
             }
           },
@@ -1274,6 +1314,18 @@
               "then": {
                 "$ref": "#/$defs/TableBlock"
               }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "weather"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/$defs/WeatherBlock"
+              }
             }
           ]
         }
@@ -1342,7 +1394,8 @@
                   "reference",
                   "section",
                   "source_table",
-                  "table"
+                  "table",
+                  "weather"
                 ]
               }
             },
@@ -1453,6 +1506,18 @@
                 },
                 "then": {
                   "$ref": "#/$defs/TableBlock"
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "weather"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "#/$defs/WeatherBlock"
                 }
               }
             ]
@@ -1589,8 +1654,22 @@
     },
     "SpinsOpenAIXRefs": {
       "additionalProperties": false,
-      "description": "OpenAIX files (relative to this document) that `openaix_table` blocks read.",
+      "description": "OpenAIX files (relative to this document) that `openaix_table` and `weather` blocks read.",
       "properties": {
+        "opord": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path to an OpenAIX opord document.",
+          "title": "Opord"
+        },
         "ato": {
           "anyOf": [
             {
@@ -1798,6 +1877,73 @@
       ],
       "title": "TextRun",
       "type": "object"
+    },
+    "WeatherBlock": {
+      "additionalProperties": false,
+      "description": "A forecast table built from the typed weather of an OpenAIX document: a `Weather` object or a list of forecasts.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "weather",
+          "title": "Kind",
+          "type": "string"
+        },
+        "caption": {
+          "minLength": 1,
+          "title": "Caption",
+          "type": "string"
+        },
+        "source": {
+          "default": "opord",
+          "enum": [
+            "opord",
+            "ato",
+            "aco",
+            "spins",
+            "resources",
+            "airfield"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "pointer": {
+          "default": "/situation/area_of_operations/weather",
+          "description": "Where in the source document the weather is: a `Weather` object or an array of `WeatherForecast`.",
+          "pattern": "^(/([^/~]|~[01])*)*$",
+          "title": "Pointer",
+          "type": "string"
+        },
+        "empty": {
+          "default": "error",
+          "description": "When there is no forecast: raise an error, drop the block, or print a 'not provided' note.",
+          "enum": [
+            "error",
+            "skip",
+            "notice"
+          ],
+          "title": "Empty",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "caption"
+      ],
+      "title": "WeatherBlock",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -1846,7 +1992,8 @@
               "reference",
               "section",
               "source_table",
-              "table"
+              "table",
+              "weather"
             ]
           }
         },
@@ -1957,6 +2104,18 @@
             },
             "then": {
               "$ref": "#/$defs/TableBlock"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "weather"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/$defs/WeatherBlock"
             }
           }
         ]

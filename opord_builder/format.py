@@ -278,3 +278,75 @@ def paragraphs(text: str) -> list[str]:
         for p in re.split(r"\n\s*\n", text.strip().replace("\r\n", "\n"))
         if p.strip()
     ]
+
+
+COVER = {
+    "clear": "CLR",
+    "few": "FEW",
+    "scattered": "SCT",
+    "broken": "BKN",
+    "overcast": "OVC",
+}
+FORECAST_HEAD = {
+    "period": "Period", "wind": "Surface Wind", "visibility": "Visibility", "clouds": "Clouds", "ceiling": "Ceiling",
+    "temperature": "Temperature", "altimeter": "Altimeter", "precipitation": "Precipitation",
+    "winds_aloft": "Winds Aloft", "effects": "Effects",
+}  # fmt: skip
+
+
+def altimeter(p: dict) -> str:
+    """`A2992` for inches of mercury, `Q1013` for hectopascals."""
+    return (
+        f"A{round(p['value'] * 100):04d}"
+        if p["unit"] == "inHg"
+        else f"Q{round(p['value']):04d}"
+    )
+
+
+def clouds(layers: list[dict]) -> str:
+    """`FEW030 BKN080`: coverage and base in hundreds of feet; other units print in full."""
+    out = []
+    for layer in layers:
+        base = layer["base"]
+        text = (
+            f"{round(base['value'] / 100):03d}"
+            if base["unit"] == "ft"
+            else f" {fmt(base)}"
+        )
+        out.append(f"{COVER[layer['coverage']]}{text}")
+    return " ".join(out)
+
+
+def forecast_row(f: dict, note: dict) -> dict[str, str]:
+    """The cells of one weather forecast. `note` is the free text the extension keeps for it, printed after a
+    typed value (it holds what the typed field could not)."""
+
+    def join(*parts: str) -> str:
+        return "; ".join(p for p in parts if p)
+
+    aloft = "; ".join(
+        f"{fmt(w['altitude'])} {fmt(w['direction'])} / {fmt(w['speed'])}"
+        for w in f.get("winds_aloft") or []
+    )
+    wind = " / ".join(
+        t for t in (fmt(f.get("wind_direction")), fmt(f.get("wind_speed"))) if t
+    )
+    return {
+        "period": " ".join(t for t in (note.get("phase_or_day"), fmt(f.get("window"))) if t),
+        "wind": join(wind, note.get("winds", "")),
+        "visibility": join(fmt(f.get("visibility")), note.get("visibility", "")),
+        "clouds": join(clouds(f.get("clouds") or []), note.get("cloud_cover", "")),
+        "ceiling": fmt(f.get("ceiling")),
+        "temperature": join(fmt(f.get("temperature")), note.get("temperature_and_humidity", "")),
+        "altimeter": altimeter(f["altimeter"]) if f.get("altimeter") else "",
+        "precipitation": join(fmt(f.get("precipitation")), note.get("precipitation", "")),
+        "winds_aloft": aloft,
+        "effects": f.get("effects", ""),
+    }  # fmt: skip
+
+
+def forecast_line(f: dict) -> str:
+    """One compact line of a forecast: clouds, visibility and surface wind (typed values only)."""
+    row = forecast_row(f, {})
+    parts = [("", row["clouds"]), ("VIS ", row["visibility"]), ("WIND ", row["wind"])]
+    return " · ".join(f"{label}{text}" for label, text in parts if text)

@@ -275,8 +275,8 @@ def effective(o: Order) -> dict[str, Any]:
     return {
         "classification": meta("classification") or "UNCLASSIFIED",
         "caveat": pr.get("classification_caveat"),
-        "hq": own("issuing_headquarters"), "place": pr.get("place_of_issue"), "tz": zone(own("time_zone")),
-        "dtg": dtg(h["date_time"]) if h.get("date_time") else "", "author": meta("author"),
+        "hq": own("issuing_headquarters") or "", "place": pr.get("place_of_issue") or "", "tz": zone(own("time_zone")),
+        "dtg": dtg(h["date_time"]) if h.get("date_time") else "", "author": meta("author") or "",
         "op_name": own("operation_name") or "", "op_number": own("order_number") or "",
         "base_dtg": dtg(b["date_time"]) if b.get("date_time") else "", "print": pr,
         "number": h.get("frago_number") or (o.x.get("warno_number") if o.kind == "warno" else ""),

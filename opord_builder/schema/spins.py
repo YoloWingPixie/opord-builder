@@ -260,9 +260,28 @@ class OpenAIXTableBlock(AnchoredBlock):
         return self
 
 
-class SpinsOpenAIXRefs(_Base):
-    """OpenAIX files (relative to this document) that `openaix_table` blocks read."""
+class WeatherBlock(AnchoredBlock):
+    """A forecast table built from the typed weather of an OpenAIX document: a `Weather` object or a list of forecasts."""
 
+    kind: Literal["weather"]
+    caption: Text
+    source: Literal["opord", "ato", "aco", "spins", "resources", "airfield"] = "opord"
+    pointer: JsonPointer = Field(
+        default="/situation/area_of_operations/weather",
+        description="Where in the source document the weather is: a `Weather` object or an array of `WeatherForecast`.",
+    )
+    empty: Literal["error", "skip", "notice"] = Field(
+        default="error",
+        description="When there is no forecast: raise an error, drop the block, or print a 'not provided' note.",
+    )
+
+
+class SpinsOpenAIXRefs(_Base):
+    """OpenAIX files (relative to this document) that `openaix_table` and `weather` blocks read."""
+
+    opord: Text | None = Field(
+        default=None, description="Path to an OpenAIX opord document."
+    )
     ato: Text | None = Field(
         default=None, description="Path to an OpenAIX ATO document."
     )
@@ -316,6 +335,7 @@ Block = Annotated[
     | TableBlock
     | SourceTableBlock
     | OpenAIXTableBlock
+    | WeatherBlock
     | FigureBlock
     | NoteBlock
     | ReferenceBlock,

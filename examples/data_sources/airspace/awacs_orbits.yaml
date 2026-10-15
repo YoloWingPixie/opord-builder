@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../../../schemas/bundled/resources.schema.json
 $schema: urn:openaix:schema:resources:0.2.0-draft.1
 kind: resources
 schema_version: 0.2.0-draft.1

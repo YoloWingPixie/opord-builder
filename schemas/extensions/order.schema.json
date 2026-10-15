@@ -4391,51 +4391,6 @@
       },
       "type": "object"
     },
-    "LightData": {
-      "additionalProperties": false,
-      "description": "Canonical astronomical / illumination data for a calendar day per the SWO product.\n\nDoctrinal set: date, BMNT, sunrise, sunset, EENT, moonrise, moonset,\nmoon phase, percent illumination (FM 6-0 App D / ATP 2-01.3 Ch 3).",
-      "properties": {
-        "date": {
-          "description": "Calendar date this light data applies to (YYYY-MM-DD or DDMMMYY).",
-          "type": "string"
-        },
-        "bmnt": {
-          "description": "Beginning Morning Nautical Twilight time (HHMM local or Z).",
-          "type": "string"
-        },
-        "sunrise": {
-          "description": "Sunrise time (HHMM).",
-          "type": "string"
-        },
-        "sunset": {
-          "description": "Sunset time (HHMM).",
-          "type": "string"
-        },
-        "eent": {
-          "description": "End Evening Nautical Twilight time (HHMM).",
-          "type": "string"
-        },
-        "moonrise": {
-          "description": "Moonrise time (HHMM).",
-          "type": "string"
-        },
-        "moonset": {
-          "description": "Moonset time (HHMM).",
-          "type": "string"
-        },
-        "moon_phase": {
-          "description": "Moon phase (new, waxing crescent, first quarter, waxing gibbous, full, waning gibbous, last quarter, waning crescent).",
-          "type": "string"
-        },
-        "percent_illumination": {
-          "description": "Moon illumination percent (0–100). Drives NVG/thermal planning.",
-          "maximum": 100,
-          "minimum": 0,
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "Logistics": {
       "additionalProperties": false,
       "description": "Paragraph 4.a — Logistics: the ten logistics functions per ADP 4-0.",
@@ -5995,27 +5950,8 @@
           "description": "Temperature and humidity ranges with effects on personnel, equipment, and heat/cold casualty risk.",
           "type": "string"
         },
-        "light_data": {
-          "description": "Light table single-line summary: BMNT, sunrise, sunset, EENT, moon phase, illumination %. Use ``light_data_structured`` or ``forecast_by_period[].light_data`` for field-level data.",
-          "type": "string"
-        },
-        "light_data_structured": {
-          "description": "Structured light data for the critical day/event of the operation.",
-          "$ref": "#/$defs/LightData"
-        },
         "climate_baseline": {
           "description": "Seasonal/regional climatology baseline for the AO (prevailing winds, precipitation norms, temperature bands). Used as the reference against which the operation-period forecast is compared; most useful for unfamiliar AOs or operations > 72 hrs.",
-          "type": "string"
-        },
-        "forecast_by_period": {
-          "description": "Forecast rows keyed to phases or D+N days for the full operation period. Doctrinally expected for multi-day / phased campaigns.",
-          "items": {
-            "$ref": "#/$defs/WeatherPeriodForecast"
-          },
-          "type": "array"
-        },
-        "effects_on_operations": {
-          "description": "Consolidated 'so what' for the base order: how weather across the operation period affects friendly and enemy COAs and warfighting functions. Doctrinally required per ATP 2-01.3 Ch 3.",
           "type": "string"
         },
         "forecast_confidence": {
@@ -6025,24 +5961,41 @@
         "swo_product_reference": {
           "description": "Pointer to the authoritative SWO / tactical weather team product (e.g. 'Annex B, App 1, Tab B (Weather), SWO Product 26-04-WX-015').",
           "type": "string"
+        },
+        "forecasts": {
+          "description": "Free text of each forecast of the typed `forecasts`, by position (a forecast has no identifier). Fills a table cell where the forecast has no typed value, and is printed beside one that has.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WeatherNote"
+          }
+        },
+        "light_data": {
+          "description": "Extra fields of each day of the typed `light_data`, keyed by its date.",
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "moon_phase": {
+                "description": "Phase of the moon, such as waxing gibbous.",
+                "type": "string"
+              }
+            }
+          }
         }
       },
       "type": "object"
     },
-    "WeatherPeriodForecast": {
+    "WeatherNote": {
+      "type": "object",
       "additionalProperties": false,
-      "description": "One row of the operation-period weather forecast.\n\nPer FM 6-0 / ATP 2-01.3, multi-day or phased operations require a\nforecast covering the full operation period — typically keyed to\nphase or D+N day — not a single snapshot. Each row carries the 5\naspects, optional structured light data, and an effects-on-operations\n'so what' line. Produced by the Staff Weather Officer (SWO) /\nG-2/S-2 weather team.",
+      "description": "The free text of one weather forecast that OpenAIX has no typed field for.",
       "properties": {
         "phase_or_day": {
           "description": "Phase label or D+N day the forecast covers (e.g. 'Phase II / D+1', 'D-Day', 'H-6 to H+12').",
-          "type": "string"
-        },
-        "period_start": {
-          "description": "Period start DTG or date (e.g. '190500ZAPR26' or '2026-04-19').",
-          "type": "string"
-        },
-        "period_end": {
-          "description": "Period end DTG or date.",
           "type": "string"
         },
         "visibility": {
@@ -6064,17 +6017,8 @@
         "temperature_and_humidity": {
           "description": "Temperature (Hi/Lo) and humidity for this period.",
           "type": "string"
-        },
-        "light_data": {
-          "description": "Structured light data covering this period (if period ≤ 24 hrs) or the most operationally critical day in the window.",
-          "$ref": "#/$defs/LightData"
-        },
-        "effects_on_operations": {
-          "description": "The 'so what' — net effect on friendly and enemy operations and specific warfighting functions (aviation, fires, ISR, optics, mobility, CBRN).",
-          "type": "string"
         }
-      },
-      "type": "object"
+      }
     }
   }
 }

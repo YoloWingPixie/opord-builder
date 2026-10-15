@@ -104,9 +104,20 @@
           "description": "Barometric altimeter setting (e.g. '29.92').",
           "type": "string"
         },
+        "weather": {
+          "description": "One line of weather for the mission: clouds, visibility and surface wind of the forecast that covers it.",
+          "type": "string"
+        },
         "notes": {
           "description": "Freeform notes.",
           "type": "string"
+        },
+        "steerpoints": {
+          "description": "The route as steerpoints.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KneeboardSteerpoint"
+          }
         }
       },
       "type": "object"
@@ -254,6 +265,34 @@
         }
       },
       "type": "object"
+    },
+    "KneeboardSteerpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One steerpoint of the route.",
+      "properties": {
+        "number": {
+          "description": "Steerpoint number: the route point's number, else its position in the route from 1.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "description": "Name of the route point.",
+          "type": "string"
+        },
+        "mgrs": {
+          "description": "Position as MGRS.",
+          "type": "string"
+        },
+        "altitude": {
+          "description": "Altitude of the route point, with unit and reference.",
+          "type": "string"
+        },
+        "action": {
+          "description": "Flight phase at the point (ingress, egress, hold, ...).",
+          "type": "string"
+        }
+      }
     }
   }
 }

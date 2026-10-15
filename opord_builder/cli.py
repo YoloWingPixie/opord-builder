@@ -3,12 +3,15 @@
 
 from __future__ import annotations
 
+import json
 from enum import Enum
 from pathlib import Path
 
+import click
 import typer
 import yaml
 
+from opord_builder.docs import KINDS
 from opord_builder.load import DocumentError, read, validate_document
 
 app = typer.Typer(
@@ -361,6 +364,82 @@ def validate_openaix(
             typer.echo(f"{path}: ok")
     if failed:
         raise typer.Exit(code=1)
+
+
+@app.command(
+    help="Write the generated schema files (complete-schema page, annex reference, bundled schemas)."
+)
+def docs(
+    check: bool = typer.Option(
+        False, "--check", help="Write nothing; exit 1 when a generated file is stale."
+    ),
+    out_dir: Path = typer.Option(
+        None,
+        "--out-dir",
+        help="Repository root to write to. Defaults to this checkout.",
+    ),
+) -> None:
+    from opord_builder import docs as d
+
+    root = out_dir or d.ROOT
+    files = d.generated()
+    stale = [
+        p
+        for p, text in files.items()
+        if not (root / p).is_file() or (root / p).read_text(encoding="utf-8") != text
+    ]
+    if check:
+        if stale:
+            raise fail(
+                "Stale or missing generated files (run `opord docs`):\n"
+                + "\n".join(f"  {p}" for p in stale),
+                1,
+            )
+        typer.echo(f"{len(files)} generated files are current.")
+        return
+    for p, text in files.items():
+        (root / p).parent.mkdir(parents=True, exist_ok=True)
+        (root / p).write_text(text, encoding="utf-8")
+        wrote("docs", root / p)
+
+
+@app.command(help="Write the per-annex reference page (docs/annex_reference.html).")
+def reference(
+    out: Path = typer.Option(
+        Path("docs/annex_reference.html"), "--out", help="Output file."
+    ),
+) -> None:
+    from opord_builder.docs import reference_html
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(reference_html(), encoding="utf-8")
+    wrote("annex reference", out)
+
+
+@app.command(
+    help="Print the single-file JSON Schema for a document type, extensions included."
+)
+def schema(
+    document_type: str = typer.Option(
+        "opord",
+        "--document-type",
+        "-t",
+        click_type=click.Choice(KINDS),
+        help="opord, frago, spins, ato or resources.",
+    ),
+    out: Path | None = typer.Option(
+        None, "--out", help="Write here instead of stdout."
+    ),
+) -> None:
+    from opord_builder.docs import bundled
+
+    text = json.dumps(bundled(document_type), indent=2, ensure_ascii=False) + "\n"
+    if out is None:
+        typer.echo(text, nl=False)
+        return
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(text, encoding="utf-8")
+    wrote(f"{document_type} schema", out)
 
 
 if __name__ == "__main__":  # pragma: no cover

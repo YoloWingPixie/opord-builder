@@ -124,6 +124,12 @@ def check_extensions(doc: dict[str, Any], base: tuple = ()) -> list[OpenAIXError
             OpenAIXError(pointer((*at, *e.absolute_path)), e.message)
             for e in validators[ns].iter_errors(value)
         ]
+    for cid, measure in (
+        (doc.get("resources") or {}).get("control_measures") or {}
+    ).items():
+        errors += check_extensions(
+            measure, (*base, "resources", "control_measures", cid)
+        )
     for i, mission in enumerate(doc.get("missions") or []):
         for j, flight in enumerate(mission.get("flights") or []):
             errors += check_extensions(flight, (*base, "missions", i, "flights", j))

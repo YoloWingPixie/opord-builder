@@ -26,6 +26,7 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 from opord_builder import load
+from opord_builder.format import fmt, forecast_line, humanize, mgrs
 from opord_builder.format import frequency as fmt_frequency
 from opord_builder.openaix.validate import OpenAIXError, pointer
 
@@ -173,6 +174,72 @@ def _altimeter_text(pressure: Mapping[str, Any]) -> str:
     if pressure["unit"] == "inHg":
         return f"{pressure['value']:.2f} inHg"
     return f"{pressure['value']:g} hPa"
+
+
+def _forecasts(opord: Mapping[str, Any] | None) -> list[Mapping[str, Any]]:
+    weather = (
+        ((opord or {}).get("situation") or {}).get("area_of_operations") or {}
+    ).get("weather") or {}
+    return weather.get("forecasts") or []
+
+
+def _covering(
+    forecasts: list[Mapping[str, Any]], at: str | None
+) -> Mapping[str, Any] | None:
+    """The forecast whose window holds `at` (an RFC 3339 time)."""
+    for f in forecasts:
+        w = f.get("window") or {}
+        if (
+            at
+            and isinstance(w.get("start"), str)
+            and isinstance(w.get("end"), str)
+            and w["start"] <= at <= w["end"]
+        ):
+            return f
+    return None
+
+
+def _weather(opord: Mapping[str, Any] | None, at: str | None) -> tuple[str, str | None]:
+    """(line, problem): clouds, visibility and surface wind of the forecast that covers the mission."""
+    if not opord:
+        return "", "no OpenAIX opord given (--opord); left blank"
+    forecast = _covering(_forecasts(opord), at)
+    line = forecast_line(dict(forecast)) if forecast else ""
+    return (
+        line,
+        None
+        if line
+        else "no forecast with clouds, visibility or wind covers the takeoff; left blank",
+    )
+
+
+def _steerpoints(
+    flight: Mapping[str, Any], res: Mapping[str, Any], warn
+) -> list[dict[str, str]]:
+    """The flight's route as steerpoints: number (RoutePoint.number, else the 1-based position), name, MGRS,
+    altitude and action."""
+    route = flight.get("route")
+    points = (
+        ((res.get("routes") or {}).get(route) or {}).get("points") if route else None
+    )
+    if not points:
+        warn(
+            "steerpoints",
+            f"route {route!r} is not in the resources; left blank"
+            if route
+            else "flight has no route; left blank",
+        )
+        return []
+    return [
+        {
+            "number": p.get("number") or i,
+            "name": p.get("name") or p.get("id", ""),
+            "mgrs": mgrs(p["position"]) if p.get("position") else "",
+            "altitude": fmt(p.get("altitude")),
+            "action": humanize(p["action"]) if p.get("action") else "",
+        }
+        for i, p in enumerate(points, 1)
+    ]
 
 
 def _altimeter(
@@ -331,6 +398,10 @@ def _card(
     baro_alt, problem = _altimeter(opord, launch.get("takeoff"))
     if problem:
         warn("baro_alt", problem)
+    wx, problem = _weather(opord, launch.get("takeoff"))
+    if problem:
+        warn("weather", problem)
+    steerpoints = _steerpoints(flight, res, warn)
     card = {
         "title": callsign,
         "flight_callsign": callsign,
@@ -344,6 +415,10 @@ def _card(
         "atc": _atc(flight, places, warn),
         "baro_alt": baro_alt,
     }
+    if wx:
+        card["weather"] = wx
+    if steerpoints:
+        card["steerpoints"] = steerpoints
     if timing:
         card["timing"] = timing
     if fuel_plan:

@@ -20,7 +20,16 @@ from dataclasses import dataclass
 from html import escape
 from typing import Any
 
-from opord_builder.format import fmt, has_content, humanize, letter_for, paragraphs
+from opord_builder.format import (
+    FORECAST_HEAD,
+    dtg,
+    fmt,
+    forecast_row,
+    has_content,
+    humanize,
+    letter_for,
+    paragraphs,
+)
 from opord_builder.load import schema_index
 
 # Reading order where the schemas' (alphabetical or authoring) order is not the doctrinal one.
@@ -220,11 +229,83 @@ def is_array(s: tuple[dict, dict] | None) -> bool:
     return bool(s) and deref(s)[0].get("type") == "array"
 
 
+WEATHER = "situation.area_of_operations.weather"
+LIGHT_HEAD = [
+    "Date",
+    "BMNT",
+    "Sunrise",
+    "Sunset",
+    "EENT",
+    "Moonrise",
+    "Moonset",
+    "Moon",
+]
+LIGHT_KEYS = [
+    "begin_morning_nautical_twilight",
+    "sunrise",
+    "sunset",
+    "end_evening_nautical_twilight",
+    "moonrise",
+    "moonset",
+]
+
+
+def weather_blocks(w: Walk, label: str, srcs: list[Src]) -> list:
+    """The weather of the area of operations: its summary, a forecast table, a light table, and the extension's text."""
+    openaix = [
+        (v, s) for v, s in srcs if s and s[1].get("$id", "").startswith("urn:openaix")
+    ]
+    typed = openaix[0][0] if openaix else {}
+    ext = next(((v, s) for v, s in srcs if (v, s) not in openaix), ({}, None))
+    notes, days = ext[0].get("forecasts") or [], ext[0].get("light_data") or {}
+    kids: list = (
+        [("text", "Effects on Operations", typed["summary"])]
+        if typed.get("summary")
+        else []
+    )
+    rows = [
+        forecast_row(f, notes[i] if i < len(notes) else {})
+        for i, f in enumerate(typed.get("forecasts") or [])
+    ]
+    rows = rows or [forecast_row({}, n) for n in notes]
+    cols = [c for c in FORECAST_HEAD if any(r[c] for r in rows)]
+    if rows:
+        kids.append(
+            (
+                "table",
+                "Forecast",
+                [FORECAST_HEAD[c] for c in cols],
+                [[r[c] for c in cols] for r in rows],
+            )
+        )
+    if typed.get("light_data"):
+        light = []
+        for d in typed["light_data"]:
+            illum = (
+                f"{d['moon_illumination_percent']}%"
+                if "moon_illumination_percent" in d
+                else ""
+            )
+            moon = " ".join(
+                t for t in (days.get(d["date"], {}).get("moon_phase"), illum) if t
+            )
+            light.append(
+                [d["date"], *(dtg(d[k]) if k in d else "" for k in LIGHT_KEYS), moon]
+            )
+        kids.append(("table", "Light Data", LIGHT_HEAD, light))
+    rest = {k: v for k, v in ext[0].items() if k not in ("forecasts", "light_data")}
+    if rest:
+        kids += blocks(w, "weather", f"{WEATHER}.ext", [(rest, ext[1])])[0][2]
+    return [("sec", label, kids)] if kids else []
+
+
 def blocks(
     w: Walk, key: str, path: str, srcs: list[Src], skip: frozenset[str] = frozenset()
 ) -> list:
     """Blocks for the node `key` found in each source (typed document, extension) at `path`."""
     label = label_of(path, key)
+    if path == WEATHER:
+        return weather_blocks(w, label, srcs)
     srcs = [(v, s) for v, s in srcs if has_content(v)]
     if not srcs:
         return []

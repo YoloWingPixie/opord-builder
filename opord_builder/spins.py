@@ -22,11 +22,12 @@ from opord_builder.schema.spins import (
     Paragraph,
     Section,
     TextRun,
+    WeatherBlock,
     iter_blocks,
     iter_values,
 )
 from opord_builder.spins_numbering import number_publication
-from opord_builder.spins_openaix import OpenAIXSources, openaix_table
+from opord_builder.spins_openaix import OpenAIXSources, openaix_table, weather_table
 
 IMAGE_TYPES = {
     ".png": "image/png",
@@ -212,8 +213,10 @@ def _prepare_blocks(blocks, directory, openaix=None):
     openaix = openaix or OpenAIXSources(None, directory)
     for original in blocks:
         block = original.model_copy(deep=True)
-        if isinstance(block, OpenAIXTableBlock):
-            block = openaix_table(block, openaix)
+        if isinstance(block, (OpenAIXTableBlock, WeatherBlock)):
+            block = (
+                openaix_table if isinstance(block, OpenAIXTableBlock) else weather_table
+            )(block, openaix)
             if block is None:
                 continue
         elif isinstance(block, FigureBlock):

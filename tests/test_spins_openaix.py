@@ -19,7 +19,7 @@ from opord_builder.spins import (
     render_spins_html,
     render_spins_markdown,
 )
-from opord_builder.spins_openaix import format_value
+from opord_builder.spins_openaix import OpenAIXTableError, format_value
 
 ROOT = Path(__file__).resolve().parent.parent
 FIX = ROOT / "tests/fixtures/openaix/steel-opera"
@@ -347,3 +347,41 @@ def test_amendment_can_add_an_openaix_table(workdir):
     ]
     (workdir / "m.yaml").write_text(yaml.safe_dump(native(mission)))
     assert "Darkstar control" in render_spins_markdown(load_spins(workdir / "m.yaml"))
+
+
+# --------------------------------------------------------------------------- weather blocks
+
+OPORD = ROOT / "tests/fixtures/openaix/atomic-thunder/opord.json"
+
+
+def weather(**kw):
+    return {"kind": "weather", "caption": "Forecast", **kw}
+
+
+def test_weather_block_prints_the_forecast_table_of_an_opord(workdir):
+    shutil.copy(OPORD, workdir / "opord.json")
+    md = render_spins_markdown(
+        load_spins(write(workdir, [weather()], refs={"opord": "opord.json"}))
+    )
+    assert "| Period | Clouds | Altimeter | Winds Aloft |" in md
+    assert (
+        "| 140800ZOCT26 to 141200ZOCT26 | SCT040 | A2992 | 18000 ft MSL 270° T / 35 kt |"
+        in md
+    )
+
+
+def test_weather_block_without_forecasts_follows_its_empty_rule(workdir):
+    path = write(
+        workdir,
+        [weather(pointer="/situation/area_of_operations")],
+        refs={"opord": "opord.json"},
+    )
+    shutil.copy(OPORD, workdir / "opord.json")
+    with pytest.raises(OpenAIXTableError, match="no forecasts"):
+        load_spins(path)
+    notice = write(
+        workdir,
+        [weather(pointer="/situation/area_of_operations", empty="notice")],
+        refs={"opord": "opord.json"},
+    )
+    assert "No weather was provided" in render_spins_markdown(load_spins(notice))
