@@ -88,7 +88,7 @@ def test_spins_comms_example_renders_the_standard_quickly():
     for text in (
         "| RIPPER | RIPPER INTRAFLIGHT (275.0 MHz AM) | 8Y | 71Y | RP | 0410 |",
         "| ARCO11 | tanker |",
-        "| VF-11 | 04 | 10 |",
+        "| VF-11 | 10 | 04 |",
         "| ripper | 1511 |",
     ):
         assert text in md
