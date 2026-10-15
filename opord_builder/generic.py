@@ -34,47 +34,49 @@ from opord_builder.load import schema_index
 
 # Reading order where the schemas' (alphabetical or authoring) order is not the doctrinal one.
 HINTS: dict[str, tuple[str, ...]] = {
-    "situation": (
-        "area_of_interest",
-        "area_of_operations",
-        "enemy_forces",
-        "friendly_forces",
-        "interagency_intergovernmental_ngo",
-        "interagency_organizations",
-        "civil_considerations",
-        "attachments_and_detachments",
-        "assumptions",
-    ),
+    "situation": ("area_of_interest", "area_of_operations", "enemy_forces", "friendly_forces",
+        "interagency_intergovernmental_ngo", "interagency_organizations", "civil_considerations",
+        "attachments_and_detachments", "assumptions"),
     "situation.area_of_operations": ("summary", "terrain", "weather"),
-    "situation.enemy_forces": (
-        "summary",
-        "recent_activities",
-        "capabilities",
-        "courses_of_action",
-    ),
-    "situation.friendly_forces": (
-        "higher_two_levels",
-        "higher_one_level",
-        "adjacent_units",
-        "other_units",
-    ),
-    "execution": (
-        "commanders_intent",
-        "concept_of_operations",
-        "schemes",
-        "*",
-        "tasks_to_subordinate_units",
-        "coordinating_instructions",
-    ),
-    "execution.commanders_intent": ("purpose", "key_tasks", "end_state"),
-    "execution.concept_of_operations": ("summary", "overview"),
-    "execution.coordinating_instructions": (
-        "effective_time",
-        "ccir",
-        "eefi",
-        "rules_of_engagement",
-    ),
-}
+    "situation.area_of_operations.terrain": ("observation_and_fields_of_fire", "avenues_of_approach",
+        "key_terrain", "obstacles", "cover_and_concealment"),
+    "situation.enemy_forces": ("summary", "recent_activities", "capabilities", "courses_of_action"),
+    "situation.friendly_forces": ("higher_two_levels", "higher_one_level", "adjacent_units", "other_units"),
+    "situation.civil_considerations": ("areas", "structures", "capabilities", "organizations", "people", "events"),
+    # a dotted key names a typed value below a group; the schemes are one lettered subparagraph each
+    "execution": ("commanders_intent", "concept_of_operations",
+        "schemes.maneuver", "scheme_of_movement_and_maneuver", "scheme_of_mobility_countermobility",
+        "scheme_of_battlefield_obscuration", "scheme_of_reconnaissance_and_security",
+        "schemes.intelligence", "scheme_of_intelligence", "schemes.fires", "scheme_of_fires",
+        "schemes.protection", "scheme_of_protection", "stability",
+        "schemes.engineering", "scheme_of_engineer_operations", "scheme_of_signal",
+        "schemes.information_collection", "scheme_of_information_collection", "scheme_of_sustainment",
+        "scheme_of_cema", "scheme_of_information_operations", "schemes.airspace_control",
+        "scheme_of_airspace_control", "scheme_of_military_deception", "scheme_of_space_operations",
+        "assessment", "*", "tasks_to_subordinate_units", "coordinating_instructions"),
+    "execution.commanders_intent": ("purpose", "key_tasks", "end_state", "end_state_friendly",
+        "end_state_enemy", "end_state_terrain", "end_state_civil"),
+    "execution.concept_of_operations": ("summary", "overview", "maneuver", "decisive_operation",
+        "shaping_operations", "sustaining_operations", "reserve", "fires"),
+    "execution.coordinating_instructions": ("effective_time", "ccir", "eefi", "time_line",
+        "earliest_movement_of_forces", "reconnaissance_and_surveillance_instructions", "orders_group",
+        "rehearsal", "fscm", "acm", "rules_of_engagement", "risk_reduction_control_measures",
+        "personnel_recovery", "environmental_considerations", "cema", "other", "themes_and_messages"),
+    "execution.coordinating_instructions.ccir": ("priority_intelligence_requirements",
+        "friendly_force_information_requirements"),
+    "sustainment": ("logistics", "personnel_services", "health_services"),
+    "sustainment.logistics": ("sustainment_overlay", "maintenance", "transportation", "supply", "field_services",
+        "distribution", "contract_support", "general_engineering_support"),
+    "sustainment.personnel_services": ("human_resources_support", "financial_management", "legal_support",
+        "religious_support", "band_support"),
+    "sustainment.health_services": ("medical_command_and_control", "medical_treatment", "medical_evacuation",
+        "dental_services", "preventive_medicine", "combat_operational_stress_control", "veterinary_services",
+        "medical_logistics", "medical_laboratory_services", "area_medical_support"),
+    "command_and_signal": ("command", "control", "signal"),
+    "command_and_signal.command": ("location_of_commander", "succession_of_command", "command_posts"),
+    "command_and_signal.control": ("command_and_support_relationships", "liaison_requirements"),
+    "command_and_signal.signal": ("soi_edition", "summary", "recognition_and_identification", "cema"),
+}  # fmt: skip
 # Labels where the property name reads badly.
 LABELS = {
     "situation.enemy_forces.summary": "Composition, Disposition, and Strength",
@@ -84,13 +86,27 @@ LABELS = {
     "situation.civil_considerations": "Civil Considerations (ASCOPE)",
     "situation.enemy_forces.courses_of_action": "Courses of Action",
     "execution.commanders_intent": "Commander's Intent",
+    "execution.schemes.maneuver": "Scheme of Movement and Maneuver",
+    "execution.schemes.intelligence": "Scheme of Intelligence",
+    "execution.schemes.fires": "Scheme of Fires",
+    "execution.schemes.protection": "Scheme of Protection",
+    "execution.schemes.engineering": "Scheme of Engineer Operations",
+    "execution.schemes.information_collection": "Scheme of Information Collection",
+    "execution.schemes.airspace_control": "Scheme of Airspace Control",
+    "execution.scheme_of_cema": "Scheme of Cyberspace Electromagnetic Activities",
     "execution.tasks_to_subordinate_units": "Tasks to Subordinate Units",
     "execution.coordinating_instructions.ccir": "Commander's Critical Information Requirements (CCIR)",
     "execution.coordinating_instructions.eefi": "Essential Elements of Friendly Information (EEFI)",
     "execution.coordinating_instructions.rules_of_engagement": "Rules of Engagement",
+    "execution.coordinating_instructions.cema": "Cyberspace Electromagnetic Activities",
+    "execution.coordinating_instructions.fscm": "Fire Support Coordination Measures",
+    "execution.coordinating_instructions.acm": "Airspace Coordinating Measures",
+    "execution.coordinating_instructions.other": "Other Coordinating Instructions",
     "sustainment.health_services": "Army Health System Support",
     "sustainment.personnel_services": "Personnel Services Support",
-}
+    "command_and_signal.signal.summary": "Methods of Communication by Echelon",
+    "command_and_signal.signal.cema": "Cyberspace Electromagnetic Activities",
+}  # fmt: skip
 EXPAND = {
     "control_measures",
     "targets",
@@ -196,19 +212,34 @@ def ordered(srcs: list[Src], path: str, skip: set[str]) -> list[str]:
                 )
             )
     hint = HINTS.get(path, ("*",))
+    covered = {
+        h.split(".")[0] for h in hint if "." in h
+    }  # groups the dotted keys already print
     keys = [
         k
         for h in (hint if "*" in hint else (*hint, "*"))
-        for k in (rest if h == "*" else [h])
+        for k in ([r for r in rest if r not in hint] if h == "*" else [h])
     ]
-    present = {
+    return [
         k
-        for value, _ in srcs
-        if isinstance(value, dict)
-        for k, v in value.items()
-        if has_content(v)
-    }
-    return [k for k in dict.fromkeys(keys) if k in present and k not in skip]
+        for k in dict.fromkeys(keys)
+        if k not in skip
+        and (k not in covered or k in hint)
+        and any(has_content(pick(v, k)) for v, _ in srcs)
+    ]
+
+
+def subschema(s: tuple[dict, dict] | None, key: str) -> tuple[dict, dict] | None:
+    for part in key.split("."):
+        s = child(s, part)
+    return s
+
+
+def pick(value: Any, key: str) -> Any:
+    """`value[key]`, where a dotted key walks down through dicts."""
+    for part in key.split("."):
+        value = value.get(part) if isinstance(value, dict) else None
+    return value
 
 
 def is_shape(d: dict) -> bool:
@@ -316,7 +347,9 @@ def blocks(
         inner = []
         for k in ordered(srcs, path, set(skip)):
             sub = [
-                (v[k], child(s, k)) for v, s in srcs if isinstance(v, dict) and k in v
+                (pick(v, k), subschema(s, k))
+                for v, s in srcs
+                if has_content(pick(v, k))
             ]
             inner += blocks(w, k, f"{path}.{k}", sub)
         if len(inner) == 1 and inner[0][:2] in (("kv", "Summary"), ("text", "Summary")):
@@ -462,35 +495,27 @@ def md(blks: list, level: int = 1, num: str = "", annex: bool = False) -> str:
         kind = b[0]
         label = b[1] if kind != "cards" else None
         head = f"{shown} {label}".strip() if label else shown
+        # one heading style per depth: `###` for 3.a., `####` for 3.a.(1); bold where there is no number
+        title = f"{'#' * (2 + level)} {head}" if shown and not annex else f"**{head}**"
         if kind == "sec":
-            if shown and not annex and level == 1:
-                top = f"### {head}"
-            elif shown and not annex:
-                top = f"#### {head}"
-            else:
-                top = f"**{head}**"
-            out.append(f"{top}\n\n" + md(b[2], level + 1, mark, annex))
+            out.append(f"{title}\n\n" + md(b[2], level + 1, mark, annex))
         elif kind in ("text", "kv"):
             text = b[2]
             if not label:
                 out.append(text + "\n")
-            elif shown and not annex and level == 1:
-                out.append(f"### {head}\n\n{text}\n")
-            elif shown and not annex:
-                out.append(f"**{head}.** {text}\n")
-            elif "\n\n" in text:
-                out.append(f"**{head}**\n\n{text}\n")
+            elif shown and not annex or "\n\n" in text:
+                out.append(f"{title}\n\n{text}\n")
             else:
                 out.append(f"- **{head}:** {text}")
         elif kind == "list":
-            out.append(f"**{head}**\n\n" + "\n".join(f"- {t}" for t in b[2]) + "\n")
+            out.append(f"{title}\n\n" + "\n".join(f"- {t}" for t in b[2]) + "\n")
         elif kind == "table":
             rule = "|" + "|".join("---" for _ in b[2]) + "|\n"
             rows = "\n".join(
                 "| " + " | ".join(cellmd(c) for c in r) + " |" for r in b[3]
             )
             out.append(
-                f"**{head}**\n\n| " + " | ".join(b[2]) + " |\n" + rule + rows + "\n"
+                f"{title}\n\n| " + " | ".join(b[2]) + " |\n" + rule + rows + "\n"
             )
         else:
             out.append(

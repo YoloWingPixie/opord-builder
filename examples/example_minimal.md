@@ -24,7 +24,9 @@ Grafenwoehr Training Area, Germany
 
 ### 3.a. Commander's Intent
 
-**3.a.(1) Purpose.** Shake out the TF IRON assault sequence in a controlled-force environment before the real thing.
+#### 3.a.(1) Purpose
+
+Shake out the TF IRON assault sequence in a controlled-force environment before the real thing.
 
 
 

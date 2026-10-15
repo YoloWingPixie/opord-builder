@@ -49,7 +49,9 @@ The area of interest extends 50 km beyond the AO boundary, encompassing HIGHWAY 
 
 ### 1.b. Area of Operations
 
-**1.b.(1) Description.** AO IRON is bounded by PL STEEL (north), PL BRONZE (south), GRID LINE 23 (west), and HIGHWAY 22 (east). Dominated by rolling mixed forest with cleared agricultural corridors north–south. See Annex C, Appendix 2 (Operation Overlay).
+#### 1.b.(1) Description
+
+AO IRON is bounded by PL STEEL (north), PL BRONZE (south), GRID LINE 23 (west), and HIGHWAY 22 (east). Dominated by rolling mixed forest with cleared agricultural corridors north–south. See Annex C, Appendix 2 (Operation Overlay).
 
 #### 1.b.(2) Terrain (OAKOC)
 
@@ -86,13 +88,19 @@ The area of interest extends 50 km beyond the AO boundary, encompassing HIGHWAY 
 - **Swo Product Reference:** Annex B, Appendix 1, Tab B (Weather). SWO Product 26-04-WX-019 (173d IBCT SWO, 181200ZAPR26).
 ### 1.c. Enemy Forces
 
-**1.c.(1) Composition, Disposition, and Strength.** Motorized rifle company (+) templated on OBJ HAMMER; est. 120 PAX with 4× BMP-2, 2× 82mm mortar, 1× ZU-23 AAA, engineer squad. Company is dug in, two platoons forward, one in reserve.
+#### 1.c.(1) Composition, Disposition, and Strength
 
-**1.c.(2) Recent Activities.** Over the past 72 hours, ENY has conducted dismounted patrols to PL BRONZE, emplaced obstacle belt NK 138 779, and rehearsed counterattack from the east using reinforcing elements.
+Motorized rifle company (+) templated on OBJ HAMMER; est. 120 PAX with 4× BMP-2, 2× 82mm mortar, 1× ZU-23 AAA, engineer squad. Company is dug in, two platoons forward, one in reserve.
 
-**1.c.(3) Capabilities.** Defend in place; counterattack with a mounted platoon (+) within 2 hrs; disrupt with indirect fires from 82mm mortars out to 4 km; limited UAS (Orlan-10 templated) capability for ISR.
+#### 1.c.(2) Recent Activities
 
-**1.c.(4) Courses of Action**
+Over the past 72 hours, ENY has conducted dismounted patrols to PL BRONZE, emplaced obstacle belt NK 138 779, and rehearsed counterattack from the east using reinforcing elements.
+
+#### 1.c.(3) Capabilities
+
+Defend in place; counterattack with a mounted platoon (+) within 2 hrs; disrupt with indirect fires from 82mm mortars out to 4 km; limited UAS (Orlan-10 templated) capability for ISR.
+
+#### 1.c.(4) Courses of Action
 
 | Kind | Summary |
 |---|---|
@@ -111,9 +119,13 @@ The area of interest extends 50 km beyond the AO boundary, encompassing HIGHWAY 
 - **Commanders Intent:** Mass combat power on OBJ HAMMER; hand off to follow-on forces without losing tempo. End state: OBJ HAMMER secured; 2-503 postured for follow-on to OBJ FALCON by 200600Z.
 - **Mission:** 2-503 IN attacks NLT 190500ZAPR26 to seize OBJ HAMMER IOT enable 173d IBCT operations against OBJ FALCON.
 - **Name:** 2d Squadron / 503d IN / 173d IBCT (A)
-**1.d.(3) Adjacent Units.** NORTH: 1-503 IN conducts supporting attack to fix ENY on OBJ ANVIL. SOUTH: 4-319 AFAR provides GS fires. EAST: 173 RSTA conducts screen along HIGHWAY 22.
+#### 1.d.(3) Adjacent Units
 
-**1.d.(4) Other Units.** Host-nation Bundeswehr liaison element co-located at BCT MAIN CP for range deconfliction and civil coordination.
+NORTH: 1-503 IN conducts supporting attack to fix ENY on OBJ ANVIL. SOUTH: 4-319 AFAR provides GS fires. EAST: 173 RSTA conducts screen along HIGHWAY 22.
+
+#### 1.d.(4) Other Units
+
+Host-nation Bundeswehr liaison element co-located at BCT MAIN CP for range deconfliction and civil coordination.
 
 ### 1.e. Interagency, Intergovernmental, and Nongovernmental Organizations
 
@@ -121,32 +133,46 @@ Bundeswehr Grafenwoehr Training Area Command, Bavarian Red Cross (range medical 
 
 ### 1.f. Civil Considerations (ASCOPE)
 
-**1.f.(1) Areas.** Training area bounded by civilian farmland north of PL STEEL; civilian access to forest mushroom-gathering trails must be deconflicted.
+#### 1.f.(1) Areas
 
-**1.f.(2) Structures.** Protected: ALTENSTADT village chapel (NK 115 790); no direct or indirect fires within 500m. Historical marker at NK 121 788.
+Training area bounded by civilian farmland north of PL STEEL; civilian access to forest mushroom-gathering trails must be deconflicted.
 
-**1.f.(3) Capabilities.** Local Bundeswehr MP can respond to training incidents within 20 min; Vilseck hospital (Role 3 equivalent) 18 km east.
+#### 1.f.(2) Structures
 
-**1.f.(4) Organizations.** Bavarian Forestry Authority monitors live-fire boundary compliance.
+Protected: ALTENSTADT village chapel (NK 115 790); no direct or indirect fires within 500m. Historical marker at NK 121 788.
 
-**1.f.(5) People.** Range workers (Bundeswehr civilians) transit range roads 0530–1800L. All movement on ROUTE CLUB between those times requires range-control clearance.
+#### 1.f.(3) Capabilities
 
-**1.f.(6) Events.** Easter holiday weekend active in adjacent villages; no impact on AO.
+Local Bundeswehr MP can respond to training incidents within 20 min; Vilseck hospital (Role 3 equivalent) 18 km east.
+
+#### 1.f.(4) Organizations
+
+Bavarian Forestry Authority monitors live-fire boundary compliance.
+
+#### 1.f.(5) People
+
+Range workers (Bundeswehr civilians) transit range roads 0530–1800L. All movement on ROUTE CLUB between those times requires range-control clearance.
+
+#### 1.f.(6) Events
+
+Easter holiday weekend active in adjacent villages; no impact on AO.
 
 ### 1.g. Attachments and Detachments
 
-**1.g.(1) Attachments**
+#### 1.g.(1) Attachments
 
 - 2d Plt / A Co / 54th BEB (OPCON from 181800ZAPR26)
 - Btry B / 4-319 AFAR (DS from 180600ZAPR26)
 
-**1.g.(2) Detachments**
+#### 1.g.(2) Detachments
 
 - Scout Plt / HHC / 2-503 IN (TACON to 173 RSTA, 180600ZAPR26–200600ZAPR26)
 
-**1.g.(3) Note.** See Annex A (Task Organization) for detailed relationships.
+#### 1.g.(3) Note
 
-**1.h. Assumptions**
+See Annex A (Task Organization) for detailed relationships.
+
+### 1.h. Assumptions
 
 - Weather remains flyable for CAS and MEDEVAC throughout the operation.
 - Host-nation range clearance remains continuous through 200600ZAPR26.
@@ -163,106 +189,120 @@ Bundeswehr Grafenwoehr Training Area Command, Bavarian Red Cross (range medical 
 
 ### 3.a. Commander's Intent
 
-**3.a.(1) Purpose.** Generate an overmatch of combat power on OBJ HAMMER fast enough to preempt enemy counterattack and hand off the objective to follow-on forces with combat power intact.
+#### 3.a.(1) Purpose
 
-**3.a.(2) Key Tasks**
+Generate an overmatch of combat power on OBJ HAMMER fast enough to preempt enemy counterattack and hand off the objective to follow-on forces with combat power intact.
+
+#### 3.a.(2) Key Tasks
 
 - Seize OBJ HAMMER with one company decisive, one shaping, one reserve.
 - Defeat ENY reserve counterattack forward of PL BRONZE.
 - Preserve combat power: less than 10% friendly casualties through consolidation.
 - Maintain continuous fires and ISR coverage through transition to follow-on force.
 
-**3.a.(3) End State.** OBJ HAMMER under TF IRON control by 190900Z; ENY defeated in sector; TF postured for follow-on.
+#### 3.a.(3) End State
 
-**3.a.(4) End State Friendly.** TF IRON consolidated on OBJ HAMMER, >90% combat power, Class V at 70% basic load.
+OBJ HAMMER under TF IRON control by 190900Z; ENY defeated in sector; TF postured for follow-on.
 
-**3.a.(5) End State Enemy.** Enemy force on OBJ HAMMER destroyed or forced to withdraw east of HIGHWAY 22.
+#### 3.a.(4) End State Friendly
 
-**3.a.(6) End State Terrain.** OBJ HAMMER (MR-342 ridge) and eastern spur under friendly control and observation.
+TF IRON consolidated on OBJ HAMMER, >90% combat power, Class V at 70% basic load.
 
-**3.a.(7) End State Civil.** No civilian casualties; ALTENSTADT village and cultural sites unaffected.
+#### 3.a.(5) End State Enemy
+
+Enemy force on OBJ HAMMER destroyed or forced to withdraw east of HIGHWAY 22.
+
+#### 3.a.(6) End State Terrain
+
+OBJ HAMMER (MR-342 ridge) and eastern spur under friendly control and observation.
+
+#### 3.a.(7) End State Civil
+
+No civilian casualties; ALTENSTADT village and cultural sites unaffected.
 
 ### 3.b. Concept of Operations
 
-**3.b.(1) Summary.** TF IRON executes a three-phase attack: PHASE I (Shaping, 180600Z–190500Z) — reconnaissance and shaping fires; PHASE II (Decisive, 190500Z–190800Z) — dismounted assault on OBJ HAMMER; PHASE III (Consolidate, 190800Z–200600Z) — consolidate and hand off.
+#### 3.b.(1) Summary
 
-**3.b.(2) Maneuver.** A Co conducts the decisive operation as the main effort with dismounted assault along AA DIAMOND. B Co fixes ENY on OBJ ANVIL. C Co is reserve prepared to reinforce A Co or defeat counterattack. D Co provides direct-fire support from SBF-1 (NK 132 778).
+TF IRON executes a three-phase attack: PHASE I (Shaping, 180600Z–190500Z) — reconnaissance and shaping fires; PHASE II (Decisive, 190500Z–190800Z) — dismounted assault on OBJ HAMMER; PHASE III (Consolidate, 190800Z–200600Z) — consolidate and hand off.
 
-**3.b.(3) Decisive Operation.** A Co assaults OBJ HAMMER at 190500Z, seizes the ridge and eastern spur, and consolidates.
+#### 3.b.(2) Maneuver
 
-**3.b.(4) Shaping Operations.** B Co fixes the ENY platoon on OBJ ANVIL; SAPPER 2 breaches the wire obstacle belt at NK 138 779 NLT 190430Z; STEEL 6 delivers 12-minute artillery preparation on OBJ HAMMER 190448Z–190500Z.
+A Co conducts the decisive operation as the main effort with dismounted assault along AA DIAMOND. B Co fixes ENY on OBJ ANVIL. C Co is reserve prepared to reinforce A Co or defeat counterattack. D Co provides direct-fire support from SBF-1 (NK 132 778).
 
-**3.b.(5) Sustaining Operations.** Combat Trains (CTCP) established vicinity NK 118 772 by 190400Z. Ambulance exchange point (AXP) at NK 125 776. CL III/V resupply by LMTV convoy from BSA every 8 hrs.
+#### 3.b.(3) Decisive Operation
 
-**3.b.(6) Reserve.** C Co is reserve, held at AA BRONZE, prepared to reinforce A Co (PRIORITY) or block enemy counterattack along ROUTE DIAMOND.
+A Co assaults OBJ HAMMER at 190500Z, seizes the ridge and eastern spur, and consolidates.
 
-**3.b.(7) Fires.** See Annex D. Priority of fires to A Co during Phase II.
+#### 3.b.(4) Shaping Operations
 
-### 3.c. Schemes
+B Co fixes the ENY platoon on OBJ ANVIL; SAPPER 2 breaches the wire obstacle belt at NK 138 779 NLT 190430Z; STEEL 6 delivers 12-minute artillery preparation on OBJ HAMMER 190448Z–190500Z.
 
-**3.c.(1) Engineering.** SAPPER 2 breaches the wire obstacle belt NK 138 779 NLT 190445Z. Survivability effort focuses on CTCP and BN Main CP hasty positions. See Annex G.
+#### 3.b.(5) Sustaining Operations
 
-**3.c.(2) Fires.** Priority of fires A Co (Phase II), then C Co (counterattack defeat). 12-minute artillery prep on OBJ HAMMER 190448–190500Z. CAS on call; final attack control by A Co JTAC.
+Combat Trains (CTCP) established vicinity NK 118 772 by 190400Z. Ambulance exchange point (AXP) at NK 125 776. CL III/V resupply by LMTV convoy from BSA every 8 hrs.
 
-**3.c.(3) Information Collection.** One Puma UAS orbit over OBJ HAMMER 190430–190800Z tasked from BCT. Scout Plt (TACON) reports on HIGHWAY 22. See Annex L.
+#### 3.b.(6) Reserve
 
-**3.c.(4) Intelligence.** Focus on confirming ENY disposition on OBJ HAMMER, validating obstacle belt composition, and warning of ENY reinforcement east of HIGHWAY 22. See Annex B.
+C Co is reserve, held at AA BRONZE, prepared to reinforce A Co (PRIORITY) or block enemy counterattack along ROUTE DIAMOND.
 
-**3.c.(5) Maneuver.** Phase I: B Co conducts supporting attack on OBJ ANVIL starting 180600Z. A Co moves to ASSAULT POSITION SABRE by 190430Z. Phase II: Breach complete 190445Z; artillery prep 190448–190500Z; A Co assaults 190500–190700Z; consolidate 190700–190800Z. Phase III: Transfer of authority to follow-on force 200500Z.
+#### 3.b.(7) Fires
 
-**3.c.(6) Protection.** Priorities: (1) A Co assault element; (2) CTCP; (3) BN Main CP. OPSEC: radio silence below BN net until 190500Z. Personnel Recovery plan per Annex E, Appendix 9.
+See Annex D. Priority of fires to A Co during Phase II.
 
-### 3.d. Coordinating Instructions
+### 3.c. Scheme of Movement and Maneuver
 
-**3.d.(1) Effective Time.** This OPORD is effective 181200ZAPR26.
+Phase I: B Co conducts supporting attack on OBJ ANVIL starting 180600Z. A Co moves to ASSAULT POSITION SABRE by 190430Z. Phase II: Breach complete 190445Z; artillery prep 190448–190500Z; A Co assaults 190500–190700Z; consolidate 190700–190800Z. Phase III: Transfer of authority to follow-on force 200500Z.
 
-#### 3.d.(2) Commander's Critical Information Requirements (CCIR)
+### 3.d. Scheme of Reconnaissance and Security
 
-**Friendly Force Information Requirements**
+Scout Plt (TACON to 173 RSTA) screens along HIGHWAY 22 NLT 180600Z through 200600Z; provides early warning of eastern ENY movement. TF IRON R&S elements observe OBJ HAMMER from OP 1 (NK 131 780) and OP 2 (NK 144 785) from 181200Z.
 
-- Any friendly unit below 75% combat power.
-- Loss of communications with any company commander for >15 min.
-- Breach asset (SAPPER 2) combat-ineffective.
+### 3.e. Scheme of Intelligence
 
-**Priority Intelligence Requirements**
+Focus on confirming ENY disposition on OBJ HAMMER, validating obstacle belt composition, and warning of ENY reinforcement east of HIGHWAY 22. See Annex B.
 
-- Is the ENY obstacle belt at NK 138 779 mined or wire only?
-- What is the ENY reserve posture east of HIGHWAY 22?
-- Has ENY employed UAS ISR over the AO?
+### 3.f. Scheme of Fires
 
-**3.d.(3) Essential Elements of Friendly Information (EEFI)**
+Priority of fires A Co (Phase II), then C Co (counterattack defeat). 12-minute artillery prep on OBJ HAMMER 190448–190500Z. CAS on call; final attack control by A Co JTAC.
 
-- Exact DTG of breach.
-- Location of TF reserve (C Co).
-- Artillery firing position of STEEL 6.
+### 3.g. Scheme of Protection
 
-**3.d.(4) Rules of Engagement**
+Priorities: (1) A Co assault element; (2) CTCP; (3) BN Main CP. OPSEC: radio silence below BN net until 190500Z. Personnel Recovery plan per Annex E, Appendix 9.
 
-- Standard ROE per theater directive; hostile act / hostile intent only. Positive ID required for all direct fire.
+### 3.h. Stability
 
-**3.d.(5) Other**
+Not applicable for this mission — limited to training area; no host-nation civilian effects beyond range deconfliction.
 
-- All personnel will consume 4 L water/day minimum during operations. Hot meals pushed from BSA every 12 hrs.
+### 3.i. Scheme of Engineer Operations
 
-**3.d.(6) FSCM.** Coordinated Fire Line along PL BRONZE. No-fire area 500m radius around ALTENSTADT village (NK 115 790).
+SAPPER 2 breaches the wire obstacle belt NK 138 779 NLT 190445Z. Survivability effort focuses on CTCP and BN Main CP hasty positions. See Annex G.
 
-**3.d.(7) ACM.** Restricted Operations Zone over OBJ HAMMER 190400–190800Z to 5,000 ft AGL for friendly UAS.
+### 3.j. Scheme of Signal
 
-**3.d.(8) Risk Reduction Control Measures.** All live-fire conducted under range-safety oversight. Chemlight recognition signals for night movement. No-fire 500m bubble around ALTENSTADT. MOPP level 0 (mission-tailored).
+FM primary, TACSAT secondary. Battalion command net, fires net, and logistics net active. Data: Nett Warrior for COP. See Annex H.
 
-**3.d.(9) Personnel Recovery.** Isolated-personnel reporting to BN TOC; recovery by C Co on order. ISOPREP current for all personnel.
+### 3.k. Scheme of Information Collection
 
-**3.d.(10) Environmental Considerations.** No pyrotechnic use within 100m of ALTENSTADT; fuel/waste returned to BSA.
+One Puma UAS orbit over OBJ HAMMER 190430–190800Z tasked from BCT. Scout Plt (TACON) reports on HIGHWAY 22. See Annex L.
 
-**3.d.(11) Themes and Messages**
+### 3.l. Scheme of Sustainment
 
-- We train hard to fight and win.
-- We honor our host-nation partners.
-- Every paratrooper is accountable.
+See Paragraph 4 and Annex F.
 
-**3.d.(12) CEMA.** EW detection reports directly to BN S-2; no offensive effects at BN level.
+### 3.m. Scheme of Cyberspace Electromagnetic Activities
 
-**3.e. Tasks to Subordinate Units**
+GPS, SATCOM, and FM remain unrestricted. No offensive cyber effects tasked at BN. EW detection alarm to BN S-2 on any jamming above threshold.
+
+### 3.n. Scheme of Military Deception
+
+No deception operation planned for this mission.
+
+### 3.o. Assessment
+
+MOEs: (1) seizure of OBJ HAMMER by 190900Z; (2) enemy combat power on OBJ HAMMER reduced below 30%; (3) friendly casualties below 10%. MOPs: breach complete NLT 190445Z; artillery rounds on target per TVA; transition to follow-on NLT 200600Z. See Annex M.
+
+### 3.p. Tasks to Subordinate Units
 
 | Unit | Tasks | Callsign | Priorities | Purpose |
 |---|---|---|---|---|
@@ -273,115 +313,203 @@ Bundeswehr Grafenwoehr Training Area Command, Bavarian Red Cross (range medical 
 | 2d Plt / A Co / 54th BEB | Breach wire obstacle belt NK 138 779 NLT 190445Z.; Mark breach lanes IAW BCT SOP.; Be prepared to reduce follow-on obstacles on order. | SAPPER 2 |  | Breach ENY obstacle belt to enable A Co assault. |
 | Btry B / 4-319 AFAR | Deliver 12-minute preparation on OBJ HAMMER 190448–190500Z.; Maintain priority of fires to A Co through consolidation.; Be prepared to shift to counterbattery on BN S-3 call. | STEEL 6 |  | Provide direct support fires to TF IRON. |
 
-### 3.f. Scheme of Reconnaissance and Security
+### 3.q. Coordinating Instructions
 
-Scout Plt (TACON to 173 RSTA) screens along HIGHWAY 22 NLT 180600Z through 200600Z; provides early warning of eastern ENY movement. TF IRON R&S elements observe OBJ HAMMER from OP 1 (NK 131 780) and OP 2 (NK 144 785) from 181200Z.
+#### 3.q.(1) Effective Time
 
-### 3.g. Stability
+This OPORD is effective 181200ZAPR26.
 
-Not applicable for this mission — limited to training area; no host-nation civilian effects beyond range deconfliction.
+#### 3.q.(2) Commander's Critical Information Requirements (CCIR)
 
-### 3.h. Scheme of Signal
+**Priority Intelligence Requirements**
 
-FM primary, TACSAT secondary. Battalion command net, fires net, and logistics net active. Data: Nett Warrior for COP. See Annex H.
+- Is the ENY obstacle belt at NK 138 779 mined or wire only?
+- What is the ENY reserve posture east of HIGHWAY 22?
+- Has ENY employed UAS ISR over the AO?
 
-### 3.i. Scheme of Sustainment
+**Friendly Force Information Requirements**
 
-See Paragraph 4 and Annex F.
+- Any friendly unit below 75% combat power.
+- Loss of communications with any company commander for >15 min.
+- Breach asset (SAPPER 2) combat-ineffective.
 
-### 3.j. Scheme of CEMA
+#### 3.q.(3) Essential Elements of Friendly Information (EEFI)
 
-GPS, SATCOM, and FM remain unrestricted. No offensive cyber effects tasked at BN. EW detection alarm to BN S-2 on any jamming above threshold.
+- Exact DTG of breach.
+- Location of TF reserve (C Co).
+- Artillery firing position of STEEL 6.
 
-### 3.k. Scheme of Military Deception
+#### 3.q.(4) Fire Support Coordination Measures
 
-No deception operation planned for this mission.
+Coordinated Fire Line along PL BRONZE. No-fire area 500m radius around ALTENSTADT village (NK 115 790).
 
-### 3.l. Assessment
+#### 3.q.(5) Airspace Coordinating Measures
 
-MOEs: (1) seizure of OBJ HAMMER by 190900Z; (2) enemy combat power on OBJ HAMMER reduced below 30%; (3) friendly casualties below 10%. MOPs: breach complete NLT 190445Z; artillery rounds on target per TVA; transition to follow-on NLT 200600Z. See Annex M.
+Restricted Operations Zone over OBJ HAMMER 190400–190800Z to 5,000 ft AGL for friendly UAS.
+
+#### 3.q.(6) Rules of Engagement
+
+- Standard ROE per theater directive; hostile act / hostile intent only. Positive ID required for all direct fire.
+
+#### 3.q.(7) Risk Reduction Control Measures
+
+All live-fire conducted under range-safety oversight. Chemlight recognition signals for night movement. No-fire 500m bubble around ALTENSTADT. MOPP level 0 (mission-tailored).
+
+#### 3.q.(8) Personnel Recovery
+
+Isolated-personnel reporting to BN TOC; recovery by C Co on order. ISOPREP current for all personnel.
+
+#### 3.q.(9) Environmental Considerations
+
+No pyrotechnic use within 100m of ALTENSTADT; fuel/waste returned to BSA.
+
+#### 3.q.(10) Cyberspace Electromagnetic Activities
+
+EW detection reports directly to BN S-2; no offensive effects at BN level.
+
+#### 3.q.(11) Other Coordinating Instructions
+
+- All personnel will consume 4 L water/day minimum during operations. Hot meals pushed from BSA every 12 hrs.
+
+#### 3.q.(12) Themes and Messages
+
+- We train hard to fight and win.
+- We honor our host-nation partners.
+- Every paratrooper is accountable.
 
 
 ## 4. (U) Sustainment
 
 ### 4.a. Logistics
 
-**4.a.(1) Sustainment Overlay.** See Annex F, Appendix 1.
+#### 4.a.(1) Sustainment Overlay
 
-**4.a.(2) Maintenance.** Field-level maintenance at CTCP (NK 118 772). Controlled exchange authorized for CL IX parts below $500. BDAR authority: Co Cdrs.
+See Annex F, Appendix 1.
 
-**4.a.(3) Transportation.** MSR CLUB (primary), ASR SPADE (alternate). Ambulance exchange at AXP at NK 125 776. Convoys in packets of 4 vehicles minimum.
+#### 4.a.(2) Maintenance
 
-**4.a.(4) Supply.** CL I: MRE for 3 days, hot meal push 2x/day. CL III: LOGPAC every 8 hrs. CL V: 100% basic load carried, resupply pre-positioned at CTCP. CL VIII: See AHS below. Water: 4 L/soldier/day.
+Field-level maintenance at CTCP (NK 118 772). Controlled exchange authorized for CL IX parts below $500. BDAR authority: Co Cdrs.
 
-**4.a.(5) Field Services.** Mortuary affairs collection point at CTCP. Shower/laundry at BSA every 72 hrs.
+#### 4.a.(3) Transportation
 
-**4.a.(6) Distribution.** Supply point distribution at CTCP; unit distribution forward to company trains on call.
+MSR CLUB (primary), ASR SPADE (alternate). Ambulance exchange at AXP at NK 125 776. Convoys in packets of 4 vehicles minimum.
 
-**4.a.(7) Contract Support.** Range ammunition support via Bundeswehr contract; coordinated through BCT S-4.
+#### 4.a.(4) Supply
+
+CL I: MRE for 3 days, hot meal push 2x/day. CL III: LOGPAC every 8 hrs. CL V: 100% basic load carried, resupply pre-positioned at CTCP. CL VIII: See AHS below. Water: 4 L/soldier/day.
+
+#### 4.a.(5) Field Services
+
+Mortuary affairs collection point at CTCP. Shower/laundry at BSA every 72 hrs.
+
+#### 4.a.(6) Distribution
+
+Supply point distribution at CTCP; unit distribution forward to company trains on call.
+
+#### 4.a.(7) Contract Support
+
+Range ammunition support via Bundeswehr contract; coordinated through BCT S-4.
 
 ### 4.b. Personnel Services Support
 
-**4.b.(1) Human Resources Support.** PERSTAT every 6 hrs via BN S-1. R&R policy per BCT directive.
+#### 4.b.(1) Human Resources Support
 
-**4.b.(2) Financial Management.** No finance operations in AO; reachback to BCT FMSC as needed.
+PERSTAT every 6 hrs via BN S-1. R&R policy per BCT directive.
 
-**4.b.(3) Legal Support.** BN JAG available via BCT SJA. ROE questions to BN S-3; detainee legal review by BCT SJA.
+#### 4.b.(2) Financial Management
 
-**4.b.(4) Religious Support.** UMT circulates among companies every 24 hrs. Memorial services on order.
+No finance operations in AO; reachback to BCT FMSC as needed.
+
+#### 4.b.(3) Legal Support
+
+BN JAG available via BCT SJA. ROE questions to BN S-3; detainee legal review by BCT SJA.
+
+#### 4.b.(4) Religious Support
+
+UMT circulates among companies every 24 hrs. Memorial services on order.
 
 ### 4.c. Army Health System Support
 
-**4.c.(1) Medical Command and Control.** BN Surgeon runs casualty ops from BN TOC; coordination with BCT Role 2 at BSA.
+#### 4.c.(1) Medical Command and Control
 
-**4.c.(2) Medical Treatment.** Role 1 at each company trains; BN aid station at CTCP (NK 118 772). Role 2 at BSA (Grafenwoehr main); Role 3 at Vilseck (18 km east).
+BN Surgeon runs casualty ops from BN TOC; coordination with BCT Role 2 at BSA.
 
-**4.c.(3) Medical Evacuation.** Ground MEDEVAC via AXP at NK 125 776. Air MEDEVAC on call from BCT Role 2 pad; 9-line to BN TOC on BN CMD net.
+#### 4.c.(2) Medical Treatment
 
-**4.c.(4) Dental Services.** Emergency dental only; reachback to BSA.
+Role 1 at each company trains; BN aid station at CTCP (NK 118 772). Role 2 at BSA (Grafenwoehr main); Role 3 at Vilseck (18 km east).
 
-**4.c.(5) Preventive Medicine.** Water quality checks 2x/day at CTCP. Tick/vector briefing issued to all personnel.
+#### 4.c.(3) Medical Evacuation
 
-**4.c.(6) Combat Operational Stress Control.** BN Chaplain and UMT on call; BN aid station has OSC trained NCO.
+Ground MEDEVAC via AXP at NK 125 776. Air MEDEVAC on call from BCT Role 2 pad; 9-line to BN TOC on BN CMD net.
 
-**4.c.(7) Medical Logistics.** CL VIII push from BCT Role 2 every 12 hrs. Blood products: 4 PRBC at BAS.
+#### 4.c.(4) Dental Services
+
+Emergency dental only; reachback to BSA.
+
+#### 4.c.(5) Preventive Medicine
+
+Water quality checks 2x/day at CTCP. Tick/vector briefing issued to all personnel.
+
+#### 4.c.(6) Combat Operational Stress Control
+
+BN Chaplain and UMT on call; BN aid station has OSC trained NCO.
+
+#### 4.c.(7) Medical Logistics
+
+CL VIII push from BCT Role 2 every 12 hrs. Blood products: 4 PRBC at BAS.
 
 
 ## 5. (U) Command and Signal
 
-### 5.a. Signal
+### 5.a. Command
 
-**5.a.(1) Channels**
+#### 5.a.(1) Location of Commander
 
-- DUSTOFF
-- RANGE CTL
+BN CDR forward with A Co from 190445Z through consolidation; returns to BN TOC NLT 190900Z.
 
-**5.a.(2) Summary.** BN CMD net: FM primary, TACSAT secondary. Company nets: FM. Data: Nett Warrior for COP; PACE: FM / TACSAT / Data / Messenger.
-
-**5.a.(3) SOI Edition.** SOI Edition 04-26 effective 180001Z–210001ZAPR26.
-
-**5.a.(4) Recognition and Identification.** Near recognition: running password GLADIATOR / countersign HORNET. Far recognition: orange VS-17 panel during daylight; IR strobe at night. Challenge/password changes 180001Z daily.
-
-**5.a.(5) CEMA.** Any GPS or comms jamming reported to BN S-2 immediately on BN CMD net.
-
-### 5.b. Command
-
-**5.b.(1) Location of Commander.** BN CDR forward with A Co from 190445Z through consolidation; returns to BN TOC NLT 190900Z.
-
-**5.b.(2) Succession of Command**
+#### 5.a.(2) Succession of Command
 
 - Battalion Commander (IRON 6)
 - Battalion Deputy Commander (IRON 5)
 - Battalion S-3 (IRON 3)
 - Battalion Executive Officer (IRON 7)
 
-**5.b.(3) Command Posts.** BN Main CP at AA BRONZE (NK 108 768) from 180600Z. BN TAC CP co-located with A Co from 190430Z through consolidation. BN Combat Trains CP (CTCP) at NK 118 772 from 190400Z.
+#### 5.a.(3) Command Posts
 
-### 5.c. Control
+BN Main CP at AA BRONZE (NK 108 768) from 180600Z. BN TAC CP co-located with A Co from 190430Z through consolidation. BN Combat Trains CP (CTCP) at NK 118 772 from 190400Z.
 
-**5.c.(1) Command and Support Relationships.** Btry B / 4-319 AFAR is DS to TF IRON from 180600Z. 2d Plt / A / 54 BEB is OPCON from 181800Z.
+### 5.b. Control
 
-**5.c.(2) Liaison Requirements.** LNO from 1-503 IN at BN Main CP from 181200Z. LNO from Btry B / 4-319 at BN Main CP from 180600Z. BN LNO to BCT TOC from 180600Z.
+#### 5.b.(1) Command and Support Relationships
+
+Btry B / 4-319 AFAR is DS to TF IRON from 180600Z. 2d Plt / A / 54 BEB is OPCON from 181800Z.
+
+#### 5.b.(2) Liaison Requirements
+
+LNO from 1-503 IN at BN Main CP from 181200Z. LNO from Btry B / 4-319 at BN Main CP from 180600Z. BN LNO to BCT TOC from 180600Z.
+
+### 5.c. Signal
+
+#### 5.c.(1) SOI Edition
+
+SOI Edition 04-26 effective 180001Z–210001ZAPR26.
+
+#### 5.c.(2) Methods of Communication by Echelon
+
+BN CMD net: FM primary, TACSAT secondary. Company nets: FM. Data: Nett Warrior for COP; PACE: FM / TACSAT / Data / Messenger.
+
+#### 5.c.(3) Recognition and Identification
+
+Near recognition: running password GLADIATOR / countersign HORNET. Far recognition: orange VS-17 panel during daylight; IR strobe at night. Challenge/password changes 180001Z daily.
+
+#### 5.c.(4) Cyberspace Electromagnetic Activities
+
+Any GPS or comms jamming reported to BN S-2 immediately on BN CMD net.
+
+#### 5.c.(5) Channels
+
+- DUSTOFF
+- RANGE CTL
 
 
 ---

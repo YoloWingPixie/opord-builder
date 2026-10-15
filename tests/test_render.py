@@ -312,3 +312,41 @@ def test_forecast_table_columns_follow_the_typed_values():
         "| 140800ZOCT26 to 141200ZOCT26 | SCT040 | A2992 | 18000 ft MSL 270° T / 35 kt |"
         in md
     )
+
+
+def headings(md: str, para: int) -> list[str]:
+    """The `###` subparagraph headings of one paragraph, without their letters."""
+    body = md.split(f"## {para}. (U)")[1].split("\n## ")[0]
+    return re.findall(r"^### \d\.[a-z]+\. (.+)$", body, re.MULTILINE)
+
+
+def test_subparagraphs_follow_doctrinal_order(orders):
+    md = render.render_markdown(orders["example_full"])
+    assert headings(md, 1) == [
+        "Area of Interest", "Area of Operations", "Enemy Forces", "Friendly Forces",
+        "Interagency, Intergovernmental, and Nongovernmental Organizations",
+        "Civil Considerations (ASCOPE)", "Attachments and Detachments", "Assumptions",
+    ]  # fmt: skip
+    three = headings(md, 3)
+    assert three[:3] == [
+        "Commander's Intent",
+        "Concept of Operations",
+        "Scheme of Movement and Maneuver",
+    ]
+    assert three[-3:] == [
+        "Assessment",
+        "Tasks to Subordinate Units",
+        "Coordinating Instructions",
+    ]
+    assert three.index("Scheme of Reconnaissance and Security") < three.index(
+        "Scheme of Intelligence"
+    )
+    assert (
+        three.index("Scheme of Protection")
+        < three.index("Stability")
+        < three.index("Scheme of Engineer Operations")
+    )
+    assert headings(md, 5) == ["Command", "Control", "Signal"]
+    assert not re.search(
+        r"^\*\*[1-5]\.[a-z]\.", md, re.MULTILINE
+    )  # no lettered subparagraph in bold
