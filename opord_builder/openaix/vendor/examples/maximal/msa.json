@@ -1,0 +1,75 @@
+{
+  "$schema": "urn:openaix:schema:msa:0.1.0-draft.2",
+  "airfield": "ojms",
+  "center": {
+    "ident": "GHI",
+    "position": {
+      "latitude": 31.834683,
+      "longitude": 36.778475
+    }
+  },
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "angle_deg": 0,
+            "kind": "drawing",
+            "layer": "Blue",
+            "mission_id": "oir-syria",
+            "name": "OIR Salti MSA",
+            "object_id": 44,
+            "polygon_mode": "circle",
+            "primitive_type": "Polygon",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "id": "ojms-msa",
+  "kind": "msa",
+  "name": "Muwaffaq Salti minimum safe altitude",
+  "provenance": {
+    "authority": "Eagle Dynamics",
+    "derivation": "derived",
+    "tool": {
+      "name": "DCS map file reader",
+      "version": "2.9.8"
+    }
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "sectors": [
+    {
+      "end_bearing": {
+        "declination_deg": 5.0,
+        "reference": "magnetic",
+        "value": 0
+      },
+      "full_circle": true,
+      "minimum_altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 4700
+      },
+      "radius": {
+        "unit": "nm",
+        "value": 25
+      },
+      "start_bearing": {
+        "declination_deg": 5.0,
+        "reference": "magnetic",
+        "value": 0
+      }
+    }
+  ],
+  "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua"
+}

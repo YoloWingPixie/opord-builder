@@ -1,0 +1,96 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SPINS examples and format findings</title><style>
+body{font:16px/1.6 system-ui,sans-serif;color:#222;margin:35px auto;max-width:1000px;padding:0 22px}
+h1{font-size:30px;line-height:1.2}h2{font-size:23px;margin-top:35px}h3{font-size:19px;margin-top:26px}
+a{color:#185b7a;text-underline-offset:3px}p{margin:10px 0 16px}table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;vertical-align:top;border-bottom:1px solid #ddd;padding:9px}th{background:#f4f5f6}
+pre{background:#f5f6f7;padding:20px;overflow:auto}code{font-family:ui-monospace,Consolas,monospace;font-size:.88em}
+@media print{body{font-size:10pt;margin:0}h2,h3{break-after:avoid}tr{break-inside:avoid}}
+</style></head><body><h1 id="spins-examples-and-format-findings">SPINS examples and format findings</h1>
+<p>The inspected SPINS documents use numbered publication structures with prose and nested subparagraphs. Their organization varies with issuer, audience, and purpose. The builder preserves that structure with generated paragraph numbers and cross-references, while allowing structured data to supply tables and repeated values.</p>
+<p>The previous fictional preview emphasized a quick-reference table and a separate information block for every location. That is useful as a derived aid, but the reviewed documents do not support making it the primary SPINS format. The existing v0.2 SPINS model also needs revision: a fixed collection of typed plans does not describe the full document structure shown by these sources.</p>
+<h2 id="documents-inspected">Documents inspected</h2>
+<h3 id="1-operational-nato-airspace-spins">1. Operational NATO airspace SPINS</h3>
+<p><a href="https://www.airportdata.com/portals/0/docs/Flight%20Permit%20Forms/Libyan%20airspace%20SPecial%20INStructions%20-%20SPINS%20-%20Edition%204%20-%2023%20June%202011.pdf#page=1">Open the original four-page PDF</a></p>
+<p><strong>Source:</strong> NATO, Airspace Special Instructions, Edition 4, 23 June 2011. A historical operational document for aircraft entering or leaving the Tripoli flight-information region and Libyan airports. The inspected copy is hosted by an aviation-data provider, not NATO's current publication service.</p>
+<p><strong>Observed format:</strong> a title and edition date, release markings at page boundaries, continuous numbered text, bold and underlined paragraph leads, alphabetic lists, and subdivisions such as <code>4.3.1</code>. Its procedural flow covers operating-area context, requests, coordination, flight operations, and references to separately published material. This is particularly relevant to the requested airspace/airfield case. It is not a full combat-air SPINS book or a current operating instruction.</p>
+<h3 id="2-us-military-spins-example">2. U.S. military SPINS example</h3>
+<p><a href="https://info.publicintelligence.net/MTTP-TacticalChat.pdf#page=69">Open Appendix D at PDF page 69</a></p>
+<p><strong>Source:</strong> FM 6-02.73 / MCRP 3-40.2B / NTTP 6-02.8 / AFTTP 3-2.77, 7 July 2009, printed pages 59–62. Historical multi-service tactical-chat publication; the inspected original document is available through a public mirror.</p>
+<p><strong>Observed format:</strong> Appendix D explicitly presents a SPINS example. Its text has deeply nested labels, including <code>A.1.1</code>, <code>A.1.1.4.2</code>, and <code>A.1.1.4.2.3</code>. Paragraphs combine headings, explanations, conditions, and instructions. The example appears within a larger publication, with page and publication identifiers. This is direct evidence that the authoring model must preserve a deeper hierarchy than section → paragraph → step. It is a subject-specific example, not the mandated organization of all SPINS.</p>
+<h3 id="3-nato-spins-template">3. NATO SPINS template</h3>
+<p><a href="https://eda.europa.eu/docs/procurement/bi-sc_joint_personnel_recovery_joint_operational_guidelines.pdf#page=137">Open Annex J at PDF page 137</a></p>
+<p><strong>Source:</strong> Bi-SC Joint Personnel Recovery Joint Operational Guidelines, cover letter dated 22 February 2011; Annex J, printed pages 111–112. Hosted by the European Defence Agency. The publication describes itself as interim guidance; it is used here as a historical template example.</p>
+<p><strong>Observed format:</strong> lettered annex and section labels, paragraph text, notes, and italicized material to be tailored for the particular operation or exercise. The SPINS template supplements other recovery documents rather than copying their entire contents. This supports optional template guidance, distinct authored content, and references to other publications. Its personnel-recovery scope must not be presented as a universal air-operation template.</p>
+<h3 id="4-flight-simulation-training-example">4. Flight-simulation training example</h3>
+<p><a href="https://www.vitaf.it/AMVI_Sito/Activity/Campagne/Falcon/CombatDawn/Mix02/AMVI-ATO-OCD-02.pdf#page=10">Open AMVI Combat Dawn at PDF page 10</a></p>
+<p><strong>Source:</strong> Aeronautica Militare Virtuale Italiana, Combat Dawn mission packet. The reviewed file contains 43 PDF pages; a publication date was not established. This is a simulation community's original document, not a military-issued order.</p>
+<p><strong>Observed format:</strong> three SPINS parts cover instructions for the immediate mission period, amendments to standing instructions, and standing content. Subject areas use lettered subdivisions and labels such as <code>B.3.C</code>. The document uses uppercase monospaced text and references companion mission products. This is a useful example of military-inspired simulation authoring, but its typography, section order, and operational content should not be treated as universal standards.</p>
+<h2 id="what-this-changes-in-the-design">What this changes in the design</h2>
+<p><strong>Recommendation:</strong> make the numbered document structure the authoritative authoring model. Keep the content order chosen by the author. Allow a rendering profile to control numbering and typography. Use resource references and typed tables where they add value without requiring every instruction to become a uniform record.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Required design capability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hierarchy</td>
+<td>Sections and subsections can nest to the depth needed by the source document.</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>Stable internal identifiers are separate from displayed paragraph labels.</td>
+</tr>
+<tr>
+<td>Numbering</td>
+<td>Numbers are generated from the effective hierarchy. Insertion and removal update references automatically; authors never maintain printed labels.</td>
+</tr>
+<tr>
+<td>Content</td>
+<td>A section can contain paragraphs, lists, tables, figures, notes, and references in authored order.</td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td>Paragraph leads, bold/italic emphasis, indentation, page headers, and pagination can follow the chosen publication profile.</td>
+</tr>
+<tr>
+<td>Supporting data</td>
+<td>Communications tables, airspace listings, and other repeated values can still come from typed resources.</td>
+</tr>
+<tr>
+<td>Reuse</td>
+<td>A reusable paragraph or section can be included without losing its position in the published hierarchy.</td>
+</tr>
+<tr>
+<td>Amendments</td>
+<td>Mission-period instructions, standing instructions, and changes can be represented when the selected format uses them.</td>
+</tr>
+</tbody>
+</table>
+<p>This does not establish a compulsory chapter list. The real examples have different scopes and different structures. A long exercise publication may benefit from contents, annexes, and figures; the four-page operational example has a much smaller organization.</p>
+<p>For the airspace/airfield/control-measure case, the primary output should therefore be an authored sequence of numbered subjects and paragraphs. A restriction can appear as prose with its exceptions and cross-references. A frequency table or measure table can follow the relevant paragraph. An airfield can have multiple nested procedures. A quick-reference index can be generated separately from those same definitions.</p>
+<p>The corresponding conceptual structure is:</p>
+<pre><code class="language-text">SPINS document
+  publication metadata and references
+  ordered sections
+    optional stable identity; automatically generated display number
+    heading
+    ordered content blocks
+      paragraph
+      list
+      table
+      figure
+      note
+      reference
+      nested section
+  optional annexes and appendices
+  optional standing / mission-period amendment structure
+</code></pre>
+<p>The SPINS 0.3 schema and generator now implement this publication structure. The earlier v0.2 flat section/plan proposal has been superseded for SPINS. The ATO's structured mission data and reusable resource catalogs can remain useful independently of this SPINS document-model correction.</p>
+<h2 id="located-but-not-used-as-visual-evidence">Located but not used as visual evidence</h2>
+<p>A public listing identifies a 2026 Red Flag–Alaska SPINS attachment under solicitation FA500426R0018. The listing provides a machine-generated summary, but the original document was not accessible through the available mirror or notice routes. Its layout, exact headings, and typography were therefore not verified and are not used as evidence above. <a href="https://console.sweetspotgov.com/federal-contracts/710b203f-d80f-545c-82cb-a8825a0b2539">Attachment listing</a>.</p>
+<h2 id="evidence-and-limits">Evidence and limits</h2>
+<p>The four cited PDFs were opened, downloaded for inspection, text-extracted, and inspected visually at the indicated pages. Publication dates refer to the documents, not search-engine crawl dates. Historical publication and simulation examples establish available formats; they do not establish current operational policy or a single mandatory SPINS template.</p>
+<p>This review follows COMM-015/016 for direct evidence and explicit uncertainty, and DM-017 for revising a domain model when evidence changes it. The linked SPINS authoring guide describes the resulting application implementation. The original PDFs are linked rather than republished as local documents.</p><p><a href="complete-schema.html#current-SPINS">Current SPINS schema</a> · <a href="spins-example.html">Generated example</a></p></body></html>

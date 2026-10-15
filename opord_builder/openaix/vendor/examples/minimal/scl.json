@@ -1,0 +1,11 @@
+{
+  "$schema": "urn:openaix:schema:scl:0.1.0-draft.2",
+  "aircraft_type": "f-16c-50",
+  "id": "f16-ai",
+  "kind": "scl",
+  "name": "DTA05 GBU-12",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  }
+}

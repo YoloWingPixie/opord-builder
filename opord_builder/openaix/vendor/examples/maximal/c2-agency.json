@@ -1,0 +1,73 @@
+{
+  "$schema": "urn:openaix:schema:c2-agency:0.1.0-draft.2",
+  "areas": [
+    {
+      "geometry": {
+        "bbox": [
+          37.8,
+          33.2,
+          41.0,
+          36.4
+        ],
+        "coordinates": [
+          [
+            [
+              37.8,
+              33.2
+            ],
+            [
+              41.0,
+              33.2
+            ],
+            [
+              41.0,
+              36.4
+            ],
+            [
+              37.8,
+              36.4
+            ],
+            [
+              37.8,
+              33.2
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "kind": "geojson"
+    }
+  ],
+  "callsign": "Darkstar",
+  "channels": [
+    "control-uhf"
+  ],
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "kind": "unit",
+            "mission_id": "oir-syria",
+            "name": "OIR Darkstar E-3A",
+            "object_id": 11,
+            "unit_type": "E-3A"
+          }
+        ],
+        "coalition": "blue"
+      }
+    }
+  },
+  "id": "darkstar",
+  "kind": "c2-agency",
+  "platform": "airborne",
+  "position": {
+    "latitude": 32.965,
+    "longitude": 37.794
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "role": "AWACS"
+}

@@ -1,0 +1,164 @@
+{
+  "$id": "urn:openaix:schema:territory:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A territory is a land area with an affiliation: friendly, hostile or neutral. The required shape gives the boundary, and it has priority over the country codes. Thus a territory can be in a real, a historic or a fictional world. Without vertical limits, a territory runs from the surface with no upper limit.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this territory is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "affiliation": {
+      "description": "This field gives the affiliation of the territory, as one of the enumerated values. The values are the standard identities friend, hostile and neutral of `MIL-STD-2525` and `APP-6`.",
+      "enum": [
+        "friend",
+        "hostile",
+        "neutral"
+      ],
+      "x-enum-descriptions": {
+        "friend": "This value identifies land that friendly forces hold or that is friendly to them.",
+        "hostile": "This value identifies land that enemy forces hold or that is hostile.",
+        "neutral": "This value identifies land that is neither friendly nor hostile, for example a neutral country."
+      }
+    },
+    "countries": {
+      "description": "This list contains the country codes of the territory, as ISO 3166-1 alpha-3 codes such as `SYR`. The codes are labels for maps of the real world. The geometry gives the boundary.",
+      "items": {
+        "pattern": "^[A-Z]{3}$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "description": {
+      "description": "This field gives the information about this territory and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "geometry": {
+      "description": "This field gives the horizontal geometry of the territory: a polygon or a GeoJSON polygon or multipolygon (RFC 7946).",
+      "oneOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+        }
+      ]
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this territory. Other records and orders use it to refer to this territory."
+    },
+    "lower_limit": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+      "description": "This field gives the floor of the territory: an altitude with its reference, or the surface. This field is optional; without it, the floor is the surface."
+    },
+    "name": {
+      "description": "This field gives the name of this territory, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this territory, as free text.",
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this territory. The reference gives the identifier and the revision of the catalogue."
+    },
+    "type": {
+      "const": "TERRITORY",
+      "description": "The value identifies this record as a territory. The value is the same for all territories."
+    },
+    "upper_limit": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+      "description": "This field gives the ceiling of the territory: an altitude with its reference, or no limit. This field is optional; without it, the territory has no upper limit."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "affiliation",
+    "geometry"
+  ],
+  "title": "Territory",
+  "type": "object"
+}

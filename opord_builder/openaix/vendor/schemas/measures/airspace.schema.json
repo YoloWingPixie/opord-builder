@@ -1,0 +1,446 @@
+{
+  "$id": "urn:openaix:schema:airspace:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "airspace_type": {
+            "const": "ClassA"
+          }
+        },
+        "required": [
+          "airspace_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "airspace_class_code": {
+            "enum": [
+              "A",
+              "",
+              " "
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "airspace_type": {
+            "const": "ClassB"
+          }
+        },
+        "required": [
+          "airspace_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "airspace_class_code": {
+            "enum": [
+              "B",
+              "",
+              " "
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "airspace_type": {
+            "const": "ClassC"
+          }
+        },
+        "required": [
+          "airspace_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "airspace_class_code": {
+            "enum": [
+              "C",
+              "",
+              " "
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "airspace_type": {
+            "const": "ClassD"
+          }
+        },
+        "required": [
+          "airspace_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "airspace_class_code": {
+            "enum": [
+              "D",
+              "",
+              " "
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "airspace_type": {
+            "const": "ClassE"
+          }
+        },
+        "required": [
+          "airspace_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "airspace_class_code": {
+            "enum": [
+              "E",
+              "",
+              " "
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "airspace_type": {
+            "const": "ClassF"
+          }
+        },
+        "required": [
+          "airspace_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "airspace_class_code": {
+            "enum": [
+              "F",
+              "",
+              " "
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "airspace_type": {
+            "const": "ClassG"
+          }
+        },
+        "required": [
+          "airspace_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "airspace_class_code": {
+            "enum": [
+              "G",
+              "",
+              " "
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "airspace_type": {
+            "const": "Other"
+          }
+        },
+        "required": [
+          "airspace_type"
+        ]
+      },
+      "then": {
+        "required": [
+          "local_type"
+        ]
+      }
+    }
+  ],
+  "description": "Airspace is a region of airspace with a name, made of volumes that each have a horizontal boundary and vertical limits. The `airspace_type` field gives the class or the type of operation. Shelves, sectors and subtracted volumes use the same structure of components. The control measures for air traffic in Annex B use this contract. Examples are class B airspace, control zones and restricted areas.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this airspace is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "airspace_class_code": {
+      "description": "This field gives the airspace class that the source gives, as one of the enumerated values. When the code is empty, the source gives no class. All classes use the same structure for geometry and altitude.",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "",
+        " "
+      ]
+    },
+    "airspace_type": {
+      "description": "This field gives the class or type of operation of the airspace, such as `ClassB`, `ClassD`, `MTA` or `TMA`, as one of the enumerated values. `MTA` is a military training area, and `TMA` is a terminal control area.",
+      "enum": [
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "MTA",
+        "MOA",
+        "CTA",
+        "CTR",
+        "TMA",
+        "FIR",
+        "UIR",
+        "ATZ",
+        "ADIZ",
+        "TRA",
+        "TSA",
+        "ROZ",
+        "Restricted",
+        "Prohibited",
+        "Danger",
+        "Warning",
+        "Alert",
+        "Sector",
+        "ATCAA",
+        "CFA",
+        "NSA",
+        "TFR",
+        "SFRA",
+        "TRSA",
+        "ModeCVeil",
+        "RMZ",
+        "TMZ",
+        "Other"
+      ],
+      "type": "string",
+      "x-enum-descriptions": {
+        "ADIZ": "An air defence identification zone (ADIZ) is airspace of defined dimensions in which the identification, location and control of aircraft is immediately necessary.",
+        "ATCAA": "An air traffic control assigned airspace (ATCAA) is airspace of defined vertical and lateral limits that air traffic control (ATC) assigns. It separates the stated activities in it from other instrument flight rules (IFR) air traffic.",
+        "ATZ": "An aerodrome traffic zone (ATZ) is airspace of defined dimensions around an aerodrome. Its function is the protection of aerodrome traffic.",
+        "Alert": "An alert area is airspace that can contain a large quantity of pilot training or an unusual type of flight. This training and these flights are not dangerous to aircraft. Charts show the area to tell the pilots of non-participating aircraft about it. All flights in it obey the Code of Federal Regulations. Each pilot in it has the same task of collision avoidance.",
+        "CFA": "A controlled firing area (CFA) is airspace that contains activities that are a danger to non-participating aircraft when they are not in a controlled environment. They stop at once when spotter aircraft, radar or ground observers find an aircraft that approaches.",
+        "CTA": "A control area (CTA) is controlled airspace that extends upwards from a given limit above the surface. Its floor is above the surface, not at the surface. Air traffic control (ATC) gives ATC service to instrument flight rules (IFR) flights in it. Its International Civil Aviation Organization (ICAO) class sets the ATC service for visual flight rules (VFR) flights.",
+        "CTR": "A control zone (CTR) is controlled airspace from the surface to a given upper limit. Air traffic control (ATC) gives ATC service to instrument flight rules (IFR) flights in it. Its International Civil Aviation Organization (ICAO) class sets the ATC service for visual flight rules (VFR) flights.",
+        "ClassA": "International Civil Aviation Organization (ICAO) class A airspace is airspace only for instrument flight rules (IFR) flights. All flights get air traffic control (ATC) service, and an ATC clearance is necessary. ATC separates all flights from each other.",
+        "ClassB": "International Civil Aviation Organization (ICAO) class B airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. All flights get air traffic control (ATC) service, and an ATC clearance is necessary. ATC separates all flights from each other. In the United States, ATC separates VFR flights with radar. When the radar does not operate, ATC stops this service for VFR flights.",
+        "ClassC": "International Civil Aviation Organization (ICAO) class C airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. All flights get air traffic control (ATC) service, and an ATC clearance is necessary. ATC separates IFR flights from all other flights, and VFR flights from IFR flights. VFR flights get traffic information about other VFR flights. In the United States, a VFR flight gets radio contact with ATC before it goes in. An ATC clearance is not necessary.",
+        "ClassD": "International Civil Aviation Organization (ICAO) class D airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. All flights get air traffic control (ATC) service, and an ATC clearance is necessary. ATC separates IFR flights only from other IFR flights. IFR flights get traffic information about VFR flights, and VFR flights get traffic information about all other flights. In the United States, a VFR flight gets radio contact with ATC before it goes in. An ATC clearance is not necessary.",
+        "ClassE": "International Civil Aviation Organization (ICAO) class E airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. Only IFR flights get air traffic control (ATC) service, and an ATC clearance is necessary only for IFR flights. ATC separates IFR flights only from other IFR flights. All flights get traffic information as far as practical. A control zone cannot be class E airspace.",
+        "ClassF": "International Civil Aviation Organization (ICAO) class F airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. No flight gets air traffic control (ATC) service, and an ATC clearance is not necessary. Participating IFR flights get an air traffic advisory service, which separates them from other IFR flights as far as practical. All flights get flight information service when they ask for it. The United States does not use class F airspace.",
+        "ClassG": "International Civil Aviation Organization (ICAO) class G airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. No flight gets air traffic control (ATC) service or separation, and an ATC clearance is not necessary. All flights get flight information service when they ask for it.",
+        "Danger": "A danger area is airspace of defined dimensions in which tasks that are dangerous to the flight of aircraft can occur at stated times. This definition comes from air traffic control.",
+        "FIR": "A flight information region (FIR) is airspace of defined dimensions in which flight information service and alerting service are available.",
+        "MOA": "A military operations area (MOA) is airspace that is not in class A airspace. It separates flight training of armed forces that is not dangerous from instrument flight rules (IFR) aircraft. It also shows visual flight rules (VFR) aircraft where this training occurs. When it is active, air traffic control (ATC) lets an IFR flight go through it only when ATC can separate the flight.",
+        "MTA": "A military training area (MTA) is a geographical area that is temporarily or permanently for education and training, which includes exercises and testing. It can include airspace. AJP-3.3.5 gives this area as the training area (TRNG).",
+        "ModeCVeil": "A mode C veil is the airspace that is 30 nautical miles or less from an airport in Appendix D, section 1 of 14 CFR part 91. It goes from the surface to 10,000 feet above mean sea level (MSL). Unless air traffic control (ATC) authorizes a different procedure, aircraft in it have a serviceable transponder with automatic altitude reporting and serviceable `ADS-B Out` equipment.",
+        "NSA": "A national security area (NSA) is airspace of defined vertical and lateral dimensions at locations with ground facilities. At these locations, it is necessary to increase security and safety. The Federal Aviation Administration (FAA) tells pilots to avoid flight through it. A temporary flight restriction (TFR) can temporarily close it to flight.",
+        "Other": "The airspace has a local type that is not in this list. The `local_type` field gives the local name of the type.",
+        "Prohibited": "A prohibited area is airspace of defined dimensions above the land areas or territorial waters of a state. The state prohibits flight in it.",
+        "RMZ": "A radio mandatory zone (RMZ) is airspace of defined dimensions in which the carriage and operation of radio equipment is mandatory.",
+        "ROZ": "A restricted operating zone (ROZ) is airspace of defined dimensions that the airspace control authority designates for a given situation or operational need. Examples are refuelling orbits, holding, fires and landing or drop zones. It restricts the operation of one or more airspace users in it.",
+        "Restricted": "A restricted area is airspace of defined dimensions above the land areas or territorial waters of a state. In it, the conditions that the state gives restrict the flight of aircraft.",
+        "SFRA": "A special flight rules area (SFRA) is airspace of defined dimensions, above land areas or territorial waters. In it, the flight of aircraft obeys 14 CFR part 93, unless air traffic control (ATC) authorizes otherwise.",
+        "Sector": "A control sector is airspace of known horizontal and vertical dimensions. One controller or a group of controllers controls the air traffic in it. The primary traffic flows, the altitude layers and the work of the controllers set its limits. Pilots in it usually speak to air traffic control (ATC) on the frequencies of the sector.",
+        "TFR": "A temporary flight restriction (TFR) is a regulatory action of the Federal Aviation Administration (FAA) in a notice to air missions (NOTAM). It temporarily restricts some aircraft from operation in a defined area. Its function is the protection of persons or property in the air or on the ground.",
+        "TMA": "A terminal control area (TMA) is a control area, usually at the confluence of air traffic services routes near one or more major aerodromes. Air traffic control (ATC) gives ATC service to instrument flight rules (IFR) flights in it. Its International Civil Aviation Organization (ICAO) class sets the ATC service for visual flight rules (VFR) flights.",
+        "TMZ": "A transponder mandatory zone (TMZ) is airspace of defined dimensions in which the carriage and operation of a pressure-altitude reporting transponder is mandatory.",
+        "TRA": "A temporary reserved area (TRA) is a defined volume of airspace that one airspace authority usually controls. By common agreement, it is temporarily for another airspace authority. Other air traffic may transit it only with air traffic control (ATC) clearance.",
+        "TRSA": "A terminal radar service area (TRSA) is airspace around a designated airport. In it, air traffic control (ATC) gives radar vectoring, sequencing and separation full time. This service is for all instrument flight rules (IFR) aircraft and participating visual flight rules (VFR) aircraft. This service is not mandatory for pilots. It is not an airspace class.",
+        "TSA": "A temporary segregated area (TSA) is airspace of defined dimensions for the exclusive use of specified users. Their tasks make this necessary. It is for a set period, and no other traffic uses the airspace.",
+        "UIR": "An upper flight information region (UIR) is a flight information region (FIR) above a different FIR. Its floor is the ceiling of the lower FIR and is a visual flight rules (VFR) cruising level. Its procedures can be different from the procedures of the lower FIR.",
+        "Warning": "A warning area is airspace of known dimensions that starts 3 nautical miles from the coast of the United States. It contains tasks that can be dangerous to non-participating aircraft. Its function is to tell the pilots of non-participating aircraft about this risk. It can be above the waters of the United States, above international waters or above the two."
+      }
+    },
+    "channels": {
+      "description": "This list identifies the communications channels of this airspace.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "components": {
+      "description": "This list contains the airspace volumes of this airspace, in order. Each volume has a floor and a ceiling.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AirspaceComponent"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "controlling_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the operations in this airspace.",
+      "x-catalog": "agencies"
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this airspace has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this airspace and its local conditions, as free text.",
+      "type": "string"
+    },
+    "designator": {
+      "description": "This field gives the designator that a publication or an assignment gives to the airspace. An example is the designator of a restricted area.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this airspace. Other records and orders use it to refer to this airspace."
+    },
+    "local_type": {
+      "description": "This field gives the local type name of the airspace when `airspace_type` is `Other`, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "name": {
+      "description": "This field gives the name of this airspace, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this airspace, as free text.",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "This field gives the task or objective of this airspace, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this airspace. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this airspace.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "state": {
+      "description": "This field gives the State responsible for the airspace, as an ISO 3166-1 alpha-3 code such as `DEU`. Under International Civil Aviation Organization (ICAO) Annex 11, paragraph 2.1, this State is responsible for the air traffic services in the airspace. An example is the State of a flight information region (FIR).",
+      "pattern": "^[A-Z]{3}$",
+      "type": "string"
+    },
+    "type": {
+      "const": "AIRSPACE",
+      "description": "The value identifies this record as an airspace, which is a region made of airspace volumes."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "airspace_type",
+    "components",
+    "active"
+  ],
+  "title": "Airspace",
+  "type": "object"
+}

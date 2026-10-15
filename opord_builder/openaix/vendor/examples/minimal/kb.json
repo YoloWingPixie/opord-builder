@@ -1,0 +1,52 @@
+{
+  "$schema": "urn:openaix:schema:measure-kb:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "components": [
+    {
+      "geometry": {
+        "kind": "polygon",
+        "rings": [
+          [
+            {
+              "latitude": 35.035,
+              "longitude": 40.225
+            },
+            {
+              "latitude": 35.035,
+              "longitude": 40.374
+            },
+            {
+              "latitude": 35.155,
+              "longitude": 40.375
+            },
+            {
+              "latitude": 35.155,
+              "longitude": 40.225
+            },
+            {
+              "latitude": 35.035,
+              "longitude": 40.225
+            }
+          ]
+        ]
+      },
+      "id": "cobalt-volume",
+      "lower_limit": {
+        "surface": true
+      },
+      "operation": "add",
+      "upper_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 13000
+      }
+    }
+  ],
+  "id": "cobalt-box",
+  "killbox_kind": "blue",
+  "name": "Cobalt kill box",
+  "type": "KB"
+}

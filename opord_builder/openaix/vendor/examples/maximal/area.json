@@ -1,0 +1,56 @@
+{
+  "$schema": "urn:openaix:schema:measure-area:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "coordination_instructions": [
+    "Contact Salti Tower before entry."
+  ],
+  "description": "Restrictive fire area over a friendly logistics site south of the FLOT.",
+  "establishing_authority": "caoc",
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "geometry": {
+    "kind": "polygon",
+    "rings": [
+      [
+        {
+          "latitude": 34.715,
+          "longitude": 40.225
+        },
+        {
+          "latitude": 34.715,
+          "longitude": 40.325
+        },
+        {
+          "latitude": 34.775,
+          "longitude": 40.325
+        },
+        {
+          "latitude": 34.775,
+          "longitude": 40.225
+        },
+        {
+          "latitude": 34.715,
+          "longitude": 40.225
+        }
+      ]
+    ]
+  },
+  "id": "juniper-wash-rfa",
+  "name": "Juniper Wash RFA",
+  "notes": "No fires into the logistics site without the clearance of Task Force Bastion.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "No improved conventional munitions.",
+    "Fires that exceed these restrictions require coordination with the land force fire support element."
+  ],
+  "type": "RFA"
+}

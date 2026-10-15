@@ -1,0 +1,19 @@
+{
+  "$schema": "urn:openaix:schema:navaid:0.1.0-draft.2",
+  "class": "VORTAC",
+  "frequency": {
+    "unit": "MHz",
+    "value": 113.8
+  },
+  "id": "ghi",
+  "name": "Muwaffaq Salti VORTAC",
+  "position": {
+    "latitude": 31.834683,
+    "longitude": 36.778475
+  },
+  "tacan": {
+    "band": "X",
+    "channel": 85
+  },
+  "type": "NAVAID"
+}

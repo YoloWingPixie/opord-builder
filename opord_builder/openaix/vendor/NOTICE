@@ -1,0 +1,16 @@
+The opord-builder schema source is used under its MIT license.
+Its copyright and permission notice are preserved in LICENSE.
+
+NATO/OTAN is acknowledged for coordination-measure names and abbreviations
+from AJP-3.3.5 Edition C Version 1, Annex B, and for the definition text
+paraphrased or quoted in sources/measure-definitions.json. Doctrine definitions
+remain in the cited publication. The catalogue does not imply NATO endorsement of openAIX.
+
+The KDEN navigation examples and sources/kden-navigation.json hold data from the
+Federal Aviation Administration's cycle 2610 public dataset. Its official
+download URL and digest are recorded in sources/authorities.json.
+
+DCS station numbers, Mission Editor labels and store class identifiers in
+sources/dcs/aircraft-stations.json are facts about DCS World (Eagle Dynamics),
+taken from the unit tables of Quaggles' dcs-lua-datamine; the revision and the
+source digest are in sources/manifest.json.

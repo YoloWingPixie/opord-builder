@@ -1,0 +1,155 @@
+{
+  "$id": "urn:openaix:schema:measure-isr:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "An identification safety range (ISR) is the minimum range to which aircraft can close to a maritime force without positive identification. This identification shows that the aircraft are friendly. This range makes sure that the maritime force does not mistake the aircraft for hostile. The officer in tactical command sets it. The range moves with the maritime force. A record can give a circle geometry for display at a specified time.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this identification safety range is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this identification safety range has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this identification safety range and its local conditions, as free text.",
+      "type": "string"
+    },
+    "establishing_authority": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the officer in tactical command that set the range.",
+      "x-catalog": "agencies"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "geometry": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle",
+      "description": "This field gives the horizontal geometry of the range: an optional circle around the position of the force at a specified time, for display. When the two do not agree, the `range` value is correct."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this identification safety range. Other records and orders use it to refer to this identification safety range."
+    },
+    "name": {
+      "description": "This field gives the name of this identification safety range, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this identification safety range, as free text.",
+      "type": "string"
+    },
+    "range": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+      "description": "This field gives the identification safety range, as a length with its unit. An aircraft may close to this range from the force without positive identification as a friendly aircraft."
+    },
+    "reference_force": {
+      "description": "This field gives the name of the maritime force at the centre of the range.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "reference_position": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "description": "This field gives the geographic position of the maritime force at the time when the range starts, as latitude and longitude. The record gives it only when the position is known."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this identification safety range. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this identification safety range.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": {
+      "const": "ISR",
+      "description": "The value identifies this record as an identification safety range. The value selects the data contract of the control measure."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "reference_force",
+    "range",
+    "active"
+  ],
+  "title": "Identification safety range",
+  "type": "object"
+}

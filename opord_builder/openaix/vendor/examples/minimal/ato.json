@@ -1,0 +1,26 @@
+{
+  "$schema": "urn:openaix:schema:ato:0.1.0-draft.2",
+  "kind": "ato",
+  "missions": [
+    {
+      "flights": [],
+      "id": "sweep",
+      "mission_number": "1101",
+      "tasking": {
+        "area": {
+          "area": "sweep-north"
+        },
+        "kind": "counterair",
+        "mission_type": "fighter_sweep"
+      }
+    }
+  ],
+  "period": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  }
+}

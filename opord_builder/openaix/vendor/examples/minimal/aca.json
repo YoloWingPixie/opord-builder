@@ -1,0 +1,44 @@
+{
+  "$schema": "urn:openaix:schema:measure-aca:0.1.0-draft.2",
+  "aca_kind": "formal",
+  "active": {
+    "end": "2026-10-02T14:30:00Z",
+    "start": "2026-10-02T13:30:00Z"
+  },
+  "components": [
+    {
+      "geometry": {
+        "kind": "corridor",
+        "points": [
+          {
+            "latitude": 34.975,
+            "longitude": 40.024
+          },
+          {
+            "latitude": 35.095,
+            "longitude": 40.446
+          }
+        ],
+        "width": {
+          "unit": "nm",
+          "value": 2
+        }
+      },
+      "id": "anvil-baseline",
+      "lower_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 9000
+      },
+      "operation": "add",
+      "upper_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 12000
+      }
+    }
+  ],
+  "id": "anvil-aca",
+  "name": "Anvil ACA",
+  "type": "ACA"
+}

@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "EngagementMeans": {
+      "additionalProperties": false,
+      "description": "An approved weapon system is a weapon system or an aircraft type that has clearance to engage the target, with its weapon.",
+      "properties": {
+        "scl": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the standard conventional load (SCL) that is the load of the aircraft.",
+          "x-catalog": "scls"
+        },
+        "store": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the store that is the weapon. When the entry gives a standard conventional load (SCL), the SCL shall contain the store.",
+          "x-catalog": "stores"
+        },
+        "system": {
+          "description": "This field gives the weapon system or type of aircraft, such as `F-15E`, `M777` or `HIMARS`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "system"
+      ],
+      "type": "object"
+    },
+    "JIPTLTarget": {
+      "additionalProperties": false,
+      "description": "A target entry is an entry for one target on a joint integrated prioritized target list (JIPTL), with its identification and priority. The optional fields give the location, the necessary effect, the component with the task and the weapon systems.",
+      "properties": {
+        "authorized_engagement_means": {
+          "description": "This list contains the weapon systems that have clearance to engage the target. Each entry gives the system, and can refer to the standard conventional load (SCL) and the weapon in the resource catalogue.",
+          "items": {
+            "$ref": "#/$defs/EngagementMeans"
+          },
+          "type": "array"
+        },
+        "component_tasked": {
+          "description": "This field gives the component of the joint force that has the task to prosecute this target, as one of the enumerated values.",
+          "enum": [
+            "LAND",
+            "AIR",
+            "MARITIME",
+            "SOF",
+            "CYBER",
+            "SPACE"
+          ],
+          "type": "string"
+        },
+        "desired_effect": {
+          "description": "This field gives the effect on the target that the commander wants, as one of the enumerated values.",
+          "enum": [
+            "DESTROY",
+            "NEUTRALIZE",
+            "SUPPRESS",
+            "DISRUPT",
+            "DEGRADE",
+            "DENY",
+            "DIVERT"
+          ],
+          "type": "string"
+        },
+        "location": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the target at the time of approval, as latitude and longitude. A producer updates the position after a dynamic retasking."
+        },
+        "location_mgrs": {
+          "description": "This field gives the same position for display, in the Military Grid Reference System (MGRS), as free text. If the two values are different, the geographic position has priority.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "priority_rank": {
+          "description": "This field gives the priority number of the target on the joint integrated prioritized target list (JIPTL). Number 1 is the highest priority.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "status": {
+          "description": "This field gives the lifecycle condition of the target at this time, as one of the enumerated values.",
+          "enum": [
+            "APPROVED",
+            "PENDING",
+            "DENIED",
+            "EXECUTED",
+            "EXPIRED"
+          ],
+          "type": "string"
+        },
+        "target": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the target that is this entry, in the resource catalogue.",
+          "x-catalog": "targets"
+        },
+        "target_description": {
+          "description": "This field gives the data that tells the type of the target and how it is important, as free text.",
+          "type": "string"
+        },
+        "target_name": {
+          "description": "This field gives the name of this target, for display. The name is short, for example `ENY MRC CP, OBJ HAMMER`.",
+          "type": "string"
+        },
+        "target_number": {
+          "description": "This field identifies this target. The value is a basic encyclopedia number, such as `BE-0042-01`, or a local number, such as `TGT 0042`.",
+          "minLength": 1,
+          "pattern": "\\S",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_number",
+        "priority_rank"
+      ],
+      "title": "Prioritized target",
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:jiptl:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A joint integrated prioritized target list (JIPTL) is a list of the targets of all the force, in the sequence of their priority. Each entry identifies a target that the planners examine and gives its priority. An entry may also give the location, the necessary effect, the tasking and the coordination data.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "kind": {
+      "const": "jiptl",
+      "description": "The value identifies this record as a joint integrated prioritized target list (JIPTL)."
+    },
+    "meta": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "description": "This field gives the identification, revision and issue data of this list."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the external resource catalogue that resolves the references of the list. The reference identifies the catalogue and gives its revision."
+    },
+    "schema_version": {
+      "const": "0.1.0-draft.2",
+      "description": "This field gives the version of the openAIX schema that this joint integrated prioritized target list (JIPTL) agrees with."
+    },
+    "targets": {
+      "description": "This list contains the targets, in the sequence of their priority. Each entry identifies a target and gives its priority number. Number 1 is the highest priority.",
+      "items": {
+        "$ref": "#/$defs/JIPTLTarget"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "kind",
+    "targets"
+  ],
+  "title": "Joint Integrated Prioritized Target List (JIPTL)",
+  "type": "object"
+}

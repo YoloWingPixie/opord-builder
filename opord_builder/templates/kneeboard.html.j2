@@ -435,9 +435,9 @@
     <div class="kb-section">
       <div class="kb-label">Fuel Plan</div>
       <table class="kb-fuel">
-        <tr><td class="fuel-k">Msn Req</td><td class="fuel-v">{{ "{:,}".format(card.fuel_plan.msn_req_lbs) }} lbs</td></tr>
-        <tr><td class="fuel-k">Joker</td><td class="fuel-v">{{ "{:,}".format(card.fuel_plan.joker_lbs) }} lbs</td></tr>
-        <tr><td class="fuel-k">Bingo</td><td class="fuel-v">{{ "{:,}".format(card.fuel_plan.bingo_lbs) }} lbs</td></tr>
+        <tr><td class="fuel-k">Msn Req</td><td class="fuel-v">{% if card.fuel_plan.msn_req_lbs %}{{ "{:,}".format(card.fuel_plan.msn_req_lbs) }} lbs{% endif %}</td></tr>
+        <tr><td class="fuel-k">Joker</td><td class="fuel-v">{% if card.fuel_plan.joker_lbs %}{{ "{:,}".format(card.fuel_plan.joker_lbs) }} lbs{% endif %}</td></tr>
+        <tr><td class="fuel-k">Bingo</td><td class="fuel-v">{% if card.fuel_plan.bingo_lbs %}{{ "{:,}".format(card.fuel_plan.bingo_lbs) }} lbs{% endif %}</td></tr>
         {% if card.fuel_plan.rcv_tank_lbs %}
         <tr><td class="fuel-k">Rcv Tank</td><td class="fuel-v">{{ "{:,}".format(card.fuel_plan.rcv_tank_lbs) }} lbs</td></tr>
         {% endif %}

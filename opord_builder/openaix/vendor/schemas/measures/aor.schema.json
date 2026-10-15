@@ -1,0 +1,149 @@
+{
+  "$id": "urn:openaix:schema:measure-aor:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "An area of responsibility (AOR) is the geographic area of a commander, in which that commander has the authority to plan and conduct operations. The airspace control area (ACAR) can be the same as the AOR of a regional commander. It can be the same as the joint operations area of the commander of the joint force command. The ACAR can also be smaller than the AOR, because of limits of nations or of International Civil Aviation Organization (ICAO), or larger. The `responsible_agency` and `gates` fields are openAIX planning fields.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this area of responsibility is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "description": {
+      "description": "This field gives the information about this area of responsibility and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "gates": {
+      "description": "This list identifies the entry and exit gates of this area.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "control_measures"
+    },
+    "geometry": {
+      "description": "This field gives the horizontal geometry of the area of responsibility: a polygon, a circle, a rectangle, an ellipse or a GeoJSON polygon.",
+      "oneOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+        }
+      ]
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this area of responsibility. Other records and orders use it to refer to this area of responsibility."
+    },
+    "name": {
+      "description": "This field gives the name of this area of responsibility, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this area of responsibility, as free text.",
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this area of responsibility. The reference gives the identifier and the revision of the catalogue."
+    },
+    "responsible_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls this area.",
+      "x-catalog": "agencies"
+    },
+    "type": {
+      "const": "AOR",
+      "description": "The value identifies this record as an area of responsibility. The value selects the data contract of the control measure."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "geometry",
+    "active"
+  ],
+  "title": "Area of responsibility",
+  "type": "object"
+}

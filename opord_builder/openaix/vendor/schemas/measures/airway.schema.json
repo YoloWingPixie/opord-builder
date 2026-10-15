@@ -1,0 +1,175 @@
+{
+  "$id": "urn:openaix:schema:airway:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "An airway is an en-route route as a sequence of fixes, with the course, the distance and the altitude limits of each segment.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "airway_type": {
+      "description": "This field gives the class of the airway, as one of the enumerated values.",
+      "enum": [
+        "advisory",
+        "airway",
+        "area_navigation",
+        "air_traffic_services",
+        "conditional"
+      ],
+      "x-enum-descriptions": {
+        "advisory": "This value identifies a designated route along which air traffic advisory service is available.",
+        "air_traffic_services": "This value identifies a specified route that channels the flow of traffic, as necessary to supply air traffic services.",
+        "airway": "This value identifies a control area, or a part of it, in the shape of a corridor. Radio navigation aids identify the corridor.",
+        "area_navigation": "This value identifies an air traffic services (ATS) route for aircraft that can do area navigation.",
+        "conditional": "This value identifies an air traffic services (ATS) route, or a part of it, that is non-permanent. Aircraft plan and use it only under stated conditions."
+      }
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this airway. Other resources and orders use this stable identifier to refer to this airway."
+    },
+    "ident": {
+      "description": "This field identifies this airway as published. An example is `V356`.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "level": {
+      "description": "This field gives the altitude structure of the airway, as one of the enumerated values.",
+      "enum": [
+        "low",
+        "high",
+        "both"
+      ],
+      "x-enum-descriptions": {
+        "both": "This value identifies the low and the high altitude structures.",
+        "high": "This value identifies the high altitude structure.",
+        "low": "This value identifies the low altitude structure."
+      }
+    },
+    "name": {
+      "description": "This field gives the name of this airway, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Provenance",
+      "description": "This field gives the provenance of this airway as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this airway. The reference gives the identifier and the revision of the catalogue."
+    },
+    "segments": {
+      "description": "This list contains the fixes, in airway sequence, in order. Each item has a fix and the segment from that fix to the next fix.",
+      "items": {
+        "additionalProperties": false,
+        "description": "An airway segment is one airway fix and the segment from this fix to the next fix.",
+        "properties": {
+          "directional_restriction": {
+            "description": "This field gives the direction restriction of the segment, as one of the enumerated values.",
+            "enum": [
+              "forward",
+              "backward"
+            ],
+            "x-enum-descriptions": {
+              "backward": "Aircraft can fly the segment only in the direction opposite to airway sequence.",
+              "forward": "Aircraft can fly the segment only in airway sequence."
+            }
+          },
+          "distance": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+            "description": "This field gives the distance from this fix to the next fix, as a length with its unit."
+          },
+          "fix": {
+            "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Fix",
+            "description": "This field gives the airway fix at the start of this segment."
+          },
+          "inbound_course": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+            "description": "This field gives the course to this fix from the previous fix, as a bearing with its unit and reference."
+          },
+          "maximum_altitude": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+            "description": "This field gives the maximum authorized altitude (MAA) of the segment from this fix, as an altitude with its unit and reference."
+          },
+          "minimum_altitude": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+            "description": "This field gives the minimum en-route altitude (MEA) of the segment from this fix, as an altitude with its unit and reference."
+          },
+          "outbound_course": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+            "description": "This field gives the course from this fix to the next fix, as a bearing with its unit and reference."
+          }
+        },
+        "required": [
+          "fix"
+        ],
+        "type": "object"
+      },
+      "minItems": 2,
+      "type": "array"
+    },
+    "source": {
+      "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "type": {
+      "const": "AIRWAY",
+      "description": "The value identifies this record as a control measure for an airway, with the catalogue code `AIRWAY`. The value selects this contract in a catalogue of control measures."
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "name",
+    "airway_type",
+    "segments"
+  ],
+  "title": "Airway",
+  "type": "object",
+  "x-navigation-profile": "airway"
+}

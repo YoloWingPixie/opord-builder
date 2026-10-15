@@ -1,0 +1,35 @@
+{
+  "$schema": "urn:openaix:schema:runway:0.1.0-draft.2",
+  "designator": "13/31",
+  "ends": [
+    {
+      "designator": "13",
+      "heading": {
+        "reference": "magnetic",
+        "value": 126.1
+      },
+      "threshold": {
+        "latitude": 31.841077,
+        "longitude": 36.773265
+      }
+    },
+    {
+      "designator": "31",
+      "heading": {
+        "reference": "magnetic",
+        "value": 306.1
+      },
+      "threshold": {
+        "latitude": 31.825413,
+        "longitude": 36.79439
+      }
+    }
+  ],
+  "id": "ojms-rw13-31",
+  "kind": "runway",
+  "length": {
+    "unit": "ft",
+    "value": 8691
+  },
+  "name": "Muwaffaq Salti runway 13/31"
+}

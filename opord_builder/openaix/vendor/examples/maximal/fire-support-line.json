@@ -1,0 +1,61 @@
+{
+  "$schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:30:00Z"
+  },
+  "coordination_instructions": [
+    "No fires or their effects across the line without coordination with the affected task force."
+  ],
+  "description": "Restrictive fire line between Task Force Bastion attacking north and Task Force Pewter converging from the east; set by the partner land force, the common commander.",
+  "establishing_authority": "caoc",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "closed": false,
+            "kind": "drawing",
+            "layer": "Blue",
+            "line_mode": "segments",
+            "mission_id": "oir-syria",
+            "name": "OIR Pewter RFL",
+            "object_id": 44,
+            "primitive_type": "Line",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "geometry": {
+    "kind": "line",
+    "points": [
+      {
+        "latitude": 34.855,
+        "longitude": 40.475
+      },
+      {
+        "latitude": 34.935,
+        "longitude": 40.485
+      },
+      {
+        "latitude": 35.015,
+        "longitude": 40.476
+      }
+    ]
+  },
+  "id": "pewter-rfl",
+  "name": "Bastion and Pewter RFL",
+  "notes": "Fires across the RFL need the clearance of the other task force.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "type": "RFL"
+}

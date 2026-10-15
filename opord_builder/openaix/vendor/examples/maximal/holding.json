@@ -1,0 +1,77 @@
+{
+  "$schema": "urn:openaix:schema:holding:0.1.0-draft.2",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "closed": true,
+            "kind": "drawing",
+            "layer": "Blue",
+            "line_mode": "segments",
+            "mission_id": "oir-syria",
+            "name": "OIR GHI hold",
+            "object_id": 44,
+            "primitive_type": "Line",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "hold": {
+    "altitude": {
+      "kind": "at_or_above",
+      "lower": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 5000
+      }
+    },
+    "fix": {
+      "ident": "GHI",
+      "position": {
+        "latitude": 31.834683,
+        "longitude": 36.778475
+      }
+    },
+    "inbound_course": {
+      "declination_deg": 5.0,
+      "reference": "magnetic",
+      "value": 306.0
+    },
+    "leg_time": {
+      "unit": "min",
+      "value": 1.0
+    },
+    "speed": {
+      "kind": "at_or_below",
+      "value": {
+        "unit": "kt",
+        "value": 230
+      }
+    },
+    "turn_direction": "right"
+  },
+  "id": "ghi-hold",
+  "kind": "holding",
+  "name": "GHI missed-approach hold, OJMS I31",
+  "provenance": {
+    "authority": "Eagle Dynamics",
+    "derivation": "derived",
+    "tool": {
+      "name": "DCS map file reader",
+      "version": "2.9.8"
+    }
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua"
+}

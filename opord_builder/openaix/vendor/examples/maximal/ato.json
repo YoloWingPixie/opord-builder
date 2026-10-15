@@ -1,0 +1,3391 @@
+{
+  "$schema": "urn:openaix:schema:ato:0.1.0-draft.2",
+  "aco": {
+    "id": "oir-aco",
+    "revision": "2",
+    "title": "OIR ACO"
+  },
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    },
+    "sim": {
+      "dcs": {
+        "coalition": "blue"
+      }
+    }
+  },
+  "general_instructions": [
+    "All times are UTC. Coalition ROE apply; positive identification before every release.",
+    "Airspace, holding and kill-box status follow the OIR ACO; procedures follow the OIR SPINS."
+  ],
+  "kind": "ato",
+  "meta": {
+    "author": "CAOC airspace cell",
+    "classification": "UNCLASSIFIED",
+    "distribution": [
+      "Darkstar",
+      "Banshee",
+      "Salti Tower",
+      "All OIR flights"
+    ],
+    "id": "oir-ato",
+    "issued_at": "2026-10-02T11:00:00Z",
+    "issuing_unit": "CJTF-OIR CAOC",
+    "operation": "INHERENT RESOLVE",
+    "references": [
+      {
+        "id": "oir-opord",
+        "revision": "1",
+        "title": "OIR OPORD 26-01"
+      }
+    ],
+    "revision": "1",
+    "supersedes": {
+      "id": "oir-aco",
+      "path": "oir-aco.json",
+      "revision": "1",
+      "section": "Entire order",
+      "title": "OIR preliminary ACO"
+    },
+    "title": "OIR Air Tasking Order"
+  },
+  "missions": [
+    {
+      "constraints": [
+        "No weapons release within 500 m of the Euphrates bridges."
+      ],
+      "contingencies": [
+        {
+          "action": "Hold at Marshal and wait for the Banshee weather update.",
+          "alternate_route": "marshal-exit",
+          "condition": "Ceiling over the target below 3000 feet.",
+          "decision_authority": "banshee",
+          "divert": "prince-hassan"
+        }
+      ],
+      "control": {
+        "agency": "darkstar",
+        "handovers": [
+          "darkstar"
+        ],
+        "kind": "agency"
+      },
+      "extensions": {
+        "org.cjtf-oir.ato": {
+          "ato_day": "214"
+        }
+      },
+      "flights": [
+        {
+          "aircraft_type": "f-15c",
+          "alternate_routes": [
+            "marshal-exit"
+          ],
+          "callsign": "Dodge 1",
+          "communications": [
+            {
+              "channel": "control-uhf",
+              "preset": 1,
+              "purpose": "Darkstar control",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "f15c-aa"
+          },
+          "count": 4,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "group_category": "airplane",
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Dodge 1",
+                    "object_id": 44
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 6000
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 25000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 9000
+            },
+            "notes": "Bingo includes the fuel for a divert to Prince Hassan.",
+            "reserve": {
+              "unit": "lb",
+              "value": 2000
+            }
+          },
+          "id": "dodge",
+          "identification": {
+            "instructions": [
+              "Contact Banshee after handover."
+            ],
+            "mode_1": "11",
+            "mode_2": "5201",
+            "mode_3": "4101",
+            "mode_4": "on",
+            "mode_5": "on",
+            "tacan": {
+              "band": "Y",
+              "channel": 37,
+              "identifier": "DDG"
+            }
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:05:00Z",
+            "takeoff": "2026-10-02T12:35:00Z",
+            "taxi": "2026-10-02T12:20:00Z"
+          },
+          "notes": "Flight lead briefs the package at 1145Z in the Salti operations building.",
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "planned_time": "2026-10-02T14:55:00Z",
+            "procedure": "recovery-ojms",
+            "restrictions": [
+              "Attack only while the Cobalt kill box is open."
+            ]
+          },
+          "route": "marshal-entry",
+          "spins_paragraphs": [
+            "rules_of_engagement",
+            "personnel_recovery"
+          ],
+          "unit": "Blue fighter squadron"
+        }
+      ],
+      "id": "sweep",
+      "mission_number": "1101",
+      "priority": 1,
+      "request_refs": [
+        {
+          "id": "asr-214-07",
+          "revision": "1",
+          "title": "Air support request 214-07"
+        }
+      ],
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "altitude": {
+          "lower": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 250
+          },
+          "upper": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 350
+          }
+        },
+        "area": {
+          "area": "sweep-north"
+        },
+        "brief": {
+          "bullseye": {
+            "id": "bastion-bullseye",
+            "kind": "control_measure"
+          },
+          "commit_criteria": [
+            {
+              "boundary": {
+                "id": "cobalt-box",
+                "kind": "control_measure"
+              },
+              "range": {
+                "unit": "nm",
+                "value": 40
+              },
+              "threat": "red-air-fighters"
+            }
+          ],
+          "controller": {
+            "agency": "darkstar",
+            "channel": "control-uhf"
+          },
+          "identification_procedure": "cap-commit",
+          "remarks": "Push at 1305Z; clear the area north of the Cobalt kill box only.",
+          "roe_reference": {
+            "id": "oir-spins",
+            "revision": "1",
+            "section": "ROE summary",
+            "title": "OIR SPINS"
+          }
+        },
+        "engagement_instructions": "cap-commit",
+        "kind": "counterair",
+        "mission_type": "fighter_sweep",
+        "objective": "Clear the northern sweep area of hostile air before the Anvil package pushes.",
+        "operating_window": {
+          "end": "2026-10-02T13:45:00Z",
+          "start": "2026-10-02T13:05:00Z"
+        },
+        "report_refs": [
+          "misrep"
+        ],
+        "success_criteria": "No hostile air south of the sweep area at 1345Z."
+      },
+      "tasking_relationship": "assigned",
+      "threat_refs": [
+        "sa-6"
+      ]
+    },
+    {
+      "control": {
+        "agency": "darkstar",
+        "kind": "agency"
+      },
+      "flights": [
+        {
+          "aircraft_type": "f-16c-50",
+          "callsign": "Pontiac 1",
+          "communications": [
+            {
+              "channel": "control-uhf",
+              "preset": 1,
+              "purpose": "Darkstar control",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "f16-cap"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Pontiac 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 3500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 12000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 5000
+            }
+          },
+          "id": "pontiac",
+          "identification": {
+            "mode_1": "11",
+            "mode_3": "4102",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "availability": {
+              "end": "2026-10-02T15:00:00Z",
+              "start": "2026-10-02T13:00:00Z"
+            },
+            "departure": "ojms",
+            "kind": "alert",
+            "readiness_minutes": 15,
+            "release_authority": "darkstar"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "unit": "Blue fighter squadron"
+        }
+      ],
+      "id": "intercept",
+      "mission_number": "1102",
+      "tasking": {
+        "brief": {
+          "bullseye": {
+            "id": "bastion-bullseye",
+            "kind": "control_measure"
+          },
+          "commit_criteria": [
+            {
+              "procedure": "cap-commit"
+            }
+          ],
+          "controller": {
+            "agency": "darkstar",
+            "channel": "control-uhf"
+          },
+          "identification_procedure": "cap-commit",
+          "remarks": "Visual identification only; no weapons employment without Darkstar clearance.",
+          "roe_reference": {
+            "id": "oir-spins",
+            "revision": "1",
+            "section": "ROE summary",
+            "title": "OIR SPINS"
+          }
+        },
+        "kind": "counterair",
+        "mission_type": "interception",
+        "objective": "Intercept and identify the unknown track; report its identity to Darkstar.",
+        "report_refs": [
+          "inflightrep"
+        ],
+        "success_criteria": "Visual identification reported to Darkstar.",
+        "target": {
+          "kind": "mobile",
+          "target": "unknown-track"
+        }
+      }
+    },
+    {
+      "control": {
+        "agency": "darkstar",
+        "kind": "agency"
+      },
+      "flights": [
+        {
+          "activities": [
+            {
+              "altitude": {
+                "reference": "FL",
+                "unit": "flight_level",
+                "value": 240
+              },
+              "area": {
+                "id": "falcon",
+                "kind": "control_measure"
+              },
+              "description": "Air refuelling from Shell before the push.",
+              "id": "viper-station",
+              "instructions": [
+                "Contact Banshee after handover."
+              ],
+              "kind": "station",
+              "window": {
+                "end": "2026-10-02T14:50:00Z",
+                "start": "2026-10-02T13:10:00Z"
+              }
+            },
+            {
+              "altitude": {
+                "reference": "FL",
+                "unit": "flight_level",
+                "value": 190
+              },
+              "area": {
+                "id": "shell",
+                "kind": "control_measure"
+              },
+              "id": "viper-refuel",
+              "kind": "refuel",
+              "support_flight": "shell",
+              "window": {
+                "end": "2026-10-02T14:10:00Z",
+                "start": "2026-10-02T13:50:00Z"
+              }
+            }
+          ],
+          "aircraft_type": "f-16c-50",
+          "callsign": "Viper 1",
+          "communications": [
+            {
+              "channel": "control-uhf",
+              "preset": 1,
+              "purpose": "Darkstar control",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "f16-cap"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Viper 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 3500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 12000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 5000
+            }
+          },
+          "id": "viper",
+          "identification": {
+            "mode_1": "11",
+            "mode_3": "4103",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:10:00Z",
+            "takeoff": "2026-10-02T12:40:00Z",
+            "taxi": "2026-10-02T12:25:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "route": "marshal-entry",
+          "unit": "Blue fighter squadron"
+        }
+      ],
+      "id": "cap-falcon",
+      "mission_number": "1103",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "altitude": {
+          "lower": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 220
+          },
+          "upper": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 260
+          }
+        },
+        "area": {
+          "id": "falcon",
+          "kind": "control_measure"
+        },
+        "brief": {
+          "bullseye": {
+            "id": "bastion-bullseye",
+            "kind": "control_measure"
+          },
+          "commit_criteria": [
+            {
+              "range": {
+                "unit": "nm",
+                "value": 30
+              },
+              "threat": "red-air-fighters"
+            }
+          ],
+          "controller": {
+            "agency": "darkstar",
+            "channel": "control-uhf"
+          },
+          "identification_procedure": "cap-commit",
+          "protected_measures": [
+            {
+              "id": "shell",
+              "kind": "control_measure"
+            },
+            {
+              "id": "sentinel",
+              "kind": "control_measure"
+            }
+          ],
+          "protected_missions": [
+            "shell-aar",
+            "sentinel-aew"
+          ],
+          "roe_reference": {
+            "id": "oir-spins",
+            "revision": "1",
+            "section": "ROE summary",
+            "title": "OIR SPINS"
+          },
+          "threat_emitters": [
+            "sa6-gainful"
+          ]
+        },
+        "coverage_responsibility": "Air threats north of Falcon toward Shell and Sentinel.",
+        "engagement_instructions": "cap-commit",
+        "handover": "Hand over the station to the relief flight in Falcon at 1450Z.",
+        "kind": "cap",
+        "objective": "Defend the Shell and Sentinel orbits.",
+        "report_refs": [
+          "misrep"
+        ],
+        "station_window": {
+          "end": "2026-10-02T14:50:00Z",
+          "start": "2026-10-02T13:10:00Z"
+        },
+        "success_criteria": "Both aimpoints struck inside the window."
+      }
+    },
+    {
+      "control": {
+        "agency": "darkstar",
+        "kind": "agency"
+      },
+      "flights": [
+        {
+          "aircraft_type": "f-15e",
+          "callsign": "Rage 1",
+          "communications": [
+            {
+              "channel": "strike-vhf",
+              "preset": 1,
+              "purpose": "Anvil package",
+              "radio": "VHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "f15e-strike",
+            "secondary_purpose": "SCAR on the Cobalt vehicle park when the strike target is closed.",
+            "secondary_scl": "f15e-scar"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Rage 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 6500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 23000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 9000
+            }
+          },
+          "id": "rage",
+          "identification": {
+            "mode_1": "12",
+            "mode_3": "4104",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:15:00Z",
+            "takeoff": "2026-10-02T12:45:00Z",
+            "taxi": "2026-10-02T12:30:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "route": "marshal-entry",
+          "unit": "Blue strike squadron"
+        }
+      ],
+      "id": "strike-cobalt",
+      "mission_number": "1104",
+      "package": "anvil",
+      "support": [
+        {
+          "coordination": "Banshee releases the kill box only after this report.",
+          "flight": "chevy",
+          "role": "escort"
+        },
+        {
+          "flight": "shell",
+          "role": "tanker",
+          "window": {
+            "end": "2026-10-02T14:10:00Z",
+            "start": "2026-10-02T13:50:00Z"
+          }
+        }
+      ],
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "assignments": [
+          {
+            "activation_condition": "Banshee reports the target area clear of civilian traffic.",
+            "assigned_to": [
+              {
+                "flight": "rage",
+                "members": [
+                  1
+                ]
+              }
+            ],
+            "desired_effect": "DESTROY",
+            "id": "bunker",
+            "instructions": [
+              "Contact Banshee after handover."
+            ],
+            "priority": 1,
+            "required_stores": [
+              "gbu-31v3"
+            ],
+            "restrictions": [
+              "Attack only while the Cobalt kill box is open."
+            ],
+            "role": "primary",
+            "success_criteria": "Both aimpoints struck inside the window.",
+            "target": {
+              "aimpoints": [
+                "bunker-north"
+              ],
+              "kind": "fixed",
+              "target": "cobalt-array"
+            },
+            "target_list_entry": {
+              "document": {
+                "id": "oir-jiptl",
+                "revision": "1"
+              },
+              "entry": "IR-0001"
+            },
+            "timing": {
+              "kind": "window",
+              "window": {
+                "end": "2026-10-02T13:30:00Z",
+                "start": "2026-10-02T13:25:00Z"
+              }
+            },
+            "weaponeering": [
+              {
+                "attack_heading": {
+                  "declination_deg": 5.0,
+                  "reference": "magnetic",
+                  "value": 13
+                },
+                "flight": "rage",
+                "quantity": 2,
+                "release_altitude": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 20000
+                },
+                "scl": "f15e-strike",
+                "store": "gbu-31v3"
+              }
+            ]
+          },
+          {
+            "assigned_to": [
+              {
+                "flight": "rage",
+                "members": [
+                  2
+                ]
+              }
+            ],
+            "desired_effect": "DESTROY",
+            "id": "vehicles",
+            "priority": 2,
+            "required_stores": [
+              "gbu-12"
+            ],
+            "role": "primary",
+            "target": {
+              "aimpoints": [
+                "vehicle-park"
+              ],
+              "kind": "fixed",
+              "target": "cobalt-array"
+            },
+            "target_list_entry": {
+              "document": {
+                "id": "oir-jiptl",
+                "revision": "1"
+              },
+              "entry": "IR-0001"
+            },
+            "timing": {
+              "kind": "window",
+              "window": {
+                "end": "2026-10-02T13:30:00Z",
+                "start": "2026-10-02T13:25:00Z"
+              }
+            },
+            "weaponeering": [
+              {
+                "attack_heading": {
+                  "reference": "magnetic",
+                  "value": 13
+                },
+                "flight": "rage",
+                "laser_code": "1511",
+                "quantity": 2,
+                "release_altitude": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 20000
+                },
+                "store": "gbu-12"
+              }
+            ]
+          }
+        ],
+        "brief": {
+          "bda": {
+            "deadline": "2026-10-02T14:30:00Z",
+            "method": "weapon_system_video",
+            "recipient": "caoc",
+            "report": "bda"
+          },
+          "cas": {
+            "check_in": {
+              "abort_code": "Black",
+              "procedure": "cas-check-in"
+            },
+            "remarks": "Second turn after a hot refuel at Sage FARP."
+          },
+          "egress_points": [
+            {
+              "id": "cedar",
+              "kind": "control_measure"
+            }
+          ],
+          "egress_route": "marshal-exit",
+          "ingress_route": "marshal-entry",
+          "initial_points": [
+            {
+              "id": "ip-silver",
+              "kind": "control_measure"
+            }
+          ],
+          "restricted_areas": [
+            {
+              "id": "range-camp-nfa",
+              "kind": "control_measure"
+            }
+          ],
+          "threat_emitters": [
+            "sa6-gainful",
+            "sa8-nickel"
+          ]
+        },
+        "kind": "preplanned_attack",
+        "objective": "Destroy the Cobalt command post and vehicle park.",
+        "report_refs": [
+          "bda",
+          "misrep"
+        ],
+        "role": "strike",
+        "success_criteria": "Both aimpoints struck inside the time-on-target window.",
+        "supporting_request": {
+          "id": "asr-214-07",
+          "revision": "1",
+          "title": "Air support request 214-07"
+        }
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "f-16c-50",
+          "callsign": "Weasel 1",
+          "communications": [
+            {
+              "channel": "strike-vhf",
+              "preset": 1,
+              "purpose": "Anvil package",
+              "radio": "VHF"
+            }
+          ],
+          "configuration": {
+            "alternatives": [
+              {
+                "authority": "caoc",
+                "condition": "The Sniper pods are not serviceable; Weasel keeps the HTS.",
+                "scl": "f16-sead-pre2015"
+              }
+            ],
+            "member_overrides": [
+              {
+                "extensions": {
+                  "org.cjtf-oir.ato": {
+                    "ato_day": "214"
+                  }
+                },
+                "fuel": {
+                  "bingo": {
+                    "unit": "lb",
+                    "value": 3500
+                  },
+                  "initial": {
+                    "unit": "lb",
+                    "value": 12000
+                  },
+                  "joker": {
+                    "unit": "lb",
+                    "value": 5000
+                  }
+                },
+                "identification": {
+                  "mode_3": "4106"
+                },
+                "member": 2,
+                "scl": "f16-sead-pre2015"
+              }
+            ],
+            "primary_scl": "f16-sead"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Weasel 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 3500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 12000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 5000
+            }
+          },
+          "id": "weasel",
+          "identification": {
+            "mode_1": "12",
+            "mode_3": "4105",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:10:00Z",
+            "takeoff": "2026-10-02T12:40:00Z",
+            "taxi": "2026-10-02T12:25:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "route": "marshal-entry",
+          "unit": "Blue fighter squadron"
+        }
+      ],
+      "id": "sead-cobalt",
+      "mission_number": "1105",
+      "package": "anvil",
+      "tasking": {
+        "assignments": [
+          {
+            "assigned_to": [
+              {
+                "flight": "weasel"
+              }
+            ],
+            "desired_effect": "SUPPRESS",
+            "id": "gainful",
+            "required_stores": [
+              "agm-88c"
+            ],
+            "target": {
+              "kind": "mobile",
+              "target": "gainful-battery"
+            },
+            "target_list_entry": {
+              "document": {
+                "id": "oir-jiptl",
+                "revision": "1"
+              },
+              "entry": "IR-0002"
+            },
+            "timing": {
+              "kind": "window",
+              "window": {
+                "end": "2026-10-02T13:35:00Z",
+                "start": "2026-10-02T13:20:00Z"
+              }
+            },
+            "weaponeering": [
+              {
+                "flight": "weasel",
+                "quantity": 2,
+                "store": "agm-88c"
+              }
+            ]
+          }
+        ],
+        "brief": {
+          "egress_points": [
+            {
+              "id": "cedar",
+              "kind": "control_measure"
+            }
+          ],
+          "initial_points": [
+            {
+              "id": "ip-silver",
+              "kind": "control_measure"
+            }
+          ],
+          "sead": {
+            "emitters": [
+              {
+                "emitter": "sa6-gainful",
+                "priority": 1,
+                "target": "gainful-battery"
+              }
+            ],
+            "employment_procedure": "harm-employment",
+            "protected_missions": [
+              "strike-cobalt"
+            ],
+            "suppression_window": {
+              "end": "2026-10-02T13:35:00Z",
+              "start": "2026-10-02T13:20:00Z"
+            }
+          }
+        },
+        "kind": "preplanned_attack",
+        "objective": "Suppress the SA-6 during the Anvil attack window.",
+        "role": "sead"
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "f-16c-50",
+          "callsign": "Chevy 1",
+          "communications": [
+            {
+              "channel": "strike-vhf",
+              "preset": 1,
+              "purpose": "Anvil package",
+              "radio": "VHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "f16-cap"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Chevy 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 3500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 12000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 5000
+            }
+          },
+          "id": "chevy",
+          "identification": {
+            "mode_1": "11",
+            "mode_3": "4106",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:10:00Z",
+            "takeoff": "2026-10-02T12:40:00Z",
+            "taxi": "2026-10-02T12:25:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "route": "marshal-entry",
+          "unit": "Blue fighter squadron"
+        }
+      ],
+      "id": "escort-anvil",
+      "mission_number": "1106",
+      "package": "anvil",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "brief": {
+          "bullseye": {
+            "id": "bastion-bullseye",
+            "kind": "control_measure"
+          },
+          "commit_criteria": [
+            {
+              "range": {
+                "unit": "nm",
+                "value": 20
+              },
+              "threat": "red-air-fighters"
+            }
+          ],
+          "controller": {
+            "agency": "darkstar",
+            "channel": "control-uhf"
+          },
+          "identification_procedure": "cap-commit",
+          "protected_missions": [
+            "strike-cobalt"
+          ],
+          "roe_reference": {
+            "id": "oir-spins",
+            "revision": "1",
+            "section": "ROE summary",
+            "title": "OIR SPINS"
+          }
+        },
+        "kind": "escort",
+        "objective": "Defend the Shell and Sentinel orbits.",
+        "protection_window": {
+          "end": "2026-10-02T13:45:00Z",
+          "start": "2026-10-02T13:10:00Z"
+        },
+        "release_condition": "Rage egressing past Cedar.",
+        "rendezvous": "juniper",
+        "rendezvous_time": {
+          "kind": "window",
+          "window": {
+            "end": "2026-10-02T13:15:00Z",
+            "start": "2026-10-02T13:10:00Z"
+          }
+        },
+        "report_refs": [
+          "bda"
+        ],
+        "separation_instructions": "Stay 5 nautical miles ahead of Rage and 4000 feet above.",
+        "success_criteria": "Both aimpoints struck inside the window.",
+        "supported_missions": [
+          "strike-cobalt"
+        ]
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "ea-18g",
+          "callsign": "Grizzly 1",
+          "communications": [
+            {
+              "channel": "strike-vhf",
+              "preset": 1,
+              "purpose": "Anvil package",
+              "radio": "VHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "ea18g-ea"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Grizzly 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 5500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 21000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 8000
+            }
+          },
+          "id": "grizzly",
+          "identification": {
+            "mode_1": "12",
+            "mode_3": "4107",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:10:00Z",
+            "takeoff": "2026-10-02T12:40:00Z",
+            "taxi": "2026-10-02T12:25:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "unit": "Blue electronic attack squadron"
+        }
+      ],
+      "id": "jam-anvil",
+      "mission_number": "1107",
+      "package": "anvil",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "area": {
+          "area": "jamming-orbit"
+        },
+        "assigned_effect": "Stand-off jamming of the SA-6 acquisition and tracking radars.",
+        "brief": {
+          "emitters": [
+            {
+              "emitter": "sa6-gainful",
+              "priority": 1,
+              "target": "gainful-battery"
+            }
+          ],
+          "orbit": {
+            "id": "sentinel",
+            "kind": "control_measure"
+          },
+          "protected_channels": [
+            "strike-vhf",
+            "control-uhf"
+          ],
+          "remarks": "Second turn after a hot refuel at Sage FARP."
+        },
+        "coordination_procedure": "harm-employment",
+        "equipment_requirements": [
+          "Three AN/ALQ-99 pods"
+        ],
+        "kind": "electromagnetic",
+        "objective": "Defend the Shell and Sentinel orbits.",
+        "operating_window": {
+          "end": "2026-10-02T13:40:00Z",
+          "start": "2026-10-02T13:15:00Z"
+        },
+        "report_refs": [
+          "bda"
+        ],
+        "restrictions": [
+          "Jam only the SA-6 bands; no emission on coalition frequencies."
+        ],
+        "success_criteria": "Both aimpoints struck inside the window.",
+        "supported_missions": [
+          "strike-cobalt",
+          "sead-cobalt"
+        ]
+      }
+    },
+    {
+      "control": {
+        "agency": "warhawk",
+        "check_in": "cas-check-in",
+        "kind": "agency"
+      },
+      "flights": [
+        {
+          "aircraft_type": "a-10c",
+          "callsign": "Hawg 1",
+          "communications": [
+            {
+              "channel": "cas-uhf",
+              "preset": 1,
+              "purpose": "Warhawk and Axeman",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "a10-cas"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Hawg 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 3000
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 11000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 4500
+            }
+          },
+          "id": "hawg",
+          "identification": {
+            "mode_1": "13",
+            "mode_3": "4110",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:05:00Z",
+            "takeoff": "2026-10-02T12:35:00Z",
+            "taxi": "2026-10-02T12:20:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "route": "marshal-entry",
+          "unit": "Blue attack squadron"
+        }
+      ],
+      "id": "cas-cobalt",
+      "mission_number": "1108",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "area": {
+          "id": "cobalt-box",
+          "kind": "control_measure"
+        },
+        "availability": {
+          "end": "2026-10-02T14:30:00Z",
+          "start": "2026-10-02T13:30:00Z"
+        },
+        "brief": {
+          "check_in": {
+            "abort_code": "SILVER",
+            "items": [
+              "mission_number",
+              "aircraft_number_and_type",
+              "position_and_altitude",
+              "ordnance",
+              "time_on_station",
+              "capabilities",
+              "abort_code"
+            ],
+            "procedure": "cas-check-in"
+          },
+          "contact_points": [
+            {
+              "id": "marshal",
+              "kind": "control_measure"
+            }
+          ],
+          "controllers": [
+            {
+              "agency": "axeman",
+              "alternate_channel": "banshee-uhf",
+              "channel": "cas-uhf"
+            }
+          ],
+          "fire_support_measures": [
+            {
+              "id": "oir-fscl",
+              "kind": "control_measure"
+            },
+            {
+              "id": "cobalt-box",
+              "kind": "control_measure"
+            }
+          ],
+          "friendly_lines": [
+            {
+              "id": "pl-nickel",
+              "kind": "control_measure"
+            }
+          ],
+          "ground_scheme_summary": "Task Force Bastion attacks north from PL BRASS to PL ZINC; friendlies report the last phase line crossed.",
+          "holding": [
+            {
+              "id": "mesa",
+              "kind": "control_measure"
+            }
+          ],
+          "holding_altitude": {
+            "lower": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 14000
+            },
+            "upper": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 16000
+            }
+          },
+          "initial_points": [
+            {
+              "id": "ip-silver",
+              "kind": "control_measure"
+            }
+          ],
+          "laser_codes": [
+            "1688",
+            "1511"
+          ],
+          "marks": [
+            "laser",
+            "smoke"
+          ]
+        },
+        "check_in_procedure": "cas-check-in",
+        "kind": "on_call_cas",
+        "objective": "Defend the Shell and Sentinel orbits.",
+        "report_refs": [
+          "bda",
+          "misrep"
+        ],
+        "request_refs": [
+          {
+            "id": "asr-214-09",
+            "revision": "1",
+            "title": "Air support request 214-09"
+          }
+        ],
+        "success_criteria": "Both aimpoints struck inside the window.",
+        "supported_force": "Task Force Bastion ground element with JTAC Axeman",
+        "target_assignment_procedure": "cas-check-in",
+        "tasking_agency": "warhawk",
+        "terminal_control": "assigned_by_controller"
+      }
+    },
+    {
+      "control": {
+        "agency": "darkstar",
+        "kind": "agency"
+      },
+      "flights": [
+        {
+          "aircraft_type": "kc-135r",
+          "callsign": "Shell 1",
+          "communications": [
+            {
+              "channel": "tanker-uhf",
+              "preset": 1,
+              "purpose": "Boom",
+              "radio": "UHF"
+            }
+          ],
+          "count": 1,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Shell 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 45000
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 160000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 60000
+            }
+          },
+          "id": "shell",
+          "identification": {
+            "mode_1": "14",
+            "mode_3": "4111",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T11:45:00Z",
+            "takeoff": "2026-10-02T12:15:00Z",
+            "taxi": "2026-10-02T12:00:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "unit": "Blue air refueling squadron"
+        }
+      ],
+      "id": "shell-aar",
+      "mission_number": "1109",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "altitude": {
+          "lower": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 180
+          },
+          "upper": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 200
+          }
+        },
+        "area": {
+          "id": "shell",
+          "kind": "control_measure"
+        },
+        "brief": {
+          "anchor": {
+            "id": "shell",
+            "kind": "control_measure"
+          },
+          "control_time": "2026-10-02T13:40:00Z",
+          "receiver_altitude": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 180
+          },
+          "remarks": "Second turn after a hot refuel at Sage FARP.",
+          "rendezvous": "anchor",
+          "rendezvous_point": {
+            "id": "marshal",
+            "kind": "control_measure"
+          }
+        },
+        "channel": "tanker-uhf",
+        "kind": "refueling",
+        "method": "boom",
+        "objective": "Defend the Shell and Sentinel orbits.",
+        "planned_offload": {
+          "unit": "lb",
+          "value": 60000
+        },
+        "receivers": [
+          {
+            "flight": "viper",
+            "planned_offload": {
+              "unit": "lb",
+              "value": 12000
+            },
+            "window": {
+              "end": "2026-10-02T14:10:00Z",
+              "start": "2026-10-02T13:50:00Z"
+            }
+          }
+        ],
+        "rendezvous_procedure": "tanker-rendezvous",
+        "report_refs": [
+          "bda"
+        ],
+        "station_window": {
+          "end": "2026-10-02T14:50:00Z",
+          "start": "2026-10-02T13:15:00Z"
+        },
+        "success_criteria": "Both aimpoints struck inside the window.",
+        "tacan": {
+          "band": "Y",
+          "channel": 31,
+          "identifier": "SHL"
+        },
+        "unassigned_receiver_policy": "Unscheduled receivers call Shell; Darkstar sets priority."
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "e-3a",
+          "callsign": "Darkstar",
+          "communications": [
+            {
+              "channel": "control-uhf",
+              "preset": 1,
+              "purpose": "Control",
+              "radio": "UHF"
+            }
+          ],
+          "count": 1,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Darkstar"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 30000
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 140000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 40000
+            }
+          },
+          "id": "darkstar-flight",
+          "identification": {
+            "mode_1": "14",
+            "mode_3": "4112",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T11:30:00Z",
+            "takeoff": "2026-10-02T12:00:00Z",
+            "taxi": "2026-10-02T11:45:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "unit": "Blue airborne control squadron"
+        }
+      ],
+      "id": "sentinel-aew",
+      "mission_number": "1110",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "altitude": {
+          "lower": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 280
+          },
+          "upper": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 300
+          }
+        },
+        "area": {
+          "id": "sentinel",
+          "kind": "control_measure"
+        },
+        "brief": {
+          "bullseye": {
+            "id": "bastion-bullseye",
+            "kind": "control_measure"
+          },
+          "controlled_channels": [
+            "control-uhf",
+            "tanker-uhf"
+          ],
+          "handover_points": [
+            {
+              "id": "juniper",
+              "kind": "control_measure"
+            }
+          ],
+          "orbit": {
+            "id": "sentinel",
+            "kind": "control_measure"
+          },
+          "remarks": "Second turn after a hot refuel at Sage FARP.",
+          "sectors": [
+            {
+              "altitude": {
+                "lower": {
+                  "reference": "FL",
+                  "unit": "flight_level",
+                  "value": 200
+                },
+                "upper": {
+                  "reference": "FL",
+                  "unit": "flight_level",
+                  "value": 350
+                }
+              },
+              "area": {
+                "area": "sweep-north"
+              },
+              "channel": "control-uhf",
+              "flights": [
+                "hawg"
+              ],
+              "missions": [
+                "sweep",
+                "intercept"
+              ],
+              "name": "North"
+            }
+          ]
+        },
+        "control_responsibilities": [
+          "Surveillance of Falcon, Shell and the southern transit route",
+          "Control of counterair flights and tanker rendezvous",
+          "Report traffic approaching the rescue reservation"
+        ],
+        "datalink": {
+          "datalink_network": "OIR",
+          "datalink_station": "00011",
+          "datalink_type": "Link 16"
+        },
+        "handover": "Hand over the station to the relief flight in Falcon at 1450Z.",
+        "kind": "airborne_control",
+        "objective": "Defend the Shell and Sentinel orbits.",
+        "report_refs": [
+          "bda"
+        ],
+        "station_window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        },
+        "success_criteria": "Both aimpoints struck inside the window.",
+        "supported_missions": [
+          "sweep",
+          "intercept",
+          "cap-falcon",
+          "shell-aar"
+        ]
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "mq-9",
+          "callsign": "Ghost 1",
+          "communications": [
+            {
+              "channel": "cas-uhf",
+              "preset": 1,
+              "purpose": "Warhawk",
+              "radio": "UHF"
+            }
+          ],
+          "count": 1,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Ghost 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 1000
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 3900
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 1500
+            }
+          },
+          "id": "ghost",
+          "identification": {
+            "mode_1": "13",
+            "mode_3": "4113",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "prince-hassan",
+            "kind": "scheduled",
+            "startup": "2026-10-02T11:00:00Z",
+            "takeoff": "2026-10-02T11:30:00Z",
+            "taxi": "2026-10-02T11:15:00Z"
+          },
+          "participation": "ai",
+          "recovery": {
+            "alternates": [
+              "ojms"
+            ],
+            "destination": "prince-hassan"
+          },
+          "unit": "Blue attack squadron"
+        }
+      ],
+      "id": "recce-gainful",
+      "mission_number": "1111",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "brief": {
+          "named_areas": [
+            {
+              "id": "nai-gainful",
+              "kind": "control_measure"
+            }
+          ],
+          "remarks": "Second turn after a hot refuel at Sage FARP.",
+          "reporting": {
+            "channel": "cas-uhf",
+            "deadline": "2026-10-02T13:15:00Z",
+            "method": "voice",
+            "recipient": "warhawk",
+            "reports": [
+              "inflightrep"
+            ]
+          }
+        },
+        "kind": "reconnaissance",
+        "objective": "Locate the SA-6 battery before the Anvil push.",
+        "report_refs": [
+          "inflightrep"
+        ],
+        "requirements": [
+          {
+            "area": {
+              "area": "recce-box"
+            },
+            "collection_window": {
+              "end": "2026-10-02T13:20:00Z",
+              "start": "2026-10-02T13:00:00Z"
+            },
+            "eeis": [
+              {
+                "id": "eei-1",
+                "priority": 1,
+                "question": "Is the SA-6 radar emitting, and in which direction does it point?"
+              }
+            ],
+            "id": "gainful-location",
+            "information_required": "Current position and posture of the SA-6 battery.",
+            "latest_useful_time": "2026-10-02T13:15:00Z",
+            "product": "full_motion_video",
+            "recipient": "warhawk",
+            "reporting": {
+              "channel": "control-uhf",
+              "method": "voice",
+              "recipient": "darkstar",
+              "reports": [
+                "inflightrep"
+              ]
+            },
+            "sensor": "electro_optical_infrared",
+            "target": "gainful-battery"
+          }
+        ],
+        "success_criteria": "Both aimpoints struck inside the window."
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "c-130j",
+          "callsign": "Reach 1",
+          "communications": [
+            {
+              "channel": "banshee-uhf",
+              "preset": 1,
+              "purpose": "Banshee",
+              "radio": "UHF"
+            }
+          ],
+          "count": 1,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Reach 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 10000
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 45000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 15000
+            }
+          },
+          "id": "reach",
+          "identification": {
+            "mode_1": "15",
+            "mode_3": "4114",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:40:00Z",
+            "takeoff": "2026-10-02T13:10:00Z",
+            "taxi": "2026-10-02T12:55:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "unit": "Blue airlift squadron"
+        }
+      ],
+      "id": "airlift-prince-hassan",
+      "mission_number": "1112",
+      "tasking": {
+        "brief": {
+          "load_plan": [
+            {
+              "flight": "reach",
+              "manifest": {
+                "cargo": [
+                  {
+                    "name": "Munitions pallet",
+                    "quantity": 2
+                  }
+                ],
+                "passengers": 12
+              }
+            }
+          ],
+          "offload": {
+            "agency": "banshee",
+            "place": "prince-hassan",
+            "window": {
+              "end": "2026-10-02T13:45:00Z",
+              "start": "2026-10-02T13:30:00Z"
+            }
+          },
+          "onload": {
+            "place": "ojms",
+            "procedure": "cap-commit",
+            "window": {
+              "end": "2026-10-02T13:00:00Z",
+              "start": "2026-10-02T12:40:00Z"
+            }
+          },
+          "patients": {
+            "ambulatory": 2,
+            "attendants": 1,
+            "litter": 0
+          }
+        },
+        "delivery_method": "land",
+        "delivery_time": {
+          "at": "2026-10-02T13:45:00Z",
+          "kind": "not_after"
+        },
+        "destination": "prince-hassan",
+        "ground_coordination": "warhawk",
+        "kind": "transport",
+        "manifest": {
+          "cargo": [
+            {
+              "handling": "Forklift at destination; hazardous cargo",
+              "name": "Munitions pallet",
+              "quantity": 2
+            }
+          ],
+          "passengers": 12,
+          "personnel_notes": "Two passengers with personal weapons; seats on the left side."
+        },
+        "pickup": "ojms",
+        "pickup_time": {
+          "at": "2026-10-02T13:00:00Z",
+          "kind": "at",
+          "tolerance_seconds": 300
+        },
+        "report_refs": [
+          "bda"
+        ],
+        "role": "airlift",
+        "success_criteria": "Both aimpoints struck inside the window."
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "hh-60g",
+          "callsign": "Pedro 1",
+          "communications": [
+            {
+              "channel": "rescue-uhf",
+              "preset": 1,
+              "purpose": "On-scene",
+              "radio": "UHF"
+            }
+          ],
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Pedro 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 1200
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 4500
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 1800
+            }
+          },
+          "id": "pedro",
+          "identification": {
+            "mode_1": "15",
+            "mode_3": "4115",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "farp-sage",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:15:00Z",
+            "takeoff": "2026-10-02T12:45:00Z",
+            "taxi": "2026-10-02T12:30:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "unit": "Blue rescue squadron"
+        }
+      ],
+      "id": "pedro-csar",
+      "mission_number": "1113",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "availability": {
+          "end": "2026-10-02T14:20:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        },
+        "brief": {
+          "egress_route": "marshal-exit",
+          "holding": [
+            {
+              "id": "mesa",
+              "kind": "control_measure"
+            }
+          ],
+          "ingress_route": "marshal-entry",
+          "on_scene_commander": "pedro",
+          "pickup_window": {
+            "end": "2026-10-02T14:00:00Z",
+            "start": "2026-10-02T13:30:00Z"
+          },
+          "remarks": "Second turn after a hot refuel at Sage FARP.",
+          "rescort_missions": [
+            "cas-cobalt"
+          ],
+          "survivors": [
+            {
+              "authentication_procedure": "sar-recognition",
+              "callsign": "Spade 1",
+              "condition": "injured",
+              "id": "survivor-1",
+              "isoprep_ref": "IR-ISO-0042",
+              "last_known": {
+                "as_of": "2026-10-02T13:00:00Z",
+                "position": {
+                  "latitude": 34.529,
+                  "longitude": 40.551
+                }
+              }
+            }
+          ]
+        },
+        "coordination_agency": "darkstar",
+        "incident": "Hawg 2 pilot ejected east of the transit route after an engine fire; beacon and voice contact.",
+        "kind": "personnel_recovery",
+        "medical_requirements": "Lower-leg injury; litter required.",
+        "objective": "Defend the Shell and Sentinel orbits.",
+        "recognition_procedure": "sar-recognition",
+        "recovery_destination": "farp-sage",
+        "recovery_method": "hoist",
+        "report_refs": [
+          "bda"
+        ],
+        "role": "combat_search_and_rescue",
+        "search_area": {
+          "id": "rescue-reservation",
+          "kind": "control_measure"
+        },
+        "success_criteria": "Both aimpoints struck inside the window.",
+        "tasking_procedure": "sar-recognition"
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "f-16c-50",
+          "callsign": "Bandit 1",
+          "communications": [
+            {
+              "channel": "control-uhf",
+              "preset": 1,
+              "purpose": "Darkstar control",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "f16-cap"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Bandit 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 3500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 12000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 5000
+            }
+          },
+          "id": "bandit",
+          "identification": {
+            "mode_1": "16",
+            "mode_3": "4116",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:10:00Z",
+            "takeoff": "2026-10-02T12:40:00Z",
+            "taxi": "2026-10-02T12:25:00Z"
+          },
+          "participation": "ai",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "unit": "Partner F-16 squadron"
+        }
+      ],
+      "id": "red-air",
+      "mission_number": "1114",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "area": {
+          "area": "azraq-training"
+        },
+        "brief": {
+          "knock_it_off_channel": "control-uhf",
+          "minimum_altitude": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 5000
+          },
+          "range_controller": {
+            "agency": "darkstar",
+            "channel": "control-uhf"
+          },
+          "remarks": "Second turn after a hot refuel at Sage FARP.",
+          "safety_procedure": "training-rules",
+          "training_areas": [
+            {
+              "id": "jettison-tin",
+              "kind": "control_measure"
+            }
+          ]
+        },
+        "debrief_procedure": "range-debrief",
+        "events": [
+          {
+            "action": "Two-ship presentation from the east at flight level 200.",
+            "condition": "Fight's on call from Salti Tower's area controller."
+          }
+        ],
+        "exercise_window": {
+          "end": "2026-10-02T14:00:00Z",
+          "start": "2026-10-02T13:10:00Z"
+        },
+        "kind": "training",
+        "objective": "Dissimilar air combat training with partner F-16s in the Azraq training area.",
+        "report_refs": [
+          "bda"
+        ],
+        "restrictions": [
+          "No live weapons; master arm safe.",
+          "Remain above 5000 feet MSL."
+        ],
+        "success_criteria": "Both aimpoints struck inside the window."
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "ah-64d",
+          "callsign": "Sweeper 1",
+          "communications": [
+            {
+              "channel": "banshee-uhf",
+              "preset": 1,
+              "purpose": "Banshee",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "ah64-hellfire"
+          },
+          "count": 1,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Sweeper 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 600
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 2500
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 900
+            }
+          },
+          "id": "sweeper",
+          "identification": {
+            "mode_1": "16",
+            "mode_3": "4117",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "farp-sage",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:05:00Z",
+            "takeoff": "2026-10-02T12:35:00Z",
+            "taxi": "2026-10-02T12:25:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "destination": "farp-sage"
+          },
+          "unit": "Attack helicopter troop"
+        }
+      ],
+      "id": "range-clear",
+      "mission_number": "1115",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "area": {
+          "area": "range-sweep"
+        },
+        "assigned_actions": [
+          {
+            "action": "Fly a pass around the Cobalt compound and the river road.",
+            "completion": "Report the area clear to Banshee."
+          }
+        ],
+        "brief": {
+          "data": {
+            "clear_call": "AREA CLEAR",
+            "pass_altitude_ft_agl": 500
+          },
+          "namespace": "org.cjtf-oir.clearance",
+          "remarks": "Second turn after a hot refuel at Sage FARP.",
+          "schema": "urn:cjtf-oir:schema:range-clearance:1"
+        },
+        "coordination": "Banshee releases the kill box only after this report.",
+        "extensions": {
+          "org.cjtf-oir.ato": {
+            "ato_day": "214"
+          }
+        },
+        "kind": "custom",
+        "name": "Kill box clearance pass",
+        "objective": "Confirm the Cobalt area is clear of civilian traffic before the kill box opens.",
+        "operating_window": {
+          "end": "2026-10-02T13:20:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        },
+        "report_refs": [
+          "bda"
+        ],
+        "required_capabilities": [
+          "Low-level visual search"
+        ],
+        "success_criteria": "Both aimpoints struck inside the window."
+      }
+    },
+    {
+      "control": {
+        "agency": "darkstar",
+        "kind": "agency"
+      },
+      "flights": [
+        {
+          "aircraft_type": "f-16c-50",
+          "callsign": "Venom 1",
+          "communications": [
+            {
+              "channel": "control-uhf",
+              "preset": 1,
+              "purpose": "Darkstar control",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "f16-ai"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Venom 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 3500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 12000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 5000
+            }
+          },
+          "id": "venom",
+          "identification": {
+            "mode_1": "12",
+            "mode_3": "4120",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:50:00Z",
+            "takeoff": "2026-10-02T13:20:00Z",
+            "taxi": "2026-10-02T13:05:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "route": "marshal-entry",
+          "unit": "Blue fighter squadron"
+        }
+      ],
+      "id": "ai-zinc",
+      "mission_number": "1116",
+      "tasking": {
+        "assignments": [
+          {
+            "assigned_to": [
+              {
+                "flight": "venom",
+                "members": [
+                  1
+                ]
+              }
+            ],
+            "desired_effect": "DESTROY",
+            "id": "tanks",
+            "priority": 1,
+            "required_stores": [
+              "gbu-12"
+            ],
+            "role": "primary",
+            "target": {
+              "aimpoints": [
+                "fuel-tanks"
+              ],
+              "kind": "fixed",
+              "target": "zinc-depot"
+            },
+            "target_list_entry": {
+              "document": {
+                "id": "oir-jiptl",
+                "revision": "1"
+              },
+              "entry": "IR-0004"
+            },
+            "timing": {
+              "kind": "window",
+              "window": {
+                "end": "2026-10-02T14:10:00Z",
+                "start": "2026-10-02T14:00:00Z"
+              }
+            },
+            "weaponeering": [
+              {
+                "attack_heading": {
+                  "reference": "magnetic",
+                  "value": 300
+                },
+                "flight": "venom",
+                "quantity": 2,
+                "release_altitude": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 22000
+                },
+                "store": "gbu-12"
+              }
+            ]
+          },
+          {
+            "assigned_to": [
+              {
+                "flight": "venom",
+                "members": [
+                  2
+                ]
+              }
+            ],
+            "desired_effect": "DESTROY",
+            "id": "shed",
+            "priority": 2,
+            "required_stores": [
+              "gbu-12"
+            ],
+            "role": "primary",
+            "target": {
+              "aimpoints": [
+                "vehicle-shed"
+              ],
+              "kind": "fixed",
+              "target": "zinc-depot"
+            },
+            "timing": {
+              "kind": "window",
+              "window": {
+                "end": "2026-10-02T14:10:00Z",
+                "start": "2026-10-02T14:00:00Z"
+              }
+            },
+            "weaponeering": [
+              {
+                "attack_heading": {
+                  "reference": "magnetic",
+                  "value": 300
+                },
+                "flight": "venom",
+                "fuze": {
+                  "arming_delay_s": 4,
+                  "delay_ms": 10,
+                  "function": "delay",
+                  "height_of_burst": {
+                    "unit": "ft",
+                    "value": 20
+                  },
+                  "nose_fuze": "DSU-33",
+                  "tail_fuze": "FMU-139"
+                },
+                "quantity": 2,
+                "release_altitude": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 22000
+                },
+                "store": "gbu-12"
+              }
+            ]
+          }
+        ],
+        "brief": {
+          "bda": {
+            "deadline": "2026-10-02T15:00:00Z",
+            "method": "weapon_system_video",
+            "recipient": "caoc",
+            "report": "bda"
+          },
+          "egress_points": [
+            {
+              "id": "cedar",
+              "kind": "control_measure"
+            }
+          ],
+          "egress_route": "marshal-exit",
+          "ingress_route": "marshal-entry",
+          "initial_points": [
+            {
+              "id": "ip-silver",
+              "kind": "control_measure"
+            }
+          ],
+          "remarks": "Target is beyond the FSCL; no coordination with Task Force Bastion needed. Stay out of the Cobalt kill box.",
+          "restricted_areas": [
+            {
+              "id": "zinc-pump-nfa",
+              "kind": "control_measure"
+            }
+          ],
+          "threat_emitters": [
+            "sa3-zinc"
+          ]
+        },
+        "kind": "preplanned_attack",
+        "objective": "Destroy the Zinc supply depot to cut fuel to the ISIS fighters in the valley.",
+        "report_refs": [
+          "bda"
+        ],
+        "role": "air_interdiction",
+        "success_criteria": "Both aimpoints struck inside the window."
+      }
+    },
+    {
+      "control": {
+        "agency": "darkstar",
+        "kind": "agency"
+      },
+      "flights": [
+        {
+          "aircraft_type": "f-15e",
+          "callsign": "Dude 1",
+          "communications": [
+            {
+              "channel": "control-uhf",
+              "preset": 1,
+              "purpose": "Darkstar control",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "f15e-scar"
+          },
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Dude 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 6500
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 23000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 9000
+            }
+          },
+          "id": "dude",
+          "identification": {
+            "mode_1": "12",
+            "mode_3": "4121",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:40:00Z",
+            "takeoff": "2026-10-02T13:10:00Z",
+            "taxi": "2026-10-02T12:55:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "route": "marshal-entry",
+          "unit": "Blue strike squadron"
+        }
+      ],
+      "id": "scar-gainful",
+      "mission_number": "1117",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "altitude": {
+          "lower": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 15000
+          },
+          "upper": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 22000
+          }
+        },
+        "area": {
+          "area": "recce-box"
+        },
+        "brief": {
+          "attack_missions": [
+            "ai-zinc",
+            "sead-cobalt"
+          ],
+          "controller": {
+            "agency": "darkstar",
+            "channel": "control-uhf"
+          },
+          "entry_points": [
+            {
+              "id": "juniper",
+              "kind": "control_measure"
+            }
+          ],
+          "holding": [
+            {
+              "id": "mesa",
+              "kind": "control_measure"
+            }
+          ],
+          "remarks": "Second turn after a hot refuel at Sage FARP.",
+          "reporting": {
+            "channel": "control-uhf",
+            "method": "voice",
+            "recipient": "darkstar",
+            "reports": [
+              "inflightrep"
+            ]
+          },
+          "stack": [
+            {
+              "altitude": {
+                "lower": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 16000
+                },
+                "upper": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 17000
+                }
+              },
+              "mission": "ai-zinc"
+            }
+          ],
+          "target_priorities": [
+            {
+              "category": "air_defense",
+              "priority": 1
+            }
+          ]
+        },
+        "kind": "counterland_control",
+        "mission_type": "scar",
+        "objective": "Find the relocated SA-6 battery and its resupply vehicles and pass them to the attack flights.",
+        "operating_window": {
+          "end": "2026-10-02T14:40:00Z",
+          "start": "2026-10-02T13:40:00Z"
+        },
+        "report_refs": [
+          "inflightrep",
+          "bda"
+        ],
+        "success_criteria": "Every target found is handed to an attack flight or reported."
+      }
+    },
+    {
+      "control": {
+        "agency": "warhawk",
+        "check_in": "cas-check-in",
+        "kind": "agency"
+      },
+      "flights": [
+        {
+          "aircraft_type": "a-10c",
+          "callsign": "Nail 1",
+          "communications": [
+            {
+              "channel": "cas-uhf",
+              "preset": 1,
+              "purpose": "Warhawk and Axeman",
+              "radio": "UHF"
+            }
+          ],
+          "configuration": {
+            "primary_scl": "a10-faca"
+          },
+          "count": 1,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Nail 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 3000
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 11000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 4500
+            }
+          },
+          "id": "nail",
+          "identification": {
+            "mode_1": "13",
+            "mode_3": "4122",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:15:00Z",
+            "takeoff": "2026-10-02T12:45:00Z",
+            "taxi": "2026-10-02T12:30:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "route": "marshal-entry",
+          "unit": "Blue attack squadron"
+        }
+      ],
+      "id": "faca-nail",
+      "mission_number": "1118",
+      "tasking": {
+        "altitude": {
+          "lower": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 14000
+          },
+          "upper": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 18000
+          }
+        },
+        "area": {
+          "id": "cobalt-box",
+          "kind": "control_measure"
+        },
+        "brief": {
+          "cas_missions": [
+            "cas-cobalt"
+          ],
+          "contact_points": [
+            {
+              "id": "marshal",
+              "kind": "control_measure"
+            }
+          ],
+          "controllers": [
+            {
+              "agency": "axeman",
+              "alternate_channel": "banshee-uhf",
+              "channel": "cas-uhf"
+            }
+          ],
+          "fire_support_measures": [
+            {
+              "id": "oir-fscl",
+              "kind": "control_measure"
+            },
+            {
+              "id": "cobalt-box",
+              "kind": "control_measure"
+            }
+          ],
+          "friendly_lines": [
+            {
+              "id": "pl-nickel",
+              "kind": "control_measure"
+            }
+          ],
+          "ground_scheme_summary": "Task Force Bastion attacks north from PL BRASS to PL ZINC; friendlies report the last phase line crossed.",
+          "holding": [
+            {
+              "id": "mesa",
+              "kind": "control_measure"
+            }
+          ],
+          "holding_altitude": {
+            "lower": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 14000
+            },
+            "upper": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 16000
+            }
+          },
+          "initial_points": [
+            {
+              "id": "ip-silver",
+              "kind": "control_measure"
+            }
+          ],
+          "laser_codes": [
+            "1688",
+            "1511"
+          ],
+          "marks": [
+            "laser",
+            "smoke",
+            "infrared_pointer"
+          ],
+          "remarks": "Second turn after a hot refuel at Sage FARP.",
+          "supported_unit": "Task Force Bastion ground element",
+          "terminal_control": [
+            "type_1",
+            "type_2",
+            "type_3"
+          ]
+        },
+        "kind": "counterland_control",
+        "mission_type": "fac_a",
+        "objective": "Control CAS for Task Force Bastion when Axeman cannot see the target.",
+        "operating_window": {
+          "end": "2026-10-02T14:30:00Z",
+          "start": "2026-10-02T13:30:00Z"
+        },
+        "report_refs": [
+          "bda"
+        ]
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "ch-47f",
+          "callsign": "Hook 1",
+          "communications": [
+            {
+              "channel": "cas-uhf",
+              "preset": 1,
+              "purpose": "Axeman",
+              "radio": "UHF"
+            }
+          ],
+          "count": 2,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Hook 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 1800
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 6800
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 2500
+            }
+          },
+          "id": "hook",
+          "identification": {
+            "mode_1": "15",
+            "mode_3": "4123",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "farp-sage",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:50:00Z",
+            "takeoff": "2026-10-02T13:20:00Z",
+            "taxi": "2026-10-02T13:05:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "destination": "farp-sage"
+          },
+          "unit": "Blue assault helicopter company"
+        }
+      ],
+      "id": "assault-nickel",
+      "mission_number": "1119",
+      "tasking": {
+        "abort_criteria": [
+          "LZ Nickel reported under direct fire",
+          "Fewer than two aircraft available for lift 1"
+        ],
+        "brief": {
+          "air_assault": {
+            "air_movement_table": [
+              {
+                "chalks": [
+                  1,
+                  2
+                ],
+                "flight": "hook",
+                "landing_formation": "trail",
+                "landing_heading": {
+                  "reference": "magnetic",
+                  "value": 20
+                },
+                "landing_time": "2026-10-02T13:45:00Z",
+                "landing_zone": {
+                  "id": "lz-nickel",
+                  "kind": "control_measure"
+                },
+                "lift": 1,
+                "lifted_unit": "A Company, Task Force Bastion",
+                "line": 1,
+                "load": {
+                  "passengers": 66
+                },
+                "load_time": "2026-10-02T13:30:00Z",
+                "pickup_zone": {
+                  "id": "pz-sage",
+                  "kind": "control_measure"
+                },
+                "release_point": {
+                  "id": "rp-nickel",
+                  "kind": "control_measure"
+                },
+                "release_point_time": "2026-10-02T13:43:00Z",
+                "route": "marshal-entry",
+                "serial": 1,
+                "start_point": {
+                  "id": "sp-sage",
+                  "kind": "control_measure"
+                },
+                "start_point_time": "2026-10-02T13:37:00Z",
+                "takeoff_time": "2026-10-02T13:35:00Z"
+              },
+              {
+                "chalks": [
+                  1,
+                  2
+                ],
+                "flight": "hook",
+                "landing_formation": "trail",
+                "landing_heading": {
+                  "reference": "magnetic",
+                  "value": 20
+                },
+                "landing_time": "2026-10-02T14:15:00Z",
+                "landing_zone": {
+                  "id": "lz-nickel",
+                  "kind": "control_measure"
+                },
+                "lift": 2,
+                "lifted_unit": "A Company mortars and resupply",
+                "line": 2,
+                "load": {
+                  "cargo": [
+                    {
+                      "handling": "Sling load",
+                      "name": "120 mm mortar ammunition pallet",
+                      "quantity": 2
+                    }
+                  ],
+                  "passengers": 20
+                },
+                "load_time": "2026-10-02T14:00:00Z",
+                "pickup_zone": {
+                  "id": "pz-sage",
+                  "kind": "control_measure"
+                },
+                "release_point": {
+                  "id": "rp-nickel",
+                  "kind": "control_measure"
+                },
+                "release_point_time": "2026-10-02T14:13:00Z",
+                "remarks": "Second turn after a hot refuel at Sage FARP.",
+                "serial": 1,
+                "start_point": {
+                  "id": "sp-sage",
+                  "kind": "control_measure"
+                },
+                "start_point_time": "2026-10-02T14:07:00Z",
+                "takeoff_time": "2026-10-02T14:05:00Z"
+              }
+            ],
+            "corridors": [
+              {
+                "id": "mrr-tinsel",
+                "kind": "control_measure"
+              }
+            ],
+            "escort_missions": [
+              "faca-nail",
+              "cas-cobalt"
+            ],
+            "h_hour": "2026-10-02T13:45:00Z",
+            "landing_zones": [
+              {
+                "id": "lz-nickel",
+                "kind": "control_measure"
+              }
+            ],
+            "pickup_zones": [
+              {
+                "id": "pz-sage",
+                "kind": "control_measure"
+              }
+            ],
+            "remarks": "Second turn after a hot refuel at Sage FARP.",
+            "routes": [
+              "marshal-exit"
+            ]
+          },
+          "remarks": "Flights hold at PZ Sage if LZ Nickel is not reported clear by Axeman."
+        },
+        "delivery_method": "land",
+        "delivery_time": {
+          "at": "2026-10-02T13:45:00Z",
+          "kind": "at"
+        },
+        "kind": "transport",
+        "objective": "Land one rifle company on LZ Nickel to seize the road junction before PL NICKEL.",
+        "pickup": "farp-sage",
+        "pickup_time": {
+          "at": "2026-10-02T13:35:00Z",
+          "kind": "at"
+        },
+        "role": "air_assault"
+      }
+    },
+    {
+      "flights": [
+        {
+          "aircraft_type": "c-130j",
+          "callsign": "Herky 1",
+          "communications": [
+            {
+              "channel": "banshee-uhf",
+              "preset": 1,
+              "purpose": "Banshee",
+              "radio": "UHF"
+            }
+          ],
+          "count": 1,
+          "extensions": {
+            "sim": {
+              "dcs": {
+                "bindings": [
+                  {
+                    "kind": "group",
+                    "mission_id": "oir-syria",
+                    "name": "OIR Herky 1"
+                  }
+                ]
+              }
+            }
+          },
+          "fuel": {
+            "bingo": {
+              "unit": "lb",
+              "value": 10000
+            },
+            "initial": {
+              "unit": "lb",
+              "value": 42000
+            },
+            "joker": {
+              "unit": "lb",
+              "value": 15000
+            }
+          },
+          "id": "herky",
+          "identification": {
+            "mode_1": "15",
+            "mode_3": "4124",
+            "mode_4": "on",
+            "mode_5": "on"
+          },
+          "launch": {
+            "departure": "ojms",
+            "kind": "scheduled",
+            "startup": "2026-10-02T12:50:00Z",
+            "takeoff": "2026-10-02T13:20:00Z",
+            "taxi": "2026-10-02T13:05:00Z"
+          },
+          "participation": "player",
+          "recovery": {
+            "alternates": [
+              "prince-hassan"
+            ],
+            "destination": "ojms",
+            "procedure": "recovery-ojms"
+          },
+          "unit": "Blue airlift squadron"
+        }
+      ],
+      "id": "drop-tin",
+      "mission_number": "1120",
+      "tasking": {
+        "brief": {
+          "airdrop": {
+            "authentication_procedure": "dz-authentication",
+            "clear_to_drop_signal": "smoke",
+            "code_letter": "T",
+            "drop_airspeed": {
+              "unit": "knots_ias",
+              "value": 130
+            },
+            "drop_altitude": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 1250
+            },
+            "drop_window": {
+              "end": "2026-10-02T14:05:00Z",
+              "start": "2026-10-02T14:00:00Z"
+            },
+            "drop_zone": {
+              "id": "dz-tin",
+              "kind": "control_measure"
+            },
+            "drop_zone_controller": {
+              "agency": "banshee",
+              "channel": "banshee-uhf"
+            },
+            "load_type": "personnel",
+            "markings": [
+              "raised_angle_marker",
+              "smoke"
+            ],
+            "parachute_technique": "static_line",
+            "point_of_impact": {
+              "id": "pi-tin",
+              "kind": "control_measure"
+            },
+            "release_method": "carp",
+            "release_point": {
+              "id": "carp-tin",
+              "kind": "control_measure"
+            },
+            "remarks": "Second turn after a hot refuel at Sage FARP.",
+            "run_in_heading": {
+              "reference": "magnetic",
+              "value": 0
+            }
+          },
+          "onload": {
+            "place": "ojms",
+            "window": {
+              "end": "2026-10-02T13:15:00Z",
+              "start": "2026-10-02T13:00:00Z"
+            }
+          }
+        },
+        "delivery_method": "airdrop",
+        "delivery_time": {
+          "kind": "window",
+          "window": {
+            "end": "2026-10-02T14:05:00Z",
+            "start": "2026-10-02T14:00:00Z"
+          }
+        },
+        "kind": "transport",
+        "manifest": {
+          "passengers": 40
+        },
+        "objective": "Drop one airborne platoon on DZ Tin to secure the south flank of Task Force Bastion.",
+        "pickup": "ojms",
+        "pickup_time": {
+          "at": "2026-10-02T13:15:00Z",
+          "kind": "at"
+        },
+        "role": "airdrop"
+      }
+    }
+  ],
+  "packages": [
+    {
+      "commander": {
+        "flight": "rage",
+        "members": [
+          1
+        ]
+      },
+      "coordination": [
+        "Push from Juniper at 1315Z.",
+        "Weasel and Grizzly on station before Rage crosses Silver."
+      ],
+      "extensions": {
+        "org.cjtf-oir.ato": {
+          "ato_day": "214"
+        }
+      },
+      "id": "anvil",
+      "name": "Anvil strike package",
+      "objective": "Strike the Cobalt compound with suppression and escort.",
+      "rendezvous": "juniper",
+      "rendezvous_time": {
+        "kind": "window",
+        "window": {
+          "end": "2026-10-02T13:15:00Z",
+          "start": "2026-10-02T13:10:00Z"
+        }
+      }
+    }
+  ],
+  "period": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "schema_version": "0.1.0-draft.2",
+  "spins": {
+    "id": "oir-spins",
+    "path": "spins.json",
+    "revision": "1"
+  }
+}

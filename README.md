@@ -41,7 +41,8 @@ and subparagraph letters re-sequence around the gaps.
 
 ```
 opord render    <input.yaml> [--out-dir DIR] [--md/--no-md] [--html/--no-html] [--pdf/--no-pdf]
-opord schema    [--out FILE] [--format json|yaml]       # JSON Schema (machine)
+opord spins     <input.yaml> [--out-dir DIR] [--md/--no-md] [--html/--no-html] [--pdf/--no-pdf]
+opord schema    [--document-type opord|spins] [--out FILE] [--format json|yaml]
 opord docs      [--out DIR]                              # full schema HTML tree
 opord reference [--out FILE]                             # per-annex reference page
 ```
@@ -51,8 +52,10 @@ opord reference [--out FILE]                             # per-annex reference p
 The canonical schema is a JSON Schema (Draft 2020-12) generated directly
 from the Pydantic models.
 
-- **Machine:** [`schemas/opord.schema.json`](schemas/opord.schema.json) —
+- **Machine (authoring YAML only, never interchange; exchange via OpenAIX):** [`schemas/opord-authoring.schema.json`](schemas/opord-authoring.schema.json) —
   committed at the repo root for anyone (IDE, CI, external tool) to consume.
+- **SPINS:** [JSON Schema](schemas/spins.schema.json), [authoring guide](docs/spins.md), and [generated example](docs/spins-example.html). SPINS supports automatic numbering, recursive prose, lists, tables, figures, citations, and mission amendments to reusable standing instructions.
+- **Complete reader:** [all current schemas and the ATO proposal](docs/complete-schema.html). ATO remains a proposal; SPINS 0.3 is available through `opord spins`.
 - **Human (full JSON Schema tree):** [`docs/schema/index.html`](docs/schema/index.html) — browsable collapsible tree covering the whole OPORD schema. Generated with [`json-schema-for-humans`](https://github.com/coveooss/json-schema-for-humans).
 - **Human (per-annex reference):** [`docs/annex_reference.html`](docs/annex_reference.html) — dedicated single-page reference with a section per annex letter (A–Z). Each section lists the typed-body fields with name, type, required/optional status, and doctrinal description. Includes a shared-types appendix (PIR, HVT, FSCM, DecisionPoint, etc.). This is the doc to read when asking "what goes in Annex D?"
 
@@ -61,7 +64,7 @@ from the Pydantic models.
 Both example YAMLs start with a schema-binding comment:
 
 ```yaml
-# yaml-language-server: $schema=../schemas/opord.schema.json
+# yaml-language-server: $schema=../schemas/opord-authoring.schema.json
 ```
 
 With the **Red Hat YAML** extension (VS Code) or built-in YAML schema
@@ -72,7 +75,8 @@ the `$schema` URI at the committed file or a raw-URL copy.
 ### Regenerating the schema + docs
 
 ```bash
-uv run opord schema --out schemas/opord.schema.json   # regenerate JSON Schema
+uv run opord schema --out schemas/opord-authoring.schema.json   # regenerate JSON Schema
+uv run opord schema --check --out schemas/opord-authoring.schema.json   # fail if stale (also: task schema:check)
 uv run opord docs                                     # regenerate HTML docs
 ```
 
@@ -84,7 +88,7 @@ Run both after any change to `opord_builder/schema/` (the Pydantic model package
 - `opord_builder/renderer.py` — YAML → model → Markdown + PDF.
 - `opord_builder/cli.py` — Typer CLI.
 - `opord_builder/templates/` — Jinja2 markdown + HTML, plus the stylesheet.
-- `schemas/opord.schema.json` — generated JSON Schema (committed).
+- `schemas/opord-authoring.schema.json` — generated JSON Schema (committed).
 - `docs/schema/index.html` — generated human-readable schema docs (committed).
 - `examples/example_full.yaml` — every field populated.
 - `examples/example_minimal.yaml` — header + mission only; proves the

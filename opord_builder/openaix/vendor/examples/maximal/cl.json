@@ -1,0 +1,35 @@
+{
+  "$schema": "urn:openaix:schema:measure-cl:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "coordination_instructions": [
+    "Coordinate with Warhawk and Darkstar before flying or firing through 11000 feet MSL inside the Task Force Bastion area.",
+    "No coordinating altitude applies beyond the FSCL or inside an open kill box."
+  ],
+  "description": "Coordinating altitude over Task Force Bastion, from the boundary to the RFL and from PL BRASS to the FSCL; Warhawk controls the assigned airspace below it, and Darkstar the airspace above it.",
+  "extensions": {
+    "org.cjtf-oir.aco": {
+      "acm_serial": "CA-01"
+    }
+  },
+  "geometry": {
+    "kind": "vertical",
+    "level": {
+      "reference": "MSL",
+      "unit": "ft",
+      "value": 11000
+    }
+  },
+  "id": "bastion-ca",
+  "name": "OIR coordinating altitude",
+  "notes": "Warhawk controls the airspace below the coordinating altitude; Banshee controls the airspace above it.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "responsibility_above": "darkstar",
+  "responsibility_below": "warhawk",
+  "type": "CA"
+}

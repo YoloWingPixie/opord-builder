@@ -1,0 +1,1040 @@
+{
+  "$schema": "urn:openaix:schema:spins:0.1.0-draft.2",
+  "air_defense": {
+    "commit_criteria": [
+      {
+        "altitude": {
+          "lower": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 150
+          },
+          "upper": {
+            "reference": "FL",
+            "unit": "flight_level",
+            "value": 350
+          }
+        },
+        "ato_missions": [
+          "cap-falcon",
+          "sweep"
+        ],
+        "commit_range": {
+          "unit": "nm",
+          "value": 40
+        },
+        "declarations": [
+          "bogey",
+          "bandit",
+          "hostile"
+        ],
+        "id": "cc-falcon",
+        "orbit": "falcon",
+        "procedure": "cap-commit",
+        "threats": [
+          "red-air-fighters"
+        ]
+      },
+      {
+        "ato_missions": [
+          "intercept",
+          "escort-anvil"
+        ],
+        "commit_range": {
+          "unit": "nm",
+          "value": 20
+        },
+        "declarations": [
+          "bandit",
+          "hostile"
+        ],
+        "id": "cc-cobalt",
+        "measures": [
+          "cobalt-box"
+        ],
+        "remarks": "Escorts stay with the strikers unless Darkstar commits them.",
+        "threats": [
+          "red-air-fighters"
+        ]
+      }
+    ],
+    "engagement_authorities": [
+      "darkstar"
+    ],
+    "identification_matrix": [
+      {
+        "authority": "darkstar",
+        "criteria": [
+          "iff_mode_5",
+          "iff_mode_3a_code",
+          "minimum_risk_route"
+        ],
+        "declaration": "friend",
+        "id": "idm-friend",
+        "measures": [
+          "oir-aor"
+        ],
+        "minimum_criteria": 2,
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      },
+      {
+        "authority": "darkstar",
+        "criteria": [
+          "controller_declaration"
+        ],
+        "declaration": "hostile",
+        "id": "idm-hostile",
+        "measures": [
+          "oir-aor"
+        ],
+        "minimum_criteria": 1,
+        "remarks": "Only Darkstar declares a track hostile (OPORD ROE R-3).",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      }
+    ],
+    "return_to_force": [
+      {
+        "agency": "darkstar",
+        "altitude": {
+          "lower": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 12000
+          },
+          "upper": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 14000
+          }
+        },
+        "ato_missions": [
+          "strike-cobalt",
+          "sead-cobalt",
+          "escort-anvil",
+          "ai-zinc",
+          "cas-cobalt"
+        ],
+        "channels": [
+          "control-uhf"
+        ],
+        "checkpoints": [
+          "isp-tinsel"
+        ],
+        "id": "rtf-tinsel",
+        "maximum_speed": {
+          "unit": "kt",
+          "value": 350
+        },
+        "name": "Tinsel return",
+        "routes": [
+          "mrr-tinsel"
+        ],
+        "squawk": "4521",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      },
+      {
+        "agency": "darkstar",
+        "altitude": {
+          "lower": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 7000
+          },
+          "upper": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 9000
+          }
+        },
+        "ato_missions": [
+          "assault-nickel",
+          "pedro-csar"
+        ],
+        "channels": [
+          "control-uhf"
+        ],
+        "id": "rtf-sage",
+        "maximum_speed": {
+          "unit": "kt",
+          "value": 140
+        },
+        "name": "Sage safe passage",
+        "remarks": "Sage holds fire on tracks in the safe lane that squawk 4532.",
+        "safe_lanes": [
+          "sl-sage"
+        ],
+        "squawk": "4532",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      }
+    ],
+    "summary": "Weapons tight in the Sage SHORADEZ; Darkstar alone declares hostile.",
+    "warnings": [
+      {
+        "level": "yellow",
+        "measure": "oir-aor",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      }
+    ],
+    "weapons_control": [
+      {
+        "measure": "sage-shoradez",
+        "status": "tight",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      }
+    ]
+  },
+  "airspace_notes": [
+    {
+      "id": "an-transit",
+      "measures": [
+        "south-transit",
+        "juniper",
+        "marshal"
+      ],
+      "note": "Inbound traffic uses the south transit corridor from Juniper to Marshal between 10000 and 12000 feet MSL."
+    }
+  ],
+  "base": {
+    "id": "oir-spins",
+    "path": "/remarks",
+    "revision": "1"
+  },
+  "cas": {
+    "laser_codes": [
+      {
+        "agencies": [
+          "warhawk"
+        ],
+        "code": "1688",
+        "units": [
+          "tacp-axeman"
+        ],
+        "use": "marking",
+        "window": {
+          "end": "2026-10-02T14:30:00Z",
+          "start": "2026-10-02T13:30:00Z"
+        }
+      },
+      {
+        "code": "1522",
+        "flights": [
+          "hawg"
+        ],
+        "use": "designation",
+        "window": {
+          "end": "2026-10-02T14:30:00Z",
+          "start": "2026-10-02T13:30:00Z"
+        }
+      }
+    ],
+    "lasing_restrictions": [
+      {
+        "id": "lr-nfa",
+        "kind": "no_lasing",
+        "measures": [
+          "quarry-nfa",
+          "range-camp-nfa"
+        ],
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      },
+      {
+        "id": "lr-cobalt",
+        "kind": "permitted_target_lines",
+        "measures": [
+          "cobalt-box"
+        ],
+        "minimum_altitude": {
+          "reference": "MSL",
+          "unit": "ft",
+          "value": 10000
+        },
+        "remarks": "Target lines point away from TF Bastion south-west of the kill box.",
+        "target_lines": [
+          {
+            "from": {
+              "declination_deg": 5.0,
+              "reference": "magnetic",
+              "value": 300
+            },
+            "to": {
+              "reference": "magnetic",
+              "value": 60
+            }
+          }
+        ],
+        "window": {
+          "end": "2026-10-02T14:50:00Z",
+          "start": "2026-10-02T13:20:00Z"
+        }
+      }
+    ],
+    "remarks": "Codes are deconflicted for the whole period; Axeman confirms the code on every 9-line.",
+    "stacks": [
+      {
+        "agency": "warhawk",
+        "id": "stack-mesa",
+        "levels": [
+          {
+            "altitude": {
+              "lower": {
+                "reference": "MSL",
+                "unit": "ft",
+                "value": 15000
+              },
+              "upper": {
+                "reference": "MSL",
+                "unit": "ft",
+                "value": 16000
+              }
+            },
+            "ato_missions": [
+              "scar-gainful"
+            ],
+            "use": "holding"
+          }
+        ],
+        "name": "Mesa CAS stack",
+        "orbit": "mesa",
+        "window": {
+          "end": "2026-10-02T14:30:00Z",
+          "start": "2026-10-02T13:30:00Z"
+        }
+      },
+      {
+        "agency": "warhawk",
+        "id": "stack-silver",
+        "levels": [
+          {
+            "altitude": {
+              "lower": {
+                "reference": "MSL",
+                "unit": "ft",
+                "value": 13000
+              },
+              "upper": {
+                "reference": "MSL",
+                "unit": "ft",
+                "value": 14000
+              }
+            },
+            "ato_missions": [
+              "faca-nail"
+            ],
+            "use": "working"
+          }
+        ],
+        "name": "Silver working stack",
+        "point": "ip-silver",
+        "remarks": "Below 11000 feet MSL the CA applies; contact Warhawk before descent.",
+        "window": {
+          "end": "2026-10-02T14:30:00Z",
+          "start": "2026-10-02T13:30:00Z"
+        }
+      }
+    ]
+  },
+  "changes": [
+    {
+      "op": "replace",
+      "path": "/remarks",
+      "remarks": "The transition altitude is the Jordanian value for the whole AOR.",
+      "value": "All times are UTC. Transition altitude 13000 feet; QNH below it."
+    }
+  ],
+  "check_in": [
+    {
+      "agency": "darkstar",
+      "channels": [
+        "control-uhf"
+      ],
+      "check_in_items": [
+        "callsign",
+        "mission_number",
+        "position",
+        "altitude",
+        "playtime"
+      ],
+      "check_out": "Check out at Cedar on egress.",
+      "contact_point": "juniper",
+      "id": "ci-darkstar"
+    },
+    {
+      "agency": "warhawk",
+      "channels": [
+        "cas-uhf"
+      ],
+      "check_in_items": [
+        "mission_number",
+        "callsign",
+        "aircraft",
+        "position",
+        "altitude",
+        "ordnance",
+        "playtime",
+        "abort_code"
+      ],
+      "check_out": "Check out with Warhawk; give BDA.",
+      "contact_point": "cedar",
+      "id": "ci-warhawk",
+      "procedure": "cas-check-in"
+    }
+  ],
+  "communications": {
+    "brevity": [
+      {
+        "id": "br-bastion",
+        "meaning": "Cobalt kill box is open.",
+        "term": "BASTION"
+      }
+    ],
+    "nets": [
+      {
+        "agency": "darkstar",
+        "channel": "control-uhf",
+        "id": "sn-control",
+        "name": "Darkstar control",
+        "purpose": "Air picture and control"
+      }
+    ],
+    "remarks": "Brevity per ATP 1-02.1 unless this section changes it."
+  },
+  "divert_and_abort": {
+    "abort_code": "TUMBLEWEED",
+    "abort_criteria": [
+      {
+        "action": "divert",
+        "condition": "Weather below 3000 feet ceiling at Muwaffaq Salti",
+        "id": "ab-1"
+      }
+    ],
+    "divert_airfields": [
+      {
+        "airfield": "prince-hassan",
+        "priority": 1
+      },
+      {
+        "airfield": "h4",
+        "conditions": "East of 38E only",
+        "priority": 2
+      }
+    ]
+  },
+  "electromagnetic": {
+    "emission_control": [
+      {
+        "ato_missions": [
+          "strike-cobalt",
+          "sead-cobalt",
+          "escort-anvil",
+          "ai-zinc"
+        ],
+        "id": "emcon-ingress",
+        "level": "reduced",
+        "measures": [
+          "oir-aor"
+        ],
+        "units": [
+          "strike-sqn",
+          "sead-sqn"
+        ],
+        "window": {
+          "end": "2026-10-02T13:20:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      }
+    ],
+    "jamming": [
+      {
+        "area": "jamming-orbit",
+        "ato_missions": [
+          "jam-anvil"
+        ],
+        "authority": "caoc",
+        "emitters": [
+          "sa6-gainful",
+          "sa3-zinc"
+        ],
+        "id": "jam-anvil-window",
+        "protected_frequencies": [
+          {
+            "agency": "darkstar",
+            "channel": "control-uhf",
+            "kind": "protected"
+          },
+          {
+            "frequency": {
+              "band": "uhf",
+              "modulation": "AM",
+              "unit": "MHz",
+              "value": 243.0
+            },
+            "kind": "taboo"
+          }
+        ],
+        "window": {
+          "end": "2026-10-02T13:45:00Z",
+          "start": "2026-10-02T13:20:00Z"
+        }
+      }
+    ],
+    "jamming_authority": "caoc",
+    "remarks": "Air-to-air radars stay in standby until the push at 1320Z."
+  },
+  "emergency": {
+    "damaged_aircraft_routes": [
+      {
+        "agency": "darkstar",
+        "airfield": "ojms",
+        "channel": "control-uhf",
+        "condition": "battle_damage",
+        "id": "dmg-ojms",
+        "measures": [
+          "mrr-tinsel"
+        ],
+        "squawk": "7700"
+      },
+      {
+        "agency": "darkstar",
+        "airfield": "prince-hassan",
+        "channel": "control-uhf",
+        "condition": "fuel_emergency",
+        "id": "dmg-prince-hassan",
+        "routes": [
+          "marshal-exit"
+        ],
+        "squawk": "7700"
+      }
+    ],
+    "jettison_areas": [
+      {
+        "agency": "banshee",
+        "altitude": {
+          "lower": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 7000
+          },
+          "upper": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 8000
+          }
+        },
+        "channel": "banshee-uhf",
+        "heading": {
+          "reference": "magnetic",
+          "value": 90
+        },
+        "id": "jett-tin",
+        "measure": "jettison-tin",
+        "stores": [
+          "hung_ordnance",
+          "unexpended_ordnance",
+          "external_tanks"
+        ],
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      }
+    ],
+    "lost_communication": [
+      {
+        "agency": "darkstar",
+        "id": "lc-darkstar",
+        "phases": [
+          "ph-1",
+          "ph-2",
+          "ph-3"
+        ],
+        "steps": [
+          {
+            "action": "squawk",
+            "after_minutes": 0,
+            "squawk": "7600"
+          },
+          {
+            "action": "return_to_base",
+            "after_minutes": 5,
+            "altitude": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 12000
+            },
+            "route": "marshal-exit"
+          }
+        ]
+      },
+      {
+        "agency": "warhawk",
+        "ato_missions": [
+          "cas-cobalt",
+          "faca-nail"
+        ],
+        "id": "lc-warhawk",
+        "phases": [
+          "ph-2"
+        ],
+        "steps": [
+          {
+            "action": "squawk",
+            "after_minutes": 0,
+            "squawk": "7600"
+          },
+          {
+            "action": "hold",
+            "after_minutes": 0,
+            "altitude": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 14000
+            },
+            "measure": "ip-silver"
+          },
+          {
+            "action": "land",
+            "airfield": "ojms"
+          }
+        ]
+      }
+    ],
+    "remarks": "Squawk 7700 for any emergency; Darkstar gives the nearest suitable airfield."
+  },
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "identification": {
+    "code_words": [
+      {
+        "id": "cw-1",
+        "meaning": "Strike complete",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        },
+        "word": "BRONZE"
+      }
+    ],
+    "iff": [
+      {
+        "code": "22",
+        "id": "iff-m1",
+        "measures": [
+          "mesa"
+        ],
+        "mode": "mode_1",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      },
+      {
+        "ato_missions": [
+          "strike-cobalt",
+          "sead-cobalt",
+          "escort-anvil",
+          "jam-anvil"
+        ],
+        "code": "4521",
+        "id": "iff-m3",
+        "mode": "mode_3a",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      }
+    ]
+  },
+  "kind": "spins",
+  "meta": {
+    "author": "CAOC airspace cell",
+    "classification": "UNCLASSIFIED",
+    "distribution": [
+      "Darkstar",
+      "Banshee",
+      "Salti Tower",
+      "All OIR flights"
+    ],
+    "id": "oir-spins",
+    "issued_at": "2026-10-02T11:00:00Z",
+    "issuing_unit": "CJTF-OIR CAOC",
+    "operation": "INHERENT RESOLVE",
+    "references": [
+      {
+        "id": "oir-aco",
+        "revision": "2",
+        "title": "OIR ACO"
+      },
+      {
+        "id": "oir-ato",
+        "revision": "1",
+        "title": "OIR ATO"
+      },
+      {
+        "id": "oir-opord",
+        "revision": "1",
+        "title": "OIR OPORD 26-01"
+      }
+    ],
+    "revision": "1",
+    "supersedes": {
+      "id": "oir-aco",
+      "path": "oir-aco.json",
+      "revision": "1",
+      "section": "Entire order",
+      "title": "OIR preliminary ACO"
+    },
+    "title": "OIR Special Instructions (SPINS)"
+  },
+  "night_operations": {
+    "lighting": [
+      {
+        "id": "lt-ground",
+        "lights": [
+          "position",
+          "anti_collision"
+        ],
+        "phase": "ground",
+        "setting": "on"
+      },
+      {
+        "id": "lt-target",
+        "lights": [
+          "position",
+          "anti_collision",
+          "formation"
+        ],
+        "measures": [
+          "cobalt-box"
+        ],
+        "phase": "target_area",
+        "setting": "off",
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T14:50:00Z"
+        }
+      }
+    ],
+    "lights_out_areas": [
+      {
+        "altitude": {
+          "lower": {
+            "surface": true
+          },
+          "upper": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 18000
+          }
+        },
+        "ato_missions": [
+          "strike-cobalt",
+          "sead-cobalt",
+          "escort-anvil"
+        ],
+        "id": "lo-cobalt",
+        "measures": [
+          "cobalt-box"
+        ],
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T14:50:00Z"
+        }
+      }
+    ],
+    "nvg": [
+      {
+        "ato_missions": [
+          "assault-nickel",
+          "pedro-csar",
+          "range-clear"
+        ],
+        "id": "nvg-dusk",
+        "lighting": "covert",
+        "measures": [
+          "oir-aor"
+        ],
+        "minimum_altitude": {
+          "reference": "AGL",
+          "unit": "ft",
+          "value": 500
+        },
+        "minimum_illumination": 20,
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T14:50:00Z"
+        }
+      }
+    ],
+    "remarks": "Sunset in the objective area is about 1505Z; helicopters go to NVG and the kill box goes lights-out from 1450Z."
+  },
+  "orders": {
+    "aco": {
+      "id": "oir-aco",
+      "revision": "2"
+    },
+    "ato": {
+      "id": "oir-ato",
+      "revision": "1"
+    },
+    "opord": {
+      "id": "oir-opord",
+      "revision": "1"
+    },
+    "spins": {
+      "id": "oir-spins",
+      "revision": "1"
+    }
+  },
+  "period": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "personnel_recovery": {
+    "agency": "darkstar",
+    "authentication": [
+      {
+        "letter": "K",
+        "number": 7,
+        "window": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        },
+        "word": "OLIVE"
+      }
+    ],
+    "channels": [
+      "rescue-uhf"
+    ],
+    "isoprep": "oir-isoprep",
+    "procedures": [
+      "sar-recognition"
+    ],
+    "remarks": "Survivors mark with day smoke or an infrared strobe at night.",
+    "rescue_forces": [
+      "pedro-csar"
+    ],
+    "safe_areas": [
+      "rescue-reservation"
+    ]
+  },
+  "recovery_routing": {
+    "iff_lines": [
+      "iffoff-zinc",
+      "iffon-nickel"
+    ],
+    "recovery_airfields": [
+      {
+        "airfield": "ojms",
+        "ato_missions": [
+          "strike-cobalt",
+          "sead-cobalt",
+          "escort-anvil",
+          "ai-zinc",
+          "cap-falcon",
+          "sweep",
+          "intercept",
+          "cas-cobalt"
+        ],
+        "channels": [
+          "control-uhf",
+          "banshee-uhf"
+        ],
+        "entry_point": "cedar",
+        "priority": 1,
+        "procedure": "recovery-ojms",
+        "route": "marshal-exit"
+      }
+    ],
+    "remarks": "Set every IFF mode on at IFFON NICKEL before ISP TINSEL.",
+    "return_routes": [
+      "mrr-tinsel"
+    ],
+    "routes": [
+      "marshal-exit"
+    ]
+  },
+  "references": [
+    {
+      "id": "oir-aco",
+      "revision": "2",
+      "title": "OIR ACO"
+    },
+    {
+      "id": "oir-ato",
+      "revision": "1",
+      "title": "OIR ATO"
+    },
+    {
+      "id": "oir-opord",
+      "revision": "1",
+      "title": "OIR OPORD 26-01"
+    }
+  ],
+  "remarks": "All times are UTC. Jordanian transition altitude 13000 feet; QNH below it.",
+  "reports": [
+    {
+      "ato_missions": [
+        "strike-cobalt",
+        "cas-cobalt",
+        "cap-falcon"
+      ],
+      "channel": "ops-uhf",
+      "due": "2026-10-02T12:30:00Z",
+      "from_units": [
+        "strike-sqn",
+        "cas-sqn",
+        "fighter-sqn"
+      ],
+      "interval_minutes": 60,
+      "report": "misrep",
+      "to_agency": "caoc",
+      "to_unit": "caoc",
+      "trigger": "Within 30 minutes of landing"
+    }
+  ],
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": {
+    "other_protected_sites": [
+      {
+        "id": "ps-range-camp",
+        "kind": "infrastructure",
+        "measure": "range-camp-nfa",
+        "name": "Displaced-persons camp",
+        "position": {
+          "latitude": 35.1,
+          "longitude": 40.3
+        },
+        "restriction": "no_strike"
+      }
+    ],
+    "protected_sites": [
+      "ps-quarry"
+    ],
+    "remarks": "Divert per the abort conditions when Muwaffaq Salti is below its minimum.",
+    "weather_minimums": [
+      {
+        "ato_missions": [
+          "shell-aar"
+        ],
+        "ceiling": {
+          "unit": "ft",
+          "value": 5000
+        },
+        "id": "wx-attack",
+        "phase": "target_area",
+        "taskings": [
+          "preplanned_attack",
+          "on_call_cas",
+          "counterland_control"
+        ],
+        "visibility": {
+          "unit": "km",
+          "value": 8
+        }
+      },
+      {
+        "airfield": "ojms",
+        "ceiling": {
+          "unit": "ft",
+          "value": 3000
+        },
+        "id": "wx-ojms",
+        "phase": "landing",
+        "visibility": {
+          "unit": "km",
+          "value": 5
+        }
+      }
+    ]
+  },
+  "rules_of_engagement": {
+    "measures": [
+      "cobalt-box",
+      "quarry-nfa",
+      "oir-fscl"
+    ],
+    "rules": [
+      {
+        "id": "spins-roe-1",
+        "number": "R-1",
+        "rule": "Collateral damage estimate before every preplanned strike.",
+        "units": [
+          "tacp-axeman"
+        ]
+      },
+      {
+        "id": "spins-roe-2",
+        "measures": [
+          "cobalt-box"
+        ],
+        "number": "R-2",
+        "rule": "Attacks in the Cobalt kill box need Banshee clearance.",
+        "window": {
+          "end": "2026-10-02T13:50:00Z",
+          "start": "2026-10-02T13:20:00Z"
+        }
+      }
+    ],
+    "summary": "Positive identification before any attack."
+  },
+  "schema_version": "0.1.0-draft.2",
+  "scope": "standing",
+  "tanker_procedures": [
+    {
+      "altitude": {
+        "lower": {
+          "reference": "FL",
+          "unit": "flight_level",
+          "value": 180
+        },
+        "upper": {
+          "reference": "FL",
+          "unit": "flight_level",
+          "value": 200
+        }
+      },
+      "ato_missions": [
+        "shell-aar"
+      ],
+      "channels": [
+        "tanker-uhf"
+      ],
+      "id": "tk-shell",
+      "procedure": "tanker-rendezvous",
+      "remarks": "Boom only.",
+      "tacan": {
+        "band": "Y",
+        "channel": 63,
+        "identifier": "SHL"
+      },
+      "track": "shell"
+    }
+  ]
+}

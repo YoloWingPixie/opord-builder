@@ -1,0 +1,71 @@
+{
+  "$schema": "urn:openaix:schema:navaid:0.1.0-draft.2",
+  "airfield": "ojms",
+  "class": "VORTAC",
+  "dme_position": {
+    "latitude": 31.83478,
+    "longitude": 36.77861
+  },
+  "elevation": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 1636
+  },
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "angle_deg": 0,
+            "icon": "P91000009.png",
+            "kind": "drawing",
+            "layer": "Blue",
+            "mission_id": "oir-syria",
+            "name": "OIR GHI VORTAC",
+            "object_id": 44,
+            "primitive_type": "Icon",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "frequency": {
+    "band": "vhf",
+    "modulation": "AM",
+    "unit": "MHz",
+    "value": 113.8
+  },
+  "id": "ghi",
+  "ident": "GHI",
+  "magnetic_variation_deg": 5.0,
+  "name": "Muwaffaq Salti VORTAC",
+  "position": {
+    "latitude": 31.834683,
+    "longitude": 36.778475
+  },
+  "provenance": {
+    "authority": "Eagle Dynamics",
+    "derivation": "derived",
+    "tool": {
+      "name": "DCS map file reader",
+      "version": "2.9.8"
+    }
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua",
+  "tacan": {
+    "band": "X",
+    "channel": 85,
+    "identifier": "GHI"
+  },
+  "type": "NAVAID"
+}

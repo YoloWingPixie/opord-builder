@@ -1,0 +1,95 @@
+{
+  "$schema": "urn:openaix:schema:territory:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "affiliation": "hostile",
+  "countries": [
+    "SYR"
+  ],
+  "description": "Land that ISIS holds north of the FLOT, drawn in a GIS tool: a GeoJSON multipolygon (longitude first).",
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "geometry": {
+    "geometry": {
+      "bbox": [
+        39.7,
+        34.4,
+        41.0,
+        35.6
+      ],
+      "coordinates": [
+        [
+          [
+            [
+              39.7,
+              34.85
+            ],
+            [
+              40.75,
+              34.85
+            ],
+            [
+              40.75,
+              35.6
+            ],
+            [
+              39.7,
+              35.6
+            ],
+            [
+              39.7,
+              34.85
+            ]
+          ]
+        ],
+        [
+          [
+            [
+              40.8,
+              34.4
+            ],
+            [
+              41.0,
+              34.4
+            ],
+            [
+              41.0,
+              34.6
+            ],
+            [
+              40.8,
+              34.6
+            ],
+            [
+              40.8,
+              34.4
+            ]
+          ]
+        ]
+      ],
+      "type": "MultiPolygon"
+    },
+    "kind": "geojson"
+  },
+  "id": "isis-held",
+  "lower_limit": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 1000
+  },
+  "name": "ISIS-held Euphrates valley",
+  "notes": "The boundary follows the FLOT; it moves when the FLOT moves.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "type": "TERRITORY",
+  "upper_limit": {
+    "unlimited": true
+  }
+}

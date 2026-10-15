@@ -1,0 +1,192 @@
+{
+  "$defs": {
+    "Cell": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "not": {
+              "required": [
+                "minimum_altitude"
+              ]
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "known"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "minimum_altitude"
+            ]
+          }
+        }
+      ],
+      "description": "A grid cell is one cell of the grid, with one degree of latitude and one degree of longitude. Its edges are on full degrees of latitude and longitude.",
+      "properties": {
+        "minimum_altitude": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+            },
+            {
+              "properties": {
+                "reference": {
+                  "const": "MSL",
+                  "description": "This field gives the reference of the cell altitude: mean sea level (`MSL`)."
+                }
+              }
+            }
+          ],
+          "description": "This field gives the minimum off-route altitude (MORA) of the cell, above mean sea level, as an altitude with its unit and reference."
+        },
+        "northeast": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the north-east corner of the cell, as latitude and longitude. This corner is one degree north and one degree east of the south-west corner."
+        },
+        "southwest": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the south-west corner of the cell, as latitude and longitude."
+        },
+        "status": {
+          "description": "This field gives the condition of the minimum off-route altitude (MORA) of the cell, as one of the enumerated values. An unknown value is not zero.",
+          "enum": [
+            "known",
+            "unknown"
+          ],
+          "x-enum-descriptions": {
+            "known": "The source publishes a minimum off-route altitude (MORA) for the cell.",
+            "unknown": "The source identifies the minimum off-route altitude (MORA) of the cell as unknown. An unknown value is not zero."
+          }
+        }
+      },
+      "required": [
+        "southwest",
+        "northeast",
+        "status"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:grid-mora:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A grid of minimum off-route altitudes is a set of one-degree cells, each with its minimum off-route altitude (MORA). Each cell has one degree of latitude by one degree of longitude. A cell with an unknown value does not have the value zero.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "cells": {
+      "description": "This list contains the one-degree cells. The list does not include cells without published data.",
+      "items": {
+        "$ref": "#/$defs/Cell"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this record of a grid of minimum off-route altitudes. Other resources and orders use this stable identifier to refer to this record of a grid of minimum off-route altitudes."
+    },
+    "kind": {
+      "const": "grid-mora",
+      "description": "The value identifies this record as a record of a grid of minimum off-route altitudes. The value selects this navigation contract."
+    },
+    "name": {
+      "description": "This field gives the name of this record of a grid of minimum off-route altitudes, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Provenance",
+      "description": "This field gives the provenance of this record of a grid of minimum off-route altitudes as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
+    },
+    "source": {
+      "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "name",
+    "cells"
+  ],
+  "title": "Grid Minimum Off-Route Altitude (MORA)",
+  "type": "object",
+  "x-navigation-profile": "grid-mora"
+}

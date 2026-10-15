@@ -1,0 +1,292 @@
+{
+  "$schema": "urn:openaix:schema:resources:0.1.0-draft.2",
+  "kind": "resources",
+  "schema_version": "0.1.0-draft.2",
+  "meta": {
+    "id": "atomic-thunder-resources",
+    "revision": "1",
+    "title": "Atomic Thunder shared resources",
+    "operation": "ATOMIC THUNDER",
+    "classification": "UNCLASSIFIED",
+    "issued_at": "2026-10-14T06:00:00Z"
+  },
+  "resources": {
+    "aircraft_types": {
+      "f-16c-50": {
+        "name": "F-16C Fighting Falcon Block 50",
+        "category": "airplane"
+      },
+      "kc-135": {
+        "name": "KC-135 Stratotanker",
+        "category": "airplane"
+      }
+    },
+    "channels": {
+      "viper-intra": {
+        "name": "Viper intraflight",
+        "frequency": {
+          "value": 276.5,
+          "unit": "MHz",
+          "modulation": "AM",
+          "band": "uhf"
+        },
+        "usage": "Flight discrete"
+      },
+      "shell-uhf": {
+        "name": "Shell 1 tanker",
+        "frequency": {
+          "value": 240.1,
+          "unit": "MHz",
+          "modulation": "AM",
+          "band": "uhf"
+        },
+        "usage": "Air refueling"
+      },
+      "overlord-uhf": {
+        "name": "Overlord control",
+        "frequency": {
+          "value": 251.0,
+          "unit": "MHz",
+          "modulation": "AM",
+          "band": "uhf"
+        },
+        "usage": "Primary air control"
+      },
+      "guard-vhf": {
+        "name": "Strike common",
+        "frequency": {
+          "value": 133.5,
+          "unit": "MHz",
+          "modulation": "AM",
+          "band": "vhf"
+        },
+        "usage": "Strike package common"
+      }
+    },
+    "scls": {
+      "f16-oca": {
+        "id": "f16-oca",
+        "kind": "scl",
+        "name": "Viper OCA (4x GBU-12, 2x AIM-120, 2x AIM-9)",
+        "aircraft_type": "f-16c-50",
+        "laser_code": "1688"
+      }
+    },
+    "areas": {
+      "aar-track-1": {
+        "name": "Anvil AAR track",
+        "geometry": {
+          "kind": "circle",
+          "center": {
+            "latitude": 50.2,
+            "longitude": 6.9
+          },
+          "radius": {
+            "unit": "nm",
+            "value": 10
+          }
+        }
+      }
+    },
+    "targets": {
+      "airbase-bunkers": {
+        "name": "Fictional airbase hardened shelters",
+        "kind": "fixed",
+        "aimpoints": {
+          "shelter-1": {
+            "position": {
+              "latitude": 50.7,
+              "longitude": 8.2
+            }
+          }
+        }
+      }
+    },
+    "places": {
+      "etad": {
+        "id": "etad",
+        "kind": "airfield",
+        "name": "Spangdahlem",
+        "ident": "ETAD",
+        "position": {
+          "latitude": 49.9727,
+          "longitude": 6.6925
+        },
+        "use": "military",
+        "frequencies": [
+          {
+            "role": "ground",
+            "callsign": "Spang Ground",
+            "frequency": {
+              "value": 121.8,
+              "unit": "MHz",
+              "modulation": "AM",
+              "band": "vhf"
+            }
+          },
+          {
+            "role": "tower",
+            "callsign": "Spang Tower",
+            "frequency": {
+              "value": 257.8,
+              "unit": "MHz",
+              "modulation": "AM",
+              "band": "uhf"
+            }
+          },
+          {
+            "role": "approach",
+            "callsign": "Spang Approach",
+            "frequency": {
+              "value": 263.0,
+              "unit": "MHz",
+              "modulation": "AM",
+              "band": "uhf"
+            }
+          }
+        ],
+        "elevation": {
+          "reference": "MSL",
+          "unit": "ft",
+          "value": 1197
+        },
+        "runways": [
+          {
+            "id": "etad-rw05-23",
+            "kind": "runway",
+            "airfield": "etad",
+            "name": "05/23",
+            "designator": "05/23",
+            "length": {
+              "unit": "ft",
+              "value": 10000
+            },
+            "width": {
+              "unit": "ft",
+              "value": 150
+            },
+            "surface": "hard",
+            "ends": [
+              {
+                "designator": "05",
+                "threshold": {
+                  "latitude": 49.96,
+                  "longitude": 6.67
+                },
+                "threshold_elevation": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 1197
+                },
+                "heading": {
+                  "reference": "magnetic",
+                  "value": 50.0,
+                  "declination_deg": 0
+                }
+              },
+              {
+                "designator": "23",
+                "threshold": {
+                  "latitude": 49.985,
+                  "longitude": 6.715
+                },
+                "threshold_elevation": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 1197
+                },
+                "heading": {
+                  "reference": "magnetic",
+                  "value": 230.0,
+                  "declination_deg": 0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "etar": {
+        "id": "etar",
+        "kind": "airfield",
+        "name": "Ramstein",
+        "ident": "ETAR",
+        "position": {
+          "latitude": 49.4369,
+          "longitude": 7.6003
+        },
+        "use": "military",
+        "frequencies": [
+          {
+            "role": "tower",
+            "callsign": "Ramstein Tower",
+            "frequency": {
+              "value": 251.1,
+              "unit": "MHz",
+              "modulation": "AM",
+              "band": "uhf"
+            }
+          }
+        ],
+        "elevation": {
+          "reference": "MSL",
+          "unit": "ft",
+          "value": 776
+        },
+        "runways": [
+          {
+            "id": "etar-rw05-23",
+            "kind": "runway",
+            "airfield": "etar",
+            "name": "05/23",
+            "designator": "05/23",
+            "length": {
+              "unit": "ft",
+              "value": 10000
+            },
+            "width": {
+              "unit": "ft",
+              "value": 150
+            },
+            "surface": "hard",
+            "ends": [
+              {
+                "designator": "05",
+                "threshold": {
+                  "latitude": 49.43,
+                  "longitude": 7.58
+                },
+                "threshold_elevation": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 776
+                },
+                "heading": {
+                  "reference": "magnetic",
+                  "value": 50.0,
+                  "declination_deg": 0
+                }
+              },
+              {
+                "designator": "23",
+                "threshold": {
+                  "latitude": 49.445,
+                  "longitude": 7.62
+                },
+                "threshold_elevation": {
+                  "reference": "MSL",
+                  "unit": "ft",
+                  "value": 776
+                },
+                "heading": {
+                  "reference": "magnetic",
+                  "value": 230.0,
+                  "declination_deg": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "definition_sources": {
+    "ADIZ": {
+      "catalogue_code": "ADIZ",
+      "locator": "Annex B, Table B-5, page B-14",
+      "name": "Air Defence Identification Zone",
+      "source": "nato-ajp-3-3-5"
+    },
+    "ATCAA": {
+      "locator": "Entry ATC assigned airspace, page A-17",
+      "name": "Air Traffic Control Assigned Airspace",
+      "note": "The Federal Aviation Administration (FAA) puts the air traffic control assigned airspace (ATCAA) in special activity airspace, not in special use airspace. An aeronautical chart does not show it. This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Paragraph 21-7-4a, page 21-7-1; paragraph 21-1-3, notes 1 and 2, page 21-1-1",
+          "source": "faa-jo-7400-2r-2026"
+        }
+      ],
+      "source": "faa-pcg-2026"
+    },
+    "ATZ": {
+      "locator": "Article 2, point 11, consolidated page 3",
+      "name": "Aerodrome Traffic Zone",
+      "note": "The definition comes from the European Union (EU) rules of the air.",
+      "source": "eu-sera-923-2012-2025"
+    },
+    "Alert": {
+      "locator": "Paragraph 3-4-6, page 3-4-2",
+      "name": "Alert Area",
+      "note": "The Federal Aviation Administration (FAA) puts the alert area in special use airspace without regulatory status.",
+      "references": [
+        {
+          "locator": "Entry special use airspace, item a, page S-7",
+          "source": "faa-pcg-2026"
+        }
+      ],
+      "source": "faa-aim-2026"
+    },
+    "CFA": {
+      "locator": "Paragraph 27-1-1, page 27-1-1",
+      "name": "Controlled Firing Area",
+      "note": "The Federal Aviation Administration (FAA) puts the controlled firing area (CFA) in special use airspace without regulatory status. An aeronautical chart does not show it, and it has no set dimensions. This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Paragraph 3-4-7, page 3-4-2",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "faa-jo-7400-2r-2026"
+    },
+    "CTA": {
+      "catalogue_code": "CTA",
+      "locator": "Annex B, Table B-1, page B-6",
+      "name": "Control Area",
+      "source": "nato-ajp-3-3-5"
+    },
+    "CTR": {
+      "catalogue_code": "CTZ",
+      "locator": "Annex B, Table B-5, page B-14",
+      "name": "Control Zone",
+      "source": "nato-ajp-3-3-5"
+    },
+    "ClassA": {
+      "locator": "Paragraph 2.6.1, page 2-4; Appendix 4, page APP 4-1",
+      "name": "ICAO Class A Airspace",
+      "note": "Annex 11 Appendix 4 gives the air traffic control (ATC) clearance requirement. The catalogue code `CLSA` gives the AJP-3.3.5 text of this class.",
+      "source": "icao-annex-11-2018"
+    },
+    "ClassB": {
+      "locator": "Paragraph 2.6.1, page 2-4; Appendix 4, page APP 4-1",
+      "name": "ICAO Class B Airspace",
+      "note": "Annex 11 Appendix 4 gives the air traffic control (ATC) clearance requirement. The catalogue code `CLSB` gives the AJP-3.3.5 text of this class.",
+      "references": [
+        {
+          "locator": "Paragraph 3-2-3e, page 3-2-4",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "icao-annex-11-2018"
+    },
+    "ClassC": {
+      "locator": "Paragraph 2.6.1, page 2-4; Appendix 4, page APP 4-1",
+      "name": "ICAO Class C Airspace",
+      "note": "Annex 11 Appendix 4 gives the air traffic control (ATC) clearance requirement. The catalogue code `CLSC` gives the AJP-3.3.5 text of this class.",
+      "references": [
+        {
+          "locator": "Paragraph 3-2-4c3, page 3-2-5; paragraph 3-2-4e, page 3-2-6",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "icao-annex-11-2018"
+    },
+    "ClassD": {
+      "locator": "Paragraph 2.6.1, page 2-4; Appendix 4, page APP 4-1",
+      "name": "ICAO Class D Airspace",
+      "note": "Annex 11 Appendix 4 gives the air traffic control (ATC) clearance requirement. The catalogue code `CLSD` gives the AJP-3.3.5 text of this class.",
+      "references": [
+        {
+          "locator": "Paragraph 3-2-5b3, page 3-2-9; paragraph 3-2-5e, page 3-2-10",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "icao-annex-11-2018"
+    },
+    "ClassE": {
+      "locator": "Paragraph 2.6.1, page 2-4; Appendix 4, page APP 4-1",
+      "name": "ICAO Class E Airspace",
+      "note": "Annex 11 Appendix 4 gives the air traffic control (ATC) clearance requirement. The catalogue code `CLSE` gives the AJP-3.3.5 text of this class.",
+      "source": "icao-annex-11-2018"
+    },
+    "ClassF": {
+      "locator": "Paragraph 2.6.1, page 2-4; Appendix 4, page APP 4-1",
+      "name": "ICAO Class F Airspace",
+      "note": "Annex 11 Appendix 4 gives the air traffic control (ATC) clearance requirement. The catalogue code `CLSF` gives the AJP-3.3.5 text of this class.",
+      "references": [
+        {
+          "locator": "Paragraph 3-2-1a, page 3-2-1; paragraph 3-3-1, page 3-3-1",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "icao-annex-11-2018"
+    },
+    "ClassG": {
+      "locator": "Paragraph 2.6.1, page 2-4; Appendix 4, page APP 4-1",
+      "name": "ICAO Class G Airspace",
+      "note": "Annex 11 Appendix 4 gives the air traffic control (ATC) clearance requirement. The catalogue code `CLSG` gives the AJP-3.3.5 text of this class.",
+      "source": "icao-annex-11-2018"
+    },
+    "Danger": {
+      "catalogue_code": "DA",
+      "locator": "Annex B, Table B-7, page B-18",
+      "name": "Danger Area",
+      "source": "nato-ajp-3-3-5"
+    },
+    "FIR": {
+      "catalogue_code": "FIR",
+      "locator": "Annex B, Table B-7, page B-19",
+      "name": "Flight Information Region",
+      "source": "nato-ajp-3-3-5"
+    },
+    "MOA": {
+      "locator": "Paragraph 25-1-1, page 25-1-1",
+      "name": "Military Operations Area",
+      "note": "The Federal Aviation Administration (FAA) puts the military operations area (MOA) in special use airspace without regulatory status. When air traffic control (ATC) cannot separate an instrument flight rules (IFR) flight from the training, it changes the route or altitude of the flight.",
+      "references": [
+        {
+          "locator": "Paragraph 3-4-5a, page 3-4-2",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "faa-jo-7400-2r-2026"
+    },
+    "MTA": {
+      "catalogue_code": "TRNG",
+      "locator": "Annex B, Table B-1, page B-9",
+      "name": "Training Area",
+      "source": "nato-ajp-3-3-5"
+    },
+    "ModeCVeil": {
+      "locator": "Paragraph 3-2-3b6, page 3-2-3",
+      "name": "Mode C Veil",
+      "note": "Each airport in the list is usually a primary airport in class B airspace. 14 CFR 91.215(b)(2) does not use Mode C veil as a name. This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Paragraph (b)(2)",
+          "source": "ecfr-14-cfr-91-215-2026"
+        },
+        {
+          "locator": "Paragraph 4-1-20f2(d), page 4-1-20",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "faa-aim-2026"
+    },
+    "NSA": {
+      "locator": "Paragraph 3-4-8, page 3-4-3",
+      "name": "National Security Area",
+      "note": "The Federal Aviation Administration (FAA) puts the national security area (NSA) in special use airspace without regulatory status. A temporary flight restriction (TFR) in the conditions of 14 CFR 99.7 can close it temporarily. This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Paragraphs 28-1-1 to 28-1-4, page 28-1-1",
+          "source": "faa-jo-7400-2r-2026"
+        }
+      ],
+      "source": "faa-aim-2026"
+    },
+    "Prohibited": {
+      "catalogue_code": "PROHIB",
+      "locator": "Annex B, Table B-7, page B-19",
+      "name": "Prohibited Area",
+      "source": "nato-ajp-3-3-5"
+    },
+    "RMZ": {
+      "locator": "Article 2, point 106, consolidated page 13; SERA.6005(a), page 42",
+      "name": "Radio Mandatory Zone",
+      "note": "International Civil Aviation Organization (ICAO) Annex 11 and Annex 2 do not give a definition of this zone. The definition comes from the European Union (EU) rules of the air. This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Chapter 1, definitions",
+          "note": "Annex 11 does not define the RMZ.",
+          "source": "icao-annex-11-2018"
+        }
+      ],
+      "source": "eu-sera-923-2012-2025"
+    },
+    "ROZ": {
+      "catalogue_code": "ROZ",
+      "locator": "Annex B, Table B-1, page B-8",
+      "name": "Restricted Operating Zone",
+      "source": "nato-ajp-3-3-5"
+    },
+    "Restricted": {
+      "catalogue_code": "RA",
+      "locator": "Annex B, Table B-7, page B-19",
+      "name": "Restricted Area",
+      "source": "nato-ajp-3-3-5"
+    },
+    "SFRA": {
+      "locator": "Paragraph 3-5-7b, page 3-5-10",
+      "name": "Special Flight Rules Area",
+      "note": "This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Entry special flight rules area, page S-7",
+          "source": "faa-pcg-2026"
+        }
+      ],
+      "source": "faa-aim-2026"
+    },
+    "Sector": {
+      "locator": "Entry control sector, pages C-8 and C-9",
+      "name": "Control Sector",
+      "note": "A sector is usually in an en-route centre or an approach control facility.",
+      "source": "faa-pcg-2026"
+    },
+    "TFR": {
+      "locator": "Entry temporary flight restriction, page T-3",
+      "name": "Temporary Flight Restriction",
+      "note": "Each notice to air missions (NOTAM) gives the dimensions of its temporary flight restriction (TFR). The Federal Aviation Administration (FAA) puts the TFR in special activity airspace. This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Paragraph 3-5-3, page 3-5-3",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "faa-pcg-2026"
+    },
+    "TMA": {
+      "catalogue_code": "TCA",
+      "locator": "Annex B, Table B-7, page B-19",
+      "name": "Terminal Control Area",
+      "source": "nato-ajp-3-3-5"
+    },
+    "TMZ": {
+      "locator": "Article 2, point 136, consolidated page 16; SERA.6005(b), page 42",
+      "name": "Transponder Mandatory Zone",
+      "note": "International Civil Aviation Organization (ICAO) Annex 11 and Annex 2 do not give a definition of this zone. The definition comes from the European Union (EU) rules of the air. This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Paragraph 2.27, page 2-17",
+          "note": "States set transponder carriage requirements in defined portions of airspace; Annex 11 does not use the name.",
+          "source": "icao-annex-11-2018"
+        }
+      ],
+      "source": "eu-sera-923-2012-2025"
+    },
+    "TRA": {
+      "catalogue_code": "TRA",
+      "locator": "Annex B, Table B-1, page B-8",
+      "name": "Temporary Reserved Area",
+      "source": "nato-ajp-3-3-5"
+    },
+    "TRSA": {
+      "locator": "Entry terminal radar service area, page T-3",
+      "name": "Terminal Radar Service Area",
+      "note": "This type is not in AJP-3.3.5 Annex B. It is an airspace type of civil aviation, thus it is an `airspace_type` value, not a catalogue code.",
+      "references": [
+        {
+          "locator": "Paragraph 3-5-6, page 3-5-9",
+          "source": "faa-aim-2026"
+        }
+      ],
+      "source": "faa-pcg-2026"
+    },
+    "TSA": {
+      "catalogue_code": "TSA",
+      "locator": "Annex B, Table B-1, page B-8/B-9",
+      "name": "Temporary Segregated Area",
+      "source": "nato-ajp-3-3-5"
+    },
+    "UIR": {
+      "locator": "Paragraphs 2.11.2.2 and 2.11.2.3, page 2-6",
+      "name": "Upper Flight Information Region",
+      "note": "Annex 11 Chapter 1 does not give a definition of this region. The definition comes from the rules for its limits in paragraph 2.11.2.",
+      "source": "icao-annex-11-2018"
+    },
+    "Warning": {
+      "locator": "Paragraph 3-4-4, page 3-4-2",
+      "name": "Warning Area",
+      "note": "The Federal Aviation Administration (FAA) puts the warning area in special use airspace without regulatory status.",
+      "source": "faa-aim-2026"
+    }
+  },
+  "description": "This catalogue gives the names of airspace types for openAIX authors. Aeronautical Information Exchange Model (AIXM) is only a reference for the names. These names are not AIXM wire codes.",
+  "references": [
+    "https://aixm.aero/sites/default/files/imce/AIXM52HTML/AIXM/DataType_CodeAirspaceBaseType.html"
+  ],
+  "types": {
+    "ADIZ": "An air defence identification zone (ADIZ) is airspace of defined dimensions in which the identification, location and control of aircraft is immediately necessary.",
+    "ATCAA": "An air traffic control assigned airspace (ATCAA) is airspace of defined vertical and lateral limits that air traffic control (ATC) assigns. It separates the stated activities in it from other instrument flight rules (IFR) air traffic.",
+    "ATZ": "An aerodrome traffic zone (ATZ) is airspace of defined dimensions around an aerodrome. Its function is the protection of aerodrome traffic.",
+    "Alert": "An alert area is airspace that can contain a large quantity of pilot training or an unusual type of flight. This training and these flights are not dangerous to aircraft. Charts show the area to tell the pilots of non-participating aircraft about it. All flights in it obey the Code of Federal Regulations. Each pilot in it has the same task of collision avoidance.",
+    "CFA": "A controlled firing area (CFA) is airspace that contains activities that are a danger to non-participating aircraft when they are not in a controlled environment. They stop at once when spotter aircraft, radar or ground observers find an aircraft that approaches.",
+    "CTA": "A control area (CTA) is controlled airspace that extends upwards from a given limit above the surface. Its floor is above the surface, not at the surface. Air traffic control (ATC) gives ATC service to instrument flight rules (IFR) flights in it. Its International Civil Aviation Organization (ICAO) class sets the ATC service for visual flight rules (VFR) flights.",
+    "CTR": "A control zone (CTR) is controlled airspace from the surface to a given upper limit. Air traffic control (ATC) gives ATC service to instrument flight rules (IFR) flights in it. Its International Civil Aviation Organization (ICAO) class sets the ATC service for visual flight rules (VFR) flights.",
+    "ClassA": "International Civil Aviation Organization (ICAO) class A airspace is airspace only for instrument flight rules (IFR) flights. All flights get air traffic control (ATC) service, and an ATC clearance is necessary. ATC separates all flights from each other.",
+    "ClassB": "International Civil Aviation Organization (ICAO) class B airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. All flights get air traffic control (ATC) service, and an ATC clearance is necessary. ATC separates all flights from each other. In the United States, ATC separates VFR flights with radar. When the radar does not operate, ATC stops this service for VFR flights.",
+    "ClassC": "International Civil Aviation Organization (ICAO) class C airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. All flights get air traffic control (ATC) service, and an ATC clearance is necessary. ATC separates IFR flights from all other flights, and VFR flights from IFR flights. VFR flights get traffic information about other VFR flights. In the United States, a VFR flight gets radio contact with ATC before it goes in. An ATC clearance is not necessary.",
+    "ClassD": "International Civil Aviation Organization (ICAO) class D airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. All flights get air traffic control (ATC) service, and an ATC clearance is necessary. ATC separates IFR flights only from other IFR flights. IFR flights get traffic information about VFR flights, and VFR flights get traffic information about all other flights. In the United States, a VFR flight gets radio contact with ATC before it goes in. An ATC clearance is not necessary.",
+    "ClassE": "International Civil Aviation Organization (ICAO) class E airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. Only IFR flights get air traffic control (ATC) service, and an ATC clearance is necessary only for IFR flights. ATC separates IFR flights only from other IFR flights. All flights get traffic information as far as practical. A control zone cannot be class E airspace.",
+    "ClassF": "International Civil Aviation Organization (ICAO) class F airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. No flight gets air traffic control (ATC) service, and an ATC clearance is not necessary. Participating IFR flights get an air traffic advisory service, which separates them from other IFR flights as far as practical. All flights get flight information service when they ask for it. The United States does not use class F airspace.",
+    "ClassG": "International Civil Aviation Organization (ICAO) class G airspace is airspace for instrument flight rules (IFR) and visual flight rules (VFR) flights. No flight gets air traffic control (ATC) service or separation, and an ATC clearance is not necessary. All flights get flight information service when they ask for it.",
+    "Danger": "A danger area is airspace of defined dimensions in which tasks that are dangerous to the flight of aircraft can occur at stated times. This definition comes from air traffic control.",
+    "FIR": "A flight information region (FIR) is airspace of defined dimensions in which flight information service and alerting service are available.",
+    "MOA": "A military operations area (MOA) is airspace that is not in class A airspace. It separates flight training of armed forces that is not dangerous from instrument flight rules (IFR) aircraft. It also shows visual flight rules (VFR) aircraft where this training occurs. When it is active, air traffic control (ATC) lets an IFR flight go through it only when ATC can separate the flight.",
+    "MTA": "A military training area (MTA) is a geographical area that is temporarily or permanently for education and training, which includes exercises and testing. It can include airspace. AJP-3.3.5 gives this area as the training area (TRNG).",
+    "ModeCVeil": "A mode C veil is the airspace that is 30 nautical miles or less from an airport in Appendix D, section 1 of 14 CFR part 91. It goes from the surface to 10,000 feet above mean sea level (MSL). Unless air traffic control (ATC) authorizes a different procedure, aircraft in it have a serviceable transponder with automatic altitude reporting and serviceable `ADS-B Out` equipment.",
+    "NSA": "A national security area (NSA) is airspace of defined vertical and lateral dimensions at locations with ground facilities. At these locations, it is necessary to increase security and safety. The Federal Aviation Administration (FAA) tells pilots to avoid flight through it. A temporary flight restriction (TFR) can temporarily close it to flight.",
+    "Other": "The airspace has a local type that is not in this list. The `local_type` field gives the local name of the type.",
+    "Prohibited": "A prohibited area is airspace of defined dimensions above the land areas or territorial waters of a state. The state prohibits flight in it.",
+    "RMZ": "A radio mandatory zone (RMZ) is airspace of defined dimensions in which the carriage and operation of radio equipment is mandatory.",
+    "ROZ": "A restricted operating zone (ROZ) is airspace of defined dimensions that the airspace control authority designates for a given situation or operational need. Examples are refuelling orbits, holding, fires and landing or drop zones. It restricts the operation of one or more airspace users in it.",
+    "Restricted": "A restricted area is airspace of defined dimensions above the land areas or territorial waters of a state. In it, the conditions that the state gives restrict the flight of aircraft.",
+    "SFRA": "A special flight rules area (SFRA) is airspace of defined dimensions, above land areas or territorial waters. In it, the flight of aircraft obeys 14 CFR part 93, unless air traffic control (ATC) authorizes otherwise.",
+    "Sector": "A control sector is airspace of known horizontal and vertical dimensions. One controller or a group of controllers controls the air traffic in it. The primary traffic flows, the altitude layers and the work of the controllers set its limits. Pilots in it usually speak to air traffic control (ATC) on the frequencies of the sector.",
+    "TFR": "A temporary flight restriction (TFR) is a regulatory action of the Federal Aviation Administration (FAA) in a notice to air missions (NOTAM). It temporarily restricts some aircraft from operation in a defined area. Its function is the protection of persons or property in the air or on the ground.",
+    "TMA": "A terminal control area (TMA) is a control area, usually at the confluence of air traffic services routes near one or more major aerodromes. Air traffic control (ATC) gives ATC service to instrument flight rules (IFR) flights in it. Its International Civil Aviation Organization (ICAO) class sets the ATC service for visual flight rules (VFR) flights.",
+    "TMZ": "A transponder mandatory zone (TMZ) is airspace of defined dimensions in which the carriage and operation of a pressure-altitude reporting transponder is mandatory.",
+    "TRA": "A temporary reserved area (TRA) is a defined volume of airspace that one airspace authority usually controls. By common agreement, it is temporarily for another airspace authority. Other air traffic may transit it only with air traffic control (ATC) clearance.",
+    "TRSA": "A terminal radar service area (TRSA) is airspace around a designated airport. In it, air traffic control (ATC) gives radar vectoring, sequencing and separation full time. This service is for all instrument flight rules (IFR) aircraft and participating visual flight rules (VFR) aircraft. This service is not mandatory for pilots. It is not an airspace class.",
+    "TSA": "A temporary segregated area (TSA) is airspace of defined dimensions for the exclusive use of specified users. Their tasks make this necessary. It is for a set period, and no other traffic uses the airspace.",
+    "UIR": "An upper flight information region (UIR) is a flight information region (FIR) above a different FIR. Its floor is the ceiling of the lower FIR and is a visual flight rules (VFR) cruising level. Its procedures can be different from the procedures of the lower FIR.",
+    "Warning": "A warning area is airspace of known dimensions that starts 3 nautical miles from the coast of the United States. It contains tasks that can be dangerous to non-participating aircraft. Its function is to tell the pilots of non-participating aircraft about this risk. It can be above the waters of the United States, above international waters or above the two."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "urn:openaix:schema:measure-isr:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "id": "kestrel-isr",
+  "name": "Kestrel identification safety range",
+  "range": {
+    "unit": "nm",
+    "value": 15
+  },
+  "reference_force": "Kestrel surface action group",
+  "type": "ISR"
+}

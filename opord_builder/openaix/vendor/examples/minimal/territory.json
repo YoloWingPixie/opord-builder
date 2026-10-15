@@ -1,0 +1,63 @@
+{
+  "$schema": "urn:openaix:schema:territory:0.1.0-draft.2",
+  "affiliation": "hostile",
+  "geometry": {
+    "geometry": {
+      "coordinates": [
+        [
+          [
+            [
+              39.7,
+              34.85
+            ],
+            [
+              40.75,
+              34.85
+            ],
+            [
+              40.75,
+              35.6
+            ],
+            [
+              39.7,
+              35.6
+            ],
+            [
+              39.7,
+              34.85
+            ]
+          ]
+        ],
+        [
+          [
+            [
+              40.8,
+              34.4
+            ],
+            [
+              41.0,
+              34.4
+            ],
+            [
+              41.0,
+              34.6
+            ],
+            [
+              40.8,
+              34.6
+            ],
+            [
+              40.8,
+              34.4
+            ]
+          ]
+        ]
+      ],
+      "type": "MultiPolygon"
+    },
+    "kind": "geojson"
+  },
+  "id": "isis-held",
+  "name": "ISIS-held Euphrates valley",
+  "type": "TERRITORY"
+}

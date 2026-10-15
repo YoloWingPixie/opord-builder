@@ -1,0 +1,171 @@
+{
+  "$id": "urn:openaix:schema:measure-mez:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A missile engagement zone (MEZ) is airspace of defined dimensions in air and missile defence, normally reserved for engagements by surface-to-air missile (SAM) weapon systems. It is an air defence measure. In maritime zone coordination, it is together with the fighter engagement zone (FEZ) and the joint engagement zone (JEZ). Its limits are a sector, an altitude, a range and bearing from a point of origin, or a mixture of these. Aircraft should coordinate before they go into it. The `mez_kind` field gives the type of zone from JP 3-01 (2012), V-11.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this missile engagement zone is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "channels": {
+      "description": "This list identifies the communications channels of this missile engagement zone.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "components": {
+      "description": "This list contains the airspace components of the engagement volume. The volume is a sector, or an area with a range and a bearing from the firing unit.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AirspaceComponent"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "controlling_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the operations in this missile engagement zone.",
+      "x-catalog": "agencies"
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this missile engagement zone has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this missile engagement zone and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this missile engagement zone. Other records and orders use it to refer to this missile engagement zone."
+    },
+    "mez_kind": {
+      "description": "This field gives the type of missile engagement zone, when the source gives it, as one of the enumerated values. The value is a high-altitude missile engagement zone (HIMEZ), a low- to medium-altitude missile engagement zone (LOMEZ) or a short-range air defence engagement zone (SHORADEZ). Each of the catalogue codes `HIMEZ`, `LOMEZ` and `SHORADEZ` agrees with one of these values.",
+      "enum": [
+        "high",
+        "low",
+        "short_range"
+      ],
+      "x-enum-descriptions": {
+        "high": "This value identifies a high-altitude missile engagement zone (HIMEZ), in which high-altitude surface-to-air missiles usually engage the aircraft.",
+        "low": "This value identifies a low- to medium-altitude missile engagement zone (LOMEZ), in which surface-to-air missiles for low and moderate altitudes usually engage the aircraft.",
+        "short_range": "This value identifies a short-range air defence engagement zone (SHORADEZ), in which short-range air defence (SHORAD) weapons usually engage the aircraft."
+      }
+    },
+    "name": {
+      "description": "This field gives the name of this missile engagement zone, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this missile engagement zone, as free text.",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "This field gives the task or objective of this missile engagement zone, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this missile engagement zone. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this missile engagement zone.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": {
+      "const": "MEZ",
+      "description": "The value identifies this record as a missile engagement zone. The value selects the data contract of the control measure. The code `SAMEZ` in Table B-5 of North Atlantic Treaty Organization (NATO) also agrees with this value."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "components",
+    "active"
+  ],
+  "title": "Missile engagement zone",
+  "type": "object"
+}

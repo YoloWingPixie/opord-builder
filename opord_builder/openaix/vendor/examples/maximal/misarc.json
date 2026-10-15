@@ -1,0 +1,53 @@
+{
+  "$schema": "urn:openaix:schema:measure-misarc:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T14:00:00Z",
+    "start": "2026-10-02T13:40:00Z"
+  },
+  "altitude": {
+    "lower": {
+      "surface": true
+    },
+    "upper": {
+      "reference": "FL",
+      "unit": "flight_level",
+      "value": 450
+    }
+  },
+  "axis": {
+    "declination_deg": 5.0,
+    "reference": "true",
+    "value": 45
+  },
+  "center": {
+    "latitude": 34.35,
+    "longitude": 34.4
+  },
+  "controlling_agency": "banshee",
+  "coordination_instructions": [
+    "Contact Salti Tower before entry."
+  ],
+  "description": "Missile arc from the Kestrel destroyer toward an inbound target track from the north-east.",
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "firing_unit": "Kestrel (Arleigh Burke-class destroyer)",
+  "id": "kestrel-misarc",
+  "name": "Kestrel missile arc",
+  "notes": "Aircraft remain clear of the arc while Kestrel fires.",
+  "range": {
+    "unit": "nm",
+    "value": 30
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "Attack only while the Cobalt kill box is open."
+  ],
+  "type": "MISARC",
+  "width_deg": 10
+}

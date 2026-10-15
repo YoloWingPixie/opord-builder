@@ -1,0 +1,297 @@
+{
+  "$defs": {
+    "Acknowledgement": {
+      "additionalProperties": false,
+      "description": "An acknowledgement is the instructions for the acknowledgement of the order.",
+      "properties": {
+        "acknowledge": {
+          "description": "The value is `true` when each addressee acknowledges the order.",
+          "type": "boolean"
+        },
+        "instructions": {
+          "description": "This field gives the instructions for the acknowledgement, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "acknowledge"
+      ],
+      "title": "Acknowledgement",
+      "type": "object"
+    },
+    "Authentication": {
+      "additionalProperties": false,
+      "description": "An authentication is the signature block of the order.",
+      "properties": {
+        "authenticator_name": {
+          "description": "This field gives the name of the staff officer who authenticates the order, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "authenticator_position": {
+          "description": "This field gives the position of the staff officer who authenticates the order, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "commander_name": {
+          "description": "This field gives the last name of the commander, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "commander_rank": {
+          "description": "This field gives the rank of the commander, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "commander_name"
+      ],
+      "title": "Authentication",
+      "type": "object"
+    },
+    "ChangeTarget": {
+      "additionalProperties": false,
+      "description": "A change target is the type, identifier and revision of the order that a change is for.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the order that the change is for. The value is the `meta.id` field of the order."
+        },
+        "kind": {
+          "description": "This field gives the type of the order, as one of the enumerated values.",
+          "enum": [
+            "opord",
+            "ato",
+            "aco",
+            "spins"
+          ],
+          "type": "string"
+        },
+        "revision": {
+          "description": "This field gives the revision of the order that the change is for.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "revision"
+      ],
+      "title": "ChangeTarget",
+      "type": "object"
+    },
+    "OrderChange": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          },
+          "if": {
+            "properties": {
+              "op": {
+                "enum": [
+                  "add",
+                  "replace"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          }
+        }
+      ],
+      "description": "A change is one change to an identified order.",
+      "properties": {
+        "op": {
+          "description": "This field gives the operation of the change, as one of the enumerated values.",
+          "enum": [
+            "add",
+            "replace",
+            "remove"
+          ],
+          "type": "string"
+        },
+        "path": {
+          "description": "This field gives the location of the change, as a JSON Pointer of `RFC 6901`.",
+          "minLength": 1,
+          "pattern": "^(/([^~/]|~[01])*)+$",
+          "type": "string"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the change, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/ChangeTarget",
+          "description": "This field identifies the order that the change is for."
+        },
+        "value": {
+          "description": "This field gives the new value at the location. An `add` or `replace` change shall have this field. A `remove` change shall not have this field."
+        }
+      },
+      "required": [
+        "target",
+        "op",
+        "path"
+      ],
+      "title": "OrderChange",
+      "type": "object"
+    },
+    "OrderRef": {
+      "additionalProperties": false,
+      "description": "An order reference is the identifier and the revision of one order.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the order that this reference is for. The value is the `meta.id` field of the order."
+        },
+        "revision": {
+          "description": "This field gives the revision of the order. The value is the `meta.revision` field of the order.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision"
+      ],
+      "title": "OrderRef",
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:frago:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "anyOf": [
+    {
+      "required": [
+        "changes"
+      ]
+    },
+    {
+      "required": [
+        "mission"
+      ]
+    },
+    {
+      "required": [
+        "commanders_intent"
+      ]
+    }
+  ],
+  "description": "A fragmentary order (FRAGO) is an order that changes one or more identified orders. The orders are an operation order (OPORD), an air tasking order (ATO), an airspace control order (ACO) or a special instructions (SPINS) publication. It contains only the changes, as JSON Pointer changes to one identified revision.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "acknowledgement": {
+      "$ref": "#/$defs/Acknowledgement",
+      "description": "This field gives the acknowledgement instructions."
+    },
+    "authentication": {
+      "$ref": "#/$defs/Authentication",
+      "description": "This field gives the signature block."
+    },
+    "base_order": {
+      "$ref": "#/$defs/OrderRef",
+      "description": "This field identifies the base order that this fragmentary order (FRAGO) changes. The reference gives the identifier and the revision, not a file path."
+    },
+    "changes": {
+      "description": "This list contains the changes, in order. A consumer makes the changes in the sequence of the list. Validation examines only the structure, and consumers make the changes.",
+      "items": {
+        "$ref": "#/$defs/OrderChange"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "commanders_intent": {
+      "description": "This field gives the changed intent of the commander, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "date_time": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+      "description": "This field gives the time of signature of the fragmentary order (FRAGO)."
+    },
+    "effective_time": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+      "description": "This field gives the time of the start of the effect of the fragmentary order (FRAGO)."
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record. The namespace `org.opord-builder.print` contains the data that `opord-builder` puts on each page."
+    },
+    "frago_number": {
+      "description": "This field gives the number of the fragmentary order (FRAGO), such as `01`, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "issuing_headquarters": {
+      "description": "This field gives the name of the headquarters that publishes the fragmentary order (FRAGO), as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "kind": {
+      "const": "frago",
+      "description": "The value identifies this record as a fragmentary order (FRAGO).",
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "description": "This field gives the identification, revision and issue data of this document."
+    },
+    "mission": {
+      "description": "This field gives the changed mission statement, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "references": {
+      "description": "This list contains the documents that the fragmentary order (FRAGO) refers to.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "0.1.0-draft.2",
+      "description": "This field gives the version of the openAIX schema that this document agrees with.",
+      "type": "string"
+    },
+    "summary": {
+      "description": "This field gives the summary of the fragmentary order (FRAGO), as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "time_zone": {
+      "description": "This field gives the letter of the time zone that the order uses for display, such as `Z`. Each time in the document contains an offset.",
+      "minLength": 1,
+      "pattern": "^[A-IK-Z]$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "frago_number",
+    "date_time",
+    "base_order"
+  ],
+  "title": "openAIX FRAGO",
+  "type": "object"
+}

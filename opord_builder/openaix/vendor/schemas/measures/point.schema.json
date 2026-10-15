@@ -1,0 +1,188 @@
+{
+  "$id": "urn:openaix:schema:point:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/PointLocation"
+    }
+  ],
+  "description": "A point is a position with a name, for navigation or control. The roles tell how aircraft use the point, for example for ingress, egress, initial approach, contact point and handover. The air reference points of Annex B (`ACP`, `CP`, `EG`, `HG`, `MG`, `ISP`) are points with the applicable role. The initial point, the bullseye, a target reference point and a fire support station are also points with the applicable role. A charted reporting point for visual flight rules (VFR) flights is a point with the role `visual_reporting`.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this point is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "altitude": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+      "description": "This field gives the vertical limits of the point, as an altitude block with a floor and a ceiling. An example is the altitude block of an entry or exit gate in an airspace control order (ACO)."
+    },
+    "aor": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the area of responsibility that this gate is for.",
+      "x-catalog": "control_measures"
+    },
+    "channels": {
+      "description": "This list identifies the communications channels of this point.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "contact_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that aircraft speak to at this point.",
+      "x-catalog": "agencies"
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this point has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this point and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone",
+                              "unit",
+                              "group",
+                              "static",
+                              "scenery",
+                              "airbase"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "handover_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the aircraft after this gate.",
+      "x-catalog": "agencies"
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this point. Other records and orders use it to refer to this point."
+    },
+    "instructions": {
+      "description": "This list contains the instructions for operations at this point.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "name": {
+      "description": "This field gives the name of this point, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this point, as free text.",
+      "type": "string"
+    },
+    "position": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/PointLocation/properties/position",
+      "description": "This field gives the geographic position of the point, as latitude and longitude."
+    },
+    "position_description": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/PointLocation/properties/position_description",
+      "description": "This field gives the location, as free text. The text is for a location without accurate coordinates, or it gives more information about the coordinates."
+    },
+    "reference_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency for this point or line.",
+      "x-catalog": "agencies"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this point. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this point.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "roles": {
+      "description": "This list contains the roles of this point in operations. One point can have more than one role.",
+      "items": {
+        "enum": [
+          "control",
+          "initial",
+          "ingress",
+          "egress",
+          "gate",
+          "handover",
+          "marshalling",
+          "identification_safety",
+          "bullseye",
+          "fix",
+          "target_reference",
+          "fire_support_station",
+          "visual_reporting"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "route": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the route of this task or connection.",
+      "x-catalog": "routes"
+    },
+    "type": {
+      "const": "POINT",
+      "description": "The value identifies this record as a point control measure. This value is the same for all roles of a point."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "roles",
+    "active"
+  ],
+  "title": "Navigation or control point",
+  "type": "object"
+}

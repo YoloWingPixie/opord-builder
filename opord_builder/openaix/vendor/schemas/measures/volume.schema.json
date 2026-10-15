@@ -1,0 +1,227 @@
+{
+  "$id": "urn:openaix:schema:measure-volume:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "An airspace coordination volume is an airspace with a name and given dimensions, made of components in sequence. Each component has a horizontal boundary, a floor and a ceiling. The type is a code from North Atlantic Treaty Organization (NATO) AJP-3.3.5 Annex B or from doctrine. The code gives the task of the volume and the airspace users that can or cannot go in it. The agency that controls the volume does the coordination of entry and operations.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this airspace coordination volume is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "channels": {
+      "description": "This list identifies the communications channels of this airspace coordination volume.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "components": {
+      "description": "This list contains the airspace components of the volume, in order. Each component has a horizontal boundary, a floor and a ceiling.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AirspaceComponent"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "controlling_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the operations in this airspace coordination volume.",
+      "x-catalog": "agencies"
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this airspace coordination volume has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this airspace coordination volume and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this airspace coordination volume. Other records and orders use it to refer to this airspace coordination volume."
+    },
+    "name": {
+      "description": "This field gives the name of this airspace coordination volume, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this airspace coordination volume, as free text.",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "This field gives the task or objective of this airspace coordination volume, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this airspace coordination volume. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this airspace coordination volume.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": {
+      "description": "This field gives the catalogue code of this control measure, as one of the enumerated values. The code identifies the definition of the control measure in doctrine. The catalogue of control measures gives its class and the source of its definition.",
+      "enum": [
+        "AARA",
+        "ACCA",
+        "AEWA",
+        "ACAR",
+        "CBA",
+        "DZ",
+        "EC",
+        "FACA",
+        "HIDACZ",
+        "LZ",
+        "NFZ",
+        "PZ",
+        "RECCE",
+        "ROZ",
+        "SSMS",
+        "TRA",
+        "TSA",
+        "TRNG",
+        "UAA",
+        "ADIZ",
+        "BDZ",
+        "CADA",
+        "FEZ",
+        "WFZ",
+        "CCZONE",
+        "COZ",
+        "SAFES",
+        "SCZ",
+        "ALTRV",
+        "RCA",
+        "BZ",
+        "JEZ",
+        "ADS"
+      ],
+      "x-enum-descriptions": {
+        "AARA": "An air-to-air refuelling area (AARA) is airspace of defined dimensions for air-to-air refuelling operations. Other airspace users stay out of it, unless they coordinate with its controlling authority.",
+        "ACAR": "An airspace control area (ACAR) is airspace with lateral limits that follow the boundaries of the area of operations. It is the basic geographic element of airspace control. It can contain airspace control sub-areas.",
+        "ACCA": "An airborne command and control area (ACCA) is airspace of defined dimensions, only for aircraft that do battlefield command and control.",
+        "ADIZ": "An air defence identification zone (ADIZ) is airspace of defined dimensions in which the identification, location and control of aircraft is immediately necessary.",
+        "ADS": "An air defence sector (ADS) is a geographical subdivision of an air defence region. An air defence region is a geographical subdivision of an air defence area.",
+        "AEWA": "An airborne early warning area (AEWA) is airspace of defined dimensions, only for aircraft that do airborne early warning.",
+        "ALTRV": "An altitude reservation (ALTRV) is a block of altitude for aircraft to transit or loiter. The altitude reservation is moving or stationary. It always has an upper and a lower limit, and it can also have lateral limits.",
+        "BDZ": "A base defence zone (BDZ) is airspace around a base that increases the effectiveness of its air defence systems. Transit routes should avoid it.",
+        "BZ": "A buffer zone (BZ) is airspace that is a buffer between coordination measures. It is an air reference measure, thus aircraft go through it without coordination.",
+        "CADA": "A coordinated air defence area (CADA) is a block of airspace that a land-based air commander and a naval commander agree together. They agree it when their forces operate close to each other. It sets the limits of their air defence responsibilities.",
+        "CBA": "A cross-border area (CBA) is a temporary segregated area above an international boundary for a specified operational need. Only its designated users can fly in it.",
+        "CCZONE": "A carrier control zone (CCZONE) is an area around an aircraft carrier that operates fixed-wing or rotary-wing aircraft. The carrier controls the area for carrier flight operations.",
+        "COZ": "A crossover zone (COZ) is airspace beyond the missile engagement zone (MEZ) of a maritime force. Air defence fighters may go into it only in hot pursuit of targets, to complete an interception. The fighters give a countdown of the seconds until the engagement.",
+        "DZ": "A drop zone (DZ) is a specified surface area onto which aircraft airdrop airborne troops, equipment or supplies. Aircraft and fires should deconflict with the drop operations.",
+        "EC": "An electromagnetic combat (EC) is airspace only for aircraft that do missions of electromagnetic combat, which is electronic warfare.",
+        "FACA": "A force air coordination area (FACA) is an area around a force in maritime operations, in which airspace control and air defence measures are necessary. The measures prevent mutual interference between all friendly surface and air units and their weapon systems.",
+        "FEZ": "A fighter engagement zone (FEZ) is airspace of defined dimensions in which the engagement of air threats is normally the task of fighter aircraft. This definition is for air defence.",
+        "HIDACZ": "A high-density airspace control zone (HIDACZ) is airspace of defined dimensions that the airspace control authority designates. In it, many different weapons and airspace users operate in a concentrated volume. Aircraft coordinate their entry with its controlling authority.",
+        "JEZ": "A joint engagement zone (JEZ) is airspace of defined dimensions in air defence, in which more than one air defence system engages air threats. These systems are surface-to-air missiles (SAMs) and aircraft, and they engage at the same time. The `OPTASK AAW` sets its limits. Accurate identification and positive control are necessary, thus SAMs do not engage friendly fighters.",
+        "LZ": "A landing zone (LZ) is a zone that aircraft use for landing.",
+        "NFZ": "A no-fly zone (NFZ) is a zone of airspace of defined dimensions for specified functions. In it, no aircraft may operate, unless the enforcing authority authorizes the operation.",
+        "PZ": "A pickup zone (PZ) is an aerial retrieval area, in which aircraft pick up personnel or materiel.",
+        "RCA": "A reduced coordination (RCA) is airspace of defined dimensions in which general air traffic may fly off-route. General air traffic controllers do not have to start coordination with operational air traffic controllers for these flights.",
+        "RECCE": "A reconnaissance area (RECCE) is airspace only for aircraft that do reconnaissance.",
+        "ROZ": "A restricted operating zone (ROZ) is airspace of defined dimensions that the airspace control authority designates for a given situation or operational need. Examples are refuelling orbits, holding, fires and landing or drop zones. It restricts the operation of one or more airspace users in it.",
+        "SAFES": "A safety sector (SAFES) is a sector that routes friendly aircraft to maritime forces with minimum risk. In it, friendly aircraft are safe from friendly fighters or weapons when they approach or return to the maritime force.",
+        "SCZ": "A ship control zone (SCZ) is an area activated around a ship that operates aircraft. Friendly aircraft should not go into it without permission. This prevents friendly interference.",
+        "SSMS": "A surface-to-surface missile system (SSMS) is airspace for the launch and impact points of the Army Tactical Missile System and of surface-launched cruise missiles. It keeps aircraft out of the flight path of the missiles.",
+        "TRA": "A temporary reserved area (TRA) is a defined volume of airspace that one airspace authority usually controls. By common agreement, it is temporarily for another airspace authority. Other air traffic may transit it only with air traffic control (ATC) clearance.",
+        "TRNG": "A training area (TRNG) is a geographical area that is temporarily or permanently for education and training, which includes exercises and testing. It can include airspace.",
+        "TSA": "A temporary segregated area (TSA) is airspace of defined dimensions for the exclusive use of specified users. Their tasks make this necessary. It is for a set period, and no other traffic uses the airspace.",
+        "UAA": "An unmanned aircraft area (UAA) is airspace of defined dimensions, only for unmanned aircraft operations.",
+        "WFZ": "A weapons free zone (WFZ) is an air defence zone that gives protection to important assets or facilities, other than airbases. In it, air defence weapon systems may fire at any target without positive identification as friendly. Transit routes should avoid it."
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "components",
+    "active"
+  ],
+  "title": "Airspace coordination volume",
+  "type": "object"
+}

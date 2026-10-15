@@ -1,0 +1,163 @@
+{
+  "$id": "urn:openaix:schema:orbit:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "An orbit is a flight pattern with an altitude block and the times when it is active. More than one assignment can use the same orbit. An airspace control order (ACO) assignment gives the mission role: combat air patrol (CAP), airborne early warning (AEW), air-to-air refuelling or holding. The orbit has no role.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this orbit is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "altitude": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+      "description": "This field gives the vertical limits of the orbit, as an altitude block with a floor and a ceiling. The block gives the altitudes that aircraft can use."
+    },
+    "channels": {
+      "description": "This list identifies the communications channels of this orbit.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "controlling_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the operations in this orbit.",
+      "x-catalog": "agencies"
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this orbit has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this orbit and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "geometry": {
+      "description": "This field gives the horizontal geometry of the flight pattern. A racetrack has an anchor, a radial, a turn direction and a straight-leg length. A point, a line or a text geometry can record a pattern, but more data is necessary to fly it. A `geojson` geometry (RFC 7946) of the same shape is also correct.",
+      "oneOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_racetrack"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_track_racetrack"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_figure_eight"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_line"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_point"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_description"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_line"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_point"
+        }
+      ]
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this orbit. Other records and orders use it to refer to this orbit."
+    },
+    "name": {
+      "description": "This field gives the name of this orbit, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this orbit, as free text.",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "This field gives the general task of the orbit, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this orbit. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this orbit.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": {
+      "const": "ORBIT",
+      "description": "The value identifies this record as an orbit. The value is the same for all orbits, and the mission of an assignment does not change it."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "geometry",
+    "altitude",
+    "active"
+  ],
+  "title": "Orbit",
+  "type": "object"
+}

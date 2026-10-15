@@ -1,0 +1,110 @@
+{
+  "$schema": "urn:openaix:schema:airway:0.1.0-draft.2",
+  "airway_type": "air_traffic_services",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "closed": true,
+            "kind": "drawing",
+            "layer": "Blue",
+            "line_mode": "segments",
+            "mission_id": "oir-syria",
+            "name": "OIR W610",
+            "object_id": 44,
+            "primitive_type": "Line",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "id": "w610",
+  "ident": "W610",
+  "level": "low",
+  "name": "ATS route W610, GHI to ABC",
+  "provenance": {
+    "authority": "Eagle Dynamics",
+    "derivation": "derived",
+    "tool": {
+      "name": "DCS map file reader",
+      "version": "2.9.8"
+    }
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "segments": [
+    {
+      "directional_restriction": "forward",
+      "distance": {
+        "unit": "nm",
+        "value": 13.6
+      },
+      "fix": {
+        "ident": "GHI",
+        "position": {
+          "latitude": 31.834683,
+          "longitude": 36.778475
+        }
+      },
+      "maximum_altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 19500
+      },
+      "minimum_altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 5000
+      },
+      "outbound_course": {
+        "declination_deg": 5.0,
+        "reference": "magnetic",
+        "value": 38.6
+      }
+    },
+    {
+      "distance": {
+        "unit": "nm",
+        "value": 13.6
+      },
+      "fix": {
+        "ident": "SALAT",
+        "position": {
+          "latitude": 31.998585,
+          "longitude": 36.962669
+        }
+      },
+      "inbound_course": {
+        "declination_deg": 5.0,
+        "reference": "magnetic",
+        "value": 38.6
+      },
+      "maximum_altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 19500
+      },
+      "minimum_altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 5000
+      },
+      "outbound_course": {
+        "declination_deg": 5.0,
+        "reference": "magnetic",
+        "value": 38.8
+      }
+    }
+  ],
+  "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua",
+  "type": "AIRWAY"
+}

@@ -8,7 +8,7 @@ authors can write a sparse YAML and trust the renderer to skip empty sections.
 from __future__ import annotations
 
 from enum import Enum
-from typing import TYPE_CHECKING, Annotated, Literal, Optional
+from typing import TYPE_CHECKING, Annotated, Any, Literal, Optional
 
 from pydantic import Field, model_validator
 
@@ -168,6 +168,10 @@ class Header(_Base):
     author: Optional[str] = Field(
         default=None,
         description="Name and role of the drafting officer or staff element (e.g. 'MAJ J. Rivera, S3'). Shown on the cover as the plan author.",
+    )
+    revision: Optional[str] = Field(
+        default=None,
+        description="Revision of this order (e.g. '1', '2'). Written to OpenAIX meta.revision; a FRAGO exported to OpenAIX names the revision of its base order. Omit for revision 1.",
     )
     logo: Optional[str] = Field(
         default=None,
@@ -1218,8 +1222,41 @@ class Authentication(_Base):
 # ---------------------------------------------------------------------------
 # Top-level OPORD
 # ---------------------------------------------------------------------------
+class OpenAIXRefs(_Base):
+    """File references to OpenAIX documents that own the air-tasking, airspace and comms facts.
+
+    Each value is a file path (relative to this YAML). Once any reference is
+    set, the OpenAIX files are the single source for those facts and the
+    inline duplicates (``airspace_control``, ``FrequencyTable``,
+    ``kneeboards[].comms`` and ``kneeboards[].positions``) are rejected."""
+
+    ato: Optional[str] = Field(
+        default=None,
+        description="Path to an OpenAIX ATO document (flights, missions, tasking).",
+    )
+    aco: Optional[str] = Field(
+        default=None,
+        description="Path to an OpenAIX ACO document (airspace control measures).",
+    )
+    resources: Optional[str] = Field(
+        default=None,
+        description="Path to an OpenAIX resources document (channels, frequencies, callsigns).",
+    )
+    spins: Optional[str] = Field(
+        default=None,
+        description="Path to an OpenAIX SPINS document (typed SPINS data).",
+    )
+
+    def present(self) -> list[str]:
+        """Names of the references that are set, in field order."""
+        return [name for name in type(self).model_fields if getattr(self, name)]
+
+
 class OPORD(_Base):
-    """U.S. Army Operations Order (OPORD). Full 5-paragraph format per FM 6-0 (May 2022) Appendix D / ATP 5-0.2-1."""
+    """U.S. Army Operations Order (OPORD). Full 5-paragraph format per FM 6-0 (May 2022) Appendix D / ATP 5-0.2-1.
+
+    This schema describes the authoring YAML only. It is never an interchange
+    format; exchange data with other tools through OpenAIX."""
 
     header: Header = Field(
         description="OPORD header block with classification, issuing HQ, DTG, references, and task organization."
@@ -1255,6 +1292,45 @@ class OPORD(_Base):
         default_factory=list,
         description="Kneeboard cards for DCS World or print export. Each card renders as a 768×1024 PNG.",
     )
+    openaix: Optional[OpenAIXRefs] = Field(
+        default=None,
+        description="OpenAIX file references (ato, aco, resources, spins). When any is set, inline airspace_control, FrequencyTable and kneeboards[].comms/positions are errors: one source per fact.",
+    )
+
+    openaix_source: Optional[dict[str, Any]] = Field(
+        default=None,
+        description="Written by `opord import-openaix`: the original OpenAIX documents ({opord, resources}) this YAML was imported from. `opord export-openaix` writes only the fields opord-builder owns over this copy, so typed fields opord-builder lacks survive the round trip. Do not edit.",
+    )
+
+    @model_validator(mode="after")
+    def _one_source_per_fact(self) -> "OPORD":
+        if self.openaix is None:
+            return self
+        refs = self.openaix.present()
+        if not refs:
+            return self
+        ref = "openaix." + "/".join(refs)
+        errors: list[str] = []
+        for ai, annex in enumerate(self.annexes):
+            body = annex.typed_body
+            if body is not None and getattr(body, "airspace_control", None) is not None:
+                errors.append(
+                    f"annexes[{ai}].typed_body.airspace_control is set inline but {ref} supplies it; remove the inline value"
+                )
+            for pi, app in enumerate(annex.appendices):
+                if app.frequency_tables:
+                    errors.append(
+                        f"annexes[{ai}].appendices[{pi}].frequency_tables (FrequencyTable) is set inline but {ref} supplies it; remove the inline value"
+                    )
+        for ki, card in enumerate(self.kneeboards):
+            for field in ("comms", "positions"):
+                if getattr(card, field):
+                    errors.append(
+                        f"kneeboards[{ki}].{field} is set inline but {ref} supplies it; remove the inline value"
+                    )
+        if errors:
+            raise ValueError("; ".join(errors))
+        return self
 
     def annex_directory(self) -> list[Annex]:
         """Return the full A–Z directory, filling gaps with canonical
@@ -1485,6 +1561,40 @@ class WARNO(_Base):
         default_factory=list,
         description="Kneeboard cards for DCS World or print export. Each card renders as a 768×1024 PNG.",
     )
+    openaix: Optional[OpenAIXRefs] = Field(
+        default=None,
+        description="OpenAIX file references (ato, aco, resources, spins). When any is set, inline airspace_control, FrequencyTable and kneeboards[].comms/positions are errors: one source per fact.",
+    )
+
+    @model_validator(mode="after")
+    def _one_source_per_fact(self) -> "OPORD":
+        if self.openaix is None:
+            return self
+        refs = self.openaix.present()
+        if not refs:
+            return self
+        ref = "openaix." + "/".join(refs)
+        errors: list[str] = []
+        for ai, annex in enumerate(self.annexes):
+            body = annex.typed_body
+            if body is not None and getattr(body, "airspace_control", None) is not None:
+                errors.append(
+                    f"annexes[{ai}].typed_body.airspace_control is set inline but {ref} supplies it; remove the inline value"
+                )
+            for pi, app in enumerate(annex.appendices):
+                if app.frequency_tables:
+                    errors.append(
+                        f"annexes[{ai}].appendices[{pi}].frequency_tables (FrequencyTable) is set inline but {ref} supplies it; remove the inline value"
+                    )
+        for ki, card in enumerate(self.kneeboards):
+            for field in ("comms", "positions"):
+                if getattr(card, field):
+                    errors.append(
+                        f"kneeboards[{ki}].{field} is set inline but {ref} supplies it; remove the inline value"
+                    )
+        if errors:
+            raise ValueError("; ".join(errors))
+        return self
 
     @property
     def sequence_number(self) -> str:

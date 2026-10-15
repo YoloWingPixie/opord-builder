@@ -1,0 +1,184 @@
+{
+  "$id": "urn:openaix:schema:measure-kb:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A kill box (KB) is a three-dimensional reference system that gives good coordination and control at the correct time, and helps attacks occur quickly. For dynamic targeting operations, it is a permissive fire support coordination measure (FSCM). It decreases the coordination requirements, thus it gives the maximum effects of airpower. Attacks in it occur quickly with less coordination, in the limits of the law of armed conflict (LOAC) and the rules of engagement (ROE). The `killbox_kind` field gives the type, a blue kill box or a purple kill box, from FM 3-09 (2024), paragraph B-19. The firing status `open` or `closed` comes from the assignments in the airspace control order (ACO), not from this record.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this kill box is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "channels": {
+      "description": "This list identifies the communications channels of this kill box.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "components": {
+      "description": "This list contains the airspace components of the kill box volume. A blue kill box starts at the surface or at its coordinating altitude. A purple kill box has a floor above the surface.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AirspaceComponent"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "controlling_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the operations in this kill box.",
+      "x-catalog": "agencies"
+    },
+    "coordinating_altitude": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+      "description": "This field gives the coordinating altitude of the kill box, as an altitude with its unit and reference. A blue kill box can start at this altitude, not at the surface. The source is the multi-service procedures for the kill box (2009)."
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this kill box has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this kill box and its local conditions, as free text.",
+      "type": "string"
+    },
+    "establishing_authority": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the authority that set this kill box.",
+      "x-catalog": "agencies"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "grid_label": {
+      "description": "This field gives the grid reference for display, such as a cell and a keypad label, as free text. This field is optional. The components keep the coordinates in WGS 84 decimal degrees.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this kill box. Other records and orders use it to refer to this kill box."
+    },
+    "killbox_kind": {
+      "description": "This field gives the type of kill box: a blue kill box or a purple kill box, as one of the enumerated values. A blue kill box lets aircraft attack surface targets, and it starts at the surface or at its coordinating altitude. A purple kill box also lets surface units fire at surface targets, and it has an altitude floor.",
+      "enum": [
+        "blue",
+        "purple"
+      ],
+      "x-enum-descriptions": {
+        "blue": "Air-to-surface attacks in the kill box occur with no further coordination with the area of operations (AO) commander. The kill box extends from the surface to a ceiling altitude. Units coordinate indirect fires that hit in it or go through it. The coordination is with the airspace control element, the kill box coordinator or the aircrew on station.",
+        "purple": "Air-to-surface attacks, surface-to-surface fires and subsurface-to-surface fires in the kill box occur with no further coordination with the area of operations (AO) commander. The kill box has an altitude floor, and aircraft do not fly below the floor. Indirect fires that stay below the floor need no further coordination."
+      }
+    },
+    "name": {
+      "description": "This field gives the name of this kill box, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this kill box, as free text.",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "This field gives the task or objective of this kill box, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this kill box. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this kill box.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": {
+      "const": "KB",
+      "description": "The value identifies this record as a kill box. The value selects the data contract of the control measure."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "killbox_kind",
+    "components",
+    "active"
+  ],
+  "title": "Kill box",
+  "type": "object"
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "urn:openaix:schema:holding:0.1.0-draft.2",
+  "hold": {
+    "fix": {
+      "ident": "GHI",
+      "position": {
+        "latitude": 31.834683,
+        "longitude": 36.778475
+      }
+    },
+    "inbound_course": {
+      "reference": "magnetic",
+      "value": 306.0
+    },
+    "leg_time": {
+      "unit": "min",
+      "value": 1.0
+    },
+    "turn_direction": "right"
+  },
+  "id": "ghi-hold",
+  "kind": "holding",
+  "name": "GHI missed-approach hold, OJMS I31"
+}

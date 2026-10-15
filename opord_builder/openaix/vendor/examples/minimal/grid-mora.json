@@ -1,0 +1,24 @@
+{
+  "$schema": "urn:openaix:schema:grid-mora:0.1.0-draft.2",
+  "cells": [
+    {
+      "minimum_altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 6200
+      },
+      "northeast": {
+        "latitude": 32,
+        "longitude": 36
+      },
+      "southwest": {
+        "latitude": 31,
+        "longitude": 35
+      },
+      "status": "known"
+    }
+  ],
+  "id": "mora-n31e035",
+  "kind": "grid-mora",
+  "name": "Grid MORA row N31 E035 eastward"
+}

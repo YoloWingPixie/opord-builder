@@ -1,0 +1,71 @@
+{
+  "$schema": "urn:openaix:schema:measure-aor:0.1.0-draft.2",
+  "active": {
+    "continuous": true
+  },
+  "description": "Area of responsibility of the CJTF-OIR air component in this order, from eastern Jordan to the Euphrates valley; the airspace control area follows it.",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "closed": true,
+            "kind": "drawing",
+            "layer": "Blue",
+            "line_mode": "segments",
+            "mission_id": "oir-syria",
+            "name": "OIR OIR AOR",
+            "object_id": 44,
+            "primitive_type": "Line",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "gates": [
+    "sp-sage",
+    "rp-nickel"
+  ],
+  "geometry": {
+    "kind": "polygon",
+    "rings": [
+      [
+        {
+          "latitude": 32.54,
+          "longitude": 36.9
+        },
+        {
+          "latitude": 32.54,
+          "longitude": 40.9
+        },
+        {
+          "latitude": 35.8,
+          "longitude": 40.9
+        },
+        {
+          "latitude": 35.8,
+          "longitude": 36.9
+        },
+        {
+          "latitude": 32.54,
+          "longitude": 36.9
+        }
+      ]
+    ]
+  },
+  "id": "oir-aor",
+  "name": "OIR area of responsibility",
+  "notes": "The AOR boundary follows the Jordanian and Syrian borders in the south and the west.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "responsible_agency": "caoc",
+  "type": "AOR"
+}

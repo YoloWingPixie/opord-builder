@@ -1,0 +1,99 @@
+{
+  "$schema": "urn:openaix:schema:airspace:0.1.0-draft.2",
+  "active": {
+    "continuous": true
+  },
+  "airspace_class_code": "D",
+  "airspace_type": "CTR",
+  "channels": [
+    "salti-uhf"
+  ],
+  "components": [
+    {
+      "active": {
+        "continuous": true
+      },
+      "extensions": {
+        "org.cjtf-oir.ato": {
+          "ato_day": "214"
+        }
+      },
+      "geometry": {
+        "center": {
+          "latitude": 31.825431,
+          "longitude": 36.781257
+        },
+        "kind": "circle",
+        "radius": {
+          "unit": "nm",
+          "value": 5
+        }
+      },
+      "id": "salti-ctr-core",
+      "lower_limit": {
+        "surface": true
+      },
+      "maximum_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 18000
+      },
+      "minimum_limit": {
+        "reference": "AGL",
+        "unit": "ft",
+        "value": 500
+      },
+      "name": "Salti CTR",
+      "operation": "add",
+      "upper_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 4500
+      }
+    }
+  ],
+  "controlling_agency": "salti-tower",
+  "coordination_instructions": [
+    "Contact Salti Tower before entry."
+  ],
+  "description": "Control zone of Muwaffaq Salti from the surface to 4,500 feet MSL.",
+  "designator": "OJMS CTR",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "angle_deg": 0,
+            "kind": "drawing",
+            "layer": "Blue",
+            "mission_id": "oir-syria",
+            "name": "OIR Salti CTR",
+            "object_id": 44,
+            "polygon_mode": "circle",
+            "primitive_type": "Polygon",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "id": "salti-ctr",
+  "local_type": "Military control zone",
+  "name": "Salti control zone",
+  "notes": "Tower combines ground, tower and approach.",
+  "purpose": "Protect arrivals and departures at Muwaffaq Salti.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "No entry without a clearance from Salti Tower."
+  ],
+  "state": "JOR",
+  "type": "AIRSPACE"
+}

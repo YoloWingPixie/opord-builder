@@ -1,0 +1,14 @@
+{
+  "$id": "urn:openaix:schema:control-measure:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [
+    {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasure"
+    }
+  ],
+  "description": "A control measure is one of the openAIX control measure contracts, and its type selects the contract.",
+  "required": [
+    "id"
+  ],
+  "title": "Control measure"
+}

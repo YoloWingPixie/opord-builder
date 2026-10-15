@@ -1,0 +1,92 @@
+{
+  "$id": "urn:openaix:schema:holding:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A hold record is a holding pattern at a fix. An author writes the hold for an air traffic control (ATC) holding stack, or a published holding leg of a procedure gives it.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "hold": {
+      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Hold",
+      "description": "This field gives the holding pattern of this record. It has the same definition as the holding legs of a procedure."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this record of a hold. Other resources and orders use this stable identifier to refer to this record of a hold."
+    },
+    "kind": {
+      "const": "holding",
+      "description": "The value identifies this record as a record of a hold. The value selects this navigation contract."
+    },
+    "name": {
+      "description": "This field gives the name of this record of a hold, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Provenance",
+      "description": "This field gives the provenance of this record of a hold as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this record of a hold. The reference gives the identifier and the revision of the catalogue."
+    },
+    "source": {
+      "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "name",
+    "hold"
+  ],
+  "title": "Holding",
+  "type": "object",
+  "x-navigation-profile": "holding"
+}

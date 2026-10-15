@@ -1,0 +1,2626 @@
+{
+  "$defs": {
+    "Activation": {
+      "description": "An activation is the time when a control measure is available. It is an interval, a Coordinated Universal Time (UTC) schedule for each week in an interval, or continuous activation.",
+      "oneOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ScheduledWindow"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "continuous": {
+              "const": true,
+              "description": "The value is `true` when the control measure is active all the time, with no scheduled period in which it is not active."
+            }
+          },
+          "required": [
+            "continuous"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "AirspaceComponent": {
+      "additionalProperties": false,
+      "description": "An airspace component is one part of an airspace in three dimensions, with a boundary, a floor and a ceiling. Each component adds a volume, subtracts a volume or intersects a volume, in sequence.",
+      "properties": {
+        "active": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+          "description": "This field gives the time interval during which this component is available, in the time interval of the parent control measure. This field is optional."
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "allOf": [
+                              {
+                                "if": {
+                                  "properties": {
+                                    "primitive_type": {
+                                      "const": "Line"
+                                    }
+                                  },
+                                  "required": [
+                                    "primitive_type"
+                                  ]
+                                },
+                                "then": {
+                                  "properties": {
+                                    "closed": {
+                                      "const": true
+                                    }
+                                  },
+                                  "required": [
+                                    "closed"
+                                  ]
+                                }
+                              }
+                            ],
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "drawing",
+                                  "trigger_zone"
+                                ]
+                              },
+                              "primitive_type": {
+                                "enum": [
+                                  "Polygon",
+                                  "Line"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "geometry": {
+          "description": "This field gives the horizontal boundary of this component: points, distances and bearings in a format for a simulator. A `geojson` geometry (RFC 7946) of the same shape is also correct.",
+          "oneOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_sector"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polyarc"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_corridor"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+            }
+          ]
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this component. Each component in its parent airspace has a different identifier."
+        },
+        "lower_limit": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+          "description": "This field gives the floor of this component: an altitude with its reference, or the surface."
+        },
+        "maximum_limit": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+          "description": "This field gives the maximum limit of this component, as an altitude with its unit and reference. Where this value is higher than `upper_limit`, it increases the ceiling. Each value keeps its reference."
+        },
+        "minimum_limit": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+          "description": "This field gives the minimum floor of this component, as an altitude with its unit and reference. Where this value is higher than `lower_limit`, it replaces the floor. To compare limits with different references, a consumer uses terrain or atmospheric data."
+        },
+        "name": {
+          "description": "This field gives the name of this sector or shelf, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "operation": {
+          "description": "This field gives the operation of this component on the volume that the components before it make, as one of the enumerated values. The components operate in the sequence of the array, and the first component adds a volume.",
+          "enum": [
+            "add",
+            "subtract",
+            "intersect"
+          ]
+        },
+        "upper_limit": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+          "description": "This field gives the ceiling of this component: an altitude with its reference, or no limit."
+        }
+      },
+      "required": [
+        "id",
+        "operation",
+        "geometry",
+        "lower_limit",
+        "upper_limit"
+      ],
+      "type": "object"
+    },
+    "Altitude": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "properties": {
+              "unit": {
+                "enum": [
+                  "ft",
+                  "m"
+                ]
+              }
+            }
+          },
+          "if": {
+            "properties": {
+              "reference": {
+                "const": "FL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "unit": {
+                "const": "flight_level"
+              }
+            }
+          }
+        }
+      ],
+      "description": "An altitude is a vertical position with its unit and its reference: mean sea level (MSL), above ground level (AGL) or flight level (FL).",
+      "properties": {
+        "reference": {
+          "description": "This field gives the vertical reference of the altitude, as one of the enumerated values. The value is mean sea level (MSL), above ground level (AGL) or flight level (FL).",
+          "enum": [
+            "MSL",
+            "AGL",
+            "FL"
+          ],
+          "type": "string"
+        },
+        "unit": {
+          "description": "This field gives the unit of the altitude: feet, metres or flight level, as one of the enumerated values.",
+          "enum": [
+            "ft",
+            "m",
+            "flight_level"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "description": "This field gives the value of the altitude, in the unit of `unit`.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "reference",
+        "unit"
+      ],
+      "title": "Altitude",
+      "type": "object"
+    },
+    "AltitudeBlock": {
+      "additionalProperties": false,
+      "description": "An altitude block is a vertical band between a floor and a ceiling. The floor can be the surface, and the ceiling can have no limit.",
+      "properties": {
+        "lower": {
+          "$ref": "#/$defs/VerticalLimit",
+          "description": "This field gives the floor of the altitude block: an altitude with its reference, or the surface."
+        },
+        "upper": {
+          "$ref": "#/$defs/VerticalLimit",
+          "description": "This field gives the ceiling of the altitude block: an altitude with its reference, or no limit."
+        }
+      },
+      "required": [
+        "lower",
+        "upper"
+      ],
+      "title": "AltitudeBlock",
+      "type": "object"
+    },
+    "Bearing": {
+      "additionalProperties": false,
+      "description": "A bearing is a direction with its value and its north reference: true north or magnetic north. A magnetic bearing keeps the reference that its author gives. The declination is optional. When the declination is not available, a consumer should show that it cannot change the bearing to true north.",
+      "properties": {
+        "declination_deg": {
+          "description": "This field gives the magnetic declination that changes a bearing from true north to magnetic north, in degrees. This field is optional.",
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number"
+        },
+        "reference": {
+          "description": "This field gives the north reference of the bearing: true north or magnetic north, as one of the enumerated values.",
+          "enum": [
+            "true",
+            "magnetic"
+          ]
+        },
+        "value": {
+          "description": "This field gives the value of the bearing, in degrees from 0 to less than 360.",
+          "exclusiveMaximum": 360,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "reference"
+      ],
+      "type": "object"
+    },
+    "ClassificationLevel": {
+      "description": "A classification level is a security classification of the American government that the banner of an operation order (OPORD) can show.",
+      "enum": [
+        "UNCLASSIFIED",
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ],
+      "title": "ClassificationLevel",
+      "type": "string"
+    },
+    "Coalition": {
+      "description": "A coalition is the side of a record in the simulation: `blue`, `red` or `neutral`. It is simulator data, not real-world data.",
+      "enum": [
+        "blue",
+        "red",
+        "neutral"
+      ],
+      "type": "string"
+    },
+    "ControlMeasure": {
+      "description": "A control measure is one openAIX control measure: a reference to one control measure contract, or an extension control measure with a namespace. The `type` field selects the contract.",
+      "oneOf": [
+        {
+          "$ref": "urn:openaix:schema:measure-aca:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:airspace:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:airway:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-aor:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-cl:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-isr:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-kb:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-mez:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-misarc:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:navaid:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:orbit:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:point:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:territory:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-tl:0.1.0-draft.2"
+        },
+        {
+          "$ref": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "$schema": {
+              "description": "This field identifies the schema that validates this document.",
+              "type": "string"
+            },
+            "active": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+              "description": "This field gives the time interval during which the extension control measure is available. The value is a schedule or a flag for continuous activation."
+            },
+            "description": {
+              "description": "This field gives the information about this extension control measure and its local conditions, as free text.",
+              "type": "string"
+            },
+            "extensions": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+              "allOf": [
+                {
+                  "properties": {
+                    "sim": {
+                      "properties": {
+                        "dcs": {
+                          "properties": {
+                            "bindings": {
+                              "items": {
+                                "allOf": [
+                                  {
+                                    "if": {
+                                      "properties": {
+                                        "primitive_type": {
+                                          "const": "Line"
+                                        }
+                                      },
+                                      "required": [
+                                        "primitive_type"
+                                      ]
+                                    },
+                                    "then": {
+                                      "properties": {
+                                        "closed": {
+                                          "const": true
+                                        }
+                                      },
+                                      "required": [
+                                        "closed"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "properties": {
+                                  "kind": {
+                                    "enum": [
+                                      "drawing",
+                                      "trigger_zone"
+                                    ]
+                                  },
+                                  "primitive_type": {
+                                    "enum": [
+                                      "Polygon",
+                                      "Line"
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "propertyNames": {
+                            "enum": [
+                              "bindings",
+                              "coalition"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+            },
+            "geometry": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry",
+              "description": "This field gives the horizontal geometry of the extension control measure: a position or a boundary. The geometry uses points, distances and bearings in a format for a simulator, or a GeoJSON geometry (RFC 7946)."
+            },
+            "id": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+              "description": "This field identifies this extension control measure. Other records and orders use it to refer to this extension control measure."
+            },
+            "name": {
+              "description": "This field gives the name of this extension control measure, for display.",
+              "minLength": 1,
+              "type": "string"
+            },
+            "notes": {
+              "description": "This field gives the notes about this extension control measure, as free text.",
+              "type": "string"
+            },
+            "resources_ref": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+              "description": "This field identifies the resource catalogue that resolves the references of this extension control measure. The reference gives the identifier and the revision of the catalogue."
+            },
+            "type": {
+              "description": "This field gives the type of the extension control measure, as a name with a namespace.",
+              "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "type",
+            "geometry",
+            "extensions"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "ControlMeasureSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the control measure of this selection.",
+          "x-catalog": "control_measures"
+        },
+        "kind": {
+          "const": "control_measure",
+          "description": "The value identifies this record as a control measure selection. The value is `control_measure`."
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ],
+      "type": "object"
+    },
+    "DCSData": {
+      "additionalProperties": false,
+      "dependentRequired": {
+        "clsid": [
+          "pylon"
+        ],
+        "label": [
+          "pylon"
+        ],
+        "settings": [
+          "pylon"
+        ]
+      },
+      "description": "Digital Combat Simulator (DCS) data is the data of a record for DCS. The `bindings` field contains the objects in a DCS mission that are this record or that show it. The other fields contain DCS values that are not objects of a mission.",
+      "properties": {
+        "alic_code": {
+          "description": "This field gives the Digital Combat Simulator (DCS) aircraft launcher interface computer (ALIC) code of the radar. The high-speed anti-radiation missile (HARM) of the DCS F-16C uses this code. Appendix B of the `DCS F-16C Early Access Guide` gives the codes.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "angle_deg": {
+          "description": "This field gives the drawing angle from the Digital Combat Simulator (DCS) mission, in degrees. This angle is not a true bearing or a magnetic bearing. Only a consumer with a correct adapter for DCS should use this angle to turn the shape.",
+          "type": "number"
+        },
+        "bindings": {
+          "description": "This list contains the objects in a Digital Combat Simulator (DCS) mission that are this record or show it on the map. The record keeps its geometry in latitude and longitude, independently of these objects.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DCSObjectRef"
+          },
+          "type": "array"
+        },
+        "clsid": {
+          "description": "This field gives the Digital Combat Simulator (DCS) class identifier (CLSID) of the load on the pylon. For a rack, the CLSID identifies the rack together with its stores.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "clsids": {
+          "description": "This list contains the Digital Combat Simulator (DCS) class identifiers (CLSID) that agree with this store.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "coalition": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Coalition",
+          "description": "This field gives the Digital Combat Simulator (DCS) coalition of the record: `blue`, `red` or `neutral`, as one of the enumerated values. The coalition is the side of the record in the DCS mission."
+        },
+        "label": {
+          "description": "This field gives the label of the pylon in the mission editor.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "objects": {
+          "description": "This list contains the units, groups or static objects in a Digital Combat Simulator (DCS) mission that are parts of the aimpoint.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DCSObjectRef"
+          },
+          "type": "array"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "description": "This field identifies the load in the `UnitPayloads` file of the aircraft that agrees with this standard conventional load (SCL).",
+          "properties": {
+            "name": {
+              "description": "This field gives the name of the load in the `UnitPayloads` file.",
+              "minLength": 1,
+              "type": "string"
+            },
+            "task_ids": {
+              "description": "This list contains the Digital Combat Simulator (DCS) task numbers of the load. The mission editor shows the load for these tasks, for example `31` for close air support (CAS).",
+              "items": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "unit_type": {
+              "description": "This field gives the Digital Combat Simulator (DCS) type name of the aircraft of the load.",
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        },
+        "projection": {
+          "description": "This field identifies the theatre projection of Digital Combat Simulator (DCS) that gives the dimensions and the drawing angle.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "pylon": {
+          "description": "This field gives the Digital Combat Simulator (DCS) pylon number of this station.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "settings": {
+          "description": "This field contains the values of the pylon in the mission editor, such as the fuze values. The record keeps them for round trips.",
+          "type": "object"
+        },
+        "type": {
+          "description": "This field gives the Digital Combat Simulator (DCS) type name of the aircraft type, for example `F-16C_50`.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DCSObjectRef": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "layer"
+                ]
+              },
+              {
+                "required": [
+                  "primitive_type"
+                ]
+              },
+              {
+                "required": [
+                  "polygon_mode"
+                ]
+              },
+              {
+                "required": [
+                  "line_mode"
+                ]
+              },
+              {
+                "required": [
+                  "closed"
+                ]
+              },
+              {
+                "required": [
+                  "text"
+                ]
+              },
+              {
+                "required": [
+                  "icon"
+                ]
+              },
+              {
+                "required": [
+                  "style"
+                ]
+              },
+              {
+                "required": [
+                  "angle_deg"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "const": "drawing"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "zone_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "const": "trigger_zone"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "polygon_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "primitive_type": {
+                "const": "Polygon"
+              }
+            },
+            "required": [
+              "primitive_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "line_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "primitive_type": {
+                "const": "Line"
+              }
+            },
+            "required": [
+              "primitive_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "closed"
+            ]
+          },
+          "then": {
+            "properties": {
+              "primitive_type": {
+                "const": "Line"
+              }
+            },
+            "required": [
+              "primitive_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "text"
+            ]
+          },
+          "then": {
+            "properties": {
+              "primitive_type": {
+                "const": "TextBox"
+              }
+            },
+            "required": [
+              "primitive_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "icon"
+            ]
+          },
+          "then": {
+            "properties": {
+              "primitive_type": {
+                "const": "Icon"
+              }
+            },
+            "required": [
+              "primitive_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "angle_deg"
+            ]
+          },
+          "then": {
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "primitive_type": {
+                      "const": "Polygon"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "polygon_mode": {
+                      "const": "circle"
+                    }
+                  },
+                  "required": [
+                    "polygon_mode"
+                  ]
+                }
+              }
+            ],
+            "properties": {
+              "primitive_type": {
+                "enum": [
+                  "Polygon",
+                  "TextBox",
+                  "Icon"
+                ]
+              }
+            },
+            "required": [
+              "primitive_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "style": {
+                "required": [
+                  "font_size"
+                ]
+              }
+            },
+            "required": [
+              "style"
+            ]
+          },
+          "then": {
+            "properties": {
+              "primitive_type": {
+                "const": "TextBox"
+              }
+            },
+            "required": [
+              "primitive_type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "group_category"
+            ]
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "const": "group"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "unit_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "unit",
+                  "static"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "required": [
+            "object_id"
+          ]
+        }
+      ],
+      "description": "A Digital Combat Simulator (DCS) object reference is a link to one object in a DCS mission. The record that contains this reference keeps its geometry in latitude and longitude, independently of this identifier.",
+      "properties": {
+        "angle_deg": {
+          "description": "This field gives the Digital Combat Simulator (DCS) angle of a point or circle drawing, in degrees. The angle is not a true bearing.",
+          "type": "number"
+        },
+        "closed": {
+          "description": "The value is `true` when the line drawing is a closed shape. The value is `false` when the line drawing is an open line.",
+          "type": "boolean"
+        },
+        "group_category": {
+          "description": "This field gives the class of the group: `airplane`, `helicopter`, `vehicle`, `ship` or `train`, as one of the enumerated values.",
+          "enum": [
+            "airplane",
+            "helicopter",
+            "vehicle",
+            "ship",
+            "train"
+          ]
+        },
+        "icon": {
+          "description": "This field gives the Digital Combat Simulator (DCS) identifier of the icon file.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "This field gives the type of the Digital Combat Simulator (DCS) object, as one of the enumerated values. The types are units, groups, static objects, `scenery` objects, airbases, parking stands, drawings and trigger zones.",
+          "enum": [
+            "unit",
+            "group",
+            "static",
+            "scenery",
+            "airbase",
+            "stand",
+            "drawing",
+            "trigger_zone"
+          ]
+        },
+        "layer": {
+          "description": "This field gives the drawing layer in the mission editor, such as `Blue` or `Author`.",
+          "type": "string"
+        },
+        "line_mode": {
+          "description": "This field gives the mode of a line drawing in Digital Combat Simulator (DCS), as one of the enumerated values.",
+          "enum": [
+            "segment",
+            "segments",
+            "free"
+          ]
+        },
+        "mission_id": {
+          "description": "This field identifies the mission in which a consumer resolves names and number identifiers. This field is optional.",
+          "type": "string"
+        },
+        "name": {
+          "description": "This field gives the name of this Digital Combat Simulator (DCS) object, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "native_fields": {
+          "description": "This field contains the attributes from Digital Combat Simulator (DCS) that have no typed field. The record keeps them for round trips. A typed field for identifiers, geometry or style shall not go in this object.",
+          "propertyNames": {
+            "not": {
+              "enum": [
+                "angle",
+                "closed",
+                "colorString",
+                "file",
+                "fillColorString",
+                "fontSize",
+                "height",
+                "lineMode",
+                "mapX",
+                "mapY",
+                "name",
+                "points",
+                "polygonMode",
+                "primitiveType",
+                "r1",
+                "r2",
+                "radius",
+                "text",
+                "thickness",
+                "type",
+                "verticies",
+                "visible",
+                "width",
+                "x",
+                "y"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "object_id": {
+          "description": "This field gives the Digital Combat Simulator (DCS) number that identifies the object in the mission.",
+          "type": "integer"
+        },
+        "polygon_mode": {
+          "description": "This field gives the mode of a polygon drawing in Digital Combat Simulator (DCS), as one of the enumerated values.",
+          "enum": [
+            "circle",
+            "oval",
+            "rect",
+            "free",
+            "arrow"
+          ]
+        },
+        "primitive_type": {
+          "description": "This field gives the drawing primitive in Digital Combat Simulator (DCS), as one of the enumerated values. The value is a polygon, a line, a text box or an icon.",
+          "enum": [
+            "Polygon",
+            "Line",
+            "TextBox",
+            "Icon"
+          ]
+        },
+        "style": {
+          "additionalProperties": false,
+          "description": "This field contains display attributes from the mission editor, when they are known. The geometry does not change with them.",
+          "properties": {
+            "color": {
+              "description": "This field gives the Digital Combat Simulator (DCS) colour of the line or text in the format `0xRRGGBBAA`. The format gives the red value, green value, blue value and alpha.",
+              "pattern": "^0x[0-9a-fA-F]{8}$",
+              "type": "string"
+            },
+            "fill_color": {
+              "description": "This field gives the Digital Combat Simulator (DCS) fill colour in the format `0xRRGGBBAA`. The format gives the red value, green value, blue value and alpha.",
+              "pattern": "^0x[0-9a-fA-F]{8}$",
+              "type": "string"
+            },
+            "font_size": {
+              "description": "This field gives the font size of the text in Digital Combat Simulator (DCS).",
+              "minimum": 0,
+              "type": "number"
+            },
+            "thickness": {
+              "description": "This field gives the width of the line in Digital Combat Simulator (DCS).",
+              "minimum": 0,
+              "type": "number"
+            },
+            "visible": {
+              "description": "The value is `true` when the drawing shows on the map. The value is `false` when the drawing does not show on the map.",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "text": {
+          "description": "This field gives the text of a text box drawing, as free text.",
+          "type": "string"
+        },
+        "unit_type": {
+          "description": "This field gives the Digital Combat Simulator (DCS) type name of the unit or the static object, when known.",
+          "type": "string"
+        },
+        "zone_type": {
+          "description": "This field gives the Digital Combat Simulator (DCS) type of the trigger zone, as one of the enumerated values. The value `circle` is zone type 0, and the value `quad` is zone type 2.",
+          "enum": [
+            "circle",
+            "quad"
+          ]
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    },
+    "DateTime": {
+      "description": "A date-time is an RFC 3339 date-time with a Coordinated Universal Time (UTC) designator or an offset from UTC, such as `2026-10-02T06:00:00Z`.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "DocumentRef": {
+      "additionalProperties": false,
+      "description": "A document reference is a document that a record refers to. Consumers do not get the document automatically through a network.",
+      "properties": {
+        "id": {
+          "description": "This field identifies the document that the record refers to.",
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "type": "string"
+        },
+        "path": {
+          "description": "This field gives the file path of the document.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "description": "This field gives the revision of the document.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "section": {
+          "description": "This field gives the part of the document that the record refers to, such as a section or a paragraph.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "title": {
+          "description": "This field gives the title of the document.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "DocumentRef",
+      "type": "object"
+    },
+    "Elevation": {
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "const": "MSL",
+          "description": "This field gives the vertical reference of the elevation. The value is always `MSL`."
+        },
+        "unit": {
+          "description": "This field gives the unit of the elevation: feet or metres, as one of the enumerated values.",
+          "enum": [
+            "ft",
+            "m"
+          ]
+        },
+        "value": {
+          "description": "This field gives the value of the elevation, in the unit of `unit`.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "reference",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "Extensions": {
+      "additionalProperties": true,
+      "properties": {
+        "sim": {
+          "$ref": "#/$defs/SimData",
+          "description": "This field contains the simulator data of the record, with the simulator identifier as the key."
+        }
+      },
+      "propertyNames": {
+        "anyOf": [
+          {
+            "const": "sim"
+          },
+          {
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)+$"
+          }
+        ]
+      },
+      "type": "object"
+    },
+    "Frequency": {
+      "additionalProperties": false,
+      "description": "A frequency is a radio frequency in kilohertz or megahertz. The modulation is amplitude modulation (AM) or frequency modulation (FM). The modulation and the radio band are optional.",
+      "properties": {
+        "band": {
+          "description": "This field gives the radio band of the frequency, as one of the enumerated values. The band shall agree with the value of the frequency. The limits are 2 to 30 MHz for high frequency (HF), and 30 to 88 MHz for frequency modulation (FM). The limits are 108 to 174 MHz for very high frequency (VHF), and 225 to 400 MHz for ultra high frequency (UHF).",
+          "enum": [
+            "hf",
+            "fm",
+            "vhf",
+            "uhf"
+          ],
+          "x-enum-descriptions": {
+            "fm": "This value identifies the very high frequency (VHF) band with frequency modulation (FM) that army radios use, from 30 to 88 MHz.",
+            "hf": "This value identifies the high frequency (HF) band, from 3 to 30 MHz, for radio communication at long range.",
+            "uhf": "This value identifies the ultra high frequency (UHF) band of the aircraft radios of armed forces, from 225 to 400 MHz.",
+            "vhf": "This value identifies the very high frequency (VHF) band of aircraft radios, from 118 to 137 MHz."
+          }
+        },
+        "modulation": {
+          "description": "This field gives the modulation of the radio frequency: amplitude modulation (AM) or frequency modulation (FM), as one of the enumerated values. This field is optional.",
+          "enum": [
+            "AM",
+            "FM"
+          ]
+        },
+        "unit": {
+          "description": "This field gives the unit of the frequency: kilohertz or megahertz, as one of the enumerated values.",
+          "enum": [
+            "kHz",
+            "MHz"
+          ]
+        },
+        "value": {
+          "description": "This field gives the value of the frequency, in the unit of `unit`.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "GeoJSONLineString": {
+      "additionalProperties": false,
+      "description": "A GeoJSON line string is a GeoJSON geometry object of the type `LineString`, as in RFC 7946.",
+      "properties": {
+        "bbox": {
+          "description": "This list contains the limits of the bounding box of the geometry, as in RFC 7946 section 5.",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 6,
+          "minItems": 4,
+          "type": "array"
+        },
+        "coordinates": {
+          "description": "This list contains the positions of the line string, in order. Each item is a GeoJSON position.",
+          "items": {
+            "$ref": "#/$defs/GeoJSONPosition"
+          },
+          "minItems": 2,
+          "type": "array"
+        },
+        "type": {
+          "const": "LineString",
+          "description": "The value identifies this record as a GeoJSON `LineString`."
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "type": "object"
+    },
+    "GeoJSONLinearRing": {
+      "description": "A GeoJSON linear ring is a closed sequence of four or more positions. The first position and the last position shall be the same.",
+      "items": {
+        "$ref": "#/$defs/GeoJSONPosition"
+      },
+      "minItems": 4,
+      "type": "array"
+    },
+    "GeoJSONMultiPolygon": {
+      "additionalProperties": false,
+      "description": "A GeoJSON multipolygon is a GeoJSON geometry object of the type `MultiPolygon`, as in RFC 7946.",
+      "properties": {
+        "bbox": {
+          "description": "This list contains the limits of the bounding box of the geometry, as in RFC 7946 section 5.",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 6,
+          "minItems": 4,
+          "type": "array"
+        },
+        "coordinates": {
+          "description": "This list contains the polygons of the multipolygon. Each polygon is a list of linear rings, as in a GeoJSON polygon.",
+          "items": {
+            "items": {
+              "$ref": "#/$defs/GeoJSONLinearRing"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "type": {
+          "const": "MultiPolygon",
+          "description": "The value identifies this record as a GeoJSON `MultiPolygon`."
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "type": "object"
+    },
+    "GeoJSONPoint": {
+      "additionalProperties": false,
+      "description": "A GeoJSON point is a GeoJSON geometry object of the type `Point`, as in RFC 7946.",
+      "properties": {
+        "bbox": {
+          "description": "This list contains the limits of the bounding box of the geometry, as in RFC 7946 section 5.",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 6,
+          "minItems": 4,
+          "type": "array"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/GeoJSONPosition",
+          "description": "This field gives the GeoJSON position of the point: longitude first, then latitude."
+        },
+        "type": {
+          "const": "Point",
+          "description": "The value identifies this record as a GeoJSON `Point`."
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "type": "object"
+    },
+    "GeoJSONPolygon": {
+      "additionalProperties": false,
+      "description": "A GeoJSON polygon is a GeoJSON geometry object of the type `Polygon`, as in RFC 7946.",
+      "properties": {
+        "bbox": {
+          "description": "This list contains the limits of the bounding box of the geometry, as in RFC 7946 section 5.",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 6,
+          "minItems": 4,
+          "type": "array"
+        },
+        "coordinates": {
+          "description": "This list contains the linear rings of the polygon. The first ring is the outer boundary; the other rings are holes.",
+          "items": {
+            "$ref": "#/$defs/GeoJSONLinearRing"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "type": {
+          "const": "Polygon",
+          "description": "The value identifies this record as a GeoJSON `Polygon`."
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ],
+      "type": "object"
+    },
+    "GeoJSONPosition": {
+      "description": "A GeoJSON position is a longitude and a latitude in WGS 84 decimal degrees, in this sequence. A third number, the height, is optional. This sequence is the opposite of a geographic point.",
+      "items": false,
+      "maxItems": 3,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number"
+        },
+        {
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "type": "array"
+    },
+    "GeoPoint": {
+      "additionalProperties": false,
+      "description": "A geographic point is a position in WGS 84 decimal degrees. An adapter is necessary for the Cartesian coordinates of a simulator.",
+      "properties": {
+        "latitude": {
+          "description": "This field gives the latitude north of the equator, in decimal degrees. A south latitude is a negative value.",
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number"
+        },
+        "longitude": {
+          "description": "This field gives the longitude east of Greenwich, in decimal degrees. A west longitude is a negative value.",
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number"
+        }
+      },
+      "required": [
+        "latitude",
+        "longitude"
+      ],
+      "title": "GeoPoint",
+      "type": "object"
+    },
+    "Geometry": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Geometry_point"
+        },
+        {
+          "$ref": "#/$defs/Geometry_line"
+        },
+        {
+          "$ref": "#/$defs/Geometry_polygon"
+        },
+        {
+          "$ref": "#/$defs/Geometry_circle"
+        },
+        {
+          "$ref": "#/$defs/Geometry_corridor"
+        },
+        {
+          "$ref": "#/$defs/Geometry_racetrack"
+        },
+        {
+          "$ref": "#/$defs/Geometry_track_racetrack"
+        },
+        {
+          "$ref": "#/$defs/Geometry_sector"
+        },
+        {
+          "$ref": "#/$defs/Geometry_polyarc"
+        },
+        {
+          "$ref": "#/$defs/Geometry_path"
+        },
+        {
+          "$ref": "#/$defs/Geometry_figure_eight"
+        },
+        {
+          "$ref": "#/$defs/Geometry_vertical"
+        },
+        {
+          "$ref": "#/$defs/Geometry_description"
+        },
+        {
+          "$ref": "#/$defs/Geometry_geojson_point"
+        },
+        {
+          "$ref": "#/$defs/Geometry_geojson_line"
+        },
+        {
+          "$ref": "#/$defs/Geometry_geojson_polygon"
+        },
+        {
+          "$ref": "#/$defs/Geometry_rectangle"
+        },
+        {
+          "$ref": "#/$defs/Geometry_ellipse"
+        }
+      ]
+    },
+    "Geometry_circle": {
+      "additionalProperties": false,
+      "description": "A circle geometry is a horizontal disc with a centre and a radius.",
+      "properties": {
+        "center": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the centre of the circle, as latitude and longitude."
+        },
+        "kind": {
+          "const": "circle",
+          "description": "The value identifies this record as a circle geometry. The value is `circle`."
+        },
+        "radius": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the horizontal distance from the centre to the boundary, as a length with its unit."
+        }
+      },
+      "required": [
+        "kind",
+        "center",
+        "radius"
+      ],
+      "type": "object"
+    },
+    "Geometry_corridor": {
+      "additionalProperties": false,
+      "description": "A corridor geometry is a route centreline with a total lateral width.",
+      "properties": {
+        "kind": {
+          "const": "corridor",
+          "description": "The value identifies this record as a corridor geometry. The value is `corridor`."
+        },
+        "one_way": {
+          "description": "The value is `true` when aircraft fly the corridor only in the sequence of its points. The value is `false` when aircraft fly the corridor in the two directions.",
+          "type": "boolean"
+        },
+        "points": {
+          "description": "This list contains the geographic positions of the centreline, in order. The first position is the start.",
+          "items": {
+            "$ref": "#/$defs/GeoPoint"
+          },
+          "minItems": 2,
+          "type": "array"
+        },
+        "width": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the total lateral width of the corridor, with the centreline at its centre, as a length with its unit."
+        }
+      },
+      "required": [
+        "kind",
+        "points",
+        "width"
+      ],
+      "type": "object"
+    },
+    "Geometry_description": {
+      "additionalProperties": false,
+      "description": "A `description` geometry is a text that gives a geographic position or an area, with no coordinates.",
+      "properties": {
+        "kind": {
+          "const": "description",
+          "description": "The value identifies this record as a `description` geometry. The value is `description`."
+        },
+        "text": {
+          "description": "This field gives the geographic position or area, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "text"
+      ],
+      "type": "object"
+    },
+    "Geometry_ellipse": {
+      "additionalProperties": false,
+      "description": "An ellipse geometry is an ellipse with a centre in latitude and longitude and with dimensions in metres. It is not a polygon of sample points. A Digital Combat Simulator (DCS) drawing keeps its angle and its theatre projection in `extensions.sim.dcs`.",
+      "properties": {
+        "center": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the centre of the ellipse, as latitude and longitude."
+        },
+        "east_radius_m": {
+          "description": "This field gives the east radius before a simulator turns the drawing, in metres.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {},
+                      "propertyNames": {
+                        "enum": [
+                          "angle_deg",
+                          "projection"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "kind": {
+          "const": "ellipse",
+          "description": "The value identifies this record as a ellipse geometry. The value is `ellipse`."
+        },
+        "north_radius_m": {
+          "description": "This field gives the north radius before a simulator turns the drawing, in metres.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "center",
+        "north_radius_m",
+        "east_radius_m"
+      ],
+      "type": "object"
+    },
+    "Geometry_figure_eight": {
+      "additionalProperties": false,
+      "description": "A figure-eight geometry is a figure-eight flight pattern with an anchor, an axis, a leg length and a turn radius.",
+      "properties": {
+        "axis": {
+          "$ref": "#/$defs/Bearing",
+          "description": "This field gives the direction of the axis of the flight pattern from its anchor, as a bearing with its unit and reference."
+        },
+        "kind": {
+          "const": "figure_eight",
+          "description": "The value identifies this record as a figure-eight geometry. The value is `figure_eight`."
+        },
+        "leg_length": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the length of each straight leg, without the turns, as a length with its unit."
+        },
+        "point": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the anchor of the flight pattern, as latitude and longitude."
+        },
+        "turn_radius": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the radius of the turns of the flight pattern, when given, as a length with its unit."
+        }
+      },
+      "required": [
+        "kind",
+        "point",
+        "axis",
+        "leg_length"
+      ],
+      "type": "object"
+    },
+    "Geometry_geojson_line": {
+      "additionalProperties": false,
+      "description": "A GeoJSON line geometry is a line as a GeoJSON geometry object (RFC 7946), unchanged. Shapes from a geographic information system (GIS) tool go in as they are. GeoJSON has no curves: circles, arcs and racetracks use their openAIX kinds.",
+      "properties": {
+        "geometry": {
+          "$ref": "#/$defs/GeoJSONLineString",
+          "description": "This field contains the GeoJSON `LineString` object."
+        },
+        "kind": {
+          "const": "geojson",
+          "description": "The value identifies this record as a GeoJSON geometry. The value is `geojson`."
+        }
+      },
+      "required": [
+        "kind",
+        "geometry"
+      ],
+      "type": "object"
+    },
+    "Geometry_geojson_point": {
+      "additionalProperties": false,
+      "description": "A GeoJSON point geometry is a point as a GeoJSON geometry object (RFC 7946), unchanged. Shapes from a geographic information system (GIS) tool go in as they are. GeoJSON has no curves: circles, arcs and racetracks use their openAIX kinds.",
+      "properties": {
+        "geometry": {
+          "$ref": "#/$defs/GeoJSONPoint",
+          "description": "This field contains the GeoJSON `Point` object."
+        },
+        "kind": {
+          "const": "geojson",
+          "description": "The value identifies this record as a GeoJSON geometry. The value is `geojson`."
+        }
+      },
+      "required": [
+        "kind",
+        "geometry"
+      ],
+      "type": "object"
+    },
+    "Geometry_geojson_polygon": {
+      "additionalProperties": false,
+      "description": "A GeoJSON polygon or multipolygon geometry is a polygon or multipolygon as a GeoJSON geometry object (RFC 7946), unchanged. Shapes from a geographic information system (GIS) tool go in as they are. GeoJSON has no curves: circles, arcs and racetracks use their openAIX kinds.",
+      "properties": {
+        "geometry": {
+          "description": "This field contains the GeoJSON `Polygon` or `MultiPolygon` object.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/GeoJSONPolygon"
+            },
+            {
+              "$ref": "#/$defs/GeoJSONMultiPolygon"
+            }
+          ]
+        },
+        "kind": {
+          "const": "geojson",
+          "description": "The value identifies this record as a GeoJSON geometry. The value is `geojson`."
+        }
+      },
+      "required": [
+        "kind",
+        "geometry"
+      ],
+      "type": "object"
+    },
+    "Geometry_line": {
+      "additionalProperties": false,
+      "description": "A line geometry is a sequence of geographic positions that makes an open line.",
+      "properties": {
+        "kind": {
+          "const": "line",
+          "description": "The value identifies this record as a line geometry. The value is `line`."
+        },
+        "points": {
+          "description": "This list contains the geographic positions of the open line, in order. The first position is the start.",
+          "items": {
+            "$ref": "#/$defs/GeoPoint"
+          },
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "points"
+      ],
+      "type": "object"
+    },
+    "Geometry_path": {
+      "additionalProperties": false,
+      "description": "A path geometry is an open line of straight segments and circular-arc segments in sequence. It does not close into an area.",
+      "properties": {
+        "kind": {
+          "const": "path",
+          "description": "The value identifies this record as a path geometry. The value is `path`."
+        },
+        "segments": {
+          "description": "This list contains, in order, the straight segments and circular-arc segments that make the path. A straight segment that follows a straight segment shall start at its end.",
+          "items": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "end": {
+                    "$ref": "#/$defs/GeoPoint",
+                    "description": "This field gives the geographic position of the end of the straight segment, as latitude and longitude."
+                  },
+                  "kind": {
+                    "const": "line",
+                    "description": "The value identifies this record as a path segment. The value is `line` for a straight segment and `arc` for an arc."
+                  },
+                  "start": {
+                    "$ref": "#/$defs/GeoPoint",
+                    "description": "This field gives the geographic position of the start of the straight segment, as latitude and longitude."
+                  }
+                },
+                "required": [
+                  "kind",
+                  "start",
+                  "end"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "center": {
+                    "$ref": "#/$defs/GeoPoint",
+                    "description": "This field gives the geographic position of the centre of the arc, as latitude and longitude."
+                  },
+                  "end_bearing": {
+                    "$ref": "#/$defs/Bearing",
+                    "description": "This field gives the bearing from the centre to the end of the arc, as a bearing with its unit and reference."
+                  },
+                  "kind": {
+                    "const": "arc",
+                    "description": "The value identifies this record as a path segment. The value is `line` for a straight segment and `arc` for an arc."
+                  },
+                  "radius": {
+                    "$ref": "#/$defs/Length",
+                    "description": "This field gives the radius of the arc, as a length with its unit."
+                  },
+                  "start_bearing": {
+                    "$ref": "#/$defs/Bearing",
+                    "description": "This field gives the bearing from the centre to the start of the arc, as a bearing with its unit and reference."
+                  },
+                  "turns": {
+                    "description": "This field gives the direction of the arc from its start to its end, as one of the enumerated values. With the value `left`, the arc turns to the left side, and with `right`, it turns to the right side.",
+                    "enum": [
+                      "left",
+                      "right"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "center",
+                  "radius",
+                  "start_bearing",
+                  "end_bearing",
+                  "turns"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "segments"
+      ],
+      "type": "object"
+    },
+    "Geometry_point": {
+      "additionalProperties": false,
+      "description": "A point geometry is one geographic position.",
+      "properties": {
+        "kind": {
+          "const": "point",
+          "description": "The value identifies this record as a point geometry. The value is `point`."
+        },
+        "position": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the point, as latitude and longitude."
+        }
+      },
+      "required": [
+        "kind",
+        "position"
+      ],
+      "type": "object"
+    },
+    "Geometry_polyarc": {
+      "additionalProperties": false,
+      "description": "A polyarc geometry is a horizontal boundary of straight segments and circular-arc segments in sequence.",
+      "properties": {
+        "kind": {
+          "const": "polyarc",
+          "description": "The value identifies this record as a polyarc geometry. The value is `polyarc`."
+        },
+        "segments": {
+          "description": "This list contains, in order, the straight segments and circular-arc segments that make the boundary.",
+          "items": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "end": {
+                    "$ref": "#/$defs/GeoPoint",
+                    "description": "This field gives the geographic position of the end of the boundary segment, as latitude and longitude."
+                  },
+                  "kind": {
+                    "const": "line",
+                    "description": "The value identifies this record as a boundary segment. The value is `line` for a straight segment and `arc` for an arc."
+                  },
+                  "start": {
+                    "$ref": "#/$defs/GeoPoint",
+                    "description": "This field gives the geographic position of the start of the boundary segment, as latitude and longitude."
+                  }
+                },
+                "required": [
+                  "kind",
+                  "start",
+                  "end"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "center": {
+                    "$ref": "#/$defs/GeoPoint",
+                    "description": "This field gives the geographic position of the centre of the arc, as latitude and longitude."
+                  },
+                  "end_bearing": {
+                    "$ref": "#/$defs/Bearing",
+                    "description": "This field gives the bearing from the centre to the end of the arc, as a bearing with its unit and reference."
+                  },
+                  "kind": {
+                    "const": "arc",
+                    "description": "The value identifies this record as a boundary segment. The value is `line` for a straight segment and `arc` for an arc."
+                  },
+                  "radius": {
+                    "$ref": "#/$defs/Length",
+                    "description": "This field gives the radius of the arc, as a length with its unit."
+                  },
+                  "start_bearing": {
+                    "$ref": "#/$defs/Bearing",
+                    "description": "This field gives the bearing from the centre to the start of the arc, as a bearing with its unit and reference."
+                  },
+                  "turns": {
+                    "description": "This field gives the direction of the arc from its start to its end, as one of the enumerated values. With the value `left`, the arc turns to the left side, and with `right`, it turns to the right side.",
+                    "enum": [
+                      "left",
+                      "right"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "center",
+                  "radius",
+                  "start_bearing",
+                  "end_bearing",
+                  "turns"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "segments"
+      ],
+      "type": "object"
+    },
+    "Geometry_polygon": {
+      "additionalProperties": false,
+      "description": "A polygon geometry is a closed horizontal boundary. The first ring is the external boundary, and the next rings are holes.",
+      "properties": {
+        "kind": {
+          "const": "polygon",
+          "description": "The value identifies this record as a polygon geometry. The value is `polygon`."
+        },
+        "rings": {
+          "description": "This list contains the closed rings of positions, in order. The external boundary is first, and the holes come after it.",
+          "items": {
+            "items": {
+              "$ref": "#/$defs/GeoPoint"
+            },
+            "minItems": 4,
+            "type": "array"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "rings"
+      ],
+      "type": "object"
+    },
+    "Geometry_racetrack": {
+      "additionalProperties": false,
+      "description": "A racetrack geometry is a racetrack with an anchor, an outbound radial, a turn direction and a straight-leg length.",
+      "properties": {
+        "kind": {
+          "const": "racetrack",
+          "description": "The value identifies this record as a racetrack geometry. The value is `racetrack`."
+        },
+        "leg_length": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the length of each straight leg, without the turns, as a length with its unit."
+        },
+        "point": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the anchor of the racetrack, as latitude and longitude."
+        },
+        "radial": {
+          "$ref": "#/$defs/Bearing",
+          "description": "This field gives the outbound bearing from the anchor, as a bearing with its unit and reference. The reference is always given: true north or magnetic north. The reciprocal course is the course of the inbound leg."
+        },
+        "turn_radius": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the radius of the turns of the flight pattern, when given, as a length with its unit."
+        },
+        "turns": {
+          "description": "This field gives the direction of the turns around the flight pattern, as one of the enumerated values.",
+          "enum": [
+            "left",
+            "right"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "point",
+        "radial",
+        "turns",
+        "leg_length"
+      ],
+      "type": "object"
+    },
+    "Geometry_rectangle": {
+      "additionalProperties": false,
+      "description": "A rectangle geometry is a rectangle with a centre in latitude and longitude and with dimensions in metres. It is not a polygon of sample points. A Digital Combat Simulator (DCS) drawing keeps its angle and its theatre projection in `extensions.sim.dcs`.",
+      "properties": {
+        "center": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the centre of the rectangle, as latitude and longitude."
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {},
+                      "propertyNames": {
+                        "enum": [
+                          "angle_deg",
+                          "projection"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "height_m": {
+          "description": "This field gives the height before a simulator turns the drawing, in metres.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "kind": {
+          "const": "rectangle",
+          "description": "The value identifies this record as a rectangle geometry. The value is `rectangle`."
+        },
+        "width_m": {
+          "description": "This field gives the width before a simulator turns the drawing, in metres.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "center",
+        "width_m",
+        "height_m"
+      ],
+      "type": "object"
+    },
+    "Geometry_sector": {
+      "additionalProperties": false,
+      "description": "A sector geometry is a horizontal sector with a centre, a start bearing, an end bearing, and an inner and an outer radius.",
+      "properties": {
+        "center": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the centre of the sector, as latitude and longitude."
+        },
+        "end_bearing": {
+          "$ref": "#/$defs/Bearing",
+          "description": "This field gives the bearing of the second side of the sector, from its centre, as a bearing with its unit and reference."
+        },
+        "inner_radius": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the inner radius of the sector, as a length with its unit."
+        },
+        "kind": {
+          "const": "sector",
+          "description": "The value identifies this record as a sector geometry. The value is `sector`."
+        },
+        "outer_radius": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the outer radius of the sector, as a length with its unit."
+        },
+        "start_bearing": {
+          "$ref": "#/$defs/Bearing",
+          "description": "This field gives the bearing of the first side of the sector, from its centre, as a bearing with its unit and reference."
+        }
+      },
+      "required": [
+        "kind",
+        "center",
+        "start_bearing",
+        "end_bearing",
+        "outer_radius"
+      ],
+      "type": "object"
+    },
+    "Geometry_track_racetrack": {
+      "additionalProperties": false,
+      "description": "A track racetrack geometry is a racetrack with two end anchors, a lateral width and a turn direction.",
+      "properties": {
+        "a": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the first end anchor of the racetrack, as latitude and longitude."
+        },
+        "b": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the second end anchor of the racetrack, as latitude and longitude."
+        },
+        "kind": {
+          "const": "track_racetrack",
+          "description": "The value identifies this record as a track racetrack geometry. The value is `track_racetrack`."
+        },
+        "turns": {
+          "description": "This field gives the direction of the turns around the flight pattern, as one of the enumerated values.",
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "width": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the horizontal width of the racetrack, as a length with its unit."
+        }
+      },
+      "required": [
+        "kind",
+        "a",
+        "b",
+        "width",
+        "turns"
+      ],
+      "type": "object"
+    },
+    "Geometry_vertical": {
+      "description": "A vertical geometry is a coordination level, or the two values of a traverse level. The values of a traverse level are a height above the ground and an altitude above mean sea level.",
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "vertical",
+              "description": "The value identifies this record as a vertical geometry. The value is `vertical`."
+            },
+            "level": {
+              "$ref": "#/$defs/Altitude",
+              "description": "This field gives the altitude of the coordination level, as an altitude with its unit and reference."
+            }
+          },
+          "required": [
+            "kind",
+            "level"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "altitude": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/Altitude"
+                },
+                {
+                  "properties": {
+                    "reference": {
+                      "const": "MSL"
+                    }
+                  }
+                }
+              ],
+              "description": "This field gives the altitude of the traverse level above mean sea level, as an altitude with its unit and reference."
+            },
+            "height": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/Altitude"
+                },
+                {
+                  "properties": {
+                    "reference": {
+                      "const": "AGL"
+                    }
+                  }
+                }
+              ],
+              "description": "This field gives the height of the traverse level above the ground, as an altitude with its unit and reference."
+            },
+            "kind": {
+              "const": "vertical",
+              "description": "The value identifies this record as a vertical geometry. The value is `vertical`."
+            }
+          },
+          "required": [
+            "kind",
+            "height",
+            "altitude"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Identifier": {
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9_.-]*$",
+      "type": "string"
+    },
+    "LaserCode": {
+      "description": "A laser code is a code of four digits for the pulse repetition frequency (PRF) of a laser, from `1111` to `1788`. The second digit is 1 to 7, and the last two digits are 1 to 8.",
+      "pattern": "^1[1-7][1-8][1-8]$",
+      "type": "string"
+    },
+    "Length": {
+      "additionalProperties": false,
+      "description": "A length is a horizontal distance or dimension with its unit: metres, feet, nautical miles or kilometres.",
+      "properties": {
+        "unit": {
+          "description": "This field gives the unit of the length: metres, feet, nautical miles or kilometres, as one of the enumerated values.",
+          "enum": [
+            "m",
+            "ft",
+            "nm",
+            "km"
+          ]
+        },
+        "value": {
+          "description": "This field gives the value of the length, in the unit of `unit`.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "MeasureCatalogue": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ControlMeasure"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/Identifier"
+      },
+      "type": "object"
+    },
+    "Metadata": {
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "description": "This field gives the name of the author of the document.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "classification": {
+          "$ref": "#/$defs/ClassificationLevel",
+          "description": "This field gives the security classification of the document, as one of the enumerated values."
+        },
+        "distribution": {
+          "description": "This list contains the addressees that receive the document.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "id": {
+          "description": "This field identifies this document. Other records and orders use it to refer to this document.",
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "type": "string"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/DateTime",
+          "description": "This field gives the time of issue of the document."
+        },
+        "issuing_unit": {
+          "description": "This field gives the name of the unit that publishes the document.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "operation": {
+          "description": "This field gives the name of the operation that the document is for.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "references": {
+          "description": "This list contains the documents that this document refers to.",
+          "items": {
+            "$ref": "#/$defs/DocumentRef"
+          },
+          "type": "array"
+        },
+        "revision": {
+          "description": "This field gives the revision of the document.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "supersedes": {
+          "$ref": "#/$defs/DocumentRef",
+          "description": "This field identifies the document that this document replaces."
+        },
+        "title": {
+          "description": "This field gives the title of the document.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "Metadata",
+      "type": "object"
+    },
+    "Offset": {
+      "additionalProperties": false,
+      "description": "An offset is a number of minutes from the start of the period of the air tasking order (ATO) that contains it. The value can be less than zero.",
+      "properties": {
+        "offset_minutes": {
+          "description": "This field gives the time from the start of the period of the air tasking order (ATO) that contains it, in minutes. A negative value is before the start of the period.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "offset_minutes"
+      ],
+      "title": "Offset",
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "description": "A period is a time interval between two absolute date-times in the RFC 3339 format.",
+      "properties": {
+        "end": {
+          "$ref": "#/$defs/DateTime",
+          "description": "This field gives the time of the end of the period. The value is an absolute date-time."
+        },
+        "start": {
+          "$ref": "#/$defs/DateTime",
+          "description": "This field gives the time of the start of the period. The value is an absolute date-time."
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "Period",
+      "type": "object"
+    },
+    "PinnedRef": {
+      "additionalProperties": false,
+      "description": "A pinned reference is a dependency on a local document that consumers examine by identifier and revision.",
+      "properties": {
+        "id": {
+          "description": "This field identifies the local document of this dependency.",
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "type": "string"
+        },
+        "path": {
+          "description": "This field gives the file path of the local document.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "description": "This field gives the revision of the local document. Consumers examine this revision.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "path"
+      ],
+      "title": "PinnedRef",
+      "type": "object"
+    },
+    "PointLocation": {
+      "anyOf": [
+        {
+          "required": [
+            "position"
+          ]
+        },
+        {
+          "required": [
+            "position_description"
+          ]
+        }
+      ],
+      "description": "A point location is a geographic point, a location in free text, or the two.",
+      "properties": {
+        "position": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the point, as latitude and longitude."
+        },
+        "position_description": {
+          "description": "This field gives the location, as free text. The text is for a location without accurate coordinates, or it gives more information about the coordinates.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ResourceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the external resource catalogue."
+        },
+        "revision": {
+          "description": "This field gives the revision of the external resource catalogue.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision"
+      ],
+      "type": "object"
+    },
+    "RunwayDesignator": {
+      "description": "A runway designator is the magnetic heading of the runway in units of 10 degrees, from `01` to `36`. A suffix can follow: `L`, `R` or `C` for left, right or centre, or `W` for water. Other suffixes are `S` for short take-off and landing (STOL), `G` for glider and `U` for ultralight aircraft.",
+      "pattern": "^(0[1-9]|[12][0-9]|3[0-6])[LRCWSGU]?$",
+      "type": "string"
+    },
+    "ScheduledWindow": {
+      "additionalProperties": false,
+      "description": "A scheduled window is a time interval between two absolute date-times, with a Coordinated Universal Time (UTC) schedule for each week in it.",
+      "properties": {
+        "end": {
+          "description": "This field gives the time of the end of the interval. The value is an absolute date-time.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "schedule": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/WeeklySchedule",
+          "description": "This field gives the Coordinated Universal Time (UTC) schedule for each week in the interval."
+        },
+        "start": {
+          "description": "This field gives the time of the start of the interval. The value is an absolute date-time.",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "schedule"
+      ],
+      "type": "object"
+    },
+    "SimData": {
+      "additionalProperties": {
+        "type": "object"
+      },
+      "description": "Simulator data is the data of a record for each simulator, with the simulator identifier as the key, for example `dcs`. The other fields of the record do not change with a simulator. The Digital Combat Simulator (DCS) data has fixed fields, and the data of a different simulator is an object with no fixed fields.",
+      "properties": {
+        "dcs": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DCSData",
+          "description": "This field contains the Digital Combat Simulator (DCS) data of the record."
+        }
+      },
+      "propertyNames": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "object"
+    },
+    "Speed": {
+      "additionalProperties": false,
+      "description": "A speed is a speed with its unit: knots, Mach number or kilometres in one hour.",
+      "properties": {
+        "unit": {
+          "description": "This field gives the unit of the speed: knots, Mach number or kilometres in one hour, as one of the enumerated values.",
+          "enum": [
+            "kt",
+            "mach",
+            "km/h"
+          ]
+        },
+        "value": {
+          "description": "This field gives the value of the speed, in the unit of `unit`.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "TACAN": {
+      "additionalProperties": false,
+      "description": "A Tactical Air Navigation (TACAN) is the channel, band and identifier of a TACAN station.",
+      "properties": {
+        "band": {
+          "description": "This field gives the band of the channel: `X` or `Y`, as one of the enumerated values.",
+          "enum": [
+            "X",
+            "Y"
+          ],
+          "type": "string"
+        },
+        "channel": {
+          "description": "This field gives the channel number of the station, from 1 to 126.",
+          "maximum": 126,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "identifier": {
+          "description": "This field identifies this station.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel",
+        "band"
+      ],
+      "title": "TACAN",
+      "type": "object"
+    },
+    "VerticalLimit": {
+      "description": "A vertical limit is a floor or a ceiling: an altitude with its reference, the surface, or no limit. The surface is below all altitudes, and the value `unlimited` is above all altitudes.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Altitude"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "surface": {
+              "const": true,
+              "description": "The value is `true` when the limit is the surface. The value is always `true`. The surface is below all altitudes."
+            }
+          },
+          "required": [
+            "surface"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "unlimited": {
+              "const": true,
+              "description": "The value is `true` when the limit has no maximum. The value is always `true`. This limit is above all altitudes."
+            }
+          },
+          "required": [
+            "unlimited"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "WeeklyPeriod": {
+      "additionalProperties": false,
+      "properties": {
+        "end_day_offset": {
+          "description": "This field gives the day on which the period stops, as one of the enumerated values. With the value `0`, the period stops on its start day, and with `1`, it stops on the next day.",
+          "enum": [
+            0,
+            1
+          ],
+          "type": "integer"
+        },
+        "end_time": {
+          "description": "This field gives the time of the end of the period, in Coordinated Universal Time (UTC), as `HH:MM:SS`. The period does not include the end time.",
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$",
+          "type": "string"
+        },
+        "start_time": {
+          "description": "This field gives the time of the start of the period, in Coordinated Universal Time (UTC), as `HH:MM:SS`. The period includes the start time.",
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$",
+          "type": "string"
+        },
+        "weekdays": {
+          "description": "This list contains the Coordinated Universal Time (UTC) weekdays on which this period starts.",
+          "items": {
+            "enum": [
+              "mon",
+              "tue",
+              "wed",
+              "thu",
+              "fri",
+              "sat",
+              "sun"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "weekdays",
+        "start_time",
+        "end_time",
+        "end_day_offset"
+      ],
+      "type": "object"
+    },
+    "WeeklySchedule": {
+      "additionalProperties": false,
+      "description": "A schedule for each week is the Coordinated Universal Time (UTC) times in the week when something is available, in the interval that contains it. The intervals in `exclusions` are not part of the schedule.",
+      "properties": {
+        "exclusions": {
+          "description": "This list contains the time intervals with absolute date-times that the schedule subtracts from its periods.",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "end": {
+                "description": "This field gives the time of the end of the interval that the schedule does not include. The value is an absolute date-time.",
+                "format": "date-time",
+                "type": "string"
+              },
+              "start": {
+                "description": "This field gives the time of the start of the interval that the schedule does not include. The value is an absolute date-time.",
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "start",
+              "end"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "periods": {
+          "description": "This list contains the time intervals in each week.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/WeeklyPeriod"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "time_reference": {
+          "const": "UTC",
+          "description": "This field gives the time reference of the schedule. The value is always `UTC`."
+        }
+      },
+      "required": [
+        "time_reference",
+        "periods"
+      ],
+      "type": "object"
+    },
+    "Window": {
+      "additionalProperties": false,
+      "description": "A window is a time interval with limits that are absolute date-times or offsets from the period of the order that contains it.",
+      "properties": {
+        "end": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DateTime"
+            },
+            {
+              "$ref": "#/$defs/Offset"
+            }
+          ],
+          "description": "This field gives the time of the end of the interval. The value is an absolute date-time or an offset from the period of the order that contains it."
+        },
+        "start": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DateTime"
+            },
+            {
+              "$ref": "#/$defs/Offset"
+            }
+          ],
+          "description": "This field gives the time of the start of the interval. The value is an absolute date-time or an offset from the period of the order that contains it."
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "Window",
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:common:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Definitions for all openAIX documents are the identifiers, positions, geometry, units, time intervals and resource references that more than one type of document contains.",
+  "title": "openAIX common resources"
+}

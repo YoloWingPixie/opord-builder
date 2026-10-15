@@ -1,0 +1,92 @@
+{
+  "$schema": "urn:openaix:schema:frago:0.1.0-draft.2",
+  "acknowledgement": {
+    "acknowledge": true,
+    "instructions": "Acknowledge on Bastion command."
+  },
+  "authentication": {
+    "authenticator_name": "Major Lin",
+    "authenticator_position": "CAOC operations officer",
+    "commander_name": "Reyes",
+    "commander_rank": "Colonel"
+  },
+  "base_order": {
+    "id": "oir-opord",
+    "revision": "1"
+  },
+  "changes": [
+    {
+      "op": "replace",
+      "path": "/execution/tasks_to_subordinate_units/0/tasks/0/task",
+      "target": {
+        "id": "oir-opord",
+        "kind": "opord",
+        "revision": "1"
+      },
+      "value": "Attack to PL NICKEL (LOA)"
+    },
+    {
+      "op": "replace",
+      "path": "/execution/tasks_to_subordinate_units/0/tasks/0/measures/1",
+      "remarks": "The limit of advance moves from PL ZINC to PL NICKEL.",
+      "target": {
+        "id": "oir-opord",
+        "kind": "opord",
+        "revision": "1"
+      },
+      "value": "pl-nickel"
+    }
+  ],
+  "commanders_intent": "Destroy ISIS command and supply nodes without civilian harm.",
+  "date_time": "2026-10-02T12:45:00Z",
+  "effective_time": "2026-10-02T13:00:00Z",
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "frago_number": "01",
+  "issuing_headquarters": "CJTF-OIR CAOC",
+  "kind": "frago",
+  "meta": {
+    "author": "CAOC airspace cell",
+    "classification": "UNCLASSIFIED",
+    "distribution": [
+      "Darkstar",
+      "Banshee",
+      "Salti Tower",
+      "All OIR flights"
+    ],
+    "id": "oir-frago-01",
+    "issued_at": "2026-10-02T12:45:00Z",
+    "issuing_unit": "CJTF-OIR CAOC",
+    "operation": "INHERENT RESOLVE",
+    "references": [
+      {
+        "id": "oir-opord",
+        "revision": "1",
+        "title": "OIR OPORD 26-01"
+      }
+    ],
+    "revision": "1",
+    "supersedes": {
+      "id": "oir-aco",
+      "path": "oir-aco.json",
+      "revision": "1",
+      "section": "Entire order",
+      "title": "OIR preliminary ACO"
+    },
+    "title": "FRAGO 01 to OIR OPORD 26-01"
+  },
+  "mission": "DTA",
+  "references": [
+    {
+      "id": "oir-opord",
+      "revision": "1",
+      "title": "OIR OPORD 26-01"
+    }
+  ],
+  "schema_version": "0.1.0-draft.2",
+  "summary": "SA-6 reported at the junction: the LOA moves back to PL NICKEL, the SA-6 becomes TST-01, CAS moves to the alternate frequency and Hawg stays 15 minutes longer.",
+  "time_zone": "Z"
+}

@@ -20,6 +20,7 @@ from opord_builder.renderer import (
     render_all,
     render_frago_all,
     render_warno_all,
+    render_kneeboard_png,
     render_kneeboards,
     render_product_csv,
     render_product_html,
@@ -28,13 +29,25 @@ from opord_builder.renderer import (
     _load_yaml_with_variables,
     _PRODUCT_ALIASES,
 )
-from opord_builder.schema import OPORD
+from opord_builder.schema import OPORD, SPINS
 from opord_builder.schema.data_sources import DATA_SOURCE_REGISTRY
+from opord_builder.spins import load_spins, render_spins_all
 
 
 class SchemaFormat(str, Enum):
     JSON = "json"
     YAML = "yaml"
+
+
+class DocumentType(str, Enum):
+    OPORD = "opord"
+    SPINS = "spins"
+
+
+DEFAULT_SCHEMA_PATHS = {
+    DocumentType.OPORD: Path("schemas/opord-authoring.schema.json"),
+    DocumentType.SPINS: Path("schemas/spins.schema.json"),
+}
 
 
 class ExportFormat(str, Enum):
@@ -72,7 +85,8 @@ def _build_schema_dict(
 
 def _build_opord_schema_dict() -> dict:
     return _build_schema_dict(
-        OPORD, "opord", "OPORD",
+        OPORD, "opord-authoring", "OPORD",
+        "Authoring schema for OPORD YAML only (never interchange; use OpenAIX for exchange). "
         "U.S. Army Operations Order per FM 6-0 (May 2022) Appendix D / ATP 5-0.2-1.",
     )
 
@@ -125,6 +139,36 @@ def render(
     for kind, path in outputs.items():
         size = path.stat().st_size
         typer.echo(f"  {kind:<8}  {path}  ({size:,} bytes)")
+
+
+@app.command(help="Render a numbered SPINS publication and its standing baseline.")
+def spins(
+    input_file: Path = typer.Argument(..., exists=True, dir_okay=False, readable=True),
+    out_dir: Optional[Path] = typer.Option(None, "--out-dir", "-o"),
+    md: bool = typer.Option(True, "--md/--no-md"),
+    html: bool = typer.Option(True, "--html/--no-html"),
+    pdf: bool = typer.Option(True, "--pdf/--no-pdf"),
+) -> None:
+    try:
+        document = load_spins(input_file)
+        outputs = render_spins_all(
+            document,
+            out_dir or Path("output"),
+            input_file.stem,
+            write_markdown=md,
+            write_html=html,
+            write_pdf=pdf,
+        )
+    except ValidationError as exc:
+        typer.secho(
+            _fmt_validation_error(exc, input_file), fg=typer.colors.RED, err=True
+        )
+        raise typer.Exit(code=2)
+    except (ValueError, OSError, yaml.YAMLError) as exc:
+        typer.secho(f"{input_file}: {exc}", fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=2)
+    for kind, path in outputs.items():
+        _echo_wrote(f"SPINS {kind}", path)
 
 
 @app.command(name="validate-source", help="Validate a standalone data-source YAML file.")
@@ -180,7 +224,7 @@ def _build_data_source_schema_dict(kind: str) -> dict:
     )
 
 
-@app.command(help="Emit the OPORD JSON Schema (Draft 2020-12).")
+@app.command(help="Emit a document JSON Schema (Draft 2020-12). The OPORD schema describes authoring YAML only, never interchange.")
 def schema(
     out: Optional[Path] = typer.Option(
         None,
@@ -198,9 +242,27 @@ def schema(
         None,
         "--source-type",
         "-s",
-        help="Emit schema for a data-source type instead of OPORD (e.g. jpitl, tst, hpt, all).",
+        help="Emit schema for a data-source type instead of OPORD (e.g. cap_tracks, geo_refs, all).",
+    ),
+    document_type: DocumentType = typer.Option(
+        DocumentType.OPORD,
+        "--document-type",
+        help="Document schema to emit: opord or spins.",
+    ),
+    check: bool = typer.Option(
+        False,
+        "--check",
+        help="Fail (exit 1) if the committed schema file is stale vs generated output. "
+        "Compares against --out, or the default path for the document type.",
     ),
 ) -> None:
+    if source_type is not None and document_type is not DocumentType.OPORD:
+        typer.secho(
+            "--source-type cannot be combined with --document-type spins",
+            fg=typer.colors.RED,
+            err=True,
+        )
+        raise typer.Exit(code=2)
     # --- data-source schema mode ------------------------------------------
     if source_type is not None:
         if source_type == "all":
@@ -240,17 +302,38 @@ def schema(
         return
 
     # --- default OPORD schema mode ----------------------------------------
-    schema_dict = _build_opord_schema_dict()
+    schema_dict = (
+        _build_schema_dict(
+            SPINS, "spins", "SPINS",
+            "Numbered SPINS publication with recursive mixed content.",
+        )
+        if document_type is DocumentType.SPINS
+        else _build_opord_schema_dict()
+    )
 
     if fmt is SchemaFormat.YAML:
         text = yaml.safe_dump(schema_dict, sort_keys=False, width=100)
     else:
         text = json.dumps(schema_dict, indent=2, ensure_ascii=False) + "\n"
 
+    if check:
+        target = out or DEFAULT_SCHEMA_PATHS[document_type]
+        current = target.read_text(encoding="utf-8") if target.exists() else None
+        if current != text:
+            typer.secho(
+                f"{target} is stale; regenerate with: opord schema "
+                f"--document-type {document_type.value} --out {target}",
+                fg=typer.colors.RED,
+                err=True,
+            )
+            raise typer.Exit(code=1)
+        typer.echo(f"{target} is up to date")
+        return
+
     if out:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(text, encoding="utf-8")
-        _echo_wrote("OPORD schema", out)
+        _echo_wrote(f"{document_type.value.upper()} schema", out)
     else:
         sys.stdout.write(text)
 
@@ -264,7 +347,7 @@ def docs(
         help="Directory to write generated docs into.",
     ),
     schema_path: Path = typer.Option(
-        Path("schemas/opord.schema.json"),
+        Path("schemas/opord-authoring.schema.json"),
         "--schema",
         "-s",
         help="JSON Schema source file. Regenerated from the live model if missing.",
@@ -395,15 +478,25 @@ def export(
     _echo_wrote(f"{product} {fmt.value}", target)
 
 
-@app.command(help="Export kneeboard cards as 768×1024 PNG images for DCS World.")
+@app.command(
+    help=(
+        "Export kneeboard cards as 768×1024 PNG images for DCS World.\n\n"
+        "Cards come from an OPORD/FRAGO YAML (INPUT_FILE), from an OpenAIX ATO "
+        "(--ato, one card per flight, optionally only --flight), or both. With both, "
+        "a YAML card with the same flight callsign overrides the ATO card field by "
+        "field (explicit YAML values win, with a warning where they disagree); YAML "
+        "cards for other flights are kept. --resources adds an OpenAIX resources "
+        "document (channels, airfields, SCLs). Warnings go to stderr."
+    )
+)
 def kneeboard(
-    input_file: Path = typer.Argument(
-        ...,
+    input_file: Optional[Path] = typer.Argument(
+        None,
         exists=True,
         file_okay=True,
         dir_okay=False,
         readable=True,
-        help="Path to an OPORD or FRAGO YAML file containing kneeboard cards.",
+        help="Path to an OPORD or FRAGO YAML file containing kneeboard cards (optional with --ato).",
     ),
     out_dir: Optional[Path] = typer.Option(
         None,
@@ -411,29 +504,97 @@ def kneeboard(
         "-o",
         help="Output directory for PNG files. Defaults to ./output/.",
     ),
+    ato: Optional[Path] = typer.Option(
+        None,
+        "--ato",
+        exists=True,
+        dir_okay=False,
+        readable=True,
+        help="OpenAIX ATO JSON: build one card per flight.",
+    ),
+    flight: Optional[str] = typer.Option(
+        None, "--flight", help="Only the ATO flight with this id (needs --ato)."
+    ),
+    resources: Optional[Path] = typer.Option(
+        None,
+        "--resources",
+        exists=True,
+        dir_okay=False,
+        readable=True,
+        help="OpenAIX resources JSON for the ATO (needs --ato).",
+    ),
 ) -> None:
-    kind = _detect_kind(input_file)
-    try:
-        if kind == "frago":
-            frago, _base = load_frago(input_file)
-            doc = frago
-        elif kind == "warno":
-            warno, _base = load_warno(input_file)
-            doc = warno
-        else:
-            doc = load_opord(input_file)
-    except ValidationError as exc:
-        typer.secho(_fmt_validation_error(exc, input_file), fg=typer.colors.RED, err=True)
+    if ato is None and (flight or resources):
+        typer.secho("--flight and --resources need --ato.", fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=2)
+    if ato is None and input_file is None:
+        typer.secho("Give an INPUT_FILE, --ato, or both.", fg=typer.colors.RED, err=True)
         raise typer.Exit(code=2)
 
-    if not getattr(doc, "kneeboards", []):
-        typer.secho("No kneeboard cards defined in this document.", fg=typer.colors.YELLOW, err=True)
-        raise typer.Exit(code=0)
+    doc = None
+    if input_file is not None:
+        kind = _detect_kind(input_file)
+        try:
+            if kind == "frago":
+                doc, _base = load_frago(input_file)
+            elif kind == "warno":
+                doc, _base = load_warno(input_file)
+            else:
+                doc = load_opord(input_file)
+        except ValidationError as exc:
+            typer.secho(_fmt_validation_error(exc, input_file), fg=typer.colors.RED, err=True)
+            raise typer.Exit(code=2)
 
     target_dir = out_dir or Path("output")
-    paths = render_kneeboards(doc, target_dir, input_file.stem)
-    for p in paths:
-        _echo_wrote("kneeboard PNG", p)
+    if ato is None:
+        if not getattr(doc, "kneeboards", []):
+            typer.secho("No kneeboard cards defined in this document.", fg=typer.colors.YELLOW, err=True)
+            raise typer.Exit(code=0)
+        for p in render_kneeboards(doc, target_dir, input_file.stem):
+            _echo_wrote("kneeboard PNG", p)
+        return
+
+    from opord_builder.openaix.kneeboard import cards_from_files
+
+    try:
+        cards, warns = cards_from_files(ato, resources, flight, getattr(doc, "kneeboards", None))
+    except ValueError as exc:
+        typer.secho(str(exc), fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=2)
+    for w in warns:
+        typer.secho(f"warning: {w}", fg=typer.colors.YELLOW, err=True)
+    target_dir.mkdir(parents=True, exist_ok=True)
+    stem = (input_file or ato).stem
+    for i, card in enumerate(cards):
+        _echo_wrote(
+            "kneeboard PNG",
+            render_kneeboard_png(card, target_dir / f"{stem}_kneeboard_{i + 1:03d}.png", card_index=i),
+        )
+
+
+@app.command(name="validate-openaix", help="Validate OpenAIX JSON documents against the vendored schemas.")
+def validate_openaix(
+    files: list[Path] = typer.Argument(..., exists=True, dir_okay=False, readable=True, help="OpenAIX JSON files."),
+) -> None:
+    from opord_builder.openaix.validate import validate as _validate_openaix
+
+    failed = False
+    for path in files:
+        try:
+            document = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            typer.secho(f"{path}: invalid JSON: {exc}", fg=typer.colors.RED, err=True)
+            failed = True
+            continue
+        errors = _validate_openaix(document)
+        for err in errors:
+            typer.secho(f"{path}: {err.pointer or '/'}: {err.message}", fg=typer.colors.RED, err=True)
+        if errors:
+            failed = True
+        else:
+            typer.echo(f"{path}: ok")
+    if failed:
+        raise typer.Exit(code=1)
 
 
 def _run_delta_render(
@@ -571,11 +732,6 @@ def init(
         False, "--force", "-F",
         help="Overwrite existing files in target_dir (default: refuse if any collide).",
     ),
-    with_data_sources: bool = typer.Option(
-        False,
-        "--with-data-sources",
-        help="Scaffold a data_sources/ directory with targeting stubs.",
-    ),
 ) -> None:
     from opord_builder import scaffolds
 
@@ -588,14 +744,6 @@ def init(
         annex_dir / f"annex_{ltr.lower()}.yaml" for ltr in letters
     ]
 
-    if with_data_sources:
-        ds_dir = target_dir / "data_sources" / "fires"
-        planned += [
-            ds_dir / "jpitl.yaml",
-            ds_dir / "tst.yaml",
-            ds_dir / "hpt.yaml",
-        ]
-
     existing = [p for p in planned if p.exists()]
     if existing and not force:
         typer.secho(
@@ -606,25 +754,11 @@ def init(
             typer.secho(f"  {p}", err=True)
         raise typer.Exit(code=1)
 
-    # --- data-source block for main.yaml (when requested) -----------------
-    data_source_block = ""
-    if with_data_sources:
-        data_source_block = (
-            "data_sources:\n"
-            "  - source: data_sources/fires/jpitl.yaml\n"
-            "    target: annexes.D.typed_body.jpitl\n"
-            "  - source: data_sources/fires/tst.yaml\n"
-            "    target: annexes.D.typed_body.time_sensitive_targets\n"
-            "  - source: data_sources/fires/hpt.yaml\n"
-            "    target: annexes.D.typed_body.high_payoff_target_list"
-        )
-
     annex_includes = [f"annexes/annex_{ltr.lower()}.yaml" for ltr in letters]
     (target_dir / "main.yaml").write_text(
         scaffolds.main_yaml(
-            schema_rel_path="schemas/opord.schema.json",
+            schema_rel_path="schemas/opord-authoring.schema.json",
             annex_files=annex_includes,
-            data_source_block=data_source_block,
         ),
         encoding="utf-8",
     )
@@ -636,17 +770,6 @@ def init(
         f"  + {len(letters)} annex stubs under {annex_dir}/",
         fg=typer.colors.GREEN,
     )
-
-    if with_data_sources:
-        ds_dir = target_dir / "data_sources" / "fires"
-        ds_dir.mkdir(parents=True, exist_ok=True)
-        (ds_dir / "jpitl.yaml").write_text(scaffolds.jpitl_yaml(), encoding="utf-8")
-        (ds_dir / "tst.yaml").write_text(scaffolds.tst_yaml(), encoding="utf-8")
-        (ds_dir / "hpt.yaml").write_text(scaffolds.hpt_yaml(), encoding="utf-8")
-        typer.secho(
-            f"  + 3 data-source stubs under {ds_dir}/",
-            fg=typer.colors.GREEN,
-        )
 
     typer.secho(
         f"\nNext: edit {target_dir}/main.yaml and run "
@@ -710,6 +833,11 @@ def watch(
             _render_once()
     except KeyboardInterrupt:  # pragma: no cover
         typer.secho("\nStopped.", fg=typer.colors.CYAN)
+
+
+from opord_builder.openaix.cli_opord import register as _register_openaix_opord  # noqa: E402
+
+_register_openaix_opord(app)
 
 
 if __name__ == "__main__":  # pragma: no cover

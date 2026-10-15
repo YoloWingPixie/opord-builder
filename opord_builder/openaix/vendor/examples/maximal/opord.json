@@ -1,0 +1,2242 @@
+{
+  "$schema": "urn:openaix:schema:opord:0.1.0-draft.2",
+  "acknowledgement": {
+    "acknowledge": true,
+    "instructions": "Acknowledge on Bastion command by 1200Z."
+  },
+  "annexes": {
+    "A": {
+      "relationships": [
+        {
+          "effective": "2026-10-02T12:00:00Z",
+          "relationship": "attached",
+          "to": "tf-bastion",
+          "unit": "tacp-axeman"
+        },
+        {
+          "phase": "ph-2",
+          "relationship": "direct_support",
+          "to": "tf-bastion",
+          "unit": "asoc-warhawk"
+        },
+        {
+          "headquarters": "Kingpin",
+          "relationship": "tactical_control",
+          "unit": "cas-sqn"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Air units stay under Kingpin; Axeman and Sage go to TF Bastion."
+    },
+    "B": {
+      "high_value_targets": [
+        {
+          "function": "command_and_control",
+          "id": "hvt-1",
+          "name": "Cobalt command post",
+          "target": "cobalt-array"
+        },
+        {
+          "function": "air_defense",
+          "id": "hvt-2",
+          "name": "SA-6 battery",
+          "target": "gainful-battery",
+          "threat": "sa-6"
+        }
+      ],
+      "products": [
+        {
+          "agencies": [
+            "darkstar",
+            "warhawk"
+          ],
+          "channel": "ops-uhf",
+          "due": "2026-10-02T12:30:00Z",
+          "id": "intsum",
+          "interval_minutes": 60,
+          "name": "Intelligence summary",
+          "recipients": [
+            "tf-bastion"
+          ]
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "The SA-6 location is the main intelligence gap.",
+      "threat_assessments": [
+        {
+          "as_of": "2026-10-02T12:15:00Z",
+          "capability": "Medium-altitude engagement to 14 km.",
+          "confidence": "moderate",
+          "emitters": [
+            "sa6-gainful",
+            "sa3-zinc",
+            "sa8-nickel"
+          ],
+          "enemy_unit": "red-sa6",
+          "position": {
+            "latitude": 35.215,
+            "longitude": 40.265
+          },
+          "threat": "sa-6"
+        }
+      ]
+    },
+    "C": {
+      "airspace": {
+        "agencies": [
+          "banshee",
+          "warhawk"
+        ],
+        "airspace_control_agency": "darkstar",
+        "coordinating_altitude": "bastion-ca",
+        "measures": [
+          "south-transit",
+          "mesa",
+          "rescue-reservation",
+          "sage-shoradez",
+          "bastion-ca"
+        ],
+        "summary": "Procedural control below the CA; positive control above."
+      },
+      "decision_points": [
+        {
+          "decision": "Push Anvil, or delay the push by 10 minutes.",
+          "id": "dp-1",
+          "latest_time": "2026-10-02T13:10:00Z",
+          "measures": [
+            "nai-gainful"
+          ],
+          "name": "DP 1 push",
+          "phase": "ph-2",
+          "position": {
+            "latitude": 35.1,
+            "longitude": 40.3
+          },
+          "requirements": [
+            "pir-1"
+          ],
+          "trigger": "SA-6 location unknown at 1310Z."
+        }
+      ],
+      "electromagnetic": {
+        "emission_control": [
+          {
+            "ato_missions": [
+              "jam-anvil"
+            ],
+            "id": "emcon-1",
+            "level": "reduced",
+            "measures": [
+              "falcon"
+            ],
+            "units": [
+              "tf-bastion"
+            ],
+            "window": {
+              "end": "2026-10-02T13:15:00Z",
+              "start": "2026-10-02T13:00:00Z"
+            }
+          }
+        ],
+        "jamming": [
+          {
+            "area": "jamming-orbit",
+            "ato_missions": [
+              "jam-anvil"
+            ],
+            "authority": "caoc",
+            "emitters": [
+              "sa6-gainful",
+              "sa3-zinc"
+            ],
+            "id": "jam-anvil-window",
+            "protected_frequencies": [
+              {
+                "agency": "darkstar",
+                "channel": "control-uhf",
+                "kind": "protected"
+              }
+            ],
+            "window": {
+              "end": "2026-10-02T13:45:00Z",
+              "start": "2026-10-02T13:20:00Z"
+            }
+          }
+        ],
+        "jamming_authority": "caoc",
+        "summary": "Grizzly jams only in the Anvil window."
+      },
+      "operation_overlay": [
+        "oir-aor",
+        "bastion-basin-boundary",
+        "aa-bastion",
+        "pl-brass",
+        "pl-nickel",
+        "pl-zinc",
+        "obj-cobalt",
+        "trp-01"
+      ],
+      "personnel_recovery": {
+        "agency": "darkstar",
+        "channels": [
+          "rescue-uhf"
+        ],
+        "contact_points": [
+          "cedar"
+        ],
+        "recovery_forces": [
+          "pedro-csar"
+        ],
+        "safe_areas": [
+          "rescue-reservation"
+        ],
+        "summary": "Pedro holds at Cedar until Darkstar clears the rescue."
+      },
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "rules_of_engagement": [
+        {
+          "id": "roe-c-1",
+          "measures": [
+            "falcon"
+          ],
+          "number": "R-3",
+          "rule": "Hostile declaration only by Darkstar."
+        }
+      ],
+      "summary": "Operation overlay, decision support, airspace, ROE, CEMA and personnel recovery."
+    },
+    "D": {
+      "air_and_missile_defense": {
+        "defended_assets": [
+          {
+            "airfield": "farp-sage",
+            "id": "da-farp",
+            "name": "FARP Sage",
+            "position": {
+              "latitude": 35.1,
+              "longitude": 40.3
+            },
+            "priority": 1,
+            "unit": "caoc"
+          }
+        ],
+        "engagement_authorities": [
+          "darkstar"
+        ],
+        "measures": [
+          "sage-shoradez"
+        ],
+        "warnings": [
+          {
+            "level": "yellow",
+            "measure": "oir-aor",
+            "window": {
+              "end": "2026-10-02T15:00:00Z",
+              "start": "2026-10-02T13:00:00Z"
+            }
+          }
+        ],
+        "weapons_control": [
+          {
+            "measure": "sage-shoradez",
+            "status": "tight",
+            "window": {
+              "end": "2026-10-02T15:00:00Z",
+              "start": "2026-10-02T13:00:00Z"
+            }
+          }
+        ]
+      },
+      "air_support": {
+        "agencies": [
+          "warhawk"
+        ],
+        "ato_missions": [
+          "strike-cobalt",
+          "recce-gainful"
+        ],
+        "cas_allocations": [
+          {
+            "ato_missions": [
+              "cas-cobalt"
+            ],
+            "phase": "ph-2",
+            "sorties": 2,
+            "unit": "tf-bastion",
+            "window": {
+              "end": "2026-10-02T14:30:00Z",
+              "start": "2026-10-02T13:30:00Z"
+            }
+          }
+        ],
+        "cas_briefs": [
+          {
+            "ato_mission": "cas-cobalt",
+            "control_type": "type_2",
+            "controller": "warhawk",
+            "distance": {
+              "unit": "nm",
+              "value": 15.3
+            },
+            "egress_point": "cedar",
+            "friendly_direction": "south_west",
+            "friendly_distance": {
+              "unit": "km",
+              "value": 10.7
+            },
+            "heading": {
+              "reference": "magnetic",
+              "value": 46
+            },
+            "id": "cas-1",
+            "initial_point": "ip-silver",
+            "laser_code": "1688",
+            "laser_target_line": {
+              "reference": "magnetic",
+              "value": 13
+            },
+            "mark": "laser",
+            "method_of_attack": "bomb_on_target",
+            "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+            "target": "cobalt-array",
+            "target_description": "Revetted vehicle park, four trucks.",
+            "target_elevation": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 685
+            },
+            "target_position": {
+              "latitude": 35.093,
+              "longitude": 40.314
+            },
+            "time_on_target": "2026-10-02T13:40:00Z"
+          }
+        ],
+        "points": [
+          "ip-silver",
+          "cedar",
+          "marshal"
+        ]
+      },
+      "field_artillery": {
+        "priorities": [
+          {
+            "measure": "obj-cobalt",
+            "rank": 1
+          }
+        ],
+        "units": [
+          "tf-bastion"
+        ]
+      },
+      "fire_support_coordination_measures": [
+        "oir-fscl",
+        "pewter-rfl",
+        "cobalt-box",
+        "quarry-nfa"
+      ],
+      "naval_fire_support": {
+        "fire_support_areas": [],
+        "units": []
+      },
+      "priority_of_fires": [
+        {
+          "phase": "ph-2",
+          "rank": 1,
+          "unit": "tf-bastion"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Fires support TF Bastion short of the FSCL; air interdiction in the Cobalt kill box.",
+      "targeting": {
+        "high_payoff_targets": [
+          {
+            "assessment_required": true,
+            "ato_missions": [
+              "sead-cobalt"
+            ],
+            "effect": "suppress",
+            "emitter": "sa6-gainful",
+            "id": "hpt-1",
+            "phase": "ph-2",
+            "priority": 1,
+            "target": "gainful-battery",
+            "threat": "sa-6",
+            "timing": "immediate",
+            "units": [
+              "caoc"
+            ]
+          }
+        ],
+        "target_reference_points": [
+          "trp-01"
+        ],
+        "time_sensitive_targets": []
+      }
+    },
+    "E": {
+      "eefi": [
+        {
+          "id": "eefi-e-1",
+          "item": "Location of FARP Sage"
+        }
+      ],
+      "mopp_level": "mopp_0",
+      "protection_priorities": [
+        {
+          "airfield": "farp-sage",
+          "id": "pp-1",
+          "measure": "oir-aor",
+          "name": "FARP Sage",
+          "position": {
+            "latitude": 35.1,
+            "longitude": 40.3
+          },
+          "priority": 1
+        },
+        {
+          "id": "pp-2",
+          "name": "TF Bastion TAC",
+          "priority": 2,
+          "unit": "tf-bastion"
+        }
+      ],
+      "reaction_forces": [
+        {
+          "area": "oir-aor",
+          "response_minutes": 30,
+          "unit": "tf-basin"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "risk_controls": [
+        {
+          "control": "Type 2 control and the last reported phase line.",
+          "hazard": "Fratricide between CAS and TF Bastion",
+          "id": "rc-1",
+          "initial_risk": "high",
+          "residual_risk": "medium",
+          "units": [
+            "tf-bastion",
+            "cas-sqn"
+          ]
+        }
+      ],
+      "summary": "Locate the SA-6 before the push."
+    },
+    "F": {
+      "allocations": [
+        {
+          "item": "JP-8",
+          "quantity": 2000,
+          "supply_class": "III",
+          "unit": "rescue-sqn",
+          "unit_of_measure": "gal"
+        }
+      ],
+      "maintenance_priorities": [
+        {
+          "rank": 1,
+          "unit": "rescue-sqn"
+        }
+      ],
+      "medical_evacuation": {
+        "agency": "banshee",
+        "request_channels": [
+          "banshee-uhf"
+        ]
+      },
+      "medical_facilities": [
+        {
+          "airfield": "ojms",
+          "id": "mtf-f-ojms",
+          "name": "Muwaffaq Salti clinic",
+          "role": 2
+        }
+      ],
+      "movements": [
+        {
+          "arrival": "2026-10-02T13:25:00Z",
+          "departure": "2026-10-02T13:00:00Z",
+          "id": "mv-1",
+          "release_point": "pl-brass",
+          "route": "marshal-exit",
+          "start_point": "aa-bastion",
+          "unit": "tf-bastion"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push.",
+      "supply_points": [
+        {
+          "airfield": "farp-sage",
+          "classes": [
+            "III",
+            "V"
+          ],
+          "id": "sp-f-sage",
+          "kind": "forward_arming_and_refuelling_point",
+          "name": "FARP Sage",
+          "unit": "sust-det"
+        }
+      ]
+    },
+    "G": {
+      "lanes": [
+        {
+          "entry": {
+            "latitude": 34.84,
+            "longitude": 40.293
+          },
+          "exit": {
+            "latitude": 34.853,
+            "longitude": 40.297
+          },
+          "id": "lane-1",
+          "marking": "Orange panels by day, green chemical lights by night",
+          "name": "Lane RED",
+          "unit": "tf-bastion",
+          "width": {
+            "unit": "m",
+            "value": 8
+          }
+        }
+      ],
+      "obstacle_zones": [],
+      "obstacles": [
+        {
+          "complete_by": "2026-10-02T12:00:00Z",
+          "effect": "disrupt",
+          "id": "obs-1",
+          "kind": "wire",
+          "measure": "oir-aor",
+          "name": "Wire at PL BRASS",
+          "position": {
+            "latitude": 34.847,
+            "longitude": 40.297
+          },
+          "status": "prepared",
+          "unit": "caoc"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push.",
+      "survivability_priorities": [
+        {
+          "asset": "TF Bastion TAC",
+          "rank": 1
+        }
+      ]
+    },
+    "H": {
+      "call_signs": [
+        {
+          "callsign": "Axeman 1-1",
+          "unit": "tacp-axeman",
+          "window": {
+            "end": "2026-10-02T15:00:00Z",
+            "start": "2026-10-02T13:00:00Z"
+          }
+        },
+        {
+          "agency": "warhawk",
+          "callsign": "Warhawk"
+        }
+      ],
+      "comsec": [
+        {
+          "channels": [
+            "ops-uhf"
+          ],
+          "id": "key-1",
+          "key": "BASTION KEY 02",
+          "window": {
+            "end": "2026-10-03T00:00:00Z",
+            "start": "2026-10-02T00:00:00Z"
+          }
+        }
+      ],
+      "nets": [
+        {
+          "agencies": [
+            "warhawk"
+          ],
+          "alternate": "control-uhf",
+          "control": "caoc",
+          "id": "net-cmd",
+          "kind": "command",
+          "members": [
+            "tf-bastion",
+            "tf-basin"
+          ],
+          "name": "Bastion command",
+          "primary": "ops-uhf"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "restricted_frequencies": [
+        {
+          "agency": "darkstar",
+          "channel": "rescue-uhf",
+          "kind": "protected"
+        },
+        {
+          "frequency": {
+            "band": "uhf",
+            "modulation": "AM",
+            "unit": "MHz",
+            "value": 243.0
+          },
+          "kind": "taboo"
+        }
+      ],
+      "retransmission_sites": [
+        {
+          "channels": [
+            "cas-uhf"
+          ],
+          "id": "rt-ridge",
+          "name": "Cobalt ridge relay",
+          "position": {
+            "latitude": 34.985,
+            "longitude": 40.225
+          },
+          "unit": "tf-bastion",
+          "window": {
+            "end": "2026-10-02T15:00:00Z",
+            "start": "2026-10-02T13:00:00Z"
+          }
+        }
+      ],
+      "summary": "Locate the SA-6 before the push."
+    },
+    "J": {
+      "ground_rules": [
+        {
+          "id": "gr-1",
+          "objective": "No imagery of the FARP."
+        }
+      ],
+      "messages": [
+        {
+          "audience": "Local population",
+          "id": "pa-msg-1",
+          "kind": "emphasize",
+          "message": "Coalition aircraft avoid the river crossings and the camp."
+        }
+      ],
+      "objectives": [
+        {
+          "id": "pa-1",
+          "objective": "Show precise coalition strikes that protect civilians."
+        }
+      ],
+      "release_authorities": [
+        {
+          "agency": "caoc",
+          "topic": "Strike imagery",
+          "unit": "caoc"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push."
+    },
+    "K": {
+      "centres": [
+        {
+          "channel": "banshee-uhf",
+          "id": "cmoc-1",
+          "name": "Tanf CMOC",
+          "position": {
+            "latitude": 33.495,
+            "longitude": 38.64
+          },
+          "unit": "caoc"
+        }
+      ],
+      "dislocated_civilian_routes": [],
+      "protected_sites": [
+        {
+          "id": "ps-quarry",
+          "kind": "infrastructure",
+          "measure": "quarry-nfa",
+          "name": "Quarry Springs water facility",
+          "position": {
+            "latitude": 35.1,
+            "longitude": 40.3
+          },
+          "restriction": "no_strike"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push.",
+      "tasks": [
+        {
+          "id": "k-1",
+          "task": "Warn the civil council of the road closure times",
+          "window": {
+            "end": "2026-10-02T10:00:00Z",
+            "start": "2026-10-02T09:00:00Z"
+          }
+        }
+      ]
+    },
+    "L": {
+      "collection_tasks": [
+        {
+          "ato_mission": "recce-gainful",
+          "id": "ct-1",
+          "indicator": "Straight Flush radar emission",
+          "measure": "nai-gainful",
+          "report": "inflightrep",
+          "report_to": "caoc",
+          "requirement": "pir-1",
+          "window": {
+            "end": "2026-10-02T13:40:00Z",
+            "start": "2026-10-02T13:00:00Z"
+          }
+        },
+        {
+          "id": "ct-2",
+          "indicator": "Launcher movement through the junction",
+          "measure": "nai-junction",
+          "report_to": "warhawk",
+          "requirement": "pir-1",
+          "unit": "tacp-axeman",
+          "window": {
+            "end": "2026-10-02T14:00:00Z",
+            "start": "2026-10-02T13:00:00Z"
+          }
+        }
+      ],
+      "handover_lines": [
+        "pl-zinc"
+      ],
+      "named_areas_of_interest": [
+        "nai-gainful",
+        "nai-junction"
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push."
+    },
+    "M": {
+      "measures_of_effectiveness": [
+        {
+          "id": "moe-1",
+          "indicators": [
+            {
+              "id": "ind-1",
+              "indicator": "SA-6 shots against Anvil",
+              "threshold": "Zero"
+            }
+          ],
+          "statement": "The SA-6 does not engage the Anvil package."
+        }
+      ],
+      "measures_of_performance": [
+        {
+          "id": "mop-1",
+          "indicator": "Aimpoints struck within TOT plus or minus 1 minute",
+          "task": "Strike the Cobalt aimpoints",
+          "units": [
+            "strike-sqn"
+          ]
+        }
+      ],
+      "reframing_criteria": [
+        {
+          "id": "rf-1",
+          "objective": "Two or more coalition losses before 1330Z."
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push."
+    },
+    "N": {
+      "capabilities": [
+        {
+          "id": "sp-gps",
+          "mission_area": "positioning_navigation_timing",
+          "provider": "GPS",
+          "units": [
+            "strike-sqn",
+            "tf-bastion"
+          ],
+          "window": {
+            "end": "2026-10-02T15:00:00Z",
+            "start": "2026-10-02T13:00:00Z"
+          }
+        }
+      ],
+      "navigation_outages": [
+        {
+          "expected_error": {
+            "unit": "m",
+            "value": 50
+          },
+          "id": "gps-jam-1",
+          "measure": "nai-gainful",
+          "window": {
+            "end": "2026-10-02T13:35:00Z",
+            "start": "2026-10-02T13:20:00Z"
+          }
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "satellite_channels": [],
+      "summary": "Locate the SA-6 before the push."
+    },
+    "P": {
+      "agreements": [
+        {
+          "effective": {
+            "end": "2026-10-03T00:00:00Z",
+            "start": "2026-10-02T00:00:00Z"
+          },
+          "id": "agr-range",
+          "kind": "technical",
+          "name": "Host nation basing agreement",
+          "parties": [
+            "CJTF-OIR",
+            "Royal Jordanian Air Force"
+          ]
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push.",
+      "support": [
+        {
+          "agreement": "agr-range",
+          "airfield": "prince-hassan",
+          "category": "fuel",
+          "id": "hns-fuel",
+          "position": {
+            "latitude": 35.1,
+            "longitude": 40.3
+          },
+          "provider": "Prince Hassan fuel section"
+        }
+      ]
+    },
+    "Q": {
+      "battle_rhythm": [
+        {
+          "chair": "caoc",
+          "duration_minutes": 60,
+          "id": "br-1",
+          "kind": "briefing",
+          "name": "Mass brief",
+          "start": "2026-10-02T11:00:00Z"
+        },
+        {
+          "attendees": [
+            "tf-bastion"
+          ],
+          "chair": "caoc",
+          "channel": "ops-uhf",
+          "duration_minutes": 10,
+          "id": "br-2",
+          "interval_minutes": 30,
+          "kind": "update",
+          "name": "Ops update",
+          "start": "2026-10-02T13:00:00Z"
+        }
+      ],
+      "information_systems": [
+        {
+          "id": "is-tacview",
+          "name": "Air picture recorder",
+          "purpose": "Records the air picture for the debrief",
+          "units": [
+            "caoc"
+          ]
+        },
+        {
+          "channels": [
+            "control-uhf"
+          ],
+          "id": "is-link16",
+          "name": "Link 16 network",
+          "purpose": "Air picture to fighters and Darkstar"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push."
+    },
+    "R": {
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "reports": [
+        {
+          "ato_missions": [
+            "jam-anvil"
+          ],
+          "channel": "ops-uhf",
+          "due": "2026-10-02T12:30:00Z",
+          "from_units": [
+            "strike-sqn",
+            "cas-sqn",
+            "fighter-sqn"
+          ],
+          "interval_minutes": 60,
+          "report": "misrep",
+          "to_agency": "caoc",
+          "to_unit": "caoc",
+          "trigger": "Within 30 minutes of landing"
+        }
+      ],
+      "summary": "Locate the SA-6 before the push."
+    },
+    "S": {
+      "capabilities": [
+        {
+          "coordinator": "caoc",
+          "functional_area": "area_1",
+          "id": "sto-1",
+          "name": "Special technical operations item",
+          "phase": "ph-2"
+        }
+      ],
+      "classified_annex": {
+        "id": "oir-annex-s",
+        "title": "Annex S, held by the CAOC"
+      },
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "The CAOC holds the details; this order contains no classified data."
+    },
+    "U": {
+      "assistance_points": [
+        {
+          "channel": "ops-uhf",
+          "id": "iga-1",
+          "position": {
+            "latitude": 31.825,
+            "longitude": 36.781
+          },
+          "unit": "caoc",
+          "window": {
+            "end": "2026-10-02T18:00:00Z",
+            "start": "2026-10-02T08:00:00Z"
+          }
+        }
+      ],
+      "inspections": [
+        {
+          "id": "ig-1",
+          "subject": "FARP fuel safety procedures",
+          "units": [
+            "sust-det"
+          ],
+          "window": {
+            "end": "2026-10-02T12:00:00Z",
+            "start": "2026-10-02T11:00:00Z"
+          }
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push."
+    },
+    "V": {
+      "legal_considerations": [
+        {
+          "id": "lc-1",
+          "objective": "Strikes stay inside the approved target list and the coalition ROE."
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push.",
+      "tasks": [
+        {
+          "area": "other",
+          "id": "v-1",
+          "organization": "blm-range",
+          "task": "Confirm the road closure with the civil council",
+          "time": "2026-10-02T10:00:00Z",
+          "unit": "caoc"
+        }
+      ]
+    },
+    "W": {
+      "accountability_report": "misrep",
+      "offices": [
+        {
+          "channel": "ops-uhf",
+          "id": "ko-ojms",
+          "name": "Muwaffaq Salti contracting office",
+          "position": {
+            "latitude": 31.825,
+            "longitude": 36.781
+          },
+          "unit": "caoc"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "requirements": [
+        {
+          "airfield": "farp-sage",
+          "category": "theater_support",
+          "contractor": "Desert Fuel Services",
+          "id": "ocs-1",
+          "position": {
+            "latitude": 35.1,
+            "longitude": 40.3
+          },
+          "requirement": "Contract fuel truck for FARP Sage",
+          "units": [
+            "sust-det"
+          ],
+          "window": {
+            "end": "2026-10-02T15:00:00Z",
+            "start": "2026-10-02T13:00:00Z"
+          }
+        }
+      ],
+      "summary": "Locate the SA-6 before the push."
+    },
+    "Z": {
+      "recipients": [
+        {
+          "copies": 2,
+          "purpose": "action",
+          "unit": "tf-bastion"
+        },
+        {
+          "agency": "darkstar",
+          "copies": 1,
+          "purpose": "action"
+        },
+        {
+          "copies": 1,
+          "name": "Deir ez-Zor civil council",
+          "purpose": "information"
+        }
+      ],
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "summary": "Locate the SA-6 before the push."
+    }
+  },
+  "authentication": {
+    "authenticator_name": "Major Lin",
+    "authenticator_position": "CAOC operations officer",
+    "commander_name": "Reyes",
+    "commander_rank": "Colonel"
+  },
+  "command_and_signal": {
+    "command": {
+      "leaders": [
+        {
+          "command_post": "cp-main",
+          "position": {
+            "latitude": 35.1,
+            "longitude": 40.3
+          },
+          "role": "commander",
+          "unit": "caoc"
+        },
+        {
+          "command_post": "cp-bastion",
+          "phase": "ph-2",
+          "role": "TF Bastion commander",
+          "unit": "tf-bastion"
+        }
+      ],
+      "liaison": [
+        {
+          "agency": "warhawk",
+          "headquarters": "Kingpin",
+          "id": "lno-1",
+          "position": {
+            "latitude": 32.965,
+            "longitude": 37.794
+          },
+          "unit": "tf-bastion"
+        }
+      ],
+      "succession": [
+        "caoc",
+        "tf-bastion",
+        "tf-basin"
+      ]
+    },
+    "command_posts": [
+      {
+        "agency": "caoc",
+        "id": "cp-main",
+        "kind": "main",
+        "name": "Kingpin",
+        "operational": {
+          "end": "2026-10-02T17:00:00Z",
+          "start": "2026-10-02T10:00:00Z"
+        },
+        "position": {
+          "latitude": 31.825,
+          "longitude": 36.781
+        },
+        "unit": "caoc"
+      },
+      {
+        "controls": [
+          "ph-2"
+        ],
+        "id": "cp-bastion",
+        "kind": "tactical",
+        "name": "TF Bastion TAC",
+        "operational": {
+          "end": "2026-10-02T15:00:00Z",
+          "start": "2026-10-02T13:00:00Z"
+        },
+        "position": {
+          "latitude": 34.805,
+          "longitude": 40.267
+        },
+        "unit": "tf-bastion"
+      }
+    ],
+    "signal": {
+      "channels": [
+        "ops-uhf",
+        "control-uhf",
+        "banshee-uhf",
+        "cas-uhf",
+        "rescue-uhf",
+        "tanker-uhf",
+        "strike-vhf"
+      ],
+      "pace_plans": [
+        {
+          "alternate": {
+            "channel": "control-uhf",
+            "method": "voice_uhf"
+          },
+          "contingency": {
+            "method": "chat"
+          },
+          "emergency": {
+            "method": "telephone"
+          },
+          "function": "command",
+          "id": "pace-cmd",
+          "primary": {
+            "channel": "ops-uhf",
+            "method": "voice_uhf"
+          }
+        }
+      ],
+      "summary": "UHF voice on the resource catalogue channels; Link 16 through Darkstar."
+    }
+  },
+  "date_time": "2026-10-02T11:30:00Z",
+  "effective_time": "2026-10-02T12:00:00Z",
+  "execution": {
+    "commanders_intent": {
+      "end_state": {
+        "conditions": [
+          {
+            "condition": "Cobalt aimpoints struck and the SA-6 suppressed.",
+            "domain": "enemy",
+            "id": "es-1"
+          }
+        ],
+        "summary": "Cobalt destroyed, no coalition losses, no civilian harm."
+      },
+      "key_tasks": [
+        {
+          "id": "kt-1",
+          "measures": [
+            "cobalt-box"
+          ],
+          "task": "Clear the north before the push"
+        }
+      ],
+      "purpose": "Remove the Cobalt command post so that Task Force Bastion can advance to PL ZINC."
+    },
+    "concept_of_operations": {
+      "close_area": "obj-cobalt",
+      "deep_area": "cobalt-box",
+      "main_effort": "strike-sqn",
+      "phases": [
+        {
+          "ato_missions": [
+            "sweep",
+            "intercept",
+            "cap-falcon"
+          ],
+          "end": "2026-10-02T13:15:00Z",
+          "end_condition": "Darkstar declares the north clear.",
+          "id": "ph-1",
+          "main_effort": "fighter-sqn",
+          "measures": [
+            "falcon"
+          ],
+          "name": "Counterair",
+          "number": 1,
+          "start": "2026-10-02T13:00:00Z",
+          "summary": "Sweep and CAP gain control of the north."
+        },
+        {
+          "ato_missions": [
+            "strike-cobalt",
+            "sead-cobalt",
+            "escort-anvil",
+            "jam-anvil",
+            "cas-cobalt"
+          ],
+          "end": "2026-10-02T13:50:00Z",
+          "id": "ph-2",
+          "main_effort": "strike-sqn",
+          "measures": [
+            "juniper",
+            "ip-silver",
+            "cobalt-box"
+          ],
+          "name": "Strike",
+          "number": 2,
+          "start": "2026-10-02T13:15:00Z",
+          "start_condition": "Anvil package pushes from Juniper.",
+          "summary": "Anvil strikes Cobalt with suppression and jamming; TF Bastion attacks to the LOA."
+        },
+        {
+          "ato_missions": [
+            "pedro-csar"
+          ],
+          "end": "2026-10-02T15:00:00Z",
+          "id": "ph-3",
+          "main_effort": "rescue-sqn",
+          "measures": [
+            "rescue-reservation",
+            "cedar"
+          ],
+          "name": "Recovery",
+          "number": 3,
+          "start": "2026-10-02T13:50:00Z",
+          "summary": "Rescue of the isolated aircrew and recovery to Muwaffaq Salti."
+        }
+      ],
+      "rear_area": "aa-bastion",
+      "reserve": "rescue-sqn",
+      "summary": "Counterair, then a package strike on Cobalt with CAS for Task Force Bastion, then rescue and recovery.",
+      "supporting_efforts": [
+        "sead-sqn",
+        "fighter-sqn",
+        "cas-sqn",
+        "tf-bastion"
+      ]
+    },
+    "coordinating_instructions": {
+      "airspace_coordinating_measures": [
+        "bastion-ca",
+        "south-transit",
+        "rescue-reservation",
+        "sage-shoradez"
+      ],
+      "ccir": {
+        "friendly_force_information_requirements": [
+          {
+            "id": "ffir-1",
+            "number": "FFIR 1",
+            "question": "Is any aircraft isolated?",
+            "report_to": "darkstar"
+          }
+        ],
+        "priority_intelligence_requirements": [
+          {
+            "decision_point": "dp-1",
+            "id": "pir-1",
+            "indicators": [
+              "Straight Flush radar emission",
+              "Launcher movement through the junction"
+            ],
+            "latest_time": "2026-10-02T13:10:00Z",
+            "measures": [
+              "nai-gainful",
+              "nai-junction"
+            ],
+            "number": "PIR 1",
+            "question": "Where is the SA-6 battery at 1315Z?",
+            "report_to": "caoc"
+          }
+        ]
+      },
+      "eefi": [
+        {
+          "id": "eefi-1",
+          "item": "Push time of the Anvil package"
+        }
+      ],
+      "effective_condition": "At the start of the ATO period or on the CAOC execute order.",
+      "effective_time": "2026-10-02T12:00:00Z",
+      "fire_support_coordination_measures": [
+        "oir-fscl",
+        "pewter-rfl",
+        "cobalt-box",
+        "quarry-nfa"
+      ],
+      "other": [
+        {
+          "id": "ci-1",
+          "instruction": "All times are UTC."
+        }
+      ],
+      "personnel_recovery": {
+        "agency": "darkstar",
+        "channels": [
+          "rescue-uhf"
+        ],
+        "measures": [
+          "rescue-reservation"
+        ],
+        "recovery_forces": [
+          "pedro-csar"
+        ],
+        "summary": "Isolated aircrew evade south to the rescue reservation and authenticate per the SPINS."
+      },
+      "risk_reduction": {
+        "emission_control": "unrestricted",
+        "fratricide_measures": [
+          "pl-zinc",
+          "oir-fscl"
+        ],
+        "instructions": [
+          {
+            "id": "rr-1",
+            "instruction": "CAS aircraft use the last reported phase line of TF Bastion."
+          }
+        ],
+        "mopp_level": "mopp_0"
+      },
+      "rules_of_engagement": [
+        {
+          "id": "roe-1",
+          "number": "R-1",
+          "rule": "Collateral damage estimate before every preplanned strike.",
+          "units": [
+            "caoc"
+          ],
+          "window": {
+            "end": "2026-10-02T16:00:00Z",
+            "start": "2026-10-02T12:00:00Z"
+          }
+        }
+      ],
+      "themes_and_messages": [
+        {
+          "audience": "Local population",
+          "id": "msg-1",
+          "kind": "emphasize",
+          "message": "Coalition strikes target ISIS, not the population."
+        }
+      ],
+      "timeline": [
+        {
+          "event": "Anvil push from Juniper",
+          "id": "tl-push",
+          "phase": "ph-2",
+          "time": "2026-10-02T13:15:00Z"
+        },
+        {
+          "condition": "Darkstar reports the survivor position.",
+          "event": "Rescue starts",
+          "id": "tl-rescue",
+          "phase": "ph-3"
+        }
+      ]
+    },
+    "schemes": {
+      "air_and_missile_defense": {
+        "air_defense_warning": "yellow",
+        "engagement_authority": "darkstar",
+        "measures": [
+          "sage-shoradez"
+        ],
+        "phases": [
+          "ph-2"
+        ],
+        "priorities": [
+          {
+            "measure": "pl-brass",
+            "rank": 1
+          }
+        ],
+        "summary": "Sage defends the FARP in weapons tight.",
+        "units": [
+          "ada-btry"
+        ],
+        "weapons_control_status": "tight"
+      },
+      "airspace_control": {
+        "agencies": [
+          "darkstar",
+          "banshee",
+          "warhawk"
+        ],
+        "coordinating_altitude": "bastion-ca",
+        "measures": [
+          "south-transit",
+          "mesa",
+          "cobalt-box",
+          "rescue-reservation"
+        ],
+        "phases": [
+          "ph-2"
+        ],
+        "priorities": [
+          {
+            "measure": "pl-brass",
+            "rank": 1
+          }
+        ],
+        "summary": "Darkstar controls the orbits and the corridor; Warhawk controls below 11000 feet MSL over TF Bastion.",
+        "units": [
+          "caoc"
+        ]
+      },
+      "engineering": {
+        "measures": [
+          "falcon"
+        ],
+        "phases": [
+          "ph-2"
+        ],
+        "priorities": [
+          {
+            "measure": "pl-brass",
+            "rank": 1
+          }
+        ],
+        "summary": "Mark one lane through the wire at PL BRASS.",
+        "units": [
+          "tf-bastion"
+        ]
+      },
+      "fires": {
+        "air_support": [
+          "strike-cobalt",
+          "sead-cobalt",
+          "cas-cobalt"
+        ],
+        "measures": [
+          "oir-fscl",
+          "cobalt-box",
+          "quarry-nfa"
+        ],
+        "phases": [
+          "ph-2"
+        ],
+        "priorities": [
+          {
+            "phase": "ph-2",
+            "rank": 1,
+            "unit": "tf-bastion"
+          }
+        ],
+        "restrictions": [
+          {
+            "id": "fr-1",
+            "instruction": "No fires into the Quarry Springs NFA.",
+            "measures": [
+              "quarry-nfa"
+            ],
+            "units": [
+              "caoc"
+            ],
+            "window": {
+              "end": "2026-10-02T16:00:00Z",
+              "start": "2026-10-02T12:00:00Z"
+            }
+          }
+        ],
+        "summary": "Air interdiction beyond the FSCL in the Cobalt kill box; CAS short of the FSCL under Axeman.",
+        "units": [
+          "caoc"
+        ]
+      },
+      "information_collection": {
+        "ato_missions": [
+          "recce-gainful"
+        ],
+        "measures": [
+          "falcon"
+        ],
+        "phases": [
+          "ph-2"
+        ],
+        "priorities": [
+          {
+            "measure": "pl-brass",
+            "rank": 1
+          }
+        ],
+        "reconnaissance_objectives": [
+          "nai-gainful",
+          "nai-junction"
+        ],
+        "summary": "Ghost searches NAI 1 and NAI 2 from 1300Z.",
+        "units": [
+          "caoc"
+        ]
+      },
+      "intelligence": {
+        "measures": [
+          "falcon"
+        ],
+        "phases": [
+          "ph-2"
+        ],
+        "priorities": [
+          {
+            "measure": "nai-gainful",
+            "rank": 1
+          }
+        ],
+        "priority_of_effort": [
+          "targeting",
+          "situation_development"
+        ],
+        "summary": "Locate the SA-6 before the push.",
+        "units": [
+          "caoc"
+        ]
+      },
+      "maneuver": {
+        "measures": [
+          "aa-bastion",
+          "pl-brass",
+          "pl-nickel",
+          "pl-zinc",
+          "obj-cobalt"
+        ],
+        "phases": [
+          "ph-2"
+        ],
+        "priorities": [
+          {
+            "measure": "pl-brass",
+            "rank": 1
+          }
+        ],
+        "reserve": "tf-basin",
+        "reserve_priorities": [
+          {
+            "measure": "bastion-basin-boundary",
+            "rank": 1,
+            "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village."
+          }
+        ],
+        "summary": "TF Bastion crosses PL BRASS at 1330Z and attacks north to PL ZINC.",
+        "units": [
+          "tf-bastion"
+        ]
+      },
+      "protection": {
+        "measures": [
+          "falcon"
+        ],
+        "phases": [
+          "ph-2"
+        ],
+        "priorities": [
+          {
+            "asset": "Sage FARP",
+            "measure": "sage-shoradez",
+            "rank": 1
+          }
+        ],
+        "reaction_forces": [
+          "tf-basin"
+        ],
+        "summary": "SHORAD covers the FARP; Basin is the reaction force.",
+        "units": [
+          "caoc"
+        ]
+      }
+    },
+    "tasks_to_subordinate_units": [
+      {
+        "tasks": [
+          {
+            "id": "t-bastion-1",
+            "measures": [
+              "pl-brass",
+              "pl-zinc",
+              "obj-cobalt"
+            ],
+            "phase": "ph-2",
+            "purpose": "Fix the Cobalt defenders",
+            "task": "Attack to PL ZINC (LOA)",
+            "window": {
+              "end": "2026-10-02T14:50:00Z",
+              "start": "2026-10-02T13:30:00Z"
+            }
+          }
+        ],
+        "unit": "tf-bastion"
+      },
+      {
+        "tasks": [
+          {
+            "ato_missions": [
+              "strike-cobalt"
+            ],
+            "id": "t-strike-1",
+            "measures": [
+              "cobalt-box"
+            ],
+            "phase": "ph-2",
+            "purpose": "Destroy the command post",
+            "task": "Strike the Cobalt aimpoints"
+          }
+        ],
+        "unit": "strike-sqn"
+      }
+    ]
+  },
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    },
+    "org.opord-builder.print": {
+      "caveats": [
+        "REL TO CJTF-OIR"
+      ],
+      "classification_banner": "UNCLASSIFIED",
+      "copy_number": 1,
+      "logo": "assets/oir.png",
+      "message_reference_number": "IR-26-01",
+      "number_of_copies": 12,
+      "page_icon": "assets/oir-icon.png",
+      "place_of_issue": "Muwaffaq Salti, Jordan"
+    },
+    "sim": {
+      "dcs": {
+        "coalition": "blue"
+      }
+    }
+  },
+  "issuing_headquarters": "CJTF-OIR CAOC",
+  "kind": "opord",
+  "meta": {
+    "author": "CAOC airspace cell",
+    "classification": "UNCLASSIFIED",
+    "distribution": [
+      "Darkstar",
+      "Banshee",
+      "Salti Tower",
+      "All OIR flights"
+    ],
+    "id": "oir-opord",
+    "issued_at": "2026-10-02T11:30:00Z",
+    "issuing_unit": "CJTF-OIR CAOC",
+    "operation": "INHERENT RESOLVE",
+    "references": [
+      {
+        "id": "oir-aco",
+        "revision": "2",
+        "title": "OIR ACO"
+      },
+      {
+        "id": "oir-spins",
+        "revision": "1",
+        "title": "OIR SPINS"
+      }
+    ],
+    "revision": "1",
+    "supersedes": {
+      "id": "oir-aco",
+      "path": "oir-aco.json",
+      "revision": "1",
+      "section": "Entire order",
+      "title": "OIR preliminary ACO"
+    },
+    "title": "OIR OPORD 26-01"
+  },
+  "mission": {
+    "objectives": [
+      "obj-cobalt"
+    ],
+    "purpose": "Train a coordinated strike, counterair, CAS and rescue package",
+    "statement": "OIR air forces destroy the Cobalt compound on 2 October 2026 between 1300Z and 1500Z to train a coordinated strike, counterair, CAS and rescue package.",
+    "task": "Destroy the Cobalt compound",
+    "units": [
+      "strike-sqn",
+      "sead-sqn",
+      "fighter-sqn",
+      "cas-sqn",
+      "rescue-sqn",
+      "tf-bastion"
+    ],
+    "window": {
+      "end": "2026-10-02T15:00:00Z",
+      "start": "2026-10-02T13:00:00Z"
+    }
+  },
+  "operation_name": "INHERENT RESOLVE",
+  "order_number": "26-01",
+  "orders": {
+    "aco": {
+      "id": "oir-aco",
+      "revision": "2"
+    },
+    "ato": {
+      "id": "oir-ato",
+      "revision": "1"
+    },
+    "opord": {
+      "id": "oir-opord",
+      "revision": "1"
+    },
+    "spins": {
+      "id": "oir-spins",
+      "revision": "1"
+    }
+  },
+  "period": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "references": [
+    {
+      "id": "oir-aco",
+      "revision": "2",
+      "title": "OIR ACO"
+    },
+    {
+      "id": "oir-spins",
+      "revision": "1",
+      "title": "OIR SPINS"
+    }
+  ],
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "schema_version": "0.1.0-draft.2",
+  "situation": {
+    "area_of_interest": {
+      "measures": [
+        "oir-aor"
+      ],
+      "summary": "Eastern Jordan and eastern Syria up to the Euphrates valley; third-party fighters can enter from the north-west."
+    },
+    "area_of_operations": {
+      "measures": [
+        "oir-aor",
+        "bastion-basin-boundary"
+      ],
+      "summary": "Locate the SA-6 before the push.",
+      "terrain": {
+        "avenues_of_approach": [
+          {
+            "direction": "north",
+            "echelon": "battalion",
+            "id": "aoa-east",
+            "measures": [
+              "pl-brass",
+              "pl-nickel",
+              "pl-zinc"
+            ],
+            "name": "East valley road"
+          }
+        ],
+        "key_terrain": [
+          {
+            "id": "kt-ridge",
+            "name": "Cobalt ridge",
+            "position": {
+              "latitude": 35.135,
+              "longitude": 40.295
+            },
+            "significance": "Observation over OBJ COBALT and the road junction."
+          },
+          {
+            "id": "kt-junction",
+            "measure": "nai-junction",
+            "name": "Road junction",
+            "significance": "The SA-6 battery uses the junction to relocate."
+          }
+        ],
+        "summary": "Flat desert and low ridges west of the Euphrates; the desert road to Deir ez-Zor is the only vehicle route north."
+      },
+      "weather": {
+        "forecasts": [
+          {
+            "ceiling": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 25000
+            },
+            "effects": "No restrictions on medium-altitude attacks or laser designation.",
+            "precipitation": "none",
+            "temperature": {
+              "unit": "C",
+              "value": 24
+            },
+            "visibility": {
+              "unit": "km",
+              "value": 10
+            },
+            "wind_direction": {
+              "declination_deg": 5.0,
+              "reference": "true",
+              "value": 230
+            },
+            "wind_speed": {
+              "unit": "kt",
+              "value": 12
+            },
+            "window": {
+              "end": "2026-10-02T16:00:00Z",
+              "start": "2026-10-02T12:00:00Z"
+            }
+          }
+        ],
+        "light_data": [
+          {
+            "begin_morning_nautical_twilight": "2026-10-02T02:25:00Z",
+            "date": "2026-10-02",
+            "end_evening_nautical_twilight": "2026-10-02T15:55:00Z",
+            "moon_illumination_percent": 68,
+            "moonrise": "2026-10-02T16:40:00Z",
+            "moonset": "2026-10-02T08:40:00Z",
+            "sunrise": "2026-10-02T03:15:00Z",
+            "sunset": "2026-10-02T15:05:00Z"
+          }
+        ],
+        "summary": "Clear, light south-west wind; the operation ends at sunset."
+      }
+    },
+    "assumptions": [
+      {
+        "assumption": "Weather permits medium-altitude operations.",
+        "id": "as-1"
+      }
+    ],
+    "attachments_and_detachments": [
+      {
+        "action": "attach",
+        "effective": "2026-10-02T12:00:00Z",
+        "headquarters": "Task Force Bastion",
+        "phase": "ph-2",
+        "relationship": "attached",
+        "unit": "tacp-axeman"
+      }
+    ],
+    "civil_considerations": {
+      "entries": [
+        {
+          "category": "structures",
+          "id": "cc-quarry",
+          "measure": "quarry-nfa",
+          "name": "Quarry Springs water facility",
+          "significance": "No fires into the NFA.",
+          "window": {
+            "end": "2026-10-02T16:00:00Z",
+            "start": "2026-10-02T12:00:00Z"
+          }
+        },
+        {
+          "category": "people",
+          "id": "cc-ranchers",
+          "name": "Herders and farm traffic",
+          "position": {
+            "latitude": 34.885,
+            "longitude": 39.975
+          },
+          "significance": "Civilian vehicles on the west road; positive identification before any attack."
+        }
+      ],
+      "summary": "Civilians remain in the valley; one protected civil facility and one displaced-persons camp are in the area of operations."
+    },
+    "enemy_forces": {
+      "courses_of_action": [
+        {
+          "id": "ecoa-1",
+          "kind": "most_likely",
+          "measures": [
+            "nai-gainful",
+            "nai-junction"
+          ],
+          "name": "Emit and relocate",
+          "summary": "The SA-6 emits as strikers approach Silver, then relocates north through the junction."
+        }
+      ],
+      "summary": "A captured SA-6 battery defends the Cobalt command post; third-party fighters can approach from the north-west between 1310Z and 1400Z.",
+      "units": [
+        {
+          "as_of": "2026-10-02T12:15:00Z",
+          "echelon": "company",
+          "emitters": [
+            "sa6-gainful"
+          ],
+          "id": "red-sa6",
+          "measure": "nai-gainful",
+          "name": "SA-6 battery",
+          "position": {
+            "latitude": 35.215,
+            "longitude": 40.265
+          },
+          "strength_percent": 100,
+          "targets": [
+            "gainful-battery"
+          ],
+          "threats": [
+            "sa-6"
+          ],
+          "unit_type": "Surface-to-air missile battery"
+        }
+      ]
+    },
+    "friendly_forces": {
+      "adjacent_units": [
+        {
+          "agency": "caoc",
+          "boundary": "bastion-basin-boundary",
+          "direction": "west",
+          "id": "adj-basin",
+          "mission": "Screen the west flank of Task Force Bastion.",
+          "name": "Task Force Basin"
+        }
+      ],
+      "higher_one_level": {
+        "commanders_intent": "Destroy ISIS command and supply nodes without civilian harm.",
+        "concept_of_operations": "Counterair first, then strike, CAS and rescue under one ATO and ACO.",
+        "mission": "Give air support to the partner offensive near Deir ez-Zor on 2 October 2026.",
+        "name": "CJTF-OIR CAOC",
+        "order": {
+          "id": "oir-exord",
+          "title": "OIR air operations directive"
+        }
+      },
+      "higher_two_levels": {
+        "commanders_intent": "Partner forces hold the west bank south of Deir ez-Zor with coalition fires.",
+        "mission": "Defeat ISIS in the Middle Euphrates River Valley with partner forces.",
+        "name": "CJTF-OIR land component"
+      },
+      "supporting_agencies": [
+        "darkstar",
+        "warhawk",
+        "banshee"
+      ]
+    },
+    "interagency_organizations": [
+      {
+        "channels": [
+          "banshee-uhf"
+        ],
+        "id": "blm-range",
+        "kind": "interagency",
+        "liaison": "caoc",
+        "name": "Deir ez-Zor civil council",
+        "objectives": [
+          "No damage to the Quarry Springs pumping station"
+        ],
+        "position": {
+          "latitude": 31.789,
+          "longitude": 36.715
+        }
+      }
+    ]
+  },
+  "sustainment": {
+    "financial_management": {
+      "programs": [
+        {
+          "id": "fund-ex",
+          "limit": {
+            "amount": 250000,
+            "currency": "USD"
+          },
+          "name": "Contingency flying hours",
+          "unit": "caoc"
+        }
+      ],
+      "summary": "Flying costs come from the contingency flying-hour program."
+    },
+    "health_service_support": {
+      "evacuation": {
+        "agency": "banshee",
+        "ato_missions": [
+          "jam-anvil"
+        ],
+        "exchange_points": [
+          {
+            "id": "axp-1",
+            "measure": "oir-aor",
+            "name": "AXP Sage",
+            "position": {
+              "latitude": 34.735,
+              "longitude": 40.215
+            }
+          }
+        ],
+        "request_channels": [
+          "banshee-uhf"
+        ],
+        "summary": "Banshee coordinates casualty evacuation from AXP Sage to Muwaffaq Salti."
+      },
+      "facilities": [
+        {
+          "airfield": "ojms",
+          "id": "mtf-ojms",
+          "name": "Muwaffaq Salti clinic",
+          "role": 2,
+          "unit": "caoc"
+        },
+        {
+          "id": "mtf-amman",
+          "name": "Amman military hospital",
+          "position": {
+            "latitude": 31.972,
+            "longitude": 35.992
+          },
+          "role": 3
+        }
+      ],
+      "summary": "Role 2 care at Muwaffaq Salti; casualties from the valley go through AXP Sage."
+    },
+    "logistics": {
+      "priorities": [
+        {
+          "measure": "pl-brass",
+          "rank": 1
+        }
+      ],
+      "routes": [
+        "marshal-entry"
+      ],
+      "summary": "Helicopters refuel at FARP Sage; fixed-wing aircraft recover to Muwaffaq Salti or Prince Hassan.",
+      "supply_points": [
+        {
+          "airfield": "farp-sage",
+          "classes": [
+            "III",
+            "V"
+          ],
+          "id": "sp-sage",
+          "kind": "forward_arming_and_refuelling_point",
+          "name": "FARP Sage",
+          "position": {
+            "latitude": 35.1,
+            "longitude": 40.3
+          },
+          "unit": "sust-det",
+          "window": {
+            "end": "2026-10-02T15:00:00Z",
+            "start": "2026-10-02T13:00:00Z"
+          }
+        }
+      ]
+    },
+    "personnel": {
+      "casualty_report": "misrep",
+      "summary": "Units report casualties in the MISREP."
+    },
+    "priorities": [
+      {
+        "rank": 1,
+        "unit": "tf-bastion"
+      }
+    ],
+    "summary": "Sustainment supports TF Bastion first; the FARP opens at 1300Z."
+  },
+  "task_organization": {
+    "ada-btry": {
+      "callsign": "Sage",
+      "echelon": "platoon",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Sage SHORAD battery",
+      "parent": "tf-bastion",
+      "position": {
+        "latitude": 34.735,
+        "longitude": 40.225
+      },
+      "unit_type": "Short-range air defence platoon"
+    },
+    "asoc-warhawk": {
+      "agency": "warhawk",
+      "callsign": "Warhawk",
+      "echelon": "squadron",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Warhawk ASOC",
+      "parent": "caoc",
+      "position": {
+        "latitude": 32.965,
+        "longitude": 37.794
+      },
+      "unit_type": "Air support operations squadron"
+    },
+    "caoc": {
+      "agency": "caoc",
+      "callsign": "Kingpin",
+      "commander": "Col. Reyes",
+      "echelon": "wing",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "CJTF-OIR CAOC",
+      "position": {
+        "latitude": 31.825,
+        "longitude": 36.781
+      },
+      "remarks": "Friendlies are south of PL ZINC. No attack headings over the Lantern village.",
+      "unit_type": "Combined air operations centre"
+    },
+    "cas-sqn": {
+      "callsign": "Hawg",
+      "echelon": "squadron",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Blue CAS squadron",
+      "parent": "caoc",
+      "unit_type": "A-10C squadron"
+    },
+    "fighter-sqn": {
+      "callsign": "Dodge",
+      "echelon": "squadron",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Blue fighter squadron",
+      "parent": "caoc",
+      "unit_type": "F-15C and F-16C squadron"
+    },
+    "rescue-sqn": {
+      "callsign": "Pedro",
+      "echelon": "squadron",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Blue rescue squadron",
+      "parent": "caoc",
+      "unit_type": "HH-60G squadron"
+    },
+    "sead-sqn": {
+      "callsign": "Weasel",
+      "echelon": "squadron",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Blue suppression squadron",
+      "parent": "caoc",
+      "unit_type": "F-16CM squadron"
+    },
+    "strike-sqn": {
+      "callsign": "Rage",
+      "echelon": "squadron",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Blue strike squadron",
+      "parent": "caoc",
+      "unit_type": "F-15E squadron"
+    },
+    "sust-det": {
+      "callsign": "Sage Fuel",
+      "echelon": "section",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Sage FARP detachment",
+      "parent": "tf-bastion",
+      "position": {
+        "latitude": 34.735,
+        "longitude": 40.225
+      },
+      "unit_type": "Forward arming and refuelling detachment"
+    },
+    "tacp-axeman": {
+      "callsign": "Axeman",
+      "echelon": "team",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Axeman TACP",
+      "parent": "tf-bastion",
+      "position": {
+        "latitude": 35.005,
+        "longitude": 40.265
+      },
+      "unit_type": "Tactical air control party"
+    },
+    "tf-basin": {
+      "callsign": "Basin 6",
+      "echelon": "battalion",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Task Force Basin",
+      "parent": "caoc",
+      "position": {
+        "latitude": 34.785,
+        "longitude": 40.025
+      },
+      "unit_type": "Mechanized infantry task force"
+    },
+    "tf-bastion": {
+      "callsign": "Bastion 6",
+      "echelon": "battalion",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "coalition": "blue"
+          }
+        }
+      },
+      "name": "Task Force Bastion",
+      "parent": "caoc",
+      "position": {
+        "latitude": 34.785,
+        "longitude": 40.255
+      },
+      "unit_type": "Armoured infantry task force"
+    }
+  },
+  "time_zone": "Z"
+}

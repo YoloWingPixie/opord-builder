@@ -1,0 +1,278 @@
+# yaml-language-server: $schema=../../schemas/spins.schema.json
+# Default SPINS layout rendered from typed OpenAIX data (draft.2 fields only).
+# Use it as is through opord_builder.spins.load_default_spins(spins=..., resources=..., airfields=[...]),
+# or copy it and list your files under `openaix:` (paths are relative to the copy), e.g.
+#   openaix: {spins: spins.json, resources: resources.json, airfields: [ojms.json, cvn-72.json]}
+# A section whose data is absent is left out entirely, with no empty heading.
+# TODO(openaix feat/gameplay-fields): carrier Link 4 / ACLS fields, and recovery windows
+#   (RecoveryAirfield has no window in draft.2). Add columns here after re-vendoring.
+kind: spins
+schema_version: '0.3'
+scope: standing
+meta:
+  id: spins-default
+  title: Special Instructions
+  revision: '1'
+presentation:
+  font: sans
+  page_size: A4
+  contents: true
+openaix: {}
+content:
+- kind: section
+  title: Communications
+  blocks:
+  - kind: openaix_table
+    caption: Communications nets
+    source: spins
+    pointer: /communications/nets
+    columns:
+    - key: net
+      heading: Net
+      field: /name
+    - key: agency
+      heading: Agency
+      field: /agency
+      lookup: resources:/resources/agencies
+    - key: channel
+      heading: Channel
+      field: /channel
+      lookup: resources:/resources/channels
+    - key: purpose
+      heading: Purpose
+      field: /purpose
+    empty: skip
+  - kind: openaix_table
+    caption: Brevity terms
+    source: spins
+    pointer: /communications/brevity
+    columns:
+    - key: term
+      heading: Term
+      field: /term
+    - key: meaning
+      heading: Meaning
+      field: /meaning
+    empty: skip
+- kind: section
+  title: IFF
+  blocks:
+  - kind: openaix_table
+    caption: IFF assignments
+    source: spins
+    pointer: /identification/iff
+    columns:
+    - key: mode
+      heading: Mode
+      field: /mode
+    - key: code
+      heading: Code
+      field: /code
+    - key: window
+      heading: Window
+      field: /window
+    - key: missions
+      heading: ATO missions
+      field: /ato_missions
+    empty: skip
+- kind: section
+  title: Laser codes
+  blocks:
+  - kind: openaix_table
+    caption: Laser code allocations
+    source: spins
+    pointer: /cas/laser_codes
+    columns:
+    - key: use
+      heading: Use
+      field: /use
+    - key: code
+      heading: Code
+      field: /code
+    - key: agencies
+      heading: Agencies
+      field: /agencies
+      lookup: resources:/resources/agencies
+    - key: units
+      heading: Units
+      field: /units
+    - key: flights
+      heading: Flights
+      field: /flights
+    - key: window
+      heading: Window
+      field: /window
+    empty: skip
+- kind: section
+  title: Tanker procedures
+  blocks:
+  - kind: openaix_table
+    caption: Tanker procedures
+    source: spins
+    pointer: /tanker_procedures
+    columns:
+    - key: track
+      heading: Track
+      field: /track
+    - key: altitude
+      heading: Altitude
+      field: /altitude
+    - key: tacan
+      heading: TACAN
+      field: /tacan
+    - key: channels
+      heading: Radio
+      field: /channels
+      lookup: resources:/resources/channels
+    - key: missions
+      heading: ATO missions
+      field: /ato_missions
+    - key: remarks
+      heading: Remarks
+      field: /remarks
+    empty: skip
+- kind: section
+  title: Divert and abort
+  blocks:
+  - kind: openaix_table
+    caption: Abort code
+    source: spins
+    pointer: /divert_and_abort
+    require:
+    - /abort_code
+    columns:
+    - key: abort_code
+      heading: Abort code
+      field: /abort_code
+    empty: skip
+  - kind: openaix_table
+    caption: Abort criteria
+    source: spins
+    pointer: /divert_and_abort/abort_criteria
+    columns:
+    - key: condition
+      heading: Condition
+      field: /condition
+    - key: action
+      heading: Action
+      field: /action
+    empty: skip
+  - kind: openaix_table
+    caption: Divert airfields
+    source: spins
+    pointer: /divert_and_abort/divert_airfields
+    columns:
+    - key: priority
+      heading: Priority
+      field: /priority
+      align: center
+    - key: airfield
+      heading: Airfield
+      field: /airfield
+      lookup: airfield
+    - key: conditions
+      heading: Conditions
+      field: /conditions
+    empty: skip
+# TODO(openaix feat/gameplay-fields): recovery windows column (not in draft.2)
+- kind: section
+  title: Recovery routing
+  blocks:
+  - kind: openaix_table
+    caption: Recovery airfields
+    source: spins
+    pointer: /recovery_routing/recovery_airfields
+    columns:
+    - key: priority
+      heading: Priority
+      field: /priority
+      align: center
+    - key: airfield
+      heading: Airfield
+      field: /airfield
+      lookup: airfield
+    - key: entry
+      heading: Entry point
+      field: /entry_point
+    - key: route
+      heading: Route
+      field: /route
+    - key: procedure
+      heading: Procedure
+      field: /procedure
+    - key: channels
+      heading: Radio
+      field: /channels
+      lookup: resources:/resources/channels
+    - key: missions
+      heading: ATO missions
+      field: /ato_missions
+    empty: skip
+- kind: section
+  title: Weather minimums
+  blocks:
+  - kind: openaix_table
+    caption: Weather minimums
+    source: spins
+    pointer: /restrictions/weather_minimums
+    columns:
+    - key: phase
+      heading: Phase
+      field: /phase
+    - key: airfield
+      heading: Airfield
+      field: /airfield
+      lookup: airfield
+    - key: ceiling
+      heading: Ceiling
+      field: /ceiling
+    - key: visibility
+      heading: Visibility
+      field: /visibility
+    - key: taskings
+      heading: Taskings
+      field: /taskings
+    - key: missions
+      heading: ATO missions
+      field: /ato_missions
+    empty: skip
+# TODO(openaix feat/gameplay-fields): carrier Link 4 and ACLS columns (not in draft.2)
+- kind: section
+  title: Carrier
+  blocks:
+  - kind: openaix_table
+    caption: Carrier recovery
+    source: airfield
+    pointer: ''
+    require:
+    - /carrier
+    columns:
+    - key: name
+      heading: Ship
+      field: /name
+    - key: hull
+      heading: Hull
+      field: /carrier/hull_number
+    - key: tacan
+      heading: TACAN
+      field: /carrier/tacan
+    - key: icls
+      heading: ICLS channel
+      field: /carrier/icls_channel
+      align: center
+    - key: case
+      heading: Case
+      field: /carrier/case_recovery/case
+    - key: marshal_alt
+      heading: Marshal altitude
+      field: /carrier/case_recovery/marshal_altitude
+    - key: marshal_dist
+      heading: Marshal distance
+      field: /carrier/case_recovery/marshal_distance
+    - key: marshal_radial
+      heading: Marshal radial
+      field: /carrier/case_recovery/marshal_radial
+    - key: frequencies
+      heading: Frequencies
+      field: /frequencies
+    empty: skip

@@ -1,0 +1,22 @@
+{
+  "$schema": "urn:openaix:schema:airfield:0.1.0-draft.2",
+  "id": "cvn-72",
+  "kind": "carrier",
+  "name": "USS Abraham Lincoln",
+  "ident": "LINC",
+  "carrier": {
+    "hull_number": "CVN-72",
+    "icls_channel": 11,
+    "tacan": {"channel": 72, "band": "X", "identifier": "ABE"},
+    "case_recovery": {
+      "case": "case_iii",
+      "marshal_altitude": {"value": 6000, "unit": "ft", "reference": "MSL"},
+      "marshal_distance": {"value": 20, "unit": "nm"},
+      "marshal_radial": {"value": 180, "reference": "magnetic"}
+    }
+  },
+  "frequencies": [
+    {"callsign": "Marshal", "role": "marshal", "frequency": {"value": 264.0, "unit": "MHz", "modulation": "AM", "band": "uhf"}},
+    {"callsign": "Tower", "role": "tower", "frequency": {"value": 127.5, "unit": "MHz", "modulation": "AM", "band": "vhf"}}
+  ]
+}

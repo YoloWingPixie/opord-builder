@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "EngagementMeans": {
+      "additionalProperties": false,
+      "description": "An approved weapon system is a weapon system or an aircraft type that has clearance to engage the target, with its weapon.",
+      "properties": {
+        "scl": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the standard conventional load (SCL) that is the load of the aircraft.",
+          "x-catalog": "scls"
+        },
+        "store": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the store that is the weapon. When the entry gives a standard conventional load (SCL), the SCL shall contain the store.",
+          "x-catalog": "stores"
+        },
+        "system": {
+          "description": "This field gives the weapon system or type of aircraft, such as `F-15E`, `M777` or `HIMARS`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "system"
+      ],
+      "type": "object"
+    },
+    "TSTEntry": {
+      "additionalProperties": false,
+      "description": "A time-sensitive target entry is one row on the time-sensitive target (TST) list. The joint force commander designates each TST and has its engagement authority. The joint force commander may delegate this authority to a component commander or to a lower level. Forces prosecute a TST with dynamic targeting: find, fix, track, target, engage and assess.",
+      "properties": {
+        "activity_window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the target is possibly there or active."
+        },
+        "authorized_engagement_means": {
+          "description": "This list contains the weapon systems that have clearance to prosecute the time-sensitive target (TST). Each entry gives the system, and can refer to the standard conventional load (SCL) and the weapon in the resource catalogue.",
+          "items": {
+            "$ref": "#/$defs/EngagementMeans"
+          },
+          "type": "array"
+        },
+        "category": {
+          "description": "This field gives the type of the target, such as air defence or leadership, as free text. The types are local values and not a code list of the joint force.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "engagement_authority": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that gives approval for the engagement of this target. The joint force commander has this authority and may delegate it to a component commander or to a lower level.",
+          "x-catalog": "agencies"
+        },
+        "expected_locations": {
+          "description": "This list contains the positions at which the target can possibly be.",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "mgrs": {
+                "description": "This field gives the same position for display, in the Military Grid Reference System (MGRS), as free text. If the two values are different, the geographic position has priority.",
+                "minLength": 1,
+                "type": "string"
+              },
+              "name": {
+                "description": "This field gives the name of this possible location, for display.",
+                "minLength": 1,
+                "type": "string"
+              },
+              "position": {
+                "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+                "description": "This field gives the geographic position of the possible location, as latitude and longitude."
+              }
+            },
+            "required": [
+              "position"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "expiration_criteria": {
+          "description": "This field gives the conditions or time for the removal of the target from the list, as free text.",
+          "type": "string"
+        },
+        "expires_at": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time at which the target goes off the list, if no other condition removes it first."
+        },
+        "priority": {
+          "description": "This field gives the priority of this target in relation to the other time-sensitive targets in the list. Priority 1 is the highest. The value is a local priority and not a priority level from the doctrine of the joint force.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "roe_constraints": {
+          "description": "This field gives the rules of engagement (ROE) limits for this time-sensitive target (TST), as free text. These limits add to the usual ROE.",
+          "type": "string"
+        },
+        "target": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the target that is this entry, in the resource catalogue.",
+          "x-catalog": "targets"
+        },
+        "target_description": {
+          "description": "This field gives the data about the type of the target and the signs that units can see, as free text.",
+          "type": "string"
+        },
+        "tst_number": {
+          "description": "This field identifies this time-sensitive target (TST). Examples are `TST-01` and `TST-02`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tst_number"
+      ],
+      "title": "TSTEntry",
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:tst:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Time-sensitive targets (TST) are targets that it is necessary to engage immediately. A target is on the list when it is dangerous to friendly forces at this time or in a short time. A target of opportunity that is very important and available for a short time only is also on the list. Each entry has the data to find, identify and engage the target in its window.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "kind": {
+      "const": "tst",
+      "description": "The value identifies this record as a time-sensitive target (TST) list."
+    },
+    "meta": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "description": "This field gives the identification, revision and issue data of this list."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the external resource catalogue that resolves the references of the list. The reference identifies the catalogue and gives its revision."
+    },
+    "schema_version": {
+      "const": "0.1.0-draft.2",
+      "description": "This field gives the version of the openAIX schema that this time-sensitive target (TST) list agrees with."
+    },
+    "targets": {
+      "description": "This list contains the time-sensitive targets of the mission. It is necessary to engage each target immediately.",
+      "items": {
+        "$ref": "#/$defs/TSTEntry"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "kind",
+    "targets"
+  ],
+  "title": "Time-Sensitive Targets (TST)",
+  "type": "object"
+}

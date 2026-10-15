@@ -1,0 +1,94 @@
+{
+  "$id": "urn:openaix:schema:measure-tl:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A traverse level (TL) is the vertical displacement above low-level air defence at which aircraft can cross the area. It is a height and an altitude. It gives the defenders one more procedure to identify friendly aircraft. The record gives the level as a height above the ground and as an altitude above mean sea level.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this traverse level is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this traverse level has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this traverse level and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {},
+                  "propertyNames": {
+                    "enum": [
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "geometry": {
+      "allOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_vertical"
+        },
+        {
+          "required": [
+            "height",
+            "altitude"
+          ]
+        }
+      ],
+      "description": "This field gives the vertical geometry of the traverse level: a height above the ground and an altitude above mean sea level."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this traverse level. Other records and orders use it to refer to this traverse level."
+    },
+    "name": {
+      "description": "This field gives the name of this traverse level, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this traverse level, as free text.",
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this traverse level. The reference gives the identifier and the revision of the catalogue."
+    },
+    "type": {
+      "const": "TL",
+      "description": "The value identifies this record as a traverse level. The value selects the data contract of the control measure."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "geometry",
+    "active"
+  ],
+  "title": "Traverse level",
+  "type": "object"
+}

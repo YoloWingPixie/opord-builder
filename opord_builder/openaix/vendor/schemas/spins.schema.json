@@ -1,0 +1,2739 @@
+{
+  "$defs": {
+    "AbortCriterion": {
+      "additionalProperties": false,
+      "description": "An abort condition is one condition that stops a mission, and the procedure of the aircrew.",
+      "properties": {
+        "action": {
+          "description": "This field gives the procedure of the aircrew, as one of the enumerated values.",
+          "enum": [
+            "abort",
+            "return_to_base",
+            "divert",
+            "hold",
+            "continue_with_approval"
+          ],
+          "type": "string"
+        },
+        "condition": {
+          "description": "This field gives the condition, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this abort condition. Each abort condition in the publication has a different identifier. Other parts of the order use it to refer to this abort condition."
+        }
+      },
+      "required": [
+        "id",
+        "condition",
+        "action"
+      ],
+      "title": "AbortCriterion",
+      "type": "object"
+    },
+    "AirDefenseWarning": {
+      "additionalProperties": false,
+      "description": "An air defence warning is one air defence warning for an area and a time interval.",
+      "properties": {
+        "level": {
+          "description": "This field gives the air defence warning, as one of the enumerated values.",
+          "enum": [
+            "white",
+            "yellow",
+            "red"
+          ],
+          "type": "string"
+        },
+        "measure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the control measure that gives the area of the air defence warning.",
+          "x-catalog": "control_measures"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the air defence warning is in effect."
+        }
+      },
+      "required": [
+        "level"
+      ],
+      "title": "AirDefenseWarning",
+      "type": "object"
+    },
+    "AirspaceNote": {
+      "additionalProperties": false,
+      "description": "An airspace note is one note about control measures for aircrews.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this note. Each note in the publication has a different identifier. Other parts of the order use it to refer to this note."
+        },
+        "measures": {
+          "description": "This list identifies the control measures that the note refers to.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "note": {
+          "description": "This field gives the note, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "measures",
+        "note"
+      ],
+      "title": "AirspaceNote",
+      "type": "object"
+    },
+    "BearingSector": {
+      "additionalProperties": false,
+      "description": "A direction sector is the sector of directions clockwise from the value of `from` to the value of `to`.",
+      "properties": {
+        "from": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "description": "This field gives the first bearing of the sector, as a bearing with its unit and reference."
+        },
+        "to": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "description": "This field gives the second bearing of the sector, as a bearing with its unit and reference."
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "title": "BearingSector",
+      "type": "object"
+    },
+    "BrevityTerm": {
+      "additionalProperties": false,
+      "description": "A brevity word is one brevity word and its definition for this operation.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this brevity word. Each brevity word in the publication has a different identifier. Other parts of the order use it to refer to this brevity word."
+        },
+        "meaning": {
+          "description": "This field gives the definition of the brevity word, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "term": {
+          "description": "This field gives the brevity word, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "term",
+        "meaning"
+      ],
+      "title": "BrevityTerm",
+      "type": "object"
+    },
+    "CasStack": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "orbit"
+          ]
+        },
+        {
+          "required": [
+            "point"
+          ]
+        }
+      ],
+      "description": "A close air support (CAS) stack is one holding stack for CAS aircraft above a point or an orbit.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that assigns the levels of the stack.",
+          "x-catalog": "agencies"
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this stack. Each stack in the publication has a different identifier. Other parts of the order use it to refer to this stack."
+        },
+        "levels": {
+          "description": "This list contains the levels of the stack, from the top, in order.",
+          "items": {
+            "$ref": "#/$defs/StackBlock"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "name": {
+          "description": "This field gives the name of this stack, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "orbit": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the orbit that is the holding pattern of the stack. The measure shall be an orbit.",
+          "x-catalog": "control_measures",
+          "x-measure-kinds": [
+            "ORBIT"
+          ]
+        },
+        "point": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the point that is the centre of the stack. The point shall have the role `marshalling` or `control` or `initial`.",
+          "x-catalog": "control_measures",
+          "x-point-roles": [
+            "marshalling",
+            "control",
+            "initial"
+          ]
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the stack, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the stack is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "levels"
+      ],
+      "title": "CasStack",
+      "type": "object"
+    },
+    "CheckInProcedure": {
+      "additionalProperties": false,
+      "description": "An agency procedure is the procedure when aircrews start and stop the communication with one agency.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that receives the first message of the aircrews.",
+          "x-catalog": "agencies"
+        },
+        "channels": {
+          "description": "This list identifies the radio channels that aircrews contact the agency on.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "channels"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "check_in_items": {
+          "description": "This list contains the items that aircrews give when they first contact the agency, in order, in order.",
+          "items": {
+            "enum": [
+              "mission_number",
+              "callsign",
+              "aircraft",
+              "position",
+              "altitude",
+              "ordnance",
+              "playtime",
+              "abort_code",
+              "capabilities"
+            ],
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "check_out": {
+          "description": "This field gives the instructions for the end of the communication, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "contact_point": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the point that is the point at which aircrews first contact the agency. The point shall have the role `control`.",
+          "x-catalog": "control_measures",
+          "x-point-roles": [
+            "control"
+          ]
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this procedure. Each procedure in the publication has a different identifier. Other parts of the order use it to refer to this procedure."
+        },
+        "procedure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the procedure of the resource catalogue that gives the steps.",
+          "x-catalog": "procedures"
+        }
+      },
+      "required": [
+        "id",
+        "agency"
+      ],
+      "title": "CheckInProcedure",
+      "type": "object"
+    },
+    "CodeWord": {
+      "additionalProperties": false,
+      "description": "A code word is one code word and its definition for a time interval.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this code word. Each code word in the publication has a different identifier. Other parts of the order use it to refer to this code word."
+        },
+        "meaning": {
+          "description": "This field gives the definition of the code word, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the code word is in effect."
+        },
+        "word": {
+          "description": "This field gives the code word, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "word",
+        "meaning"
+      ],
+      "title": "CodeWord",
+      "type": "object"
+    },
+    "CommitCriterion": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "commit_range"
+          ]
+        },
+        {
+          "required": [
+            "measures"
+          ]
+        }
+      ],
+      "description": "A commit criterion is one condition at which fighters fly to intercept a track.",
+      "properties": {
+        "altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+          "description": "This field gives the vertical limits of the tracks that cause the commit, as an altitude block with a floor and a ceiling."
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that use this commit criterion. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "commit_range": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the distance from the fighters to the track at the commit, as a length with its unit."
+        },
+        "declarations": {
+          "description": "This list contains the declarations that a track has before a commit.",
+          "items": {
+            "enum": [
+              "bogey",
+              "bandit",
+              "hostile"
+            ],
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this commit criterion. Each commit criterion in the publication has a different identifier. Other parts of the order use it to refer to this commit criterion."
+        },
+        "measures": {
+          "description": "This list identifies the control measures that give the area in which a track causes the commit.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "orbit": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the orbit that the fighters fly before the commit. The measure shall be an orbit.",
+          "x-catalog": "control_measures",
+          "x-measure-kinds": [
+            "ORBIT"
+          ]
+        },
+        "procedure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the procedure of the resource catalogue that gives the steps of the commit.",
+          "x-catalog": "procedures"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about this commit criterion, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "threats": {
+          "description": "This list identifies the threats of the resource catalogue that this commit criterion is for.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "threats"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "CommitCriterion",
+      "type": "object"
+    },
+    "DamagedAircraftRoute": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "routes"
+          ]
+        },
+        {
+          "required": [
+            "measures"
+          ]
+        }
+      ],
+      "description": "A route for an aircraft with damage is the route that an aircraft with damage or an emergency flies to an airfield.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that receives the first call of the aircraft.",
+          "x-catalog": "agencies"
+        },
+        "airfield": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the airfield that receives the aircraft.",
+          "x-catalog": "places"
+        },
+        "channel": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the radio channel that the aircraft uses.",
+          "x-catalog": "channels"
+        },
+        "condition": {
+          "description": "This field gives the condition for the route, as one of the enumerated values.",
+          "enum": [
+            "battle_damage",
+            "fuel_emergency",
+            "hung_ordnance",
+            "medical"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this route. Each route in the publication has a different identifier. Other parts of the order use it to refer to this route."
+        },
+        "measures": {
+          "description": "This list identifies the control measures that the aircraft flies. Each measure shall have the type `MRR` or `SC` or `TC` or `AIRCOR` or `SAAFR` or `LLTR`.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures",
+            "x-measure-kinds": [
+              "MRR",
+              "SC",
+              "TC",
+              "AIRCOR",
+              "SAAFR",
+              "LLTR"
+            ]
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "routes": {
+          "description": "This list identifies the routes of the resource catalogue that the aircraft flies.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "routes"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "squawk": {
+          "description": "This field gives the Mode 3/A code that the aircraft sets, as four octal digits.",
+          "minLength": 1,
+          "pattern": "^[0-7]{4}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "condition",
+        "airfield"
+      ],
+      "title": "DamagedAircraftRoute",
+      "type": "object"
+    },
+    "DivertAirfield": {
+      "additionalProperties": false,
+      "description": "A divert airfield is one airfield for diversion, with its priority.",
+      "properties": {
+        "airfield": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the airfield that is the divert airfield.",
+          "x-catalog": "places"
+        },
+        "conditions": {
+          "description": "This field gives the conditions for a diversion to the airfield, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "priority": {
+          "description": "This field gives the priority of this entry. The value 1 is the highest priority.",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "airfield",
+        "priority"
+      ],
+      "title": "DivertAirfield",
+      "type": "object"
+    },
+    "EmissionControlPeriod": {
+      "additionalProperties": false,
+      "description": "An emission control period is one emission control level for a time interval.",
+      "properties": {
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that the level is applicable to. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this period. Each period in the order has a different identifier. Other parts of the order use it to refer to this period."
+        },
+        "level": {
+          "description": "This field gives the emission control level, as one of the enumerated values.",
+          "enum": [
+            "unrestricted",
+            "reduced",
+            "minimum",
+            "silent"
+          ],
+          "type": "string"
+        },
+        "measures": {
+          "description": "This list identifies the control measures that give the area of the level.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "units": {
+          "description": "This list identifies the units of the task organization that the level is applicable to.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "order_units"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the level is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "level",
+        "window"
+      ],
+      "title": "EmissionControlPeriod",
+      "type": "object"
+    },
+    "IdentificationCriterion": {
+      "additionalProperties": false,
+      "description": "An identification matrix row is one row of the identification matrix: a declaration and the conditions that give it.",
+      "properties": {
+        "authority": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that makes the declaration.",
+          "x-catalog": "agencies"
+        },
+        "criteria": {
+          "description": "This list contains the conditions of the declaration.",
+          "items": {
+            "enum": [
+              "iff_mode_5",
+              "iff_mode_4",
+              "iff_mode_3a_code",
+              "minimum_risk_route",
+              "safe_passage",
+              "point_of_origin",
+              "flight_profile",
+              "visual_identification",
+              "electronic_identification",
+              "controller_declaration",
+              "hostile_act",
+              "hostile_intent"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "declaration": {
+          "description": "This field gives the declaration that the conditions give, as one of the enumerated values.",
+          "enum": [
+            "friend",
+            "neutral",
+            "bogey",
+            "bandit",
+            "hostile"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this row. Each row in the publication has a different identifier. Other parts of the order use it to refer to this row."
+        },
+        "measures": {
+          "description": "This list identifies the control measures that give the area where this row is applicable.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "minimum_criteria": {
+          "description": "This field gives the number of conditions that are necessary for the declaration.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about this row, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which this row is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "declaration",
+        "criteria"
+      ],
+      "title": "IdentificationCriterion",
+      "type": "object"
+    },
+    "IffAssignment": {
+      "additionalProperties": false,
+      "description": "An identification, friend or foe (IFF) assignment is one IFF mode and code for a time interval.",
+      "properties": {
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that use the code. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "code": {
+          "description": "This field gives the code, as two or four octal digits. Modes 4 and 5 use key names, not codes, and do not have this field.",
+          "minLength": 1,
+          "pattern": "^[0-7]{2,4}$",
+          "type": "string"
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this assignment. Each assignment in the publication has a different identifier. Other parts of the order use it to refer to this assignment."
+        },
+        "measures": {
+          "description": "This list identifies the control measures that give the areas or lines where the code changes, such as `IFFON` and `IFFOFF` lines.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "mode": {
+          "description": "This field gives the identification, friend or foe (IFF) mode, as one of the enumerated values.",
+          "enum": [
+            "mode_1",
+            "mode_2",
+            "mode_3a",
+            "mode_4",
+            "mode_5",
+            "mode_s"
+          ],
+          "type": "string"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the code is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "mode"
+      ],
+      "title": "IffAssignment",
+      "type": "object"
+    },
+    "JammingCoordination": {
+      "additionalProperties": false,
+      "description": "A jamming coordination is one time interval of electromagnetic attack, with its emitters and the frequencies that it keeps clear.",
+      "properties": {
+        "area": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the area of the resource catalogue that the jamming aircraft operate in.",
+          "x-catalog": "areas"
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that do the jamming. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "authority": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that gives approval for the jamming.",
+          "x-catalog": "agencies"
+        },
+        "emitters": {
+          "description": "This list identifies the emitters of the resource catalogue that are the objects of the jamming.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "emitters"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this entry. Each entry in the order has a different identifier. Other parts of the order use it to refer to this entry."
+        },
+        "protected_frequencies": {
+          "description": "This list contains the frequencies that the jamming does not have an effect on.",
+          "items": {
+            "$ref": "#/$defs/RestrictedFrequency"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the jamming occurs."
+        }
+      },
+      "required": [
+        "id",
+        "window"
+      ],
+      "title": "JammingCoordination",
+      "type": "object"
+    },
+    "JettisonArea": {
+      "additionalProperties": false,
+      "description": "A jettison area is one area in which aircrews release hung stores and other stores before they land.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that gives clearance to release stores in the area.",
+          "x-catalog": "agencies"
+        },
+        "altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+          "description": "This field gives the vertical limits of the aircraft when they release stores, as an altitude block with a floor and a ceiling."
+        },
+        "channel": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the radio channel that aircrews use for the clearance.",
+          "x-catalog": "channels"
+        },
+        "heading": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "description": "This field gives the heading of the aircraft when they release stores, as a bearing with its unit and reference."
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this area. Each area in the publication has a different identifier. Other parts of the order use it to refer to this area."
+        },
+        "measure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the control measure that gives the area.",
+          "x-catalog": "control_measures"
+        },
+        "stores": {
+          "description": "This list contains the stores that aircrews can release in the area.",
+          "items": {
+            "enum": [
+              "hung_ordnance",
+              "unexpended_ordnance",
+              "external_tanks",
+              "all_stores"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the area is available."
+        }
+      },
+      "required": [
+        "id",
+        "measure",
+        "stores"
+      ],
+      "title": "JettisonArea",
+      "type": "object"
+    },
+    "LaserCodeAllocation": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "units"
+          ]
+        },
+        {
+          "required": [
+            "flights"
+          ]
+        },
+        {
+          "required": [
+            "agencies"
+          ]
+        }
+      ],
+      "description": "A laser code allocation is one laser code and the units, flights or agencies that use it.",
+      "properties": {
+        "agencies": {
+          "description": "This list identifies the command and control agencies that use the code.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "agencies"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "code": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode",
+          "description": "This field gives the laser code, as a laser code with its unit."
+        },
+        "flights": {
+          "description": "This list identifies the flights of the air tasking order (ATO) that use the code. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_flights"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "units": {
+          "description": "This list identifies the units of the task organization that use the code.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "order_units"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "use": {
+          "description": "This field gives the purpose of the code, as one of the enumerated values.",
+          "enum": [
+            "designation",
+            "marking",
+            "spot_tracking"
+          ],
+          "type": "string"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the allocation is in effect."
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "title": "LaserCodeAllocation",
+      "type": "object"
+    },
+    "LasingRestriction": {
+      "additionalProperties": false,
+      "description": "A laser restriction is one area and time interval in which a laser has limits.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this restriction. Each restriction in the publication has a different identifier. Other parts of the order use it to refer to this restriction."
+        },
+        "kind": {
+          "description": "This field gives the type of the restriction, as one of the enumerated values.",
+          "enum": [
+            "no_lasing",
+            "permitted_target_lines",
+            "eye_safe_only"
+          ],
+          "type": "string"
+        },
+        "measures": {
+          "description": "This list identifies the control measures that give the area of the restriction.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "minimum_altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+          "description": "This field gives the lowest altitude for a laser from an aircraft, as an altitude with its unit and reference."
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the restriction, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "target_lines": {
+          "description": "This list contains the sectors of laser target lines that aircrews can use in the area.",
+          "items": {
+            "$ref": "#/$defs/BearingSector"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the restriction is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "kind"
+      ],
+      "title": "LasingRestriction",
+      "type": "object"
+    },
+    "LightingRule": {
+      "additionalProperties": false,
+      "description": "A lighting rule is the condition of the aircraft lights in one phase of flight.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this rule. Each rule in the publication has a different identifier. Other parts of the order use it to refer to this rule."
+        },
+        "lights": {
+          "description": "This list contains the aircraft lights of the rule.",
+          "items": {
+            "enum": [
+              "position",
+              "anti_collision",
+              "formation",
+              "landing",
+              "covert_infrared"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "measures": {
+          "description": "This list identifies the control measures that give the area of the rule.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "phase": {
+          "description": "This field gives the phase of flight of the rule, as one of the enumerated values.",
+          "enum": [
+            "ground",
+            "departure",
+            "en_route",
+            "air_refueling",
+            "target_area",
+            "recovery",
+            "landing"
+          ],
+          "type": "string"
+        },
+        "setting": {
+          "description": "This field gives the condition of the aircraft lights, as one of the enumerated values.",
+          "enum": [
+            "on",
+            "off",
+            "dim",
+            "covert"
+          ],
+          "type": "string"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the rule is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "phase",
+        "lights",
+        "setting"
+      ],
+      "title": "LightingRule",
+      "type": "object"
+    },
+    "LightsOutArea": {
+      "additionalProperties": false,
+      "description": "A lights-out area is one area in which the aircraft lights are off.",
+      "properties": {
+        "altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+          "description": "This field gives the vertical limits of the area, as an altitude block with a floor and a ceiling."
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that fly in the area. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this area. Each area in the publication has a different identifier. Other parts of the order use it to refer to this area."
+        },
+        "measures": {
+          "description": "This list identifies the control measures that give the area.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the area is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "measures",
+        "window"
+      ],
+      "title": "LightsOutArea",
+      "type": "object"
+    },
+    "LostCommunicationProcedure": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "agency"
+          ]
+        },
+        {
+          "required": [
+            "phases"
+          ]
+        }
+      ],
+      "description": "A lost communication procedure is the steps that aircrews do when they cannot speak to an agency.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that aircrews cannot speak to.",
+          "x-catalog": "agencies"
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that use the procedure. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this procedure. Each procedure in the publication has a different identifier. Other parts of the order use it to refer to this procedure."
+        },
+        "phases": {
+          "description": "This list identifies the phases of the operation that the procedure is applicable to.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "order_phases"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "steps": {
+          "description": "This list contains the steps, in order.",
+          "items": {
+            "$ref": "#/$defs/LostCommunicationStep"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "steps"
+      ],
+      "title": "LostCommunicationProcedure",
+      "type": "object"
+    },
+    "LostCommunicationStep": {
+      "additionalProperties": false,
+      "description": "A lost communication step is one step of a lost communication procedure.",
+      "properties": {
+        "action": {
+          "description": "This field gives the task of the step, as one of the enumerated values.",
+          "enum": [
+            "squawk",
+            "continue_mission",
+            "proceed",
+            "hold",
+            "climb",
+            "descend",
+            "return_to_base",
+            "land",
+            "rejoin"
+          ],
+          "type": "string"
+        },
+        "after_minutes": {
+          "description": "This field gives the time from the start of the lost communication to the step, in minutes.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "airfield": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the airfield that the aircraft lands at.",
+          "x-catalog": "places"
+        },
+        "altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+          "description": "This field gives the altitude of the step, as an altitude with its unit and reference."
+        },
+        "measure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the control measure that is the point or the area of the step.",
+          "x-catalog": "control_measures"
+        },
+        "route": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the route of the resource catalogue that the aircraft flies.",
+          "x-catalog": "routes"
+        },
+        "squawk": {
+          "description": "This field gives the Mode 3/A code that the aircraft sets, as four octal digits.",
+          "minLength": 1,
+          "pattern": "^[0-7]{4}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "title": "LostCommunicationStep",
+      "type": "object"
+    },
+    "NvgProcedure": {
+      "additionalProperties": false,
+      "description": "A night vision goggles (NVG) procedure is the procedure for flight with NVG in one area and time interval.",
+      "properties": {
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that use the procedure. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this procedure. Each procedure in the publication has a different identifier. Other parts of the order use it to refer to this procedure."
+        },
+        "lighting": {
+          "description": "This field gives the lighting of the aircraft, as one of the enumerated values.",
+          "enum": [
+            "overt",
+            "covert"
+          ],
+          "type": "string"
+        },
+        "measures": {
+          "description": "This list identifies the control measures that give the area of the procedure.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "minimum_altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+          "description": "This field gives the lowest altitude for flight with night vision goggles (NVG), as an altitude with its unit and reference."
+        },
+        "minimum_illumination": {
+          "description": "This field gives the lowest illumination of the moon for flight with night vision goggles (NVG), in percent.",
+          "maximum": 100,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the procedure is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "window"
+      ],
+      "title": "NvgProcedure",
+      "type": "object"
+    },
+    "OrderLinks": {
+      "additionalProperties": false,
+      "description": "Order links are the orders that this document uses. Validation finds each mission reference in the air tasking order (ATO) that this field identifies. References to units, phases and protected sites of an operation order (OPORD) use the OPORD that this field identifies.",
+      "properties": {
+        "aco": {
+          "$ref": "#/$defs/OrderRef",
+          "description": "This field identifies the airspace control order (ACO) that this document uses."
+        },
+        "ato": {
+          "$ref": "#/$defs/OrderRef",
+          "description": "This field identifies the air tasking order (ATO) that this document uses."
+        },
+        "opord": {
+          "$ref": "#/$defs/OrderRef",
+          "description": "This field identifies the operation order (OPORD) that this document uses."
+        },
+        "spins": {
+          "$ref": "#/$defs/OrderRef",
+          "description": "This field identifies the special instructions (SPINS) publication that this document uses."
+        }
+      },
+      "required": [],
+      "title": "OrderLinks",
+      "type": "object"
+    },
+    "OrderRef": {
+      "additionalProperties": false,
+      "description": "An order reference is the identifier and the revision of one order.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the order that this reference is for. The value is the `meta.id` field of the order."
+        },
+        "revision": {
+          "description": "This field gives the revision of the order. The value is the `meta.revision` field of the order.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision"
+      ],
+      "title": "OrderRef",
+      "type": "object"
+    },
+    "ProtectedSite": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "position"
+          ]
+        },
+        {
+          "required": [
+            "measure"
+          ]
+        }
+      ],
+      "description": "A protected site is one site that the operation keeps safe from attack.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this site. Each site in the order has a different identifier. Other parts of the order use it to refer to this site."
+        },
+        "kind": {
+          "description": "This field gives the type of the site, as one of the enumerated values.",
+          "enum": [
+            "cultural",
+            "religious",
+            "medical",
+            "school",
+            "infrastructure",
+            "humanitarian",
+            "other"
+          ],
+          "type": "string"
+        },
+        "measure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the control measure that gives the area of the site.",
+          "x-catalog": "control_measures"
+        },
+        "name": {
+          "description": "This field gives the name of this site, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "position": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the site, as latitude and longitude."
+        },
+        "restriction": {
+          "description": "This field gives the restriction on attacks against the site, as one of the enumerated values.",
+          "enum": [
+            "no_strike",
+            "restricted_target"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "restriction"
+      ],
+      "title": "ProtectedSite",
+      "type": "object"
+    },
+    "PublicationChange": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          },
+          "if": {
+            "properties": {
+              "op": {
+                "enum": [
+                  "add",
+                  "replace"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          }
+        }
+      ],
+      "description": "A change is one change to the base publication.",
+      "properties": {
+        "op": {
+          "description": "This field gives the operation of the change, as one of the enumerated values.",
+          "enum": [
+            "add",
+            "replace",
+            "remove"
+          ],
+          "type": "string"
+        },
+        "path": {
+          "description": "This field gives the location of the change, as a JSON Pointer of `RFC 6901`.",
+          "minLength": 1,
+          "pattern": "^(/([^~/]|~[01])*)+$",
+          "type": "string"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the change, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "value": {
+          "description": "This field gives the new value at the location. An `add` or `replace` change shall have this field. A `remove` change shall not have this field."
+        }
+      },
+      "required": [
+        "op",
+        "path"
+      ],
+      "title": "PublicationChange",
+      "type": "object"
+    },
+    "RecoveryAirfield": {
+      "additionalProperties": false,
+      "description": "A recovery airfield is one airfield for aircraft that come back, with its entry point and its procedure.",
+      "properties": {
+        "airfield": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the airfield that receives the aircraft.",
+          "x-catalog": "places"
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that use the airfield. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "channels": {
+          "description": "This list identifies the radio channels that aircraft use for the recovery.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "channels"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "entry_point": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the point that is the entry point to the airfield. The point shall have the role `control` or `gate` or `marshalling`.",
+          "x-catalog": "control_measures",
+          "x-point-roles": [
+            "control",
+            "gate",
+            "marshalling"
+          ]
+        },
+        "priority": {
+          "description": "This field gives the priority of this entry. The value 1 is the highest priority.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "procedure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the procedure of the resource catalogue that gives the steps of the recovery.",
+          "x-catalog": "procedures"
+        },
+        "route": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the route of the resource catalogue that aircraft fly to the airfield.",
+          "x-catalog": "routes"
+        }
+      },
+      "required": [
+        "airfield",
+        "priority"
+      ],
+      "title": "RecoveryAirfield",
+      "type": "object"
+    },
+    "RecoveryAuthentication": {
+      "additionalProperties": false,
+      "description": "A recovery authentication is the authentication values of isolated personnel for one time interval.",
+      "properties": {
+        "letter": {
+          "description": "This field gives the letter of the day.",
+          "minLength": 1,
+          "pattern": "^[A-Z]$",
+          "type": "string"
+        },
+        "number": {
+          "description": "This field gives the number of the day, from 0 to 9.",
+          "maximum": 9,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the values are in effect."
+        },
+        "word": {
+          "description": "This field gives the word of the day, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "window"
+      ],
+      "title": "RecoveryAuthentication",
+      "type": "object"
+    },
+    "ReportRequirement": {
+      "additionalProperties": false,
+      "description": "A report requirement is one report that units send, with its time and recipient.",
+      "properties": {
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that send the report. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "channel": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the radio channel that sends the report.",
+          "x-catalog": "channels"
+        },
+        "due": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time of the first report."
+        },
+        "from_units": {
+          "description": "This list identifies the units of the task organization that send the report.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "order_units"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "interval_minutes": {
+          "description": "This field gives the time between two reports, in minutes.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "report": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the report of the resource catalogue that this requirement is for.",
+          "x-catalog": "reports"
+        },
+        "to_agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that receives the report.",
+          "x-catalog": "agencies"
+        },
+        "to_unit": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the unit of the task organization that receives the report.",
+          "x-catalog": "order_units"
+        },
+        "trigger": {
+          "description": "This field gives the event that causes the report, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "report"
+      ],
+      "title": "ReportRequirement",
+      "type": "object"
+    },
+    "RestrictedFrequency": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "channel"
+          ]
+        },
+        {
+          "required": [
+            "frequency"
+          ]
+        }
+      ],
+      "description": "A restricted frequency is one entry of the restricted frequency list.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that controls the frequency.",
+          "x-catalog": "agencies"
+        },
+        "channel": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the radio channel that the restriction is for.",
+          "x-catalog": "channels"
+        },
+        "frequency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Frequency",
+          "description": "This field gives the frequency of the restriction, when no channel identifies it, as a frequency with its unit."
+        },
+        "kind": {
+          "description": "This field gives the type of the restriction, as one of the enumerated values.",
+          "enum": [
+            "taboo",
+            "protected",
+            "guarded"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "RestrictedFrequency",
+      "type": "object"
+    },
+    "ReturnToForce": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "safe_lanes"
+          ]
+        },
+        {
+          "required": [
+            "routes"
+          ]
+        }
+      ],
+      "description": "A return-to-force procedure is the safe passage of friendly aircraft back through friendly air defence.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that controls the safe passage.",
+          "x-catalog": "agencies"
+        },
+        "altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+          "description": "This field gives the vertical limits of the route back, as an altitude block with a floor and a ceiling."
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that use the procedure. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "channels": {
+          "description": "This list identifies the radio channels that aircraft use on the route back.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "channels"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "checkpoints": {
+          "description": "This list identifies the points that are the identification checkpoints on the route back. Each point shall have the role `identification_safety`.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures",
+            "x-point-roles": [
+              "identification_safety"
+            ]
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this procedure. Each procedure in the publication has a different identifier. Other parts of the order use it to refer to this procedure."
+        },
+        "maximum_speed": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Speed",
+          "description": "This field gives the maximum speed in the safe lanes, as a speed with its unit."
+        },
+        "name": {
+          "description": "This field gives the name of this procedure, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the procedure, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "routes": {
+          "description": "This list identifies the control measures that are minimum-risk routes and corridors back to friendly forces. Each measure shall have the type `MRR` or `SC` or `TC` or `AIRCOR` or `SAAFR` or `LLTR`.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures",
+            "x-measure-kinds": [
+              "MRR",
+              "SC",
+              "TC",
+              "AIRCOR",
+              "SAAFR",
+              "LLTR"
+            ]
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "safe_lanes": {
+          "description": "This list identifies the control measures that are safe lanes through friendly air defence. Each measure shall have the type `SL`.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures",
+            "x-measure-kinds": [
+              "SL"
+            ]
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "squawk": {
+          "description": "This field gives the Mode 3/A code that aircraft set on the route back, as four octal digits.",
+          "minLength": 1,
+          "pattern": "^[0-7]{4}$",
+          "type": "string"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the procedure is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "ReturnToForce",
+      "type": "object"
+    },
+    "RoeRule": {
+      "additionalProperties": false,
+      "description": "A rule of engagement is one rule of the rules of engagement (ROE), with its number and its control measures.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this rule. Each rule in the order has a different identifier. Other parts of the order use it to refer to this rule."
+        },
+        "measures": {
+          "description": "This list identifies the control measures that the rule is applicable to.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "number": {
+          "description": "This field gives the number of the rule in the rules of engagement (ROE), such as `R-101`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "rule": {
+          "description": "This field gives the rule, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "units": {
+          "description": "This list identifies the units of the task organization that the rule is applicable to.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "order_units"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the rule is in effect."
+        }
+      },
+      "required": [
+        "id",
+        "rule"
+      ],
+      "title": "RoeRule",
+      "type": "object"
+    },
+    "SpinsAirDefense": {
+      "additionalProperties": false,
+      "description": "A special instructions (SPINS) air defence is the air defence procedures for aircrews. It uses the weapons control orders and the air defence warnings of Annex D, Appendix 7, of the operation order (OPORD).",
+      "properties": {
+        "commit_criteria": {
+          "description": "This list contains the commit criteria.",
+          "items": {
+            "$ref": "#/$defs/CommitCriterion"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "engagement_authorities": {
+          "description": "This list identifies the command and control agencies that have engagement authority.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "agencies"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "identification_matrix": {
+          "description": "This list contains the rows of the identification matrix.",
+          "items": {
+            "$ref": "#/$defs/IdentificationCriterion"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "return_to_force": {
+          "description": "This list contains the return-to-force procedures.",
+          "items": {
+            "$ref": "#/$defs/ReturnToForce"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "summary": {
+          "description": "This field gives the summary of the air defence procedures, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "warnings": {
+          "description": "This list contains the air defence warnings.",
+          "items": {
+            "$ref": "#/$defs/AirDefenseWarning"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "weapons_control": {
+          "description": "This list contains the weapons control orders.",
+          "items": {
+            "$ref": "#/$defs/WeaponsControl"
+          },
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "SpinsAirDefense",
+      "type": "object"
+    },
+    "SpinsCas": {
+      "additionalProperties": false,
+      "description": "Special instructions (SPINS) close air support (CAS) and laser procedures are the CAS stacks, the laser code plan and the laser restrictions.",
+      "properties": {
+        "laser_codes": {
+          "description": "This list contains the entries of the laser code plan.",
+          "items": {
+            "$ref": "#/$defs/LaserCodeAllocation"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "lasing_restrictions": {
+          "description": "This list contains the laser restrictions.",
+          "items": {
+            "$ref": "#/$defs/LasingRestriction"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the close air support (CAS) and laser procedures, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "stacks": {
+          "description": "This list contains the close air support (CAS) stacks.",
+          "items": {
+            "$ref": "#/$defs/CasStack"
+          },
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "SpinsCas",
+      "type": "object"
+    },
+    "SpinsCommunications": {
+      "additionalProperties": false,
+      "description": "Special instructions (SPINS) communications are the radio nets and the brevity words.",
+      "properties": {
+        "brevity": {
+          "description": "This list contains the brevity words of the operation.",
+          "items": {
+            "$ref": "#/$defs/BrevityTerm"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "nets": {
+          "description": "This list contains the radio nets.",
+          "items": {
+            "$ref": "#/$defs/SpinsNet"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about communications, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "SpinsCommunications",
+      "type": "object"
+    },
+    "SpinsDivertAbort": {
+      "additionalProperties": false,
+      "description": "Special instructions (SPINS) diversion data is the abort conditions and the divert airfields.",
+      "properties": {
+        "abort_code": {
+          "description": "This field gives the abort code, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "abort_criteria": {
+          "description": "This list contains the abort conditions.",
+          "items": {
+            "$ref": "#/$defs/AbortCriterion"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "divert_airfields": {
+          "description": "This list contains the divert airfields, in order.",
+          "items": {
+            "$ref": "#/$defs/DivertAirfield"
+          },
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "SpinsDivertAbort",
+      "type": "object"
+    },
+    "SpinsElectromagnetic": {
+      "additionalProperties": false,
+      "description": "A special instructions (SPINS) emission control and electromagnetic attack is the emission control periods and the jamming coordination. It uses the types of Annex C, Appendix 12, of the operation order (OPORD).",
+      "properties": {
+        "emission_control": {
+          "description": "This list contains the emission control periods, in order.",
+          "items": {
+            "$ref": "#/$defs/EmissionControlPeriod"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "jamming": {
+          "description": "This list contains the jamming coordination entries.",
+          "items": {
+            "$ref": "#/$defs/JammingCoordination"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "jamming_authority": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that gives approval for electromagnetic attack.",
+          "x-catalog": "agencies"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the emission control and electromagnetic attack procedures, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "SpinsElectromagnetic",
+      "type": "object"
+    },
+    "SpinsEmergency": {
+      "additionalProperties": false,
+      "description": "Special instructions (SPINS) emergency procedures are the jettison areas, the routes for aircraft with damage and the lost communication procedures.",
+      "properties": {
+        "damaged_aircraft_routes": {
+          "description": "This list contains the routes for aircraft with damage.",
+          "items": {
+            "$ref": "#/$defs/DamagedAircraftRoute"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "jettison_areas": {
+          "description": "This list contains the jettison areas.",
+          "items": {
+            "$ref": "#/$defs/JettisonArea"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "lost_communication": {
+          "description": "This list contains the lost communication procedures.",
+          "items": {
+            "$ref": "#/$defs/LostCommunicationProcedure"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the emergency procedures, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "SpinsEmergency",
+      "type": "object"
+    },
+    "SpinsIdentification": {
+      "additionalProperties": false,
+      "description": "A special instructions (SPINS) identification is the identification, friend or foe (IFF) assignments and code words.",
+      "properties": {
+        "code_words": {
+          "description": "This list contains the code words.",
+          "items": {
+            "$ref": "#/$defs/CodeWord"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "iff": {
+          "description": "This list contains the identification, friend or foe (IFF) assignments.",
+          "items": {
+            "$ref": "#/$defs/IffAssignment"
+          },
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "SpinsIdentification",
+      "type": "object"
+    },
+    "SpinsNet": {
+      "additionalProperties": false,
+      "description": "A special instructions (SPINS) net is one radio net for aircrews.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that controls the net.",
+          "x-catalog": "agencies"
+        },
+        "channel": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the radio channel that the net refers to.",
+          "x-catalog": "channels"
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this net. Each net in the publication has a different identifier. Other parts of the order use it to refer to this net."
+        },
+        "name": {
+          "description": "This field gives the name of this net, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "purpose": {
+          "description": "This field gives the purpose of the net, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "channel"
+      ],
+      "title": "SpinsNet",
+      "type": "object"
+    },
+    "SpinsNight": {
+      "additionalProperties": false,
+      "description": "Special instructions (SPINS) night procedures are the night vision goggles (NVG) procedures, the lights-out areas and the lighting rules.",
+      "properties": {
+        "lighting": {
+          "description": "This list contains the lighting rules.",
+          "items": {
+            "$ref": "#/$defs/LightingRule"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "lights_out_areas": {
+          "description": "This list contains the lights-out areas.",
+          "items": {
+            "$ref": "#/$defs/LightsOutArea"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "nvg": {
+          "description": "This list contains the night vision goggles (NVG) procedures.",
+          "items": {
+            "$ref": "#/$defs/NvgProcedure"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the night procedures, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "SpinsNight",
+      "type": "object"
+    },
+    "SpinsRecovery": {
+      "additionalProperties": false,
+      "description": "A special instructions (SPINS) personnel recovery is the combat search and rescue (CSAR) and personnel recovery procedures.",
+      "properties": {
+        "agency": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that controls personnel recovery.",
+          "x-catalog": "agencies"
+        },
+        "authentication": {
+          "description": "This list contains the authentication values, in order.",
+          "items": {
+            "$ref": "#/$defs/RecoveryAuthentication"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "channels": {
+          "description": "This list identifies the radio channels that are for isolated personnel and rescue forces.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "channels"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "isoprep": {
+          "description": "This field gives the identifier of the isolated personnel report (ISOPREP) data for recovery forces. The publication does not contain data that identifies a person.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "procedures": {
+          "description": "This list identifies the procedures of the resource catalogue that are for isolated personnel and rescue forces.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "procedures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "remarks": {
+          "description": "This field gives the remarks about personnel recovery, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "rescue_forces": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that are rescue forces. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "safe_areas": {
+          "description": "This list identifies the control measures that are safe areas for isolated personnel.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [],
+      "title": "SpinsRecovery",
+      "type": "object"
+    },
+    "SpinsRecoveryRouting": {
+      "additionalProperties": false,
+      "description": "Special instructions (SPINS) recovery routes are the identification, friend or foe (IFF) lines, the routes back and the recovery airfields.",
+      "properties": {
+        "iff_lines": {
+          "description": "This list identifies the control measures that are lines at which aircraft set the identification, friend or foe (IFF) on or off. Each measure shall have the type `IFFON` or `IFFOFF`.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures",
+            "x-measure-kinds": [
+              "IFFON",
+              "IFFOFF"
+            ]
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "recovery_airfields": {
+          "description": "This list contains the recovery airfields, in order.",
+          "items": {
+            "$ref": "#/$defs/RecoveryAirfield"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the recovery routes, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "return_routes": {
+          "description": "This list identifies the control measures that are routes back to friendly airspace. Each measure shall have the type `MRR` or `SC` or `TC` or `AIRCOR` or `SAAFR` or `LLTR`.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures",
+            "x-measure-kinds": [
+              "MRR",
+              "SC",
+              "TC",
+              "AIRCOR",
+              "SAAFR",
+              "LLTR"
+            ]
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "routes": {
+          "description": "This list identifies the routes of the resource catalogue that aircraft fly back to the airfields.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "routes"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [],
+      "title": "SpinsRecoveryRouting",
+      "type": "object"
+    },
+    "SpinsRestrictions": {
+      "additionalProperties": false,
+      "description": "Special instructions (SPINS) restrictions are the sites that aircrews do not attack and the weather minimums.",
+      "properties": {
+        "other_protected_sites": {
+          "description": "This list contains the protected sites that the operation order (OPORD) does not give.",
+          "items": {
+            "$ref": "#/$defs/ProtectedSite"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "protected_sites": {
+          "description": "This list identifies the protected sites of Annex K of the operation order (OPORD) that aircrews do not attack. The `orders` field identifies the OPORD.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "order_protected_sites"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the restrictions, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "weather_minimums": {
+          "description": "This list contains the weather minimums.",
+          "items": {
+            "$ref": "#/$defs/WeatherMinimum"
+          },
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "SpinsRestrictions",
+      "type": "object"
+    },
+    "SpinsRoe": {
+      "additionalProperties": false,
+      "description": "A special instructions (SPINS) rules of engagement (ROE) summary is the ROE summary for aircrews.",
+      "properties": {
+        "measures": {
+          "description": "This list identifies the control measures that the rules of engagement (ROE) refer to.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "control_measures"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rules": {
+          "description": "This list contains the rules of engagement (ROE).",
+          "items": {
+            "$ref": "#/$defs/RoeRule"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "summary": {
+          "description": "This field gives the summary of the rules of engagement (ROE), as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "SpinsRoe",
+      "type": "object"
+    },
+    "StackBlock": {
+      "additionalProperties": false,
+      "description": "A stack level is one altitude block of a close air support (CAS) stack and the missions that use it.",
+      "properties": {
+        "altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+          "description": "This field gives the vertical limits of the level, as an altitude block with a floor and a ceiling."
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that use the level. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "use": {
+          "description": "This field gives the purpose of the level, as one of the enumerated values.",
+          "enum": [
+            "working",
+            "holding",
+            "rotary_wing"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "altitude"
+      ],
+      "title": "StackBlock",
+      "type": "object"
+    },
+    "TankerProcedure": {
+      "additionalProperties": false,
+      "description": "A tanker procedure is the procedure for one refuelling track or anchor.",
+      "properties": {
+        "altitude": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+          "description": "This field gives the vertical limits of the refuelling, as an altitude block with a floor and a ceiling."
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that are tanker missions on the track. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "channels": {
+          "description": "This list identifies the radio channels that are for the tanker and receivers.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "channels"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this procedure. Each procedure in the publication has a different identifier. Other parts of the order use it to refer to this procedure."
+        },
+        "procedure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the procedure of the resource catalogue that gives the rendezvous steps.",
+          "x-catalog": "procedures"
+        },
+        "remarks": {
+          "description": "This field gives the remarks about the procedure, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "tacan": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/TACAN",
+          "description": "This field gives the channel of the tanker for Tactical Air Navigation (TACAN)."
+        },
+        "track": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the orbit that is the refuelling track or anchor. The measure shall be an orbit.",
+          "x-catalog": "control_measures",
+          "x-measure-kinds": [
+            "ORBIT"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "track"
+      ],
+      "title": "TankerProcedure",
+      "type": "object"
+    },
+    "WeaponsControl": {
+      "additionalProperties": false,
+      "description": "A weapons control order is one weapons control status for an area and a time interval.",
+      "properties": {
+        "measure": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the control measure that gives the area of the weapons control status.",
+          "x-catalog": "control_measures"
+        },
+        "status": {
+          "description": "This field gives the weapons control status, as one of the enumerated values.",
+          "enum": [
+            "free",
+            "tight",
+            "hold"
+          ],
+          "type": "string"
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "description": "This field gives the time interval during which the weapons control status is in effect."
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "WeaponsControl",
+      "type": "object"
+    },
+    "WeatherMinimum": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "ceiling"
+          ]
+        },
+        {
+          "required": [
+            "visibility"
+          ]
+        }
+      ],
+      "description": "A weather minimum is the lowest ceiling and visibility for one type of tasking or one phase of flight.",
+      "properties": {
+        "airfield": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the airfield that the minimum is applicable to.",
+          "x-catalog": "places"
+        },
+        "ato_missions": {
+          "description": "This list identifies the missions of the air tasking order (ATO) that the minimum is applicable to. The `orders` field identifies the ATO.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "ato_missions"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "ceiling": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the lowest height of the cloud base above the ground, as a length with its unit."
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this minimum. Each minimum in the publication has a different identifier. Other parts of the order use it to refer to this minimum."
+        },
+        "phase": {
+          "description": "This field gives the phase of flight that the minimum is applicable to, as one of the enumerated values.",
+          "enum": [
+            "ground",
+            "departure",
+            "en_route",
+            "air_refueling",
+            "target_area",
+            "recovery",
+            "landing"
+          ],
+          "type": "string"
+        },
+        "taskings": {
+          "description": "This list contains the types of typed tasking that the minimum is applicable to.",
+          "items": {
+            "enum": [
+              "preplanned_attack",
+              "on_call_cas",
+              "cap",
+              "escort",
+              "refueling",
+              "airborne_control",
+              "reconnaissance",
+              "electromagnetic",
+              "transport",
+              "personnel_recovery",
+              "training",
+              "custom",
+              "counterair",
+              "counterland_control"
+            ],
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "visibility": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the lowest flight visibility, as a length with its unit."
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "WeatherMinimum",
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:spins:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Special instructions (SPINS) are a publication that adds procedures, restrictions and coordination instructions to the tasking of all missions. It contains permanent instructions, or changes to a base publication with a pinned reference.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "air_defense": {
+      "$ref": "#/$defs/SpinsAirDefense",
+      "description": "This field gives the air defence procedures."
+    },
+    "airspace_notes": {
+      "description": "This list contains the airspace notes.",
+      "items": {
+        "$ref": "#/$defs/AirspaceNote"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "base": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/PinnedRef",
+      "description": "This field identifies the base publication that this publication changes. The reference identifies one revision of the publication."
+    },
+    "cas": {
+      "$ref": "#/$defs/SpinsCas",
+      "description": "This field gives the close air support (CAS) stacks, the laser code plan and the laser restrictions."
+    },
+    "changes": {
+      "description": "This list contains the changes to the base publication, in order. A consumer makes the changes in the sequence of the list.",
+      "items": {
+        "$ref": "#/$defs/PublicationChange"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "check_in": {
+      "description": "This list contains the procedures for each agency at the start and at the end of a task.",
+      "items": {
+        "$ref": "#/$defs/CheckInProcedure"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "communications": {
+      "$ref": "#/$defs/SpinsCommunications",
+      "description": "This field gives the radio nets and the brevity words."
+    },
+    "divert_and_abort": {
+      "$ref": "#/$defs/SpinsDivertAbort",
+      "description": "This field gives the abort conditions and the divert airfields."
+    },
+    "electromagnetic": {
+      "$ref": "#/$defs/SpinsElectromagnetic",
+      "description": "This field gives the emission control periods and the jamming coordination."
+    },
+    "emergency": {
+      "$ref": "#/$defs/SpinsEmergency",
+      "description": "This field gives the emergency procedures."
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record. The namespace `org.opord-builder.print` contains the data that `opord-builder` puts on each page."
+    },
+    "identification": {
+      "$ref": "#/$defs/SpinsIdentification",
+      "description": "This field gives the identification, friend or foe (IFF) assignments and code words."
+    },
+    "kind": {
+      "const": "spins",
+      "description": "The value identifies this record as a special instructions (SPINS) publication.",
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "description": "This field gives the identification, revision and issue data of this document."
+    },
+    "night_operations": {
+      "$ref": "#/$defs/SpinsNight",
+      "description": "This field gives the night vision goggles (NVG) procedures, the lights-out areas and the lighting rules."
+    },
+    "orders": {
+      "$ref": "#/$defs/OrderLinks",
+      "description": "This field gives the operation order (OPORD), the air tasking order (ATO) and the airspace control order (ACO) of the publication."
+    },
+    "period": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Period",
+      "description": "This field gives the time interval during which the instructions are in effect."
+    },
+    "personnel_recovery": {
+      "$ref": "#/$defs/SpinsRecovery",
+      "description": "This field gives the combat search and rescue (CSAR) and personnel recovery procedures."
+    },
+    "recovery_routing": {
+      "$ref": "#/$defs/SpinsRecoveryRouting",
+      "description": "This field gives the identification, friend or foe (IFF) lines, the routes back and the recovery airfields."
+    },
+    "references": {
+      "description": "This list contains the coordination documents for the publication, such as the air tasking order (ATO) or the airspace control order (ACO).",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "remarks": {
+      "description": "This field gives the remarks about the publication, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "reports": {
+      "description": "This list contains the report requirements for aircrews, such as the mission report (MISREP), the in-flight report and the battle damage assessment (BDA) report.",
+      "items": {
+        "$ref": "#/$defs/ReportRequirement"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this publication."
+    },
+    "restrictions": {
+      "$ref": "#/$defs/SpinsRestrictions",
+      "description": "This field gives the protected sites and the weather minimums."
+    },
+    "rules_of_engagement": {
+      "$ref": "#/$defs/SpinsRoe",
+      "description": "This field gives the rules of engagement (ROE) summary."
+    },
+    "schema_version": {
+      "const": "0.1.0-draft.2",
+      "description": "This field gives the version of the openAIX schema that this document agrees with.",
+      "type": "string"
+    },
+    "scope": {
+      "description": "This field gives the type of the instructions: permanent instructions (`standing`) or instructions for one mission (`mission`), as one of the enumerated values.",
+      "enum": [
+        "standing",
+        "mission"
+      ],
+      "type": "string"
+    },
+    "tanker_procedures": {
+      "description": "This list contains the tanker procedures.",
+      "items": {
+        "$ref": "#/$defs/TankerProcedure"
+      },
+      "minItems": 0,
+      "type": "array"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "scope"
+  ],
+  "title": "openAIX SPINS",
+  "type": "object"
+}

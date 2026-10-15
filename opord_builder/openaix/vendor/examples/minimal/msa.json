@@ -1,0 +1,35 @@
+{
+  "$schema": "urn:openaix:schema:msa:0.1.0-draft.2",
+  "center": {
+    "ident": "GHI",
+    "position": {
+      "latitude": 31.834683,
+      "longitude": 36.778475
+    }
+  },
+  "id": "ojms-msa",
+  "kind": "msa",
+  "name": "Muwaffaq Salti minimum safe altitude",
+  "sectors": [
+    {
+      "end_bearing": {
+        "reference": "magnetic",
+        "value": 0
+      },
+      "full_circle": true,
+      "minimum_altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 4700
+      },
+      "radius": {
+        "unit": "nm",
+        "value": 25
+      },
+      "start_bearing": {
+        "reference": "magnetic",
+        "value": 0
+      }
+    }
+  ]
+}

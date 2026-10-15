@@ -1,0 +1,27 @@
+{
+  "$schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:30:00Z"
+  },
+  "geometry": {
+    "kind": "line",
+    "points": [
+      {
+        "latitude": 34.855,
+        "longitude": 40.475
+      },
+      {
+        "latitude": 34.935,
+        "longitude": 40.485
+      },
+      {
+        "latitude": 35.015,
+        "longitude": 40.476
+      }
+    ]
+  },
+  "id": "pewter-rfl",
+  "name": "Bastion and Pewter RFL",
+  "type": "RFL"
+}

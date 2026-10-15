@@ -1,0 +1,167 @@
+{
+  "$id": "urn:openaix:schema:measure-misarc:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A missile arc (MISARC) is an area of 10 degrees in maritime operations, or larger when the officer in tactical command gives that order. Its centre is on the bearing of the target, and its range extends to the maximum range of the surface-to-air missile (SAM). The arc has its centre on the firing unit, and its axis is the bearing of the target. Its width is 10 degrees by default, and its range is the maximum range of the surface-to-air missile.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this missile arc is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "altitude": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+      "description": "This field gives the vertical limits of the arc, as an altitude block with a floor and a ceiling. This field is optional."
+    },
+    "axis": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+      "description": "This field gives the bearing of the target from the firing unit, as a bearing with its unit and reference. The arc has its centre on this bearing."
+    },
+    "center": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "description": "This field gives the geographic position of the firing unit at the centre of the arc, as latitude and longitude."
+    },
+    "controlling_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the operations in this missile arc.",
+      "x-catalog": "agencies"
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this missile arc has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this missile arc and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "firing_unit": {
+      "description": "This field gives the name of the ship or unit that fires the surface-to-air missile.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this missile arc. Other records and orders use it to refer to this missile arc."
+    },
+    "name": {
+      "description": "This field gives the name of this missile arc, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this missile arc, as free text.",
+      "type": "string"
+    },
+    "range": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+      "description": "This field gives the maximum range of the surface-to-air missile, as a length with its unit."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this missile arc. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this missile arc.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": {
+      "const": "MISARC",
+      "description": "The value identifies this record as a missile arc. The value selects the data contract of the control measure."
+    },
+    "width_deg": {
+      "default": 10,
+      "description": "This field gives the total angular width of the arc, with the axis at its centre, in degrees. The width is 10 degrees, but the officer in tactical command can give an order for a different width.",
+      "exclusiveMinimum": 0,
+      "maximum": 360,
+      "type": "number"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "center",
+    "axis",
+    "range",
+    "active"
+  ],
+  "title": "Missile arc",
+  "type": "object"
+}

@@ -1,0 +1,316 @@
+{
+  "$id": "urn:openaix:schema:measure-route:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "LLTR",
+              "SC",
+              "TMRR",
+              "TC",
+              "TR",
+              "SL",
+              "APPCOR",
+              "MRR",
+              "AIRCOR"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "geometry": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_corridor"
+          }
+        }
+      }
+    },
+    {
+      "else": {
+        "required": [
+          "altitude"
+        ]
+      },
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "VFRRTE"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ]
+      }
+    }
+  ],
+  "description": "An air route or corridor is a centreline with points in sequence and with vertical limits. Corridor codes also have a lateral width. Only a published visual flight rules (VFR) route (`VFRRTE`) can have no vertical limits. The type code gives the task of the route, and it tells if the route has air traffic services. It also gives the area that the route is for: a rear area, a forward area, a maritime force or a base defence zone. Aircraft can fly a corridor in the two directions, but not when its geometry has the `one_way` flag.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this route is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "altitude": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+      "description": "This field gives the vertical limits of the route or corridor, as an altitude block with a floor and a ceiling. Each code other than `VFRRTE` shall have this field. A floor at the surface and a ceiling give a route with a ceiling only."
+    },
+    "channels": {
+      "description": "This list identifies the communications channels of this route.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "controlling_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the operations in this route.",
+      "x-catalog": "agencies"
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this route has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this route and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "geometry": {
+      "description": "This field gives the horizontal geometry of the route: a centreline, a corridor with its total lateral width, or a path of straight and arc segments. A `geojson` geometry (RFC 7946) of the same shape is also correct. When doctrine gives a code as a corridor, the code shall use the corridor geometry.",
+      "oneOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_line"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_corridor"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_path"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_line"
+        }
+      ]
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this route. Other records and orders use it to refer to this route."
+    },
+    "joins": {
+      "description": "This list contains the other routes that this route joins.",
+      "items": {
+        "additionalProperties": false,
+        "description": "A route join is a vertex of this route where another route starts, ends or crosses.",
+        "properties": {
+          "route": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "description": "This field identifies the other route.",
+            "x-catalog": "control_measures"
+          },
+          "vertex": {
+            "description": "This field gives the index of the vertex of this route that the two routes share. The index shall be smaller than the number of vertices of this route.",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "route",
+          "vertex"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "name": {
+      "description": "This field gives the name of this route, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this route, as free text.",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "This field gives the task or objective of this route, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this route. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this route.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "serves": {
+      "description": "This list contains the runways that this route serves. An example is a visual flight rules (VFR) arrival route to a runway.",
+      "items": {
+        "additionalProperties": false,
+        "description": "A served runway is a runway of an airfield that the route goes to or comes from.",
+        "properties": {
+          "airfield": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "description": "This field identifies the airfield that has the runway.",
+            "x-catalog": "places"
+          },
+          "runway": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+            "description": "This field gives the designator of the runway end, such as `31`."
+          }
+        },
+        "required": [
+          "airfield",
+          "runway"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "type": {
+      "description": "This field gives the catalogue code of this control measure, as one of the enumerated values. The code identifies the definition of the control measure in doctrine. The catalogue of control measures gives its class and the source of its definition.",
+      "enum": [
+        "AIRRTE",
+        "LLTR",
+        "SAAFR",
+        "SC",
+        "TMRR",
+        "TC",
+        "TR",
+        "SL",
+        "APPCOR",
+        "MRR",
+        "AIRCOR",
+        "VFRRTE"
+      ],
+      "x-enum-descriptions": {
+        "AIRCOR": "An air corridor (AIRCOR) is a restricted air route of travel for friendly aircraft. Its function is to prevent friendly forces from firing on friendly aircraft. Its altitudes are not more than the coordinating altitude, when there is one.",
+        "AIRRTE": "An air route (AIRRTE) is the navigable airspace between two points, with only the identification that is necessary to apply flight rules. It is a bi-directional route. It can go through air defences as a minimum-risk route. Only support traffic uses it.",
+        "APPCOR": "An approach corridor (APPCOR) is airspace for the safe passage of land-based aircraft that join a maritime force or go from it. The corridor usually goes from an entry and exit gate to the centre of the force. Its inner boundary is the identification safety range (ISR).",
+        "LLTR": "A low-level transit route (LLTR) is a temporary low-level corridor of defined dimensions in the forward area. It decreases the risk to friendly aircraft from friendly air defences or surface forces.",
+        "MRR": "A minimum-risk route (MRR) is a temporary air corridor of defined dimensions that the ground commander recommends for aircraft. It has the minimum known hazards to low-flying aircraft that transit the combat zone. Aircraft usually use it to cross the forward line of own troops (FLOT). It is usually not near close air support (CAS) target areas.",
+        "SAAFR": "A slow aviation assets flight route (SAAFR) is a route below the coordination level for land component aviation assets in the forward area. The route is for their movement in direct support of ground operations.",
+        "SC": "A special corridor (SC) is an air corridor for the special routing requirements of some missions in air operations.",
+        "SL": "A safe lane (SL) is a bi-directional lane from an airbase, a landing site or a base defence zone (BDZ) to adjacent routes or corridors. It can connect more than one of them. Safe lanes can also connect adjacent activated routes or corridors.",
+        "TC": "A transit corridor (TC) is a bi-directional corridor in the rear area that routes aircraft through friendly air defences with minimum risk. Air traffic services are not normally available in it.",
+        "TMRR": "A temporary minimum-risk route (TMRR) is a temporary minimum-risk route for air traffic. It goes between transit routes, or the rear boundary of the forward area, and its operations area. The route is for direct support of ground operations.",
+        "TR": "A transit route (TR) is a temporary air corridor of defined dimensions in the forward area for air operations. It decreases the risks to friendly aircraft from friendly air defences or surface forces. It is a bi-directional route, and it should avoid weapons free zones and base defence zones.",
+        "VFRRTE": "A published visual flight rules route (VFRRTE) is a route on a chart for visual flight rules (VFR) flights around, under or through complex airspace, such as class B airspace. A VFR flyway is a general flight path, not a specific course, and it needs no air traffic control (ATC) clearance. A VFR corridor goes through class B airspace with defined vertical and lateral limits, and it needs no ATC clearance. A VFR transition route is a specific flight course on a chart. On it, communication with ATC is necessary, and an ATC clearance is necessary in class B airspace."
+      }
+    },
+    "vertices": {
+      "description": "This list contains the names and points of the vertices of the route, in order. A vertex that is not in the list has no name.",
+      "items": {
+        "additionalProperties": false,
+        "anyOf": [
+          {
+            "required": [
+              "name"
+            ]
+          },
+          {
+            "required": [
+              "point"
+            ]
+          }
+        ],
+        "description": "A route vertex is a vertex of the route geometry with its name or its point record.",
+        "properties": {
+          "index": {
+            "description": "This field gives the position of the vertex in the route geometry, from 0 at the start. The vertices of a path are the start of each segment and the end of the last segment. The index shall be smaller than the number of vertices, and the indexes shall increase in the list.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "name": {
+            "description": "This field gives the name of this route vertex, for display. An example is the charted name of a visual reporting point.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "point": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "description": "This field identifies the point record that is at this vertex.",
+            "x-catalog": "control_measures"
+          }
+        },
+        "required": [
+          "index"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "geometry",
+    "active"
+  ],
+  "title": "Air route or corridor",
+  "type": "object"
+}

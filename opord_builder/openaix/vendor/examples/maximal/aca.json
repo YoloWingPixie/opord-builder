@@ -1,0 +1,107 @@
+{
+  "$schema": "urn:openaix:schema:measure-aca:0.1.0-draft.2",
+  "aca_kind": "formal",
+  "active": {
+    "end": "2026-10-02T14:30:00Z",
+    "start": "2026-10-02T13:30:00Z"
+  },
+  "channels": [
+    "ops-uhf"
+  ],
+  "components": [
+    {
+      "active": {
+        "end": "2026-10-02T14:30:00Z",
+        "start": "2026-10-02T13:30:00Z"
+      },
+      "extensions": {
+        "org.cjtf-oir.ato": {
+          "ato_day": "214"
+        }
+      },
+      "geometry": {
+        "kind": "corridor",
+        "one_way": true,
+        "points": [
+          {
+            "latitude": 34.975,
+            "longitude": 40.024
+          },
+          {
+            "latitude": 35.095,
+            "longitude": 40.446
+          }
+        ],
+        "width": {
+          "unit": "nm",
+          "value": 2
+        }
+      },
+      "id": "anvil-baseline",
+      "lower_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 9000
+      },
+      "maximum_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 18000
+      },
+      "minimum_limit": {
+        "reference": "AGL",
+        "unit": "ft",
+        "value": 500
+      },
+      "name": "Anvil ACA",
+      "operation": "add",
+      "upper_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 12000
+      }
+    }
+  ],
+  "controlling_agency": "banshee",
+  "coordination_instructions": [
+    "Contact Salti Tower before entry."
+  ],
+  "description": "Formal airspace coordination area along the Anvil battery's line of fire into Onyx; aircraft inside it are reasonably safe from the surface fires.",
+  "establishing_authority": "caoc",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "kind": "drawing",
+            "layer": "Blue",
+            "mission_id": "oir-syria",
+            "name": "OIR Anvil ACA",
+            "object_id": 44,
+            "polygon_mode": "free",
+            "primitive_type": "Polygon",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "id": "anvil-aca",
+  "name": "Anvil ACA",
+  "notes": "Active only while Anvil fires; Warhawk announces each fire mission.",
+  "purpose": "Protect aircraft from the Anvil battery fires into Onyx.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "Attack only while the Cobalt kill box is open."
+  ],
+  "separation": "altitude",
+  "type": "ACA"
+}

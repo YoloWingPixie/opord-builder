@@ -1012,6 +1012,7 @@ def _render_document_all(
     write_markdown: bool,
     write_html: bool,
     write_pdf: bool,
+    prepare_html_fn: Callable[[str], str] | None = None,
 ) -> dict[str, Path]:
     """Shared driver for render_*_all: build each requested format exactly
     once, passing the already-rendered HTML through to the PDF step so the
@@ -1027,7 +1028,9 @@ def _render_document_all(
         raw_html = render_html_fn()
         if write_html:
             html_path = out_dir / f"{stem}.html"
-            html_path.write_text(_inline_stylesheet(raw_html), encoding="utf-8")
+            html_path.write_text(
+                (prepare_html_fn or _inline_stylesheet)(raw_html), encoding="utf-8"
+            )
             outputs["html"] = html_path
         if write_pdf:
             pdf_path = out_dir / f"{stem}.pdf"

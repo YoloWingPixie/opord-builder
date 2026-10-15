@@ -1,0 +1,213 @@
+{
+  "$id": "urn:openaix:schema:measure-aca:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "else": {
+        "required": [
+          "separation"
+        ]
+      },
+      "if": {
+        "properties": {
+          "aca_kind": {
+            "const": "formal"
+          }
+        },
+        "required": [
+          "aca_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "components"
+        ]
+      }
+    }
+  ],
+  "description": "An airspace coordination area (ACA) is a block or corridor of airspace above a target area. In it, friendly aircraft are reasonably safe from friendly surface fires. The airspace control authority establishes a formal airspace coordination area on the request of a component. It has a minimum altitude, a maximum altitude, a baseline, a width on each side of the baseline and effective times. In an informal airspace coordination area, time, lateral distance or altitude keeps aircraft and surface fires apart. A battalion or higher headquarters gives approval for it.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "aca_kind": {
+      "description": "This field gives the type of airspace coordination area (ACA): `formal` or `informal`, as one of the enumerated values. In openAIX, an ACA of the type `formal` is a volume, and an ACA of the type `informal` gives only its method of separation. The airspace control authority makes an ACA of the type `formal` when a component sends a request for it. It has altitudes, a baseline, a width and the times when it is active. In an ACA of the type `informal`, time, lateral distance or altitude gives the separation between aircraft and surface fires. A battalion or a higher unit gives the approval for an ACA of the type `informal`.",
+      "enum": [
+        "formal",
+        "informal"
+      ],
+      "x-enum-descriptions": {
+        "formal": "The airspace control authority makes the airspace coordination area (ACA) when a component sends a request for it. It has a minimum and a maximum altitude, a baseline, a width and the times when it is active (JP 3-09, Appendix A, 5.d).",
+        "informal": "Time, lateral distance or altitude gives the separation between aircraft and surface fires. A battalion or a higher unit gives the approval for it (JP 3-09, Appendix A, 5.d)."
+      }
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this airspace coordination area is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "channels": {
+      "description": "This list identifies the communications channels of this airspace coordination area.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "components": {
+      "description": "This list contains the airspace components of the coordination volume. A formal airspace coordination area (ACA) is usually a corridor component along its baseline, between the minimum and maximum altitudes.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AirspaceComponent"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "controlling_agency": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the operations in this airspace coordination area.",
+      "x-catalog": "agencies"
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this airspace coordination area has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this airspace coordination area and its local conditions, as free text.",
+      "type": "string"
+    },
+    "establishing_authority": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the authority that set this airspace coordination area.",
+      "x-catalog": "agencies"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this airspace coordination area. Other records and orders use it to refer to this airspace coordination area."
+    },
+    "name": {
+      "description": "This field gives the name of this airspace coordination area, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this airspace coordination area, as free text.",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "This field gives the task or objective of this airspace coordination area, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this airspace coordination area. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the conditions that control the operations in this airspace coordination area.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "separation": {
+      "description": "This field gives the method of separation between aircraft and surface fires in an informal airspace coordination area (ACA), as one of the enumerated values.",
+      "enum": [
+        "time",
+        "lateral",
+        "altitude",
+        "combined"
+      ],
+      "x-enum-descriptions": {
+        "altitude": "Altitude gives the separation between aircraft and surface fires.",
+        "combined": "This value identifies separation by time, lateral distance and altitude together.",
+        "lateral": "Lateral distance gives the separation between aircraft and surface fires.",
+        "time": "Aircraft and surface fires use the area at different times."
+      }
+    },
+    "type": {
+      "const": "ACA",
+      "description": "The value identifies this record as an airspace coordination area. The value selects the data contract of the control measure."
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "aca_kind",
+    "active"
+  ],
+  "title": "Airspace coordination area",
+  "type": "object"
+}

@@ -1,0 +1,4350 @@
+{
+  "$inputs_sha256": "25c4e654ebcc07fce7bcc96a0fe225a3e4a4f807bba71bcf9480f718ab8e97d8",
+  "urn:openaix:schema:aco:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "resources_ref"
+      ],
+      "path": "/",
+      "selected": "resources"
+    },
+    {
+      "instead_of": [
+        "resources"
+      ],
+      "path": "resources_ref",
+      "reason": "alternative"
+    },
+    {
+      "path": "resources/facs",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "area",
+        "control_measure",
+        "rectangle",
+        "ellipse"
+      ],
+      "path": "resources/agencies/*/areas/*",
+      "selected": "geojson"
+    },
+    {
+      "alternatives": [
+        "MultiPolygon"
+      ],
+      "path": "resources/agencies/*/areas/*/geometry",
+      "selected": "Polygon"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "at",
+        "not_after",
+        "not_before",
+        "on_order"
+      ],
+      "path": "resources/routes/*/points/*/timing",
+      "selected": "window"
+    },
+    {
+      "alternatives": [
+        "ACA",
+        "AIRSPACE",
+        "AIRWAY",
+        "AOR",
+        "Fire support or manoeuvre area",
+        "Coordination level or coordinating altitude",
+        "Fire support line",
+        "ISR",
+        "KB",
+        "Coordination line",
+        "MEZ",
+        "MISARC",
+        "NAVAID",
+        "ORBIT",
+        "Air route or corridor",
+        "TERRITORY",
+        "TL",
+        "Airspace coordination volume",
+        "name + type + geometry + extensions"
+      ],
+      "path": "resources/control_measures/*",
+      "selected": "POINT"
+    },
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "resources/control_measures/*/active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "resources/control_measures/*/altitude/lower",
+      "selected": "Altitude"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "track_racetrack",
+        "figure_eight",
+        "line",
+        "point",
+        "description",
+        "geojson",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "racetrack"
+    },
+    {
+      "path": "resources/control_measures/*/extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/control_measures/*/joins",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "line",
+        "path",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "corridor"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/components/*/geometry",
+      "selected": "circle"
+    },
+    {
+      "path": "resources/control_measures/*/gates",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "resources/areas/*/geometry",
+      "selected": "circle"
+    },
+    {
+      "path": "resources/places/*/carrier",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "point"
+      ],
+      "path": "resources/places/*/traffic_pattern/initial/*",
+      "selected": "distance"
+    },
+    {
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/hold",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "control_measure"
+      ],
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/fix",
+      "selected": "ident + position"
+    },
+    {
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/altitude/upper",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "ident + position"
+      ],
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/recommended_navaid",
+      "selected": "control_measure"
+    },
+    {
+      "alternatives": [
+        "minimum_descent_altitude"
+      ],
+      "path": "resources/instrument_procedures/*/minima/*/category_minima/*",
+      "selected": "decision_altitude"
+    },
+    {
+      "alternatives": [
+        "control_measure",
+        "instrument_procedure"
+      ],
+      "path": "resources/notams/*/affects/*",
+      "selected": "runway"
+    }
+  ],
+  "urn:openaix:schema:airfield:0.1.0-draft.2": [
+    {
+      "path": "carrier",
+      "reason": "conditional"
+    },
+    {
+      "path": "runways/*/provenance/publication/path",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "runways/*/ends/*/traffic_pattern/sfo/high_key/lower",
+      "selected": "Altitude"
+    },
+    {
+      "alternatives": [
+        "point"
+      ],
+      "path": "runways/*/ends/*/traffic_pattern/categories/fighter/initial/*",
+      "selected": "distance"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/layer",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/primitive_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:airspace:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "polygon",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "components/*/geometry",
+      "selected": "circle"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "components/*/lower_limit",
+      "selected": "surface"
+    },
+    {
+      "alternatives": [
+        "Window",
+        "start + end + schedule"
+      ],
+      "path": "components/*/active",
+      "selected": "continuous"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:airway:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "control_measure"
+      ],
+      "path": "segments/*/fix",
+      "selected": "ident + position"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/airac_cycle",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_from",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_until",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/publication",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/generated_at",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:ato:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "resources"
+      ],
+      "path": "/",
+      "selected": "resources_ref"
+    },
+    {
+      "instead_of": [
+        "resources_ref"
+      ],
+      "path": "resources",
+      "reason": "alternative"
+    },
+    {
+      "alternatives": [
+        "at",
+        "not_after",
+        "not_before",
+        "on_order"
+      ],
+      "path": "packages/*/rendezvous_time",
+      "selected": "window"
+    },
+    {
+      "alternatives": [
+        "preplanned_attack",
+        "on_call_cas",
+        "cap",
+        "escort",
+        "refueling",
+        "airborne_control",
+        "reconnaissance",
+        "electromagnetic",
+        "transport",
+        "personnel_recovery",
+        "training",
+        "custom",
+        "counterland_control"
+      ],
+      "path": "missions/*/tasking",
+      "selected": "counterair"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "missions/*/tasking/altitude/lower",
+      "selected": "Altitude"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/layer",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/primitive_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/style",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "alert",
+        "airborne"
+      ],
+      "path": "missions/*/flights/*/launch",
+      "selected": "scheduled"
+    },
+    {
+      "alternatives": [
+        "self_controlled"
+      ],
+      "path": "missions/*/control",
+      "selected": "agency"
+    },
+    {
+      "alternatives": [
+        "mobile",
+        "area"
+      ],
+      "path": "missions/*/tasking/assignments/*/target",
+      "selected": "fixed"
+    },
+    {
+      "alternatives": [
+        "at",
+        "not_after",
+        "not_before",
+        "on_order"
+      ],
+      "path": "missions/*/tasking/assignments/*/timing",
+      "selected": "window"
+    },
+    {
+      "alternatives": [
+        "at",
+        "not_after",
+        "not_before",
+        "on_order"
+      ],
+      "path": "missions/*/tasking/rendezvous_time",
+      "selected": "window"
+    },
+    {
+      "path": "missions/*/tasking/reporting_procedure",
+      "reason": "no_value"
+    },
+    {
+      "path": "missions/*/tasking/loading_procedure",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "window",
+        "not_after",
+        "not_before",
+        "on_order"
+      ],
+      "path": "missions/*/tasking/pickup_time",
+      "selected": "at"
+    },
+    {
+      "alternatives": [
+        "at",
+        "window",
+        "not_before",
+        "on_order"
+      ],
+      "path": "missions/*/tasking/delivery_time",
+      "selected": "not_after"
+    }
+  ],
+  "urn:openaix:schema:c2-agency:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "polygon",
+        "area",
+        "control_measure",
+        "rectangle",
+        "ellipse"
+      ],
+      "path": "areas/*",
+      "selected": "geojson"
+    },
+    {
+      "alternatives": [
+        "MultiPolygon"
+      ],
+      "path": "areas/*/geometry",
+      "selected": "Polygon"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/layer",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/primitive_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:common:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "AltitudeBlock/lower",
+      "selected": "surface"
+    },
+    {
+      "path": "Extensions/sim/dcs/objects",
+      "reason": "no_value"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/layer",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/primitive_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/style",
+      "reason": "conditional"
+    },
+    {
+      "path": "Extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "SimData/dcs/objects",
+      "reason": "no_value"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/layer",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/primitive_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/style",
+      "reason": "conditional"
+    },
+    {
+      "path": "SimData/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "DCSObjectRef/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSObjectRef/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSObjectRef/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSObjectRef/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSObjectRef/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSObjectRef/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSObjectRef/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSObjectRef/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSObjectRef/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "DCSObjectRef/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/objects",
+      "reason": "no_value"
+    },
+    {
+      "path": "DCSData/bindings/*/layer",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/primitive_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/style",
+      "reason": "conditional"
+    },
+    {
+      "path": "DCSData/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "VerticalLimit",
+      "selected": "Altitude"
+    },
+    {
+      "alternatives": [
+        "vertical"
+      ],
+      "path": "Geometry_vertical",
+      "selected": "vertical"
+    },
+    {
+      "alternatives": [
+        "arc"
+      ],
+      "path": "Geometry_polyarc/segments/*",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "arc"
+      ],
+      "path": "Geometry_path/segments/*",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "Polygon"
+      ],
+      "path": "Geometry_geojson_polygon/geometry",
+      "selected": "MultiPolygon"
+    },
+    {
+      "alternatives": [
+        "point",
+        "line",
+        "polygon",
+        "circle",
+        "corridor",
+        "racetrack",
+        "track_racetrack",
+        "sector",
+        "path",
+        "figure_eight",
+        "Geometry_vertical",
+        "description",
+        "geojson",
+        "geojson",
+        "geojson",
+        "rectangle",
+        "ellipse"
+      ],
+      "path": "Geometry",
+      "selected": "polyarc"
+    },
+    {
+      "alternatives": [
+        "arc"
+      ],
+      "path": "Geometry/segments/*",
+      "selected": "line"
+    },
+    {
+      "path": "Geometry_rectangle/extensions/sim",
+      "reason": "no_value"
+    },
+    {
+      "path": "Geometry_ellipse/extensions/sim",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "ACA",
+        "AIRSPACE",
+        "AIRWAY",
+        "AOR",
+        "Fire support or manoeuvre area",
+        "Coordination level or coordinating altitude",
+        "Fire support line",
+        "ISR",
+        "KB",
+        "Coordination line",
+        "MEZ",
+        "MISARC",
+        "NAVAID",
+        "ORBIT",
+        "Air route or corridor",
+        "TERRITORY",
+        "TL",
+        "Airspace coordination volume",
+        "name + type + geometry + extensions"
+      ],
+      "path": "MeasureCatalogue/*",
+      "selected": "POINT"
+    },
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "MeasureCatalogue/*/active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "MeasureCatalogue/*/altitude/lower",
+      "selected": "Altitude"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "track_racetrack",
+        "figure_eight",
+        "line",
+        "point",
+        "description",
+        "geojson",
+        "geojson"
+      ],
+      "path": "MeasureCatalogue/*/geometry",
+      "selected": "racetrack"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "line",
+        "path",
+        "geojson"
+      ],
+      "path": "MeasureCatalogue/*/geometry",
+      "selected": "corridor"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "MeasureCatalogue/*/components/*/geometry",
+      "selected": "circle"
+    },
+    {
+      "alternatives": [
+        "geojson"
+      ],
+      "path": "MeasureCatalogue/*/geometry",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "geojson"
+      ],
+      "path": "MeasureCatalogue/*/geometry",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "vertical"
+      ],
+      "path": "MeasureCatalogue/*/geometry",
+      "selected": "vertical"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "MeasureCatalogue/*/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "MeasureCatalogue/*/geometry",
+      "selected": "circle"
+    },
+    {
+      "alternatives": [
+        "arc"
+      ],
+      "path": "MeasureCatalogue/*/geometry/segments/*",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "rectangle",
+        "ellipse"
+      ],
+      "path": "MeasureCatalogue/*/geometry",
+      "selected": "geojson"
+    },
+    {
+      "alternatives": [
+        "Polygon"
+      ],
+      "path": "MeasureCatalogue/*/geometry/geometry",
+      "selected": "MultiPolygon"
+    },
+    {
+      "alternatives": [
+        "Window",
+        "continuous"
+      ],
+      "path": "Activation",
+      "selected": "start + end + schedule"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "AirspaceComponent/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "AirspaceComponent/lower_limit",
+      "selected": "surface"
+    },
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "AirspaceComponent/active",
+      "selected": "Window"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "AirspaceComponent/extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "ACA",
+        "AIRSPACE",
+        "AIRWAY",
+        "AOR",
+        "Fire support or manoeuvre area",
+        "Coordination level or coordinating altitude",
+        "Fire support line",
+        "ISR",
+        "Coordination line",
+        "MEZ",
+        "MISARC",
+        "NAVAID",
+        "ORBIT",
+        "POINT",
+        "Air route or corridor",
+        "TERRITORY",
+        "TL",
+        "Airspace coordination volume",
+        "name + type + geometry + extensions"
+      ],
+      "path": "ControlMeasure",
+      "selected": "KB"
+    },
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "ControlMeasure/active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "ControlMeasure/components/*/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "ControlMeasure/components/*/lower_limit",
+      "selected": "surface"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:control-measure:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "ACA",
+        "AIRSPACE",
+        "AIRWAY",
+        "AOR",
+        "Fire support or manoeuvre area",
+        "Coordination level or coordinating altitude",
+        "Fire support line",
+        "ISR",
+        "Coordination line",
+        "MEZ",
+        "MISARC",
+        "NAVAID",
+        "ORBIT",
+        "POINT",
+        "Air route or corridor",
+        "TERRITORY",
+        "TL",
+        "Airspace coordination volume",
+        "name + type + geometry + extensions"
+      ],
+      "path": "/",
+      "selected": "KB"
+    },
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "components/*/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "components/*/lower_limit",
+      "selected": "surface"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:fac:0.1.0-draft.2": [
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/layer",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/primitive_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:frago:0.1.0-draft.2": [
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:grid-mora:0.1.0-draft.2": [
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/airac_cycle",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_from",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_until",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/publication",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/generated_at",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:holding:0.1.0-draft.2": [
+    {
+      "instead_of": [
+        "leg_time"
+      ],
+      "path": "hold/leg_length",
+      "reason": "alternative"
+    },
+    {
+      "alternatives": [
+        "control_measure"
+      ],
+      "path": "hold/fix",
+      "selected": "ident + position"
+    },
+    {
+      "path": "hold/altitude/upper",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/airac_cycle",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_from",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_until",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/publication",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/generated_at",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:jiptl:0.1.0-draft.2": [
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:localizer:0.1.0-draft.2": [
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "provenance/publication/path",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:measure-aca:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "circle",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "components/*/geometry",
+      "selected": "corridor"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "components/*/lower_limit",
+      "selected": "Altitude"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:measure-aor:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "Window",
+        "start + end + schedule"
+      ],
+      "path": "active",
+      "selected": "continuous"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "geometry",
+      "selected": "polygon"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:measure-area:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "geometry",
+      "selected": "polygon"
+    },
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:measure-cl:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "vertical"
+      ],
+      "path": "geometry",
+      "selected": "vertical"
+    },
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "geojson"
+      ],
+      "path": "geometry",
+      "selected": "line"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:measure-isr:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/layer",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/primitive_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:measure-kb:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "components/*/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "components/*/lower_limit",
+      "selected": "surface"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "components/*/extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:measure-line:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "geojson"
+      ],
+      "path": "geometry",
+      "selected": "line"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:measure-mez:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "components/*/geometry",
+      "selected": "circle"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "components/*/lower_limit",
+      "selected": "surface"
+    },
+    {
+      "path": "components/*/extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:measure-misarc:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "altitude/lower",
+      "selected": "surface"
+    },
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:measure-route:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "Window",
+        "start + end + schedule"
+      ],
+      "path": "active",
+      "selected": "continuous"
+    },
+    {
+      "alternatives": [
+        "line",
+        "corridor",
+        "geojson"
+      ],
+      "path": "geometry",
+      "selected": "path"
+    },
+    {
+      "alternatives": [
+        "arc"
+      ],
+      "path": "geometry/segments/*",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "altitude/lower",
+      "selected": "surface"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:measure-tl:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "vertical"
+      ],
+      "path": "geometry",
+      "selected": "vertical"
+    },
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:measure-volume:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "components/*/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "components/*/lower_limit",
+      "selected": "surface"
+    },
+    {
+      "path": "components/*/extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:msa:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "control_measure"
+      ],
+      "path": "center",
+      "selected": "ident + position"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/airac_cycle",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_from",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_until",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/publication",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/generated_at",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:navaid:0.1.0-draft.2": [
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/airac_cycle",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_from",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_until",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/publication",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/generated_at",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:notam:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "Altitude",
+        "unlimited"
+      ],
+      "path": "lower",
+      "selected": "surface"
+    },
+    {
+      "alternatives": [
+        "runway",
+        "instrument_procedure"
+      ],
+      "path": "affects/*",
+      "selected": "control_measure"
+    },
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:opord:0.1.0-draft.2": [
+    {
+      "path": "task_organization/*/extensions/sim/dcs/bindings",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "task_organization/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "sustainment/personnel/strength_report",
+      "reason": "no_value"
+    },
+    {
+      "path": "annexes/D/field_artillery/position_areas",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:orbit:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "track_racetrack",
+        "figure_eight",
+        "line",
+        "point",
+        "description",
+        "geojson",
+        "geojson"
+      ],
+      "path": "geometry",
+      "selected": "racetrack"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "altitude/lower",
+      "selected": "Altitude"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:path-point:0.1.0-draft.2": [
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/line_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/closed",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "provenance/publication/path",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:point:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "altitude/lower",
+      "selected": "Altitude"
+    },
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:procedure:0.1.0-draft.2": [
+    {
+      "path": "radar_approach",
+      "reason": "conditional"
+    },
+    {
+      "instead_of": [
+        "procedure_type"
+      ],
+      "path": "takeoff_minima",
+      "reason": "alternative"
+    },
+    {
+      "path": "transitions/*/legs/*/hold",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "control_measure"
+      ],
+      "path": "transitions/*/legs/*/fix",
+      "selected": "ident + position"
+    },
+    {
+      "path": "transitions/*/legs/*/altitude/upper",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "ident + position"
+      ],
+      "path": "transitions/*/legs/*/recommended_navaid",
+      "selected": "control_measure"
+    },
+    {
+      "path": "navigation_specification/specification",
+      "reason": "conditional"
+    },
+    {
+      "path": "navigation_specification/rnp_value",
+      "reason": "conditional"
+    },
+    {
+      "path": "minima/*/rnp_value",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "minimum_descent_altitude"
+      ],
+      "path": "minima/*/category_minima/*",
+      "selected": "decision_altitude"
+    },
+    {
+      "path": "provenance/publication/path",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:resources:0.1.0-draft.2": [
+    {
+      "path": "resources/places/*/carrier",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/places/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/places/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/places/*/extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/places/*/extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/places/*/extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/places/*/extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "point"
+      ],
+      "path": "resources/places/*/traffic_pattern/initial/*",
+      "selected": "distance"
+    },
+    {
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/hold",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "control_measure"
+      ],
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/fix",
+      "selected": "ident + position"
+    },
+    {
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/altitude/upper",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "ident + position"
+      ],
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/recommended_navaid",
+      "selected": "control_measure"
+    },
+    {
+      "alternatives": [
+        "minimum_descent_altitude"
+      ],
+      "path": "resources/instrument_procedures/*/minima/*/category_minima/*",
+      "selected": "decision_altitude"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "resources/pattern_profiles/*/sfo/high_key/lower",
+      "selected": "Altitude"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "area",
+        "control_measure",
+        "rectangle",
+        "ellipse"
+      ],
+      "path": "resources/agencies/*/areas/*",
+      "selected": "geojson"
+    },
+    {
+      "alternatives": [
+        "MultiPolygon"
+      ],
+      "path": "resources/agencies/*/areas/*/geometry",
+      "selected": "Polygon"
+    },
+    {
+      "alternatives": [
+        "control_measure",
+        "instrument_procedure"
+      ],
+      "path": "resources/notams/*/affects/*",
+      "selected": "runway"
+    },
+    {
+      "alternatives": [
+        "at",
+        "not_after",
+        "not_before",
+        "on_order"
+      ],
+      "path": "resources/routes/*/points/*/timing",
+      "selected": "window"
+    },
+    {
+      "alternatives": [
+        "ACA",
+        "AIRSPACE",
+        "AIRWAY",
+        "AOR",
+        "Fire support or manoeuvre area",
+        "Coordination level or coordinating altitude",
+        "Fire support line",
+        "ISR",
+        "KB",
+        "Coordination line",
+        "MEZ",
+        "MISARC",
+        "NAVAID",
+        "ORBIT",
+        "Air route or corridor",
+        "TERRITORY",
+        "TL",
+        "Airspace coordination volume",
+        "name + type + geometry + extensions"
+      ],
+      "path": "resources/control_measures/*",
+      "selected": "POINT"
+    },
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "resources/control_measures/*/active",
+      "selected": "Window"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "track_racetrack",
+        "figure_eight",
+        "line",
+        "point",
+        "description",
+        "geojson",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "racetrack"
+    },
+    {
+      "path": "resources/control_measures/*/extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "alternatives": [
+        "line",
+        "path",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "corridor"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "sector",
+        "polyarc",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/components/*/geometry",
+      "selected": "circle"
+    },
+    {
+      "alternatives": [
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "vertical"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "vertical"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "circle"
+    },
+    {
+      "alternatives": [
+        "arc"
+      ],
+      "path": "resources/control_measures/*/geometry/segments/*",
+      "selected": "line"
+    },
+    {
+      "alternatives": [
+        "polygon",
+        "rectangle",
+        "ellipse"
+      ],
+      "path": "resources/control_measures/*/geometry",
+      "selected": "geojson"
+    },
+    {
+      "alternatives": [
+        "circle",
+        "corridor",
+        "rectangle",
+        "ellipse",
+        "geojson"
+      ],
+      "path": "resources/areas/*/geometry",
+      "selected": "polygon"
+    },
+    {
+      "alternatives": [
+        "mobile",
+        "area"
+      ],
+      "path": "resources/targets/*",
+      "selected": "fixed"
+    }
+  ],
+  "urn:openaix:schema:runway:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "point"
+      ],
+      "path": "ends/*/traffic_pattern/initial/*",
+      "selected": "distance"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "ends/*/traffic_pattern/sfo/high_key/lower",
+      "selected": "Altitude"
+    },
+    {
+      "path": "extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/payload",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/pylon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/label",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/clsid",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/polygon_mode",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/zone_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/unit_type",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/group_category",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/text",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/icon",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/native_fields",
+      "reason": "no_value"
+    },
+    {
+      "path": "extensions/sim/dcs/bindings/*/style/font_size",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/airac_cycle",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_from",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/effective_until",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/publication",
+      "reason": "conditional"
+    },
+    {
+      "path": "provenance/generated_at",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:scl:0.1.0-draft.2": [
+    {
+      "path": "stations/*/extensions/sim/dcs/bindings",
+      "reason": "conditional"
+    },
+    {
+      "path": "stations/*/extensions/sim/dcs/objects",
+      "reason": "conditional"
+    },
+    {
+      "path": "stations/*/extensions/sim/dcs/type",
+      "reason": "conditional"
+    },
+    {
+      "path": "stations/*/extensions/sim/dcs/clsids",
+      "reason": "conditional"
+    },
+    {
+      "path": "stations/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "stations/*/extensions/sim/dcs/angle_deg",
+      "reason": "conditional"
+    },
+    {
+      "path": "stations/*/extensions/sim/dcs/projection",
+      "reason": "conditional"
+    },
+    {
+      "path": "stations/*/extensions/sim/dcs/coalition",
+      "reason": "conditional"
+    }
+  ],
+  "urn:openaix:schema:spins:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "tanker_procedures/*/altitude/lower",
+      "selected": "Altitude"
+    },
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:territory:0.1.0-draft.2": [
+    {
+      "alternatives": [
+        "polygon",
+        "rectangle",
+        "ellipse"
+      ],
+      "path": "geometry",
+      "selected": "geojson"
+    },
+    {
+      "alternatives": [
+        "Polygon"
+      ],
+      "path": "geometry/geometry",
+      "selected": "MultiPolygon"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "lower_limit",
+      "selected": "Altitude"
+    },
+    {
+      "alternatives": [
+        "start + end + schedule",
+        "continuous"
+      ],
+      "path": "active",
+      "selected": "Window"
+    },
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ],
+  "urn:openaix:schema:tst:0.1.0-draft.2": [
+    {
+      "path": "extensions/sim",
+      "reason": "no_value"
+    }
+  ]
+}

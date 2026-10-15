@@ -1,0 +1,56 @@
+{
+  "$schema": "urn:openaix:schema:grid-mora:0.1.0-draft.2",
+  "cells": [
+    {
+      "minimum_altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 6200
+      },
+      "northeast": {
+        "latitude": 32,
+        "longitude": 36
+      },
+      "southwest": {
+        "latitude": 31,
+        "longitude": 35
+      },
+      "status": "known"
+    }
+  ],
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "kind": "drawing",
+            "layer": "Blue",
+            "mission_id": "oir-syria",
+            "name": "OIR MORA row N31",
+            "object_id": 44,
+            "polygon_mode": "free",
+            "primitive_type": "Polygon",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "id": "mora-n31e035",
+  "kind": "grid-mora",
+  "name": "Grid MORA row N31 E035 eastward",
+  "provenance": {
+    "authority": "Eagle Dynamics",
+    "derivation": "derived",
+    "tool": {
+      "name": "DCS map file reader",
+      "version": "2.9.8"
+    }
+  },
+  "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua"
+}

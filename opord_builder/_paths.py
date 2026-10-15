@@ -8,3 +8,4 @@ _PACKAGE_ROOT = Path(__file__).resolve().parent
 TEMPLATES_DIR: Path = _PACKAGE_ROOT / "templates"
 STYLESHEET: Path = TEMPLATES_DIR / "styles.css"
 EXAMPLE_FULL_YAML: Path = _PACKAGE_ROOT.parent / "examples" / "example_full.yaml"
+SPINS_DEFAULT_LAYOUT: Path = TEMPLATES_DIR / "spins-default.yaml"

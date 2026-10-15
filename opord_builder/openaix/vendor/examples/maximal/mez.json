@@ -1,0 +1,78 @@
+{
+  "$schema": "urn:openaix:schema:measure-mez:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "channels": [
+    "ops-uhf"
+  ],
+  "components": [
+    {
+      "active": {
+        "end": "2026-10-02T15:00:00Z",
+        "start": "2026-10-02T13:00:00Z"
+      },
+      "extensions": {
+        "org.cjtf-oir.ato": {
+          "ato_day": "214"
+        }
+      },
+      "geometry": {
+        "center": {
+          "latitude": 34.735,
+          "longitude": 40.225
+        },
+        "kind": "circle",
+        "radius": {
+          "unit": "nm",
+          "value": 2.5
+        }
+      },
+      "id": "sage-shorad-volume",
+      "lower_limit": {
+        "surface": true
+      },
+      "maximum_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 18000
+      },
+      "minimum_limit": {
+        "reference": "AGL",
+        "unit": "ft",
+        "value": 500
+      },
+      "name": "Zinc LOMEZ",
+      "operation": "add",
+      "upper_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 8000
+      }
+    }
+  ],
+  "controlling_agency": "banshee",
+  "coordination_instructions": [
+    "Helicopters inbound to Sage enter on the Sage FARP approach after the air defence controller confirms weapons hold."
+  ],
+  "description": "Short-range air defence engagement zone over the Sage FARP, where an Avenger platoon has engagement responsibility.",
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "id": "sage-shoradez",
+  "mez_kind": "short_range",
+  "name": "Sage SHORADEZ",
+  "notes": "Avenger weapons tight; engage only hostile aircraft inside the zone.",
+  "purpose": "Protect the Sage FARP from low-level air attack.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "Attack only while the Cobalt kill box is open."
+  ],
+  "type": "MEZ"
+}

@@ -12,9 +12,7 @@ from opord_builder.renderer import load_opord
 from opord_builder.schema.data_sources import (
     DATA_SOURCE_REGISTRY,
     DataSourceMeta,
-    HPTDocument,
-    JPITLDocument,
-    TSTDocument,
+    CAPTrackDocument,
 )
 
 
@@ -69,75 +67,31 @@ def test_set_at_path_typed_body_injects_letter():
 # Schema validation tests
 # ---------------------------------------------------------------------------
 
-def test_jpitl_document_validates():
-    doc = JPITLDocument.model_validate({
-        "kind": "jpitl",
-        "meta": {"title": "Test JPITL"},
+def test_cap_track_document_validates():
+    doc = CAPTrackDocument.model_validate({
+        "kind": "cap_tracks",
+        "meta": {"title": "Test CAP"},
         "entries": [
             {
-                "target_number": "TGT 0001",
-                "priority_rank": 1,
-                "target_name": "ENY CP",
-                "target_description": "Command post",
-                "category": "C2",
-                "location": "32UMA123456",
-                "component_tasked": "LAND",
-                "desired_effect": "DESTROY",
-                "engagement_guidance": "Fire at will",
-                "approval_authority": "BN CDR",
+                "name": "ANCHOR 1",
+                "anchor_point": "32UMA090320",
+                "altitude_floor_ft": 20000,
+                "altitude_ceiling_ft": 28000,
+                "controller_callsign": "MAGIC",
+                "primary_freq": "251.0 AM",
             }
         ],
     })
-    assert doc.kind == "jpitl"
-    assert len(doc.entries) == 1
-    assert doc.entries[0].target_number == "TGT 0001"
-
-
-def test_tst_document_validates():
-    doc = TSTDocument.model_validate({
-        "kind": "tst",
-        "meta": {"title": "Test TST"},
-        "entries": [
-            {
-                "tst_number": "TST-01",
-                "priority_class": "TST-1",
-                "category": "WMD",
-                "target_description": "Mobile launcher",
-                "expected_activity": "TEL erects for launch",
-                "pid_standard": "2 independent sensors",
-                "engagement_authority": "JFACC",
-            }
-        ],
-    })
-    assert doc.kind == "tst"
-    assert len(doc.entries) == 1
-    assert doc.entries[0].tst_number == "TST-01"
-
-
-def test_hpt_document_validates():
-    doc = HPTDocument.model_validate({
-        "kind": "hpt",
-        "meta": {"title": "Test HPT"},
-        "entries": [
-            {
-                "priority_rank": 1,
-                "category": "FIRES",
-                "target_description": "Artillery battery",
-                "signature": "Thermal hot spots",
-                "engagement_guidance": "Suppress on detection",
-            }
-        ],
-    })
-    assert doc.kind == "hpt"
-    assert len(doc.entries) == 1
-    assert doc.entries[0].priority_rank == 1
+    assert doc.kind == "cap_tracks"
+    assert doc.entries[0].name == "ANCHOR 1"
 
 
 def test_unknown_kind_rejected():
     assert DATA_SOURCE_REGISTRY.get("bogus") is None
-    assert "jpitl" in DATA_SOURCE_REGISTRY
-    assert "tst" in DATA_SOURCE_REGISTRY
-    assert "hpt" in DATA_SOURCE_REGISTRY
+    assert "cap_tracks" in DATA_SOURCE_REGISTRY
+    # JPITL, TST and HPT are authored in Annex D (and exported to OpenAIX); no standalone documents
+    for retired in ("jpitl", "tst", "hpt"):
+        assert retired not in DATA_SOURCE_REGISTRY
 
 
 def test_meta_required_fields():
@@ -163,24 +117,20 @@ def test_meta_required_fields():
 # ---------------------------------------------------------------------------
 
 def test_opord_with_data_sources_renders(tmp_path: Path):
-    # Write a standalone JPITL data-source file
-    jpitl_file = tmp_path / "jpitl.yaml"
+    # Write a standalone CAP-track data-source file
+    jpitl_file = tmp_path / "cap.yaml"
     jpitl_file.write_text(
         yaml.dump({
-            "kind": "jpitl",
-            "meta": {"title": "Test JPITL for E2E"},
+            "kind": "cap_tracks",
+            "meta": {"title": "Test CAP for E2E"},
             "entries": [
                 {
-                    "target_number": "TGT 9001",
-                    "priority_rank": 1,
-                    "target_name": "E2E Target Alpha",
-                    "target_description": "End-to-end test target",
-                    "category": "C2",
-                    "location": "32UMA999888",
-                    "component_tasked": "LAND",
-                    "desired_effect": "NEUTRALIZE",
-                    "engagement_guidance": "Fire for effect",
-                    "approval_authority": "BN CDR",
+                    "name": "E2E Track Alpha",
+                    "anchor_point": "32UMA999888",
+                    "altitude_floor_ft": 20000,
+                    "altitude_ceiling_ft": 28000,
+                    "controller_callsign": "MAGIC",
+                    "primary_freq": "251.0 AM",
                 },
             ],
         }),
@@ -200,22 +150,21 @@ def test_opord_with_data_sources_renders(tmp_path: Path):
         "  time_zone: ZULU\n"
         "mission: Test data source merge.\n"
         "annexes:\n"
-        "  - letter: D\n"
+        "  - letter: C\n"
         "    typed_body:\n"
-        "      letter: D\n"
+        "      letter: C\n"
         "data_sources:\n"
-        "  - source: jpitl.yaml\n"
-        "    target: annexes.D.typed_body.jpitl\n",
+        "  - source: cap.yaml\n"
+        "    target: annexes.C.typed_body.airspace_control.cap_tracks\n",
         encoding="utf-8",
     )
 
     opord = load_opord(main)
-    annex_d = next(a for a in opord.annexes if a.letter == "D")
-    assert annex_d.typed_body is not None
-    jpitl = annex_d.typed_body.jpitl
-    assert len(jpitl) == 1
-    assert jpitl[0].target_number == "TGT 9001"
-    assert jpitl[0].target_name == "E2E Target Alpha"
+    annex_c = next(a for a in opord.annexes if a.letter == "C")
+    assert annex_c.typed_body is not None
+    tracks = annex_c.typed_body.airspace_control.cap_tracks
+    assert len(tracks) == 1
+    assert tracks[0].name == "E2E Track Alpha"
 
 
 # ---------------------------------------------------------------------------
@@ -223,23 +172,19 @@ def test_opord_with_data_sources_renders(tmp_path: Path):
 # ---------------------------------------------------------------------------
 
 def test_data_source_receives_parent_variables(tmp_path: Path):
-    # JPITL file referencing a variable from the parent OPORD
-    jpitl_file = tmp_path / "jpitl_vars.yaml"
-    jpitl_file.write_text(
-        "kind: jpitl\n"
+    # CAP file referencing a variable from the parent OPORD
+    cap_file = tmp_path / "cap_vars.yaml"
+    cap_file.write_text(
+        "kind: cap_tracks\n"
         "meta:\n"
-        "  title: JPITL with vars\n"
+        "  title: CAP with vars\n"
         "entries:\n"
-        "  - target_number: TGT 7777\n"
-        "    priority_rank: 1\n"
-        "    target_name: '{{ op_name }} target'\n"
-        "    target_description: Test variable interop\n"
-        "    category: FIRES\n"
-        "    location: 32UMA111222\n"
-        "    component_tasked: LAND\n"
-        "    desired_effect: SUPPRESS\n"
-        "    engagement_guidance: Suppress on contact\n"
-        "    approval_authority: BCT CDR\n",
+        "  - name: '{{ op_name }} track'\n"
+        "    anchor_point: 32UMA111222\n"
+        "    altitude_floor_ft: 20000\n"
+        "    altitude_ceiling_ft: 28000\n"
+        "    controller_callsign: MAGIC\n"
+        "    primary_freq: 251.0 AM\n",
         encoding="utf-8",
     )
 
@@ -257,20 +202,20 @@ def test_data_source_receives_parent_variables(tmp_path: Path):
         "  time_zone: ZULU\n"
         "mission: Test variable pass-through.\n"
         "annexes:\n"
-        "  - letter: D\n"
+        "  - letter: C\n"
         "    typed_body:\n"
-        "      letter: D\n"
+        "      letter: C\n"
         "data_sources:\n"
-        "  - source: jpitl_vars.yaml\n"
-        "    target: annexes.D.typed_body.jpitl\n",
+        "  - source: cap_vars.yaml\n"
+        "    target: annexes.C.typed_body.airspace_control.cap_tracks\n",
         encoding="utf-8",
     )
 
     opord = load_opord(main)
-    annex_d = next(a for a in opord.annexes if a.letter == "D")
-    jpitl = annex_d.typed_body.jpitl
-    assert len(jpitl) == 1
-    assert jpitl[0].target_name == "TEST OP target"
+    annex_c = next(a for a in opord.annexes if a.letter == "C")
+    tracks = annex_c.typed_body.airspace_control.cap_tracks
+    assert len(tracks) == 1
+    assert tracks[0].name == "TEST OP track"
 
 
 def test_set_at_path_appends_to_existing_list():
@@ -294,24 +239,20 @@ def test_set_at_path_appends_to_existing_list():
 
 
 def test_inline_plus_external_sources_combine(tmp_path: Path):
-    """An OPORD with inline JPITL entries AND external data source entries
-    should render with both sets combined into one table."""
-    source = tmp_path / "ext_jpitl.yaml"
+    """An OPORD with inline CAP tracks AND external data source entries
+    should load with both sets combined into one list."""
+    source = tmp_path / "ext_cap.yaml"
     source.write_text(
-        "kind: jpitl\n"
+        "kind: cap_tracks\n"
         "meta:\n"
-        "  title: External JPITL\n"
+        "  title: External CAP\n"
         "entries:\n"
-        "  - target_number: EXT-001\n"
-        "    priority_rank: 2\n"
-        "    target_name: External target\n"
-        "    target_description: From data source\n"
-        "    category: FIRES\n"
-        "    location: 32UMA000000\n"
-        "    component_tasked: LAND\n"
-        "    desired_effect: DESTROY\n"
-        "    engagement_guidance: External guidance\n"
-        "    approval_authority: BN CDR\n",
+        "  - name: EXT-001\n"
+        "    anchor_point: 32UMA000000\n"
+        "    altitude_floor_ft: 20000\n"
+        "    altitude_ceiling_ft: 28000\n"
+        "    controller_callsign: MAGIC\n"
+        "    primary_freq: 251.0 AM\n",
         encoding="utf-8",
     )
     main = tmp_path / "main.yaml"
@@ -326,29 +267,26 @@ def test_inline_plus_external_sources_combine(tmp_path: Path):
         "  time_zone: ZULU\n"
         "mission: Test mission\n"
         "annexes:\n"
-        "  - letter: D\n"
+        "  - letter: C\n"
         "    typed_body:\n"
-        "      letter: D\n"
-        "      jpitl:\n"
-        "        - target_number: INLINE-001\n"
-        "          priority_rank: 1\n"
-        "          target_name: Inline target\n"
-        "          target_description: From OPORD inline\n"
-        "          category: C2\n"
-        "          location: 32UMA111111\n"
-        "          component_tasked: LAND\n"
-        "          desired_effect: NEUTRALIZE\n"
-        "          engagement_guidance: Inline guidance\n"
-        "          approval_authority: BCT CDR\n"
+        "      letter: C\n"
+        "      airspace_control:\n"
+        "        cap_tracks:\n"
+        "          - name: INLINE-001\n"
+        "            anchor_point: 32UMA111111\n"
+        "            altitude_floor_ft: 20000\n"
+        "            altitude_ceiling_ft: 28000\n"
+        "            controller_callsign: MAGIC\n"
+        "            primary_freq: 251.0 AM\n"
         "data_sources:\n"
-        "  - source: ext_jpitl.yaml\n"
-        "    target: annexes.D.typed_body.jpitl\n",
+        "  - source: ext_cap.yaml\n"
+        "    target: annexes.C.typed_body.airspace_control.cap_tracks\n",
         encoding="utf-8",
     )
 
     opord = load_opord(main)
-    annex_d = next(a for a in opord.annexes if a.letter == "D")
-    jpitl = annex_d.typed_body.jpitl
-    assert len(jpitl) == 2
-    assert jpitl[0].target_number == "INLINE-001"
-    assert jpitl[1].target_number == "EXT-001"
+    annex_c = next(a for a in opord.annexes if a.letter == "C")
+    tracks = annex_c.typed_body.airspace_control.cap_tracks
+    assert len(tracks) == 2
+    assert tracks[0].name == "INLINE-001"
+    assert tracks[1].name == "EXT-001"

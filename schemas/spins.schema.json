@@ -1,0 +1,1661 @@
+{
+  "$defs": {
+    "AddBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "add",
+          "title": "Op",
+          "type": "string"
+        },
+        "parent": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Section/paragraph container; omitted means document root.",
+          "title": "Parent"
+        },
+        "after": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sibling after which to insert; omitted means append.",
+          "title": "After"
+        },
+        "block": {
+          "discriminator": {
+            "mapping": {
+              "figure": "#/$defs/FigureBlock",
+              "list": "#/$defs/ListBlock",
+              "note": "#/$defs/NoteBlock",
+              "openaix_table": "#/$defs/OpenAIXTableBlock",
+              "paragraph": "#/$defs/Paragraph",
+              "reference": "#/$defs/ReferenceBlock",
+              "section": "#/$defs/Section",
+              "source_table": "#/$defs/SourceTableBlock",
+              "table": "#/$defs/TableBlock"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Section"
+            },
+            {
+              "$ref": "#/$defs/Paragraph"
+            },
+            {
+              "$ref": "#/$defs/ListBlock"
+            },
+            {
+              "$ref": "#/$defs/TableBlock"
+            },
+            {
+              "$ref": "#/$defs/SourceTableBlock"
+            },
+            {
+              "$ref": "#/$defs/OpenAIXTableBlock"
+            },
+            {
+              "$ref": "#/$defs/FigureBlock"
+            },
+            {
+              "$ref": "#/$defs/NoteBlock"
+            },
+            {
+              "$ref": "#/$defs/ReferenceBlock"
+            }
+          ],
+          "title": "Block"
+        },
+        "before": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sibling before which to insert; mutually exclusive with after.",
+          "title": "Before"
+        }
+      },
+      "required": [
+        "op",
+        "block"
+      ],
+      "title": "AddBlock",
+      "type": "object"
+    },
+    "Citation": {
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "title": "Citation",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        }
+      },
+      "required": [
+        "citation"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "ClassificationLevel": {
+      "description": "U.S. Government classification markings permitted on an OPORD banner.",
+      "enum": [
+        "UNCLASSIFIED",
+        "CUI",
+        "CONFIDENTIAL",
+        "SECRET",
+        "TOP SECRET"
+      ],
+      "title": "ClassificationLevel",
+      "type": "string"
+    },
+    "CrossReference": {
+      "additionalProperties": false,
+      "properties": {
+        "target": {
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "title": "Target",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "title": "CrossReference",
+      "type": "object"
+    },
+    "FigureBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "figure",
+          "title": "Kind",
+          "type": "string"
+        },
+        "caption": {
+          "minLength": 1,
+          "title": "Caption",
+          "type": "string"
+        },
+        "alt": {
+          "minLength": 1,
+          "title": "Alt",
+          "type": "string"
+        },
+        "src": {
+          "description": "Local PNG, JPEG, GIF, WebP, or SVG, relative to the owning SPINS file.",
+          "minLength": 1,
+          "title": "Src",
+          "type": "string"
+        },
+        "width_percent": {
+          "default": 100,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Width Percent",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "caption",
+        "alt",
+        "src"
+      ],
+      "title": "FigureBlock",
+      "type": "object"
+    },
+    "ListBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "list",
+          "title": "Kind",
+          "type": "string"
+        },
+        "style": {
+          "default": "bullet",
+          "enum": [
+            "bullet",
+            "decimal",
+            "lower_alpha",
+            "upper_alpha",
+            "lower_roman",
+            "upper_roman"
+          ],
+          "title": "Style",
+          "type": "string"
+        },
+        "start": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Start",
+          "type": "integer"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/ListItem"
+          },
+          "minItems": 1,
+          "title": "Items",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "items"
+      ],
+      "title": "ListBlock",
+      "type": "object"
+    },
+    "ListItem": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/TextRun"
+                  },
+                  {
+                    "$ref": "#/$defs/CrossReference"
+                  },
+                  {
+                    "$ref": "#/$defs/Citation"
+                  }
+                ]
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          ],
+          "title": "Text"
+        },
+        "blocks": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "figure": "#/$defs/FigureBlock",
+                "list": "#/$defs/ListBlock",
+                "note": "#/$defs/NoteBlock",
+                "openaix_table": "#/$defs/OpenAIXTableBlock",
+                "paragraph": "#/$defs/Paragraph",
+                "reference": "#/$defs/ReferenceBlock",
+                "section": "#/$defs/Section",
+                "source_table": "#/$defs/SourceTableBlock",
+                "table": "#/$defs/TableBlock"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/Section"
+              },
+              {
+                "$ref": "#/$defs/Paragraph"
+              },
+              {
+                "$ref": "#/$defs/ListBlock"
+              },
+              {
+                "$ref": "#/$defs/TableBlock"
+              },
+              {
+                "$ref": "#/$defs/SourceTableBlock"
+              },
+              {
+                "$ref": "#/$defs/OpenAIXTableBlock"
+              },
+              {
+                "$ref": "#/$defs/FigureBlock"
+              },
+              {
+                "$ref": "#/$defs/NoteBlock"
+              },
+              {
+                "$ref": "#/$defs/ReferenceBlock"
+              }
+            ]
+          },
+          "title": "Blocks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "ListItem",
+      "type": "object"
+    },
+    "NoteBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "note",
+          "title": "Kind",
+          "type": "string"
+        },
+        "heading": {
+          "default": "NOTE",
+          "minLength": 1,
+          "title": "Heading",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/TextRun"
+                  },
+                  {
+                    "$ref": "#/$defs/CrossReference"
+                  },
+                  {
+                    "$ref": "#/$defs/Citation"
+                  }
+                ]
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          ],
+          "title": "Text"
+        }
+      },
+      "required": [
+        "kind",
+        "text"
+      ],
+      "title": "NoteBlock",
+      "type": "object"
+    },
+    "OpenAIXColumn": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Key",
+          "type": "string"
+        },
+        "heading": {
+          "minLength": 1,
+          "title": "Heading",
+          "type": "string"
+        },
+        "align": {
+          "default": "left",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ],
+          "title": "Align",
+          "type": "string"
+        },
+        "field": {
+          "description": "JSON Pointer relative to the row; '' is the row itself and '#key' is the map key.",
+          "pattern": "^(#key|(/([^/~]|~[01])*)*)$",
+          "title": "Field",
+          "type": "string"
+        },
+        "lookup": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Replace identifiers by the named record: 'airfield' or '<source>:<pointer to a map keyed by id>'.",
+          "title": "Lookup"
+        }
+      },
+      "required": [
+        "key",
+        "heading",
+        "field"
+      ],
+      "title": "OpenAIXColumn",
+      "type": "object"
+    },
+    "OpenAIXTableBlock": {
+      "additionalProperties": false,
+      "description": "A table built from typed OpenAIX data named by the document's `openaix` references.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "openaix_table",
+          "title": "Kind",
+          "type": "string"
+        },
+        "caption": {
+          "minLength": 1,
+          "title": "Caption",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "ato",
+            "aco",
+            "spins",
+            "resources",
+            "airfield"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "pointer": {
+          "description": "Where in the source document the rows are: an array (one row per item), or an object (one row).",
+          "pattern": "^(/([^/~]|~[01])*)*$",
+          "title": "Pointer",
+          "type": "string"
+        },
+        "columns": {
+          "items": {
+            "$ref": "#/$defs/OpenAIXColumn"
+          },
+          "minItems": 1,
+          "title": "Columns",
+          "type": "array"
+        },
+        "rows": {
+          "default": "auto",
+          "description": "auto: array items, or one row for an object. entries: one row per value of a map (use field '#key' for its key).",
+          "enum": [
+            "auto",
+            "items",
+            "entries",
+            "single"
+          ],
+          "title": "Rows",
+          "type": "string"
+        },
+        "require": {
+          "description": "Drop rows in which any of these relative pointers is absent or empty.",
+          "items": {
+            "description": "JSON Pointer relative to the row; '' is the row itself and '#key' is the map key.",
+            "pattern": "^(#key|(/([^/~]|~[01])*)*)$",
+            "type": "string"
+          },
+          "title": "Require",
+          "type": "array"
+        },
+        "empty": {
+          "default": "error",
+          "description": "When no rows result: raise an error, drop the block (and any section left empty), or print a 'not provided' note.",
+          "enum": [
+            "error",
+            "skip",
+            "notice"
+          ],
+          "title": "Empty",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "caption",
+        "source",
+        "pointer",
+        "columns"
+      ],
+      "title": "OpenAIXTableBlock",
+      "type": "object"
+    },
+    "Paragraph": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "paragraph",
+          "title": "Kind",
+          "type": "string"
+        },
+        "lead": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/TextRun"
+                  },
+                  {
+                    "$ref": "#/$defs/CrossReference"
+                  },
+                  {
+                    "$ref": "#/$defs/Citation"
+                  }
+                ]
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/TextRun"
+                  },
+                  {
+                    "$ref": "#/$defs/CrossReference"
+                  },
+                  {
+                    "$ref": "#/$defs/Citation"
+                  }
+                ]
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          ],
+          "title": "Text"
+        },
+        "blocks": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "figure": "#/$defs/FigureBlock",
+                "list": "#/$defs/ListBlock",
+                "note": "#/$defs/NoteBlock",
+                "openaix_table": "#/$defs/OpenAIXTableBlock",
+                "paragraph": "#/$defs/Paragraph",
+                "reference": "#/$defs/ReferenceBlock",
+                "section": "#/$defs/Section",
+                "source_table": "#/$defs/SourceTableBlock",
+                "table": "#/$defs/TableBlock"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/Section"
+              },
+              {
+                "$ref": "#/$defs/Paragraph"
+              },
+              {
+                "$ref": "#/$defs/ListBlock"
+              },
+              {
+                "$ref": "#/$defs/TableBlock"
+              },
+              {
+                "$ref": "#/$defs/SourceTableBlock"
+              },
+              {
+                "$ref": "#/$defs/OpenAIXTableBlock"
+              },
+              {
+                "$ref": "#/$defs/FigureBlock"
+              },
+              {
+                "$ref": "#/$defs/NoteBlock"
+              },
+              {
+                "$ref": "#/$defs/ReferenceBlock"
+              }
+            ]
+          },
+          "title": "Blocks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "text"
+      ],
+      "title": "Paragraph",
+      "type": "object"
+    },
+    "PinnedPublication": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "path"
+      ],
+      "title": "PinnedPublication",
+      "type": "object"
+    },
+    "Presentation": {
+      "additionalProperties": false,
+      "properties": {
+        "font": {
+          "default": "serif",
+          "enum": [
+            "serif",
+            "sans",
+            "monospace"
+          ],
+          "title": "Font",
+          "type": "string"
+        },
+        "text_case": {
+          "default": "preserve",
+          "enum": [
+            "preserve",
+            "uppercase"
+          ],
+          "title": "Text Case",
+          "type": "string"
+        },
+        "page_size": {
+          "default": "A4",
+          "enum": [
+            "A4",
+            "Letter"
+          ],
+          "title": "Page Size",
+          "type": "string"
+        },
+        "contents": {
+          "default": true,
+          "title": "Contents",
+          "type": "boolean"
+        }
+      },
+      "title": "Presentation",
+      "type": "object"
+    },
+    "PublicationMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "revision": {
+          "minLength": 1,
+          "title": "Revision",
+          "type": "string"
+        },
+        "operation": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operation"
+        },
+        "issuing_unit": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issuing Unit"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author"
+        },
+        "issued_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issued At"
+        },
+        "classification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClassificationLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "handling": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Handling"
+        },
+        "references": {
+          "items": {
+            "$ref": "#/$defs/PublicationReference"
+          },
+          "title": "References",
+          "type": "array"
+        },
+        "distribution": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Distribution",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "revision"
+      ],
+      "title": "PublicationMetadata",
+      "type": "object"
+    },
+    "PublicationPeriod": {
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "format": "date-time",
+          "title": "Start",
+          "type": "string"
+        },
+        "end": {
+          "format": "date-time",
+          "title": "End",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "PublicationPeriod",
+      "type": "object"
+    },
+    "PublicationReference": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Author"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Date"
+        },
+        "locator": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Locator"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "id",
+        "title"
+      ],
+      "title": "PublicationReference",
+      "type": "object"
+    },
+    "ReferenceBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "reference",
+          "title": "Kind",
+          "type": "string"
+        },
+        "reference": {
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "title": "Reference",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "reference"
+      ],
+      "title": "ReferenceBlock",
+      "type": "object"
+    },
+    "RemoveBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "remove",
+          "title": "Op",
+          "type": "string"
+        },
+        "target": {
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "target"
+      ],
+      "title": "RemoveBlock",
+      "type": "object"
+    },
+    "ReplaceBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "replace",
+          "title": "Op",
+          "type": "string"
+        },
+        "target": {
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "title": "Target",
+          "type": "string"
+        },
+        "block": {
+          "discriminator": {
+            "mapping": {
+              "figure": "#/$defs/FigureBlock",
+              "list": "#/$defs/ListBlock",
+              "note": "#/$defs/NoteBlock",
+              "openaix_table": "#/$defs/OpenAIXTableBlock",
+              "paragraph": "#/$defs/Paragraph",
+              "reference": "#/$defs/ReferenceBlock",
+              "section": "#/$defs/Section",
+              "source_table": "#/$defs/SourceTableBlock",
+              "table": "#/$defs/TableBlock"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Section"
+            },
+            {
+              "$ref": "#/$defs/Paragraph"
+            },
+            {
+              "$ref": "#/$defs/ListBlock"
+            },
+            {
+              "$ref": "#/$defs/TableBlock"
+            },
+            {
+              "$ref": "#/$defs/SourceTableBlock"
+            },
+            {
+              "$ref": "#/$defs/OpenAIXTableBlock"
+            },
+            {
+              "$ref": "#/$defs/FigureBlock"
+            },
+            {
+              "$ref": "#/$defs/NoteBlock"
+            },
+            {
+              "$ref": "#/$defs/ReferenceBlock"
+            }
+          ],
+          "title": "Block"
+        }
+      },
+      "required": [
+        "op",
+        "target",
+        "block"
+      ],
+      "title": "ReplaceBlock",
+      "type": "object"
+    },
+    "Section": {
+      "additionalProperties": false,
+      "description": "A titled container. Part, annex, and appendix roles start a numbering scope.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "section",
+          "title": "Kind",
+          "type": "string"
+        },
+        "role": {
+          "default": "section",
+          "enum": [
+            "part",
+            "section",
+            "annex",
+            "appendix"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "blocks": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "figure": "#/$defs/FigureBlock",
+                "list": "#/$defs/ListBlock",
+                "note": "#/$defs/NoteBlock",
+                "openaix_table": "#/$defs/OpenAIXTableBlock",
+                "paragraph": "#/$defs/Paragraph",
+                "reference": "#/$defs/ReferenceBlock",
+                "section": "#/$defs/Section",
+                "source_table": "#/$defs/SourceTableBlock",
+                "table": "#/$defs/TableBlock"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/Section"
+              },
+              {
+                "$ref": "#/$defs/Paragraph"
+              },
+              {
+                "$ref": "#/$defs/ListBlock"
+              },
+              {
+                "$ref": "#/$defs/TableBlock"
+              },
+              {
+                "$ref": "#/$defs/SourceTableBlock"
+              },
+              {
+                "$ref": "#/$defs/OpenAIXTableBlock"
+              },
+              {
+                "$ref": "#/$defs/FigureBlock"
+              },
+              {
+                "$ref": "#/$defs/NoteBlock"
+              },
+              {
+                "$ref": "#/$defs/ReferenceBlock"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Blocks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "title",
+        "blocks"
+      ],
+      "title": "Section",
+      "type": "object"
+    },
+    "SourceColumn": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Key",
+          "type": "string"
+        },
+        "heading": {
+          "minLength": 1,
+          "title": "Heading",
+          "type": "string"
+        },
+        "align": {
+          "default": "left",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ],
+          "title": "Align",
+          "type": "string"
+        },
+        "field": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Field",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "heading",
+        "field"
+      ],
+      "title": "SourceColumn",
+      "type": "object"
+    },
+    "SourceTableBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "source_table",
+          "title": "Kind",
+          "type": "string"
+        },
+        "caption": {
+          "minLength": 1,
+          "title": "Caption",
+          "type": "string"
+        },
+        "source": {
+          "description": "Local standalone data-source YAML, relative to the owning SPINS file.",
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "columns": {
+          "items": {
+            "$ref": "#/$defs/SourceColumn"
+          },
+          "minItems": 1,
+          "title": "Columns",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "caption",
+        "source",
+        "columns"
+      ],
+      "title": "SourceTableBlock",
+      "type": "object"
+    },
+    "SpinsOpenAIXRefs": {
+      "additionalProperties": false,
+      "description": "OpenAIX files (relative to this YAML) that `openaix_table` blocks read.",
+      "properties": {
+        "ato": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path to an OpenAIX ATO document (flights, missions, tasking).",
+          "title": "Ato"
+        },
+        "aco": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path to an OpenAIX ACO document (airspace control measures).",
+          "title": "Aco"
+        },
+        "resources": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path to an OpenAIX resources document (channels, frequencies, callsigns).",
+          "title": "Resources"
+        },
+        "spins": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path to an OpenAIX SPINS document (typed SPINS data).",
+          "title": "Spins"
+        },
+        "airfields": {
+          "description": "Paths to OpenAIX airfield, FARP or carrier records (source 'airfield').",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Airfields",
+          "type": "array"
+        }
+      },
+      "title": "SpinsOpenAIXRefs",
+      "type": "object"
+    },
+    "TableBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stable name for links or amendments; printed numbers are automatic.",
+          "title": "Id"
+        },
+        "kind": {
+          "const": "table",
+          "title": "Kind",
+          "type": "string"
+        },
+        "caption": {
+          "minLength": 1,
+          "title": "Caption",
+          "type": "string"
+        },
+        "columns": {
+          "items": {
+            "$ref": "#/$defs/TableColumn"
+          },
+          "minItems": 1,
+          "title": "Columns",
+          "type": "array"
+        },
+        "rows": {
+          "items": {
+            "patternProperties": {
+              "^[a-z][a-z0-9_]*$": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/TextRun"
+                        },
+                        {
+                          "$ref": "#/$defs/CrossReference"
+                        },
+                        {
+                          "$ref": "#/$defs/Citation"
+                        }
+                      ]
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "type": "object"
+          },
+          "minItems": 1,
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "caption",
+        "columns",
+        "rows"
+      ],
+      "title": "TableBlock",
+      "type": "object"
+    },
+    "TableColumn": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Key",
+          "type": "string"
+        },
+        "heading": {
+          "minLength": 1,
+          "title": "Heading",
+          "type": "string"
+        },
+        "align": {
+          "default": "left",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ],
+          "title": "Align",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "heading"
+      ],
+      "title": "TableColumn",
+      "type": "object"
+    },
+    "TextRun": {
+      "additionalProperties": false,
+      "description": "Inline text preserves spaces between adjacent runs.",
+      "properties": {
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "marks": {
+          "items": {
+            "enum": [
+              "bold",
+              "italic",
+              "underline",
+              "code"
+            ],
+            "type": "string"
+          },
+          "title": "Marks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TextRun",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Ordered publication blocks with automatic numbering and optional standing amendments.",
+  "properties": {
+    "kind": {
+      "const": "spins",
+      "title": "Kind",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "0.3",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "#/$defs/PublicationMetadata"
+    },
+    "scope": {
+      "enum": [
+        "standing",
+        "mission"
+      ],
+      "title": "Scope",
+      "type": "string"
+    },
+    "period": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PublicationPeriod"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "presentation": {
+      "$ref": "#/$defs/Presentation"
+    },
+    "openaix": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SpinsOpenAIXRefs"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "OpenAIX files that `openaix_table` blocks read, relative to this YAML."
+    },
+    "content": {
+      "description": "Instructions in reading order. Numbering follows the effective hierarchy after amendments.",
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "figure": "#/$defs/FigureBlock",
+            "list": "#/$defs/ListBlock",
+            "note": "#/$defs/NoteBlock",
+            "openaix_table": "#/$defs/OpenAIXTableBlock",
+            "paragraph": "#/$defs/Paragraph",
+            "reference": "#/$defs/ReferenceBlock",
+            "section": "#/$defs/Section",
+            "source_table": "#/$defs/SourceTableBlock",
+            "table": "#/$defs/TableBlock"
+          },
+          "propertyName": "kind"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/Section"
+          },
+          {
+            "$ref": "#/$defs/Paragraph"
+          },
+          {
+            "$ref": "#/$defs/ListBlock"
+          },
+          {
+            "$ref": "#/$defs/TableBlock"
+          },
+          {
+            "$ref": "#/$defs/SourceTableBlock"
+          },
+          {
+            "$ref": "#/$defs/OpenAIXTableBlock"
+          },
+          {
+            "$ref": "#/$defs/FigureBlock"
+          },
+          {
+            "$ref": "#/$defs/NoteBlock"
+          },
+          {
+            "$ref": "#/$defs/ReferenceBlock"
+          }
+        ]
+      },
+      "title": "Content",
+      "type": "array"
+    },
+    "base": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PinnedPublication"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "changes": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "add": "#/$defs/AddBlock",
+            "remove": "#/$defs/RemoveBlock",
+            "replace": "#/$defs/ReplaceBlock"
+          },
+          "propertyName": "op"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/AddBlock"
+          },
+          {
+            "$ref": "#/$defs/ReplaceBlock"
+          },
+          {
+            "$ref": "#/$defs/RemoveBlock"
+          }
+        ]
+      },
+      "title": "Changes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "meta",
+    "scope"
+  ],
+  "title": "SPINS",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/opord-builder/opord-builder/schemas/spins.schema.json"
+}

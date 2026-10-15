@@ -1,0 +1,2512 @@
+{
+  "aliases": {
+    "HIMEZ": {
+      "code": "MEZ",
+      "definition_source": {
+        "locator": "Chapter V, para 7.b(1)(b) HIMEZ, page V-11",
+        "source": "joint-jp-3-01-2012"
+      },
+      "name": "High-Altitude Missile Engagement Zone",
+      "values": {
+        "mez_kind": "high"
+      }
+    },
+    "LOMEZ": {
+      "code": "MEZ",
+      "definition_source": {
+        "locator": "Chapter V, para 7.b(1)(c) LOMEZ, page V-11",
+        "source": "joint-jp-3-01-2012"
+      },
+      "name": "Low- to Medium-Altitude Missile Engagement Zone",
+      "values": {
+        "mez_kind": "low"
+      }
+    },
+    "ROA": {
+      "code": "ROZ",
+      "definition_source": {
+        "locator": "Annex B to Appendix C, Figure C-B-1, pages C-B-4 and C-B-20; glossary, page GL-9",
+        "note": "JP 3-52 (2014) replaces the Restricted Operations Area with the Restricted Operations Zone, in its summary of changes. FM 3-52 (2013), paragraph D-9, tells that it is one of the functions of the Restricted Operations Zone.",
+        "source": "joint-jp-3-52-2004"
+      },
+      "name": "Restricted Operations Area",
+      "values": {}
+    },
+    "SHORADEZ": {
+      "code": "MEZ",
+      "definition_source": {
+        "locator": "Chapter V, paragraph 7.b(2)(c)1.a(3), page V-9",
+        "source": "joint-jp-3-01-2017"
+      },
+      "name": "Short-Range Air Defense Engagement Zone",
+      "values": {
+        "mez_kind": "short_range"
+      }
+    }
+  },
+  "schema_version": "0.1.0-draft.2",
+  "types": [
+    {
+      "category": "mcm",
+      "code": "AA",
+      "definition": "An assembly area (AA) is an area where a unit makes its preparation for an operation.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph A-8, page A-3",
+        "note": "This code is not in AJP-3.3.5 Annex B. Its measure category is `mcm`, the manoeuvre control measures of Annex B. It is with the movement and manoeuvre control measures in FM 3-90 (2023) Appendix A.",
+        "references": [
+          {
+            "locator": "Table 5-4, page 155",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-fm-3-90-2023"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Assembly Area",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "AARA",
+      "definition": "An air-to-air refuelling area (AARA) is airspace of defined dimensions for air-to-air refuelling operations. Other airspace users stay out of it, unless they coordinate with its controlling authority.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-6",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Air-to-Air Refuelling Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "ACA",
+      "definition": "An airspace coordination area (ACA) is a block or corridor of airspace above a target area. In it, friendly aircraft are reasonably safe from friendly surface fires. The airspace control authority establishes a formal airspace coordination area on the request of a component. It has a minimum altitude, a maximum altitude, a baseline, a width on each side of the baseline and effective times. In an informal airspace coordination area, time, lateral distance or altitude keeps aircraft and surface fires apart. A battalion or higher headquarters gives approval for it.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph 5.d (Airspace Coordinating Measures), pages A-12 to A-13; (1) Purpose on A-12, (2) Establishment A-12/A-13, (3) Graphic Portrayal A-13. Glossary GL-6.",
+        "note": "Its measure category is `acm`, because JP 3-09 puts the airspace coordination area (ACA) in Appendix A paragraph 5, Airspace Coordinating Measures. This code is not in AJP-3.3.5 Annex B.",
+        "source": "joint-jp-3-09"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Airspace Coordination Area",
+      "schema": "urn:openaix:schema:measure-aca:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "ACAR",
+      "definition": "An airspace control area (ACAR) is airspace with lateral limits that follow the boundaries of the area of operations. It is the basic geographic element of airspace control. It can contain airspace control sub-areas.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-6",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Airspace Control Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "ACCA",
+      "definition": "An airborne command and control area (ACCA) is airspace of defined dimensions, only for aircraft that do battlefield command and control.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-6",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Airborne Command and Control Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "arm",
+      "code": "ACP",
+      "definition": "An air control point (ACP) is a specified point for navigation, command and control, and communication. Aircraft fly through air reference measures without coordination.",
+      "definition_source": {
+        "locator": "Annex B, Table B-4, page B-13",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Air Control Point",
+      "projection": {
+        "roles": [
+          "control"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "ADIZ",
+      "definition": "An air defence identification zone (ADIZ) is airspace of defined dimensions in which the identification, location and control of aircraft is immediately necessary.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-14",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Air Defence Identification Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "ADS",
+      "definition": "An air defence sector (ADS) is a geographical subdivision of an air defence region. An air defence region is a geographical subdivision of an air defence area.",
+      "definition_source": {
+        "locator": "Glossary, Part II, page GL-7",
+        "references": [
+          {
+            "locator": "Entry air defense sector, page 11; acronym ADS, page 240",
+            "note": "The DOD Dictionary gives the same definition, with JP 3-01 as its source. An air defense region is a geographical subdivision of an air defense area (JP 3-01, page GL-7).",
+            "source": "joint-dod-dictionary-2021"
+          }
+        ],
+        "source": "joint-jp-3-01-2017"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Air Defense Sector",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "ADVRTE",
+      "definition": "An advisory route (ADVRTE) is a designated route along which air traffic advisory service is available.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-17",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Advisory Route",
+      "projection": {
+        "airway_type": "advisory",
+        "type": "AIRWAY"
+      },
+      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "AEWA",
+      "definition": "An airborne early warning area (AEWA) is airspace of defined dimensions, only for aircraft that do airborne early warning.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-6",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Airborne Early Warning Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "AIRCOR",
+      "definition": "An air corridor (AIRCOR) is a restricted air route of travel for friendly aircraft. Its function is to prevent friendly forces from firing on friendly aircraft. Its altitudes are not more than the coordinating altitude, when there is one.",
+      "definition_source": {
+        "locator": "Appendix C, Figure C-1, Airspace Coordinating Measures, Air Corridor (1 of 2), page C-2; glossary, page GL-2",
+        "note": "In JP 3-52 (2014), the air corridor is the parent type of `MRR`, `TMRR`, `TC`, `TR`, `LLTR`, `SC` and `SAAFR`. OpenAIX keeps those as different codes and uses `AIRCOR` for a general air corridor.",
+        "source": "joint-jp-3-52-2014"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Air Corridor",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "AIRRTE",
+      "definition": "An air route (AIRRTE) is the navigable airspace between two points, with only the identification that is necessary to apply flight rules. It is a bi-directional route. It can go through air defences as a minimum-risk route. Only support traffic uses it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-6",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "line",
+        "corridor",
+        "path",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Air Route",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "ALTRV",
+      "definition": "An altitude reservation (ALTRV) is a block of altitude for aircraft to transit or loiter. The altitude reservation is moving or stationary. It always has an upper and a lower limit, and it can also have lateral limits.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-17",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Altitude Reservation",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "AOA",
+      "definition": "An amphibious objective area (AOA) is a geographical area that the initiating directive gives for command and control. It contains the objectives that the amphibious task force is to make safe.",
+      "definition_source": {
+        "locator": "Annex B, Table B-3, page B-12",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Amphibious Objective Area",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "AOR",
+      "definition": "An area of responsibility (AOR) is the geographic area of a commander, in which that commander has the authority to plan and conduct operations. The airspace control area (ACAR) can be the same as the AOR of a regional commander. It can be the same as the joint operations area of the commander of the joint force command. The ACAR can also be smaller than the AOR, because of limits of nations or of International Civil Aviation Organization (ICAO), or larger.",
+      "definition_source": {
+        "locator": "Paragraph 3.1, page 11; paragraph 4.2, page 21",
+        "note": "AJP-3.3.5 uses area of responsibility (AOR), but it does not give a definition or a measure category for it. The measure category `mcm` is an openAIX group. FM 1-02.1 (2026) page 6 gives the definition of the Department of Defense from JP 1 Volume 1.",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Area of Responsibility",
+      "schema": "urn:openaix:schema:measure-aor:0.1.0-draft.2"
+    },
+    {
+      "category": "mdm",
+      "code": "APPCOR",
+      "definition": "An approach corridor (APPCOR) is airspace for the safe passage of land-based aircraft that join a maritime force or go from it. The corridor usually goes from an entry and exit gate to the centre of the force. Its inner boundary is the identification safety range (ISR).",
+      "definition_source": {
+        "locator": "Annex B, Table B-6, page B-16",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Approach Corridor",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "ARWY",
+      "definition": "An airway (ARWY) is a control area, or a part of it, in the shape of a corridor. Radio navigation aids identify the corridor.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-17",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Airway",
+      "projection": {
+        "airway_type": "airway",
+        "type": "AIRWAY"
+      },
+      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "ATSRTE",
+      "definition": "An air traffic services route (ATSRTE) is a specified route that channels the flow of traffic, as necessary to supply air traffic services.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-17",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Air Traffic Services Route",
+      "projection": {
+        "airway_type": "air_traffic_services",
+        "type": "AIRWAY"
+      },
+      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+    },
+    {
+      "category": "fscm",
+      "code": "BCL",
+      "definition": "A battlefield coordination line (BCL) is a fire support coordination measure of the Marine Corps. Between it and the fire support coordination line (FSCL), Marine air-ground task force (MAGTF) aviation quickly attacks surface targets of opportunity. The approval of the ground combat element (GCE) commander of the area where the targets are is not necessary. The MAGTF commander establishes the BCL. An airspace coordination area (ACA) or a kill box usually includes the area between the BCL and the FSCL.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph 2.b(2)(a) Purpose and 2.b(2)(b) Establishment, page A-3; 2.b(2)(c) and (d), page A-4",
+        "note": "JP 3-09 (2019) puts the battlefield coordination line (BCL) with the permissive fire support coordination measures, page A-2. There is no joint definition, thus the source text is the paragraph that gives its function.",
+        "references": [
+          {
+            "locator": "Chapter III, paragraph 14.a(1)(c), page III-65",
+            "note": "A USMC supplementary FSCM; an ACA always covers the area between the BCL and the FSCL.",
+            "source": "joint-jp-3-09-3-2014"
+          }
+        ],
+        "source": "joint-jp-3-09-2019"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Battlefield Coordination Line",
+      "schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "BDZ",
+      "definition": "A base defence zone (BDZ) is airspace around a base that increases the effectiveness of its air defence systems. Transit routes should avoid it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-14",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Base Defence Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "BOUNDARY",
+      "definition": "A boundary is a line that delineates surface areas for the coordination and deconfliction of operations. These operations are between units, formations or areas that are next to each other.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph A-16, page A-6",
+        "note": "FM 1-02.2 (2025) gives no short name for a boundary, thus the code is the full name, as for `BULLSEYE`. This code is not in AJP-3.3.5 Annex B. Its measure category is `mcm`, the manoeuvre control measures of Annex B. It is with the movement and manoeuvre control measures in FM 3-90 (2023) Appendix A.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph 4.a(1), page A-10",
+            "note": "A boundary is a maneuver control measure.",
+            "source": "joint-jp-3-09"
+          },
+          {
+            "locator": "Paragraph 5-14 and Table 5-3, pages 152 and 153",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-fm-3-90-2023"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Boundary",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "BP",
+      "definition": "A battle position (BP) is a defence location in the direction of a likely enemy avenue of approach. It is not an area of operations.",
+      "definition_source": {
+        "locator": "Chapter 4, paragraph 4-22, page 4-4",
+        "note": "This is the ground battle position. The attack helicopter battle position of FM 1-02.1 (2026), page 10, is a different measure. ADP 3-90 puts it with the defence control measures, thus its measure category is `mcm`, the manoeuvre control measures of Annex B. This code is not in AJP-3.3.5 Annex B.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph A-63, page A-19",
+            "source": "army-fm-3-90-2023"
+          },
+          {
+            "locator": "Table 5-5, page 160",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-adp-3-90-2019"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Battle Position",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "arm",
+      "code": "BULLSEYE",
+      "definition": "A bullseye is a reference point for the position of an object, as a magnetic bearing and a range in nautical miles from the point. The bearing and the range go to the nearest degree and the nearest nautical mile. A group within 5 nautical miles of the point is `at BULLSEYE`. The special instructions (SPINS) can give the point a code name.",
+      "definition_source": {
+        "locator": "Chapter IV, section 4 'GROUP Location', paragraph a.(1)-(2), page 26",
+        "note": "The measure category `arm` is an openAIX group for an air reference point. The publication gives no measure category of Annex B.",
+        "references": [
+          {
+            "locator": "Chapter IV, GROUP location, page 22",
+            "note": "Same wording in the 2 September 2021 edition; this locator is for that edition only.",
+            "source": "alssa-air-control-2021"
+          }
+        ],
+        "source": "alssa-air-control-2024"
+      },
+      "name": "Bullseye",
+      "projection": {
+        "roles": [
+          "bullseye"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "arm",
+      "code": "BZ",
+      "definition": "A buffer zone (BZ) is airspace that is a buffer between coordination measures. It is an air reference measure, thus aircraft go through it without coordination.",
+      "definition_source": {
+        "locator": "Annex B, Table B-4, page B-13",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Buffer Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "CA",
+      "definition": "A coordinating altitude (CA) is an airspace coordinating measure that uses altitude to separate users and as the transition between different airspace control elements. Airspace users should coordinate with these elements before they fly or fire through it.",
+      "definition_source": {
+        "locator": "Chapter III, paragraph 6.d, page III-6; Appendix C, Figure C-3, page C-6; glossary, page GL-4",
+        "note": "JP 3-52 keeps the coordinating altitude (CA) and its coordination level as two airspace coordinating measures that are different. That coordination level divides the airspace between fixed-wing and rotary-wing aircraft. The North Atlantic Treaty Organization (NATO) coordination level (CL) of AJP-3.3.5 sets airspace control responsibilities, as the CA does. AJP-3.3.5 has no coordinating altitude. The CA uses the CL contract.",
+        "references": [
+          {
+            "locator": "Appendix B, Table B-3, pages B-6 and B-7",
+            "note": "The CA should be measured in MSL, has no lateral limits of its own and is normally absent beyond the FSCL or in an active kill box.",
+            "source": "army-fm-3-52-2016"
+          },
+          {
+            "locator": "Page 50",
+            "source": "joint-dod-dictionary-2021"
+          }
+        ],
+        "source": "joint-jp-3-52-2014"
+      },
+      "geometries": [
+        "vertical"
+      ],
+      "geometry_path": "geometry",
+      "name": "Coordinating Altitude",
+      "schema": "urn:openaix:schema:measure-cl:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "CADA",
+      "definition": "A coordinated air defence area (CADA) is a block of airspace that a land-based air commander and a naval commander agree together. They agree it when their forces operate close to each other. It sets the limits of their air defence responsibilities.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-14",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Coordinated Air Defence Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "CBA",
+      "definition": "A cross-border area (CBA) is a temporary segregated area above an international boundary for a specified operational need. Only its designated users can fly in it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-6",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Cross-Border Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "mdm",
+      "code": "CCZONE",
+      "definition": "A carrier control zone (CCZONE) is an area around an aircraft carrier that operates fixed-wing or rotary-wing aircraft. The carrier controls the area for carrier flight operations.",
+      "definition_source": {
+        "locator": "Annex B, Table B-6, page B-16",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Carrier Control Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "CDR",
+      "definition": "A conditional route (CDR) is an air traffic services (ATS) route, or a part of it, that is non-permanent. Aircraft plan and use it only under stated conditions.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-18",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Conditional Route",
+      "projection": {
+        "airway_type": "conditional",
+        "type": "AIRWAY"
+      },
+      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+    },
+    {
+      "category": "fscm",
+      "code": "CFL",
+      "definition": "A coordinated fire line (CFL) is a line that a land headquarters sets. Beyond this line, conventional indirect surface fire support means may fire at any time without further coordination. This is applicable only in the boundaries of the establishing headquarters.",
+      "definition_source": {
+        "locator": "Annex B, Table B-2, page B-10",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Coordinated Fire Line",
+      "schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "CL",
+      "definition": "A coordination level (CL) is one altitude or height that sets airspace control responsibilities. The CL deconflicts airspace users, and this is its primary function. It usually divides the users above it from the users below it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-6",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "vertical"
+      ],
+      "geometry_path": "geometry",
+      "name": "Coordination Level",
+      "schema": "urn:openaix:schema:measure-cl:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "CLSA",
+      "definition": "Class A airspace (CLSA) is airspace in which only instrument flight rules (IFR) flights may fly. All flights get air traffic control (ATC) service, and ATC separates all flights from each other.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-17",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Class A Airspace",
+      "projection": {
+        "airspace_type": "ClassA",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "CLSB",
+      "definition": "Class B airspace (CLSB) is airspace in which instrument flight rules (IFR) and visual flight rules (VFR) flights may fly. All flights get air traffic control (ATC) service, and ATC separates all flights from each other.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-17",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Class B Airspace",
+      "projection": {
+        "airspace_type": "ClassB",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "CLSC",
+      "definition": "Class C airspace (CLSC) is airspace in which instrument flight rules (IFR) and visual flight rules (VFR) flights may fly. All flights get air traffic control (ATC) service. ATC separates IFR flights from other IFR flights and from VFR flights. ATC separates VFR flights from IFR flights and gives them traffic information about other VFR flights.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-17/B-18",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Class C Airspace",
+      "projection": {
+        "airspace_type": "ClassC",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "CLSD",
+      "definition": "Class D airspace (CLSD) is airspace in which instrument flight rules (IFR) and visual flight rules (VFR) flights may fly. All flights get air traffic control (ATC) service. ATC separates IFR flights only from other IFR flights. All flights get traffic information about the flights that ATC does not separate from them.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-18",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Class D Airspace",
+      "projection": {
+        "airspace_type": "ClassD",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "CLSE",
+      "definition": "Class E airspace (CLSE) is airspace in which instrument flight rules (IFR) and visual flight rules (VFR) flights may fly. As AJP-3.3.5 gives it, all flights get air traffic control (ATC) service, and ATC separates them from other IFR flights. All flights get traffic information as far as practical.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-18",
+        "note": "The AJP-3.3.5 text is different from International Civil Aviation Organization (ICAO) Annex 11. In ICAO Annex 11, only instrument flight rules (IFR) flights get air traffic control (ATC) service in class E airspace.",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Class E Airspace",
+      "projection": {
+        "airspace_type": "ClassE",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "CLSF",
+      "definition": "Class F airspace (CLSF) is airspace in which instrument flight rules (IFR) and visual flight rules (VFR) flights may fly. All participating IFR flights get an air traffic advisory service. All flights get flight information service when they ask for it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-18",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Class F Airspace",
+      "projection": {
+        "airspace_type": "ClassF",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "CLSG",
+      "definition": "Class G airspace (CLSG) is airspace in which instrument flight rules (IFR) and visual flight rules (VFR) flights may fly. Flights get only flight information service, and only when they ask for it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-18",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Class G Airspace",
+      "projection": {
+        "airspace_type": "ClassG",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "mdm",
+      "code": "COZ",
+      "definition": "A crossover zone (COZ) is airspace beyond the missile engagement zone (MEZ) of a maritime force. Air defence fighters may go into it only in hot pursuit of targets, to complete an interception. The fighters give a countdown of the seconds until the engagement.",
+      "definition_source": {
+        "locator": "Annex B, Table B-6, page B-16",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Crossover Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "arm",
+      "code": "CP",
+      "definition": "A contact point (CP) is the position at which a mission leader makes radio contact with an airspace control agency in air operations.",
+      "definition_source": {
+        "locator": "Annex B, Table B-4, page B-13",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Contact Point",
+      "projection": {
+        "roles": [
+          "control"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "CTA",
+      "definition": "A control area (CTA) is controlled airspace that extends upwards from a given limit above the surface. Its floor is above the surface, not at the surface.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-6",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Control Area",
+      "projection": {
+        "airspace_type": "CTA",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "CTZ",
+      "definition": "A control zone (CTZ) is controlled airspace from the surface to a given upper limit.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-14",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Control Zone",
+      "projection": {
+        "airspace_type": "CTR",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "DA",
+      "definition": "A danger area (DA) is airspace of defined dimensions in which tasks that are dangerous to the flight of aircraft can occur at stated times. This definition comes from air traffic control.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-18",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Danger Area",
+      "projection": {
+        "airspace_type": "Danger",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "DZ",
+      "definition": "A drop zone (DZ) is a specified surface area onto which aircraft airdrop airborne troops, equipment or supplies. Aircraft and fires should deconflict with the drop operations.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Drop Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "EA",
+      "definition": "An engagement area (EA) is an area of ground manoeuvre control in which the commander plans to contain and destroy an enemy force. The commander uses the massed effects of all available weapons and the systems that help them. Close air support is an example. The commander may divide the area into smaller areas for subordinate units.",
+      "definition_source": {
+        "locator": "Chapter 2, paragraph 2-54, page 2-12 (also paragraph 4-29, Chapter 4)",
+        "note": "This is a ground manoeuvre control measure of the Army. This code is not in AJP-3.3.5 Annex B. FM 3-90 (2023) paragraph A-74, page A-22, gives the text that openAIX uses.",
+        "source": "army-adp-3-90-2019"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Engagement Area",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "EC",
+      "definition": "An electromagnetic combat (EC) is airspace only for aircraft that do missions of electromagnetic combat, which is electronic warfare.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Electromagnetic Combat",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "arm",
+      "code": "EG",
+      "definition": "An entry and exit gate (EG) is the point where an aircraft starts an inbound or outbound transit from an airfield or force at sea. A controller sends the aircraft to this point.",
+      "definition_source": {
+        "locator": "Annex B, Table B-4, page B-13",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Entry/Exit Gate",
+      "projection": {
+        "roles": [
+          "gate"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "FACA",
+      "definition": "A force air coordination area (FACA) is an area around a force in maritime operations, in which airspace control and air defence measures are necessary. The measures prevent mutual interference between all friendly surface and air units and their weapon systems.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Force Air Coordination Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "FEBA",
+      "definition": "A forward edge of the battle area (FEBA) is the foremost limits of the areas of the ground combat units. It does not include the areas of the covering or screening forces. It helps to coordinate fire support, the positions of forces and manoeuvre.",
+      "definition_source": {
+        "locator": "Annex B, Table B-3, page B-12",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Forward Edge of the Battle Area",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "FEZ",
+      "definition": "A fighter engagement zone (FEZ) is airspace of defined dimensions in which the engagement of air threats is normally the task of fighter aircraft. This definition is for air defence.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-14",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Fighter Engagement Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "fscm",
+      "code": "FFA",
+      "definition": "A free-fire area (FFA) is a permissive area for fires. Any weapon system may fire into it without further coordination with the establishing headquarters (HQ). Joint fires can occur more quickly in it, and it helps aircraft jettison munitions. Only the commander with jurisdiction, usually at division or higher, may establish it.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph 2.c (Permissive Measures), page A-6. Glossary GL-10.",
+        "note": "This code is not in AJP-3.3.5 Annex B. JP 3-09 Appendix A paragraph 2 gives it as a permissive fire support coordination measure (FSCM).",
+        "source": "joint-jp-3-09"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Free-Fire Area",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "FIR",
+      "definition": "A flight information region (FIR) is airspace of defined dimensions in which flight information service and alerting service are available.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-19",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Flight Information Region",
+      "projection": {
+        "airspace_type": "FIR",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "FLOT",
+      "definition": "A forward line of own troops (FLOT) is a line that shows the most forward positions of friendly forces at a given time. This is applicable to any kind of military operation.",
+      "definition_source": {
+        "locator": "Annex B, Table B-3, page B-12",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Forward Line of Own Troops",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "FSA",
+      "definition": "A fire support area (FSA) is a sea manoeuvre area that the naval force commander gives to fire support ships. From this area, the ships supply gunfire support to an amphibious operation. The officer in tactical command establishes it.",
+      "definition_source": {
+        "locator": "Glossary, page GL-6; Appendix A, paragraph 3.c(1) and 3.c(2), page A-13",
+        "note": "JP 3-09 (2019) puts the fire support area (FSA) with the manoeuvre control measures, Appendix A paragraph 3, not with the fire support coordination measures. This code is not in AJP-3.3.5 Annex B, thus its measure category is `mcm`, the manoeuvre control measures of Annex B.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph 4.c(1), page A-11; glossary, page GL-9",
+            "source": "joint-jp-3-09"
+          },
+          {
+            "locator": "Chapter IV, paragraph 15.c(7), page IV-23",
+            "source": "joint-jp-3-02-2019"
+          }
+        ],
+        "source": "joint-jp-3-09-2019"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Fire Support Area",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "fscm",
+      "code": "FSCL",
+      "definition": "A fire support coordination line (FSCL) is a line in the area of operations (AO) for the coordination of fires by other force elements. A land or amphibious force commander establishes it. These fires can have an effect on the current and planned operations of that commander. Other force elements should coordinate these fires with that commander. The establishing commander should coordinate the line with the affected commanders.",
+      "definition_source": {
+        "locator": "Annex B, Table B-2, page B-10",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Fire Support Coordination Line",
+      "schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "FSS",
+      "definition": "A fire support station (FSS) is an exact location at sea, in a fire support area, from which a fire support ship delivers fire.",
+      "definition_source": {
+        "locator": "Glossary, page GL-13",
+        "note": "JP 3-09 (2019) puts the fire support station (FSS) with the manoeuvre control measures, Appendix A paragraph 3. This code is not in AJP-3.3.5 Annex B, thus its measure category is `mcm`, the manoeuvre control measures of Annex B. The station is a point with the `fire_support_station` role.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph 3.c(1) and 3.c(3), page A-13",
+            "note": "The overlay shows an FSS as an X at the exact position of the ship.",
+            "source": "joint-jp-3-09-2019"
+          },
+          {
+            "locator": "Page 39",
+            "note": "This later wording omits the words within a fire support area.",
+            "source": "army-fm-1-02-1-2026"
+          }
+        ],
+        "source": "joint-jp-3-02-2019"
+      },
+      "name": "Fire Support Station",
+      "projection": {
+        "roles": [
+          "fire_support_station"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "HG",
+      "definition": "A hand-over gate (HG) is the point at which control of the aircraft changes from one controller to another, when the controllers use radar hand-over.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-19",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Hand-Over Gate",
+      "projection": {
+        "roles": [
+          "handover"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "HIDACZ",
+      "definition": "A high-density airspace control zone (HIDACZ) is airspace of defined dimensions that the airspace control authority designates. In it, many different weapons and airspace users operate in a concentrated volume. Aircraft coordinate their entry with its controlling authority.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "High-Density Airspace Control Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "arm",
+      "code": "IFFOFF",
+      "definition": "An identification, friend or foe switch-off line (IFFOFF) is a phase line in the airspace control order (ACO). At this line, friendly aircraft stop the emission of their identification, friend or foe (IFF) signal. Aircraft stop their IFF transponder at this line, before they go to the target.",
+      "definition_source": {
+        "locator": "Annex B, Table B-4, page B-13",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Identification, Friend or Foe (IFF) Switch-Off Line",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "arm",
+      "code": "IFFON",
+      "definition": "An identification, friend or foe switch-on line (IFFON) is a phase line in the airspace control order (ACO). At this line, friendly aircraft start the emission of their identification, friend or foe (IFF) signal. Aircraft start their IFF transponder again at this line, after the mission.",
+      "definition_source": {
+        "locator": "Annex B, Table B-4, page B-13",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Identification, Friend or Foe (IFF) Switch-On Line",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "arm",
+      "code": "IP",
+      "definition": "An initial point (IP) is a point at which an aircraft starts its attack run to the target. This is the definition for an attack. The definitions for airborne operations and for movement are different. For fixed-wing aircraft, the point is usually 5 to 15 nautical miles from the target. Aircraft at high altitude can use a point more than 20 nautical miles from the target.",
+      "definition_source": {
+        "locator": "Chapter III, paragraph 12.c(1), page III-49 (Line 1 of the 9-line CAS brief); paragraph 14.c(3)(a), page III-73 (IP distance from the target)",
+        "note": "The catalogue contains only the definition for an attack. The definitions for airborne operations and for movement are not in the catalogue. The measure category `arm` is an openAIX group.",
+        "source": "joint-jp-3-09-3-2014"
+      },
+      "name": "Initial Point",
+      "projection": {
+        "roles": [
+          "initial"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "mdm",
+      "code": "ISP",
+      "definition": "An identification safety point (ISP) is a point at which aircraft start identification procedures when they join a maritime force. At this point, they also try to make two-way communications with the surface force.",
+      "definition_source": {
+        "locator": "Annex B, Table B-6, page B-16",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Identification Safety Point",
+      "projection": {
+        "roles": [
+          "identification_safety"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "mdm",
+      "code": "ISR",
+      "definition": "An identification safety range (ISR) is the minimum range to which aircraft can close to a maritime force without positive identification. This identification shows that the aircraft are friendly. This range makes sure that the maritime force does not mistake the aircraft for hostile. The officer in tactical command sets it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-6, page B-16",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "circle"
+      ],
+      "geometry_path": "geometry",
+      "name": "Identification Safety Range",
+      "schema": "urn:openaix:schema:measure-isr:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "JEZ",
+      "definition": "A joint engagement zone (JEZ) is airspace of defined dimensions in air defence, in which more than one air defence system engages air threats. These systems are surface-to-air missiles (SAMs) and aircraft, and they engage at the same time. The `OPTASK AAW` sets its limits. Accurate identification and positive control are necessary, thus SAMs do not engage friendly fighters.",
+      "definition_source": {
+        "locator": "Annex B narrative, page B-3; Lexicon Part II, page Lex-5 (NATO Agreed); paragraph 5.7.a page 32 and 5.7.b page 33.",
+        "note": "No Annex B table contains this code. The measure category `adm` is a result of three facts. Paragraph 5.7.a puts joint engagement zone (JEZ) in a group with fighter engagement zone (FEZ) and missile engagement zone (MEZ). Annex B gives air defence measures as measures that engage air threats. JP 3-01 (2012) Chapter V paragraph 7.b(1)(e), page V-11, gives JEZ as a weapon engagement zone.",
+        "references": [
+          {
+            "locator": "REDWOOD, page 34",
+            "note": "Brevity call that starts (HOT) or stops (COLD) friendly surface-to-air fires in a fighter or joint engagement zone without further coordination.",
+            "source": "alssa-brevity-2023"
+          },
+          {
+            "locator": "Chapter IV, paragraph 8.b(7)(a), page 27",
+            "note": "Controllers add the IMPACT time to friendly surface-to-air fires in a joint or fighter engagement zone.",
+            "source": "alssa-air-control-2021"
+          },
+          {
+            "locator": "Airspace control, page 18",
+            "note": "The ACO carries air defense measures such as fighter and missile engagement zones; JEZ is not named.",
+            "source": "usaf-afdp-3-01-2019"
+          }
+        ],
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Joint Engagement Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "fscm",
+      "code": "KB",
+      "definition": "A kill box (KB) is a three-dimensional reference system that gives good coordination and control at the correct time, and helps attacks occur quickly. For dynamic targeting operations, it is a permissive fire support coordination measure (FSCM). It decreases the coordination requirements, thus it gives the maximum effects of airpower. Attacks in it occur quickly with less coordination, in the limits of the law of armed conflict (LOAC) and the rules of engagement (ROE).",
+      "definition_source": {
+        "locator": "Annex B, Table B-2, page B-10",
+        "note": "FM 3-09 (2024) Appendix B paragraph B-19, page B-8, gives the blue and purple kill boxes. JP 3-09.3 (2014) paragraph 14.a(1)(e) tells that the kill box is a fire support coordination measure (FSCM) with an airspace coordinating measure. A kill box does not give authority to engage. The airspace control order (ACO) publishes the kill box, and the air tasking order (ATO) tasks aircraft into it (AFDP 3-03, 2020). The multi-service publication for the kill box (2009) gives the status values open, closed, active and cold. It tells that these values are not joint doctrine.",
+        "references": [
+          {
+            "locator": "Chapter III, paragraph 14.a(1)(e), page III-65",
+            "note": "The kill box is an FSCM with an associated ACM; establishing it does not grant authority to engage.",
+            "source": "joint-jp-3-09-3-2014"
+          },
+          {
+            "locator": "Kill Box, pages 80-81",
+            "note": "The resulting ACM and FSCM are promulgated through the ACO; the ATO tasks aircraft to enter and engage targets in the kill box.",
+            "source": "usaf-afdp-3-03-2020"
+          },
+          {
+            "locator": "Chapter I, paragraph 2.b, page 1",
+            "note": "Paraphrase: two kill box types, blue and purple.",
+            "source": "alssa-kill-box-2009"
+          },
+          {
+            "locator": "Chapter I, paragraph 2.c(2), page 2",
+            "note": "Paraphrase: kill box airspace runs from the surface, or from the coordinating altitude when one is set, to a ceiling set by the airspace control authority; a purple kill box also has a floor.",
+            "source": "alssa-kill-box-2009"
+          },
+          {
+            "locator": "Chapter III, paragraphs 2-3, pages 11-14",
+            "note": "Paraphrase: blue and purple kill box purposes; lifecycle established, on-order or cancelled; status open or closed. An established kill box is open until closed or cancelled. An open kill box is active with aircraft inside and cold without. A closed kill box needs coordination for fires but does not restrict its airspace unless the air control agency says so. The publication states these terms are not joint doctrine.",
+            "source": "alssa-kill-box-2009"
+          }
+        ],
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Kill Box",
+      "schema": "urn:openaix:schema:measure-kb:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "LC",
+      "definition": "A line of contact (LC) is a general trace that delineates the location where friendly and enemy forces engage each other. In the defence, it is frequently the same as the forward line of own troops (FLOT). In an offensive operation, it can be the same as the line of departure (LD).",
+      "definition_source": {
+        "locator": "Chapter 3, paragraph 3-30, page 3-5",
+        "note": "ADP 3-90 puts it with the offensive control measures, thus its measure category is `mcm`, the manoeuvre control measures of Annex B. This code is not in AJP-3.3.5 Annex B.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph A-25, page A-8",
+            "source": "army-fm-3-90-2023"
+          },
+          {
+            "locator": "Table 5-8, lines, page 180",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-adp-3-90-2019"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Line of Contact",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "LD",
+      "definition": "A line of departure (LD) is a line in land warfare that coordinates the departure of attack elements.",
+      "definition_source": {
+        "locator": "Chapter 3, paragraph 3-31, page 3-5",
+        "note": "ADP 3-90 puts it with the offensive control measures, thus its measure category is `mcm`, the manoeuvre control measures of Annex B. This code is not in AJP-3.3.5 Annex B.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph A-54, page A-17",
+            "source": "army-fm-3-90-2023"
+          },
+          {
+            "locator": "Table 5-8, offensive lines, page 182",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-adp-3-90-2019"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Line of Departure",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "LLTR",
+      "definition": "A low-level transit route (LLTR) is a temporary low-level corridor of defined dimensions in the forward area. It decreases the risk to friendly aircraft from friendly air defences or surface forces.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Low-Level Transit Route",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "LOA",
+      "definition": "A limit of advance (LOA) is a phase line that controls the forward progress of the attack. The attack unit does not advance its elements or assets across this line. The unit may move its security forces up to the line.",
+      "definition_source": {
+        "locator": "Chapter 3, paragraph 3-29, page 3-5",
+        "note": "ADP 3-90 puts it with the offensive control measures, thus its measure category is `mcm`, the manoeuvre control measures of Annex B. This code is not in AJP-3.3.5 Annex B.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph A-53, page A-17",
+            "source": "army-fm-3-90-2023"
+          },
+          {
+            "locator": "Table 5-8, offensive lines, page 182",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-adp-3-90-2019"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Limit of Advance",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "LZ",
+      "definition": "A landing zone (LZ) is a zone that aircraft use for landing.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Landing Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "MEZ",
+      "definition": "A missile engagement zone (MEZ) is airspace of defined dimensions in air and missile defence, normally reserved for engagements by surface-to-air missile (SAM) weapon systems. It is an air defence measure. In maritime zone coordination, it is together with the fighter engagement zone (FEZ) and the joint engagement zone (JEZ). Its limits are a sector, an altitude, a range and bearing from a point of origin, or a mixture of these. Aircraft should coordinate before they go into it.",
+      "definition_source": {
+        "locator": "Annex B narrative ('Most often used coordination measures'), page B-4; paragraph 5.7.a (zone coordination), page 32; 5.7.b page 33. Table B-5 (B-15) carries the same measure as SAMEZ, not MEZ.",
+        "note": "This code is not in an Annex B table. Table B-5 (page B-15) gives the same measure as surface-to-air missile engagement zone (SAMEZ), and SAMEZ goes to this measure. The text of the publication tells that missile engagement zone (MEZ) is an air defence measure.",
+        "references": [
+          {
+            "locator": "Chapter V, paragraph 7.b(2)(c)1, page V-9",
+            "note": "Types of MEZ: HIMEZ, LOMEZ and SHORADEZ. A MEZ may include one or more of each.",
+            "source": "joint-jp-3-01-2017"
+          }
+        ],
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Missile Engagement Zone",
+      "schema": "urn:openaix:schema:measure-mez:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "MG",
+      "definition": "A marshalling gate (MG) is a point to which aircraft fly for air traffic control (ATC). They fly to it before they start an outbound transit after take-off, or before landing.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-19",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Marshalling Gate",
+      "projection": {
+        "roles": [
+          "marshalling"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "MISARC",
+      "definition": "A missile arc (MISARC) is an area of 10 degrees in maritime operations, or larger when the officer in tactical command gives that order. Its centre is on the bearing of the target, and its range extends to the maximum range of the surface-to-air missile (SAM).",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-14",
+        "note": "Table B-5 puts this measure with the air defence measures, but its definition is for maritime operations.",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Missile Arc",
+      "schema": "urn:openaix:schema:measure-misarc:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "MRR",
+      "definition": "A minimum-risk route (MRR) is a temporary air corridor of defined dimensions that the ground commander recommends for aircraft. It has the minimum known hazards to low-flying aircraft that transit the combat zone. Aircraft usually use it to cross the forward line of own troops (FLOT). It is usually not near close air support (CAS) target areas.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph A-105, page A-34 (cites JP 3-52)",
+        "note": "The source text refers to JP 3-52. Its measure category is `acm`, because joint doctrine makes it an airspace coordinating measure.",
+        "source": "army-fm-3-90-2023"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Minimum-Risk Route",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "NAI",
+      "definition": "A named area of interest (NAI) is a geospatial area, or a systems node or link, where forces get information for a specified information requirement. This information usually shows enemy and adversary courses of action.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph A-28, page A-9",
+        "note": "This code is not in AJP-3.3.5 Annex B. Its measure category is `mcm`, the manoeuvre control measures of Annex B. It is with the movement and manoeuvre control measures in FM 3-90 (2023) Appendix A.",
+        "references": [
+          {
+            "locator": "Table 5-4, page 156",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-fm-3-90-2023"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Named Area of Interest",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "NAVRTE",
+      "definition": "An area navigation route (NAVRTE) is an air traffic services (ATS) route for aircraft that can do area navigation.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-17",
+        "source": "nato-ajp-3-3-5"
+      },
+      "name": "Area Navigation Route",
+      "projection": {
+        "airway_type": "area_navigation",
+        "type": "AIRWAY"
+      },
+      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+    },
+    {
+      "category": "fscm",
+      "code": "NFA",
+      "definition": "A no-fire area (NFA) is a restrictive area that prohibits joint fires and their effects into the area. The establishing headquarters (HQ) may give approval for fires into it, one mission at a time. When an enemy force in the area engages a friendly force, the friendly force may use minimal force in self-defence. A unit of any size may establish an NFA.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph 3.b (Restrictive Measures), page A-7 (purpose) and A-8 (establishment, graphic). Glossary GL-13.",
+        "note": "This code is not in AJP-3.3.5 Annex B. JP 3-09 Appendix A paragraph 3 gives it as a restrictive fire support coordination measure (FSCM).",
+        "source": "joint-jp-3-09"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "No-Fire Area",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "NFZ",
+      "definition": "A no-fly zone (NFZ) is a zone of airspace of defined dimensions for specified functions. In it, no aircraft may operate, unless the enforcing authority authorizes the operation.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "No-Fly Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "OBJ",
+      "definition": "An objective (OBJ) is a location for the orientation of operations, the phases of operations, changes of direction and unity of effort. It can be a terrain objective or a force objective.",
+      "definition_source": {
+        "locator": "Chapter 3, paragraph 3-32, page 3-6",
+        "note": "This is the definition of the Army, a location. The joint definition in FM 1-02.1 (2026) is a result that an operation tries to get, not a location. ADP 3-90 puts it with the offensive control measures, thus its measure category is `mcm`, the manoeuvre control measures of Annex B. This code is not in AJP-3.3.5 Annex B.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph A-29, page A-9",
+            "source": "army-fm-3-90-2023"
+          },
+          {
+            "locator": "Table 5-4, objective area, page 156",
+            "note": "The symbol is an area.",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-adp-3-90-2019"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Objective",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "PL",
+      "definition": "A phase line (PL) is an identifiable feature in the operational area, for the control and coordination of military operations. A phase line is not a boundary, unless the commander designates it as a boundary.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph A-33, page A-10",
+        "note": "This code is not in AJP-3.3.5 Annex B. Its measure category is `mcm`, the manoeuvre control measures of Annex B. It is with the movement and manoeuvre control measures in FM 3-90 (2023) Appendix A.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph 4.b(1), page A-11",
+            "note": "A phase line is a maneuver control measure used by land forces.",
+            "source": "joint-jp-3-09"
+          },
+          {
+            "locator": "Table 5-8, Lines, page 180",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-fm-3-90-2023"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Phase Line",
+      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "PROHIB",
+      "definition": "A prohibited area (PROHIB) is airspace of defined dimensions above the land areas or territorial waters of a state. The state prohibits flight in it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-19",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Prohibited Area",
+      "projection": {
+        "airspace_type": "Prohibited",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "PZ",
+      "definition": "A pickup zone (PZ) is an aerial retrieval area, in which aircraft pick up personnel or materiel.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Pickup Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "RA",
+      "definition": "A restricted area (RA) is airspace of defined dimensions above the land areas or territorial waters of a state. In it, the conditions that the state gives restrict the flight of aircraft.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-19",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Restricted Area",
+      "projection": {
+        "airspace_type": "Restricted",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "RCA",
+      "definition": "A reduced coordination (RCA) is airspace of defined dimensions in which general air traffic may fly off-route. General air traffic controllers do not have to start coordination with operational air traffic controllers for these flights.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-19",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Reduced Coordination",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "RECCE",
+      "definition": "A reconnaissance area (RECCE) is airspace only for aircraft that do reconnaissance.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-7",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Reconnaissance Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "fscm",
+      "code": "RFA",
+      "definition": "A restrictive fire area (RFA) is an area with special restrictions on joint fires. Units do not fire joint fires that are more than these restrictions, or that have such effects, without coordination with the establishing headquarters (HQ). A manoeuvre battalion or higher usually establishes it. Restrictive fire areas can also be on-call areas that units prepare before the operation.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph 3.c (Restrictive Measures), page A-9. Glossary GL-14.",
+        "note": "This code is not in AJP-3.3.5 Annex B. JP 3-09 Appendix A paragraph 3 gives it as a restrictive fire support coordination measure (FSCM).",
+        "source": "joint-jp-3-09"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Restrictive Fire Area",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "fscm",
+      "code": "RFL",
+      "definition": "A restrictive fire line (RFL) is a line between converging friendly forces, of which one or both may move. It prohibits joint fires and the effects of joint fires across the line without coordination with the affected force. Its function is to prevent friendly fire and the duplication of engagements by the converging forces. The commander common to the converging forces establishes it.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph 2.c(2)(a) Purpose and 2.c(2)(b) Establishment, page A-10; glossary, page GL-8",
+        "note": "JP 3-09 (2019) puts the restrictive fire line (RFL) with the restrictive fire support coordination measures, page A-2.",
+        "references": [
+          {
+            "locator": "Appendix A, paragraph 3.a(1), page A-7; glossary, page GL-14",
+            "note": "2010 wording: the purpose is to prevent fratricide and duplication of engagements.",
+            "source": "joint-jp-3-09"
+          },
+          {
+            "locator": "Page 186",
+            "source": "joint-dod-dictionary-2021"
+          }
+        ],
+        "source": "joint-jp-3-09-2019"
+      },
+      "geometries": [
+        "line",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Restrictive Fire Line",
+      "schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "ROZ",
+      "definition": "A restricted operating zone (ROZ) is airspace of defined dimensions that the airspace control authority designates for a given situation or operational need. Examples are refuelling orbits, holding, fires and landing or drop zones. It restricts the operation of one or more airspace users in it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-8",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Restricted Operating Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "SAAFR",
+      "definition": "A slow aviation assets flight route (SAAFR) is a route below the coordination level for land component aviation assets in the forward area. The route is for their movement in direct support of ground operations.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-8",
+        "note": "The code has two names. North Atlantic Treaty Organization (NATO) AJP-3.3.5 uses the name `Slow Aviation Assets Flight Route`. JP 3-52 (2014) uses the name `Standard Use Army Aircraft Flight Route`. That route is for Army aviation between the rear area of the corps and the rear area of the brigade. The airspace control authority does not have to give approval for it.",
+        "source": "nato-ajp-3-3-5"
+      },
+      "expansions": [
+        {
+          "locator": "Annex B, Table B-1, page B-8",
+          "name": "Slow Aviation Assets Flight Route",
+          "source": "nato-ajp-3-3-5",
+          "usage": "NATO"
+        },
+        {
+          "locator": "Appendix C, Figure C-1, Air Corridor (2 of 2), page C-3; glossary, page GL-6",
+          "name": "Standard Use Army Aircraft Flight Route",
+          "source": "joint-jp-3-52-2014",
+          "usage": "US"
+        }
+      ],
+      "geometries": [
+        "line",
+        "corridor",
+        "path",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Slow Aviation Assets Flight Route",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "mdm",
+      "code": "SAFES",
+      "definition": "A safety sector (SAFES) is a sector that routes friendly aircraft to maritime forces with minimum risk. In it, friendly aircraft are safe from friendly fighters or weapons when they approach or return to the maritime force.",
+      "definition_source": {
+        "locator": "Annex B, Table B-6, page B-16",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Safety Sector",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "SAMEZ",
+      "definition": "A surface-to-air missile engagement zone (SAMEZ) is airspace of defined dimensions in air and missile defence, normally reserved for engagements by surface-to-air missile (SAM) systems. Aircraft should coordinate before they go into it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-15",
+        "note": "This is the code in the Annex B table for the measure that the text of the publication gives as missile engagement zone (MEZ). It goes to the contract of the missile engagement zone.",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Surface-to-Air Missile Engagement Zone",
+      "projection": {
+        "type": "MEZ"
+      },
+      "schema": "urn:openaix:schema:measure-mez:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "SC",
+      "definition": "A special corridor (SC) is an air corridor for the special routing requirements of some missions in air operations.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-8",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Special Corridor",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "mdm",
+      "code": "SCZ",
+      "definition": "A ship control zone (SCZ) is an area activated around a ship that operates aircraft. Friendly aircraft should not go into it without permission. This prevents friendly interference.",
+      "definition_source": {
+        "locator": "Annex B, Table B-6, page B-16",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Ship Control Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "SL",
+      "definition": "A safe lane (SL) is a bi-directional lane from an airbase, a landing site or a base defence zone (BDZ) to adjacent routes or corridors. It can connect more than one of them. Safe lanes can also connect adjacent activated routes or corridors.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-14/B-15",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Safe Lane",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "SSMS",
+      "definition": "A surface-to-surface missile system (SSMS) is airspace for the launch and impact points of the Army Tactical Missile System and of surface-launched cruise missiles. It keeps aircraft out of the flight path of the missiles.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-8",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Surface-to-Surface Missile System",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "TAI",
+      "definition": "A target area of interest (TAI) is a geographical area where friendly forces find and engage high-value targets.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph A-42, page A-13",
+        "note": "The name in doctrine is target area of interest. This code is not in AJP-3.3.5 Annex B. Its measure category is `mcm`, the manoeuvre control measures of Annex B. It is with the movement and manoeuvre control measures in FM 3-90 (2023) Appendix A.",
+        "references": [
+          {
+            "locator": "Table 5-4, page 157",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-fm-3-90-2023"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Target Area of Interest",
+      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "TC",
+      "definition": "A transit corridor (TC) is a bi-directional corridor in the rear area that routes aircraft through friendly air defences with minimum risk. Air traffic services are not normally available in it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-9",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Transit Corridor",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "TCA",
+      "definition": "A terminal control area (TCA) is a control area, usually at the confluence of air traffic services routes near one or more major aerodromes.",
+      "definition_source": {
+        "locator": "Annex B, Table B-7, page B-19",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Terminal Control Area",
+      "projection": {
+        "airspace_type": "TMA",
+        "type": "AIRSPACE"
+      },
+      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "TL",
+      "definition": "A traverse level (TL) is the vertical displacement above low-level air defence at which aircraft can cross the area. It is a height and an altitude. It gives the defenders one more procedure to identify friendly aircraft.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-15",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "vertical"
+      ],
+      "geometry_path": "geometry",
+      "name": "Traverse Level",
+      "schema": "urn:openaix:schema:measure-tl:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "TMRR",
+      "definition": "A temporary minimum-risk route (TMRR) is a temporary minimum-risk route for air traffic. It goes between transit routes, or the rear boundary of the forward area, and its operations area. The route is for direct support of ground operations.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-8",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Temporary Minimum-Risk Route",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "TR",
+      "definition": "A transit route (TR) is a temporary air corridor of defined dimensions in the forward area for air operations. It decreases the risks to friendly aircraft from friendly air defences or surface forces. It is a bi-directional route, and it should avoid weapons free zones and base defence zones.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-9",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "corridor"
+      ],
+      "geometry_path": "geometry",
+      "name": "Transit Route",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "TRA",
+      "definition": "A temporary reserved area (TRA) is a defined volume of airspace that one airspace authority usually controls. By common agreement, it is temporarily for another airspace authority. Other air traffic may transit it only with air traffic control (ATC) clearance.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-8",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Temporary Reserved Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "TRNG",
+      "definition": "A training area (TRNG) is a geographical area that is temporarily or permanently for education and training, which includes exercises and testing. It can include airspace.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-9",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Training Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "mcm",
+      "code": "TRP",
+      "definition": "A target reference point (TRP) is a point of reference that the unit selects before the operation, usually a fixed structure or a terrain feature. It gives a reference to show a target location. A close air support (CAS) target location can be a TRP or an offset from it.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph A-84, page A-27",
+        "note": "FM 3-90 (2023) puts the target reference point (TRP) with the direct fire control measures, and FM 1-02.2 (2025) puts it with the target control measures. It is not a fire support coordination measure. Annex B has no measure category for it. The measure category `mcm` is an openAIX group with the tactical control measures of FM 3-90 Appendix A. The point has the `target_reference` role.",
+        "references": [
+          {
+            "locator": "Glossary, page GL-13; Chapter III, page III-96; Chapter V, pages V-8 and V-28",
+            "note": "A CAS target location or mark may be a TRP or an offset from a TRP, also in lines 4 and 6 of the 9-line brief.",
+            "source": "joint-jp-3-09-3-2014"
+          },
+          {
+            "locator": "Table 5-25, target points, page 226",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-fm-3-90-2023"
+      },
+      "name": "Target Reference Point",
+      "projection": {
+        "roles": [
+          "target_reference"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "TSA",
+      "definition": "A temporary segregated area (TSA) is airspace of defined dimensions for the exclusive use of specified users. Their tasks make this necessary. It is for a set period, and no other traffic uses the airspace.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-8/B-9",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Temporary Segregated Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "acm",
+      "code": "UAA",
+      "definition": "An unmanned aircraft area (UAA) is airspace of defined dimensions, only for unmanned aircraft operations.",
+      "definition_source": {
+        "locator": "Annex B, Table B-1, page B-9",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Unmanned Aircraft Area",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    },
+    {
+      "category": "atcm",
+      "code": "VFRRTE",
+      "definition": "A published visual flight rules route (VFRRTE) is a route on a chart for visual flight rules (VFR) flights around, under or through complex airspace, such as class B airspace. A VFR flyway is a general flight path, not a specific course, and it needs no air traffic control (ATC) clearance. A VFR corridor goes through class B airspace with defined vertical and lateral limits, and it needs no ATC clearance. A VFR transition route is a specific flight course on a chart. On it, communication with ATC is necessary, and an ATC clearance is necessary in class B airspace.",
+      "definition_source": {
+        "locator": "Paragraph 3-5-5, pages 3-5-5 to 3-5-7",
+        "note": "The source uses the terms visual flight rules (VFR) flyway, VFR corridor and VFR transition route. A VFR transition route can have published altitudes or altitudes that air traffic control (ATC) assigns.",
+        "source": "faa-aim-2026"
+      },
+      "geometries": [
+        "line",
+        "corridor",
+        "path",
+        "geojson:LineString"
+      ],
+      "geometry_path": "geometry",
+      "name": "Published VFR Route",
+      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+    },
+    {
+      "category": "adm",
+      "code": "WFZ",
+      "definition": "A weapons free zone (WFZ) is an air defence zone that gives protection to important assets or facilities, other than airbases. In it, air defence weapon systems may fire at any target without positive identification as friendly. Transit routes should avoid it.",
+      "definition_source": {
+        "locator": "Annex B, Table B-5, page B-15",
+        "source": "nato-ajp-3-3-5"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "corridor",
+        "sector",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "components/geometry",
+      "name": "Weapons Free Zone",
+      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+    }
+  ]
+}

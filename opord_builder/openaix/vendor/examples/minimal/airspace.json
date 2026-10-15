@@ -1,0 +1,35 @@
+{
+  "$schema": "urn:openaix:schema:airspace:0.1.0-draft.2",
+  "active": {
+    "continuous": true
+  },
+  "airspace_type": "CTR",
+  "components": [
+    {
+      "geometry": {
+        "center": {
+          "latitude": 31.825431,
+          "longitude": 36.781257
+        },
+        "kind": "circle",
+        "radius": {
+          "unit": "nm",
+          "value": 5
+        }
+      },
+      "id": "salti-ctr-core",
+      "lower_limit": {
+        "surface": true
+      },
+      "operation": "add",
+      "upper_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 4500
+      }
+    }
+  ],
+  "id": "salti-ctr",
+  "name": "Salti control zone",
+  "type": "AIRSPACE"
+}

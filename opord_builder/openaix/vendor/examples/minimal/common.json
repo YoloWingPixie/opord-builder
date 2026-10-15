@@ -1,0 +1,737 @@
+{
+  "$schema": "urn:openaix:schema:common:0.1.0-draft.2",
+  "Activation": {
+    "end": "2026-10-02T15:00:00Z",
+    "schedule": {
+      "periods": [
+        {
+          "end_day_offset": 0,
+          "end_time": "15:00:00",
+          "start_time": "13:00:00",
+          "weekdays": [
+            "fri"
+          ]
+        }
+      ],
+      "time_reference": "UTC"
+    },
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "AirspaceComponent": {
+    "geometry": {
+      "kind": "polygon",
+      "rings": [
+        [
+          {
+            "latitude": 35.035,
+            "longitude": 40.225
+          },
+          {
+            "latitude": 35.035,
+            "longitude": 40.374
+          },
+          {
+            "latitude": 35.155,
+            "longitude": 40.375
+          },
+          {
+            "latitude": 35.155,
+            "longitude": 40.225
+          },
+          {
+            "latitude": 35.035,
+            "longitude": 40.225
+          }
+        ]
+      ]
+    },
+    "id": "cobalt-volume",
+    "lower_limit": {
+      "surface": true
+    },
+    "operation": "add",
+    "upper_limit": {
+      "reference": "MSL",
+      "unit": "ft",
+      "value": 13000
+    }
+  },
+  "Altitude": {
+    "reference": "FL",
+    "unit": "flight_level",
+    "value": 180
+  },
+  "AltitudeBlock": {
+    "lower": {
+      "surface": true
+    },
+    "upper": {
+      "reference": "MSL",
+      "unit": "ft",
+      "value": 8000
+    }
+  },
+  "Bearing": {
+    "reference": "magnetic",
+    "value": 254.9
+  },
+  "ClassificationLevel": "UNCLASSIFIED",
+  "Coalition": "blue",
+  "ControlMeasure": {
+    "$schema": "urn:openaix:schema:measure-kb:0.1.0-draft.2",
+    "active": {
+      "end": "2026-10-02T15:00:00Z",
+      "start": "2026-10-02T13:00:00Z"
+    },
+    "components": [
+      {
+        "geometry": {
+          "kind": "polygon",
+          "rings": [
+            [
+              {
+                "latitude": 35.035,
+                "longitude": 40.225
+              },
+              {
+                "latitude": 35.035,
+                "longitude": 40.374
+              },
+              {
+                "latitude": 35.155,
+                "longitude": 40.375
+              },
+              {
+                "latitude": 35.155,
+                "longitude": 40.225
+              },
+              {
+                "latitude": 35.035,
+                "longitude": 40.225
+              }
+            ]
+          ]
+        },
+        "id": "cobalt-volume",
+        "lower_limit": {
+          "surface": true
+        },
+        "operation": "add",
+        "upper_limit": {
+          "reference": "MSL",
+          "unit": "ft",
+          "value": 13000
+        }
+      }
+    ],
+    "id": "cobalt-box",
+    "killbox_kind": "blue",
+    "name": "Cobalt kill box",
+    "type": "KB"
+  },
+  "ControlMeasureSelection": {
+    "id": "bastion-basin-boundary",
+    "kind": "control_measure"
+  },
+  "DCSData": {},
+  "DCSObjectRef": {
+    "kind": "drawing",
+    "name": "OIR Cobalt Boundary",
+    "primitive_type": "Polygon"
+  },
+  "DateTime": "2026-10-02T12:30:00Z",
+  "DocumentRef": {
+    "id": "ojms"
+  },
+  "Elevation": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 10000
+  },
+  "Extensions": {},
+  "Frequency": {
+    "unit": "MHz",
+    "value": 308.475
+  },
+  "GeoJSONLineString": {
+    "coordinates": [
+      [
+        39.724,
+        34.835
+      ],
+      [
+        40.025,
+        34.855
+      ]
+    ],
+    "type": "LineString"
+  },
+  "GeoJSONLinearRing": [
+    [
+      39.7,
+      34.85
+    ],
+    [
+      40.75,
+      34.85
+    ],
+    [
+      40.75,
+      35.6
+    ],
+    [
+      39.7,
+      35.6
+    ],
+    [
+      39.7,
+      34.85
+    ]
+  ],
+  "GeoJSONMultiPolygon": {
+    "coordinates": [
+      [
+        [
+          [
+            39.7,
+            34.85
+          ],
+          [
+            40.75,
+            34.85
+          ],
+          [
+            40.75,
+            35.6
+          ],
+          [
+            39.7,
+            35.6
+          ],
+          [
+            39.7,
+            34.85
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            40.8,
+            34.4
+          ],
+          [
+            41.0,
+            34.4
+          ],
+          [
+            41.0,
+            34.6
+          ],
+          [
+            40.8,
+            34.6
+          ],
+          [
+            40.8,
+            34.4
+          ]
+        ]
+      ]
+    ],
+    "type": "MultiPolygon"
+  },
+  "GeoJSONPoint": {
+    "coordinates": [
+      40.17,
+      35.21
+    ],
+    "type": "Point"
+  },
+  "GeoJSONPolygon": {
+    "coordinates": [
+      [
+        [
+          37.8,
+          33.2
+        ],
+        [
+          41.0,
+          33.2
+        ],
+        [
+          41.0,
+          36.4
+        ],
+        [
+          37.8,
+          36.4
+        ],
+        [
+          37.8,
+          33.2
+        ]
+      ]
+    ],
+    "type": "Polygon"
+  },
+  "GeoJSONPosition": [
+    40.025,
+    34.855
+  ],
+  "GeoPoint": {
+    "latitude": 31.825431,
+    "longitude": 36.781257
+  },
+  "Geometry": {
+    "kind": "polyarc",
+    "segments": [
+      {
+        "end": {
+          "latitude": 35.2,
+          "longitude": 40.3
+        },
+        "kind": "line",
+        "start": {
+          "latitude": 35.2,
+          "longitude": 40.0
+        }
+      },
+      {
+        "center": {
+          "latitude": 35.335,
+          "longitude": 40.14
+        },
+        "end_bearing": {
+          "reference": "magnetic",
+          "value": 240
+        },
+        "kind": "arc",
+        "radius": {
+          "unit": "nm",
+          "value": 10
+        },
+        "start_bearing": {
+          "reference": "magnetic",
+          "value": 120
+        },
+        "turns": "right"
+      }
+    ]
+  },
+  "Geometry_circle": {
+    "center": {
+      "latitude": 31.825431,
+      "longitude": 36.781257
+    },
+    "kind": "circle",
+    "radius": {
+      "unit": "nm",
+      "value": 5
+    }
+  },
+  "Geometry_corridor": {
+    "kind": "corridor",
+    "points": [
+      {
+        "latitude": 33.59,
+        "longitude": 39.002
+      },
+      {
+        "latitude": 34.372,
+        "longitude": 40.225
+      },
+      {
+        "latitude": 34.835,
+        "longitude": 40.627
+      },
+      {
+        "latitude": 34.935,
+        "longitude": 40.574
+      }
+    ],
+    "width": {
+      "unit": "nm",
+      "value": 2
+    }
+  },
+  "Geometry_description": {
+    "kind": "description",
+    "text": "Euphrates west bank from the Deir ez-Zor bridge to the Al Busayrah ferry"
+  },
+  "Geometry_ellipse": {
+    "center": {
+      "latitude": 35.18,
+      "longitude": 40.24
+    },
+    "east_radius_m": 1500,
+    "kind": "ellipse",
+    "north_radius_m": 3000
+  },
+  "Geometry_figure_eight": {
+    "axis": {
+      "reference": "magnetic",
+      "value": 90
+    },
+    "kind": "figure_eight",
+    "leg_length": {
+      "unit": "nm",
+      "value": 20
+    },
+    "point": {
+      "latitude": 34.95,
+      "longitude": 39.8
+    }
+  },
+  "Geometry_geojson_line": {
+    "geometry": {
+      "coordinates": [
+        [
+          39.724,
+          34.835
+        ],
+        [
+          40.025,
+          34.855
+        ]
+      ],
+      "type": "LineString"
+    },
+    "kind": "geojson"
+  },
+  "Geometry_geojson_point": {
+    "geometry": {
+      "coordinates": [
+        40.17,
+        35.21
+      ],
+      "type": "Point"
+    },
+    "kind": "geojson"
+  },
+  "Geometry_geojson_polygon": {
+    "geometry": {
+      "coordinates": [
+        [
+          [
+            [
+              39.7,
+              34.85
+            ],
+            [
+              40.75,
+              34.85
+            ],
+            [
+              40.75,
+              35.6
+            ],
+            [
+              39.7,
+              35.6
+            ],
+            [
+              39.7,
+              34.85
+            ]
+          ]
+        ],
+        [
+          [
+            [
+              40.8,
+              34.4
+            ],
+            [
+              41.0,
+              34.4
+            ],
+            [
+              41.0,
+              34.6
+            ],
+            [
+              40.8,
+              34.6
+            ],
+            [
+              40.8,
+              34.4
+            ]
+          ]
+        ]
+      ],
+      "type": "MultiPolygon"
+    },
+    "kind": "geojson"
+  },
+  "Geometry_line": {
+    "kind": "line",
+    "points": [
+      {
+        "latitude": 34.835,
+        "longitude": 39.724
+      },
+      {
+        "latitude": 34.855,
+        "longitude": 40.025
+      },
+      {
+        "latitude": 34.815,
+        "longitude": 40.374
+      },
+      {
+        "latitude": 34.835,
+        "longitude": 40.725
+      }
+    ]
+  },
+  "Geometry_path": {
+    "kind": "path",
+    "segments": [
+      {
+        "end": {
+          "latitude": 31.89198,
+          "longitude": 36.917165
+        },
+        "kind": "line",
+        "start": {
+          "latitude": 31.825137,
+          "longitude": 37.055691
+        }
+      }
+    ]
+  },
+  "Geometry_point": {
+    "kind": "point",
+    "position": {
+      "latitude": 35.21,
+      "longitude": 40.17
+    }
+  },
+  "Geometry_polyarc": {
+    "kind": "polyarc",
+    "segments": [
+      {
+        "end": {
+          "latitude": 35.2,
+          "longitude": 40.3
+        },
+        "kind": "line",
+        "start": {
+          "latitude": 35.2,
+          "longitude": 40.0
+        }
+      },
+      {
+        "center": {
+          "latitude": 35.335,
+          "longitude": 40.14
+        },
+        "end_bearing": {
+          "reference": "magnetic",
+          "value": 240
+        },
+        "kind": "arc",
+        "radius": {
+          "unit": "nm",
+          "value": 10
+        },
+        "start_bearing": {
+          "reference": "magnetic",
+          "value": 120
+        },
+        "turns": "right"
+      }
+    ]
+  },
+  "Geometry_polygon": {
+    "kind": "polygon",
+    "rings": [
+      [
+        {
+          "latitude": 35.035,
+          "longitude": 40.225
+        },
+        {
+          "latitude": 35.035,
+          "longitude": 40.374
+        },
+        {
+          "latitude": 35.155,
+          "longitude": 40.375
+        },
+        {
+          "latitude": 35.155,
+          "longitude": 40.225
+        },
+        {
+          "latitude": 35.035,
+          "longitude": 40.225
+        }
+      ]
+    ]
+  },
+  "Geometry_racetrack": {
+    "kind": "racetrack",
+    "leg_length": {
+      "unit": "nm",
+      "value": 20
+    },
+    "point": {
+      "latitude": 34.885,
+      "longitude": 40.275
+    },
+    "radial": {
+      "reference": "true",
+      "value": 270
+    },
+    "turns": "right"
+  },
+  "Geometry_rectangle": {
+    "center": {
+      "latitude": 35.21,
+      "longitude": 40.17
+    },
+    "height_m": 2000,
+    "kind": "rectangle",
+    "width_m": 4000
+  },
+  "Geometry_sector": {
+    "center": {
+      "latitude": 35.335,
+      "longitude": 40.14
+    },
+    "end_bearing": {
+      "reference": "magnetic",
+      "value": 150
+    },
+    "kind": "sector",
+    "outer_radius": {
+      "unit": "nm",
+      "value": 15
+    },
+    "start_bearing": {
+      "reference": "magnetic",
+      "value": 60
+    }
+  },
+  "Geometry_track_racetrack": {
+    "a": {
+      "latitude": 34.6,
+      "longitude": 39.3
+    },
+    "b": {
+      "latitude": 34.9,
+      "longitude": 39.7
+    },
+    "kind": "track_racetrack",
+    "turns": "right",
+    "width": {
+      "unit": "nm",
+      "value": 10
+    }
+  },
+  "Geometry_vertical": {
+    "altitude": {
+      "reference": "MSL",
+      "unit": "ft",
+      "value": 7500
+    },
+    "height": {
+      "reference": "AGL",
+      "unit": "ft",
+      "value": 2000
+    },
+    "kind": "vertical"
+  },
+  "Identifier": "forward_arming_and_refuelling_point",
+  "LaserCode": "1511",
+  "Length": {
+    "unit": "ft",
+    "value": 10000
+  },
+  "MeasureCatalogue": {},
+  "Metadata": {
+    "id": "ojms"
+  },
+  "Offset": {
+    "offset_minutes": 30
+  },
+  "Period": {
+    "end": "2026-10-02T13:50:00Z",
+    "start": "2026-10-02T13:15:00Z"
+  },
+  "PinnedRef": {
+    "id": "oir-spins",
+    "path": "oir-spins.json",
+    "revision": "1"
+  },
+  "PointLocation": {
+    "position": {
+      "latitude": 31.825431,
+      "longitude": 36.781257
+    }
+  },
+  "ResourceRef": {
+    "id": "oir-aco",
+    "revision": "2"
+  },
+  "RunwayDesignator": "11",
+  "ScheduledWindow": {
+    "end": "2026-10-02T15:00:00Z",
+    "schedule": {
+      "periods": [
+        {
+          "end_day_offset": 0,
+          "end_time": "15:00:00",
+          "start_time": "13:00:00",
+          "weekdays": [
+            "fri"
+          ]
+        }
+      ],
+      "time_reference": "UTC"
+    },
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "SimData": {},
+  "Speed": {
+    "unit": "kt",
+    "value": 350
+  },
+  "TACAN": {
+    "band": "X",
+    "channel": 106
+  },
+  "VerticalLimit": {
+    "reference": "FL",
+    "unit": "flight_level",
+    "value": 180
+  },
+  "WeeklyPeriod": {
+    "end_day_offset": 1,
+    "end_time": "01:00:00",
+    "start_time": "03:00:00",
+    "weekdays": [
+      "sun"
+    ]
+  },
+  "WeeklySchedule": {
+    "periods": [
+      {
+        "end_day_offset": 0,
+        "end_time": "15:00:00",
+        "start_time": "13:00:00",
+        "weekdays": [
+          "fri"
+        ]
+      }
+    ],
+    "time_reference": "UTC"
+  },
+  "Window": {
+    "end": "2026-10-02T13:50:00Z",
+    "start": "2026-10-02T13:15:00Z"
+  }
+}

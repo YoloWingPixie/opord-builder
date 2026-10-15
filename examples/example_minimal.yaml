@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../schemas/opord.schema.json
+# yaml-language-server: $schema=../schemas/opord-authoring.schema.json
 # Minimal OPORD — header + mission + a single commander's intent field.
 # Everything else is intentionally omitted to prove the renderer skips
 # empty sections without leaving any floating headings, empty cards, or

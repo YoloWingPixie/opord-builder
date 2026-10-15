@@ -1,0 +1,27 @@
+{
+  "$schema": "urn:openaix:schema:airway:0.1.0-draft.2",
+  "airway_type": "air_traffic_services",
+  "id": "w610",
+  "name": "ATS route W610, GHI to ABC",
+  "segments": [
+    {
+      "fix": {
+        "ident": "GHI",
+        "position": {
+          "latitude": 31.834683,
+          "longitude": 36.778475
+        }
+      }
+    },
+    {
+      "fix": {
+        "ident": "SALAT",
+        "position": {
+          "latitude": 31.998585,
+          "longitude": 36.962669
+        }
+      }
+    }
+  ],
+  "type": "AIRWAY"
+}

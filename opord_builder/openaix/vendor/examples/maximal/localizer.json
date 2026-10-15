@@ -1,0 +1,89 @@
+{
+  "$schema": "urn:openaix:schema:localizer:0.1.0-draft.2",
+  "airfield": "ojms",
+  "course": {
+    "declination_deg": 5.0,
+    "reference": "magnetic",
+    "value": 307.2
+  },
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "angle_deg": 0,
+            "kind": "drawing",
+            "layer": "Blue",
+            "mission_id": "oir-syria",
+            "name": "OIR IGHI localizer",
+            "object_id": 44,
+            "primitive_type": "TextBox",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "font_size": 14,
+              "thickness": 2,
+              "visible": true
+            },
+            "text": "IGHI 108.9"
+          }
+        ]
+      }
+    }
+  },
+  "frequency": {
+    "band": "vhf",
+    "modulation": "AM",
+    "unit": "MHz",
+    "value": 108.9
+  },
+  "glide_slope": {
+    "angle_deg": 3.0,
+    "elevation": {
+      "reference": "MSL",
+      "unit": "ft",
+      "value": 1636
+    },
+    "position": {
+      "latitude": 31.828,
+      "longitude": 36.7905
+    }
+  },
+  "id": "ojms-ils-31",
+  "ident": "IGHI",
+  "ils_category": "I",
+  "kind": "localizer",
+  "name": "Muwaffaq Salti ILS runway 31 localizer",
+  "position": {
+    "latitude": 31.844333,
+    "longitude": 36.768847
+  },
+  "provenance": {
+    "airac_cycle": "2610",
+    "authority": "Eagle Dynamics",
+    "derivation": "derived",
+    "effective_from": "2026-10-01T00:00:00Z",
+    "effective_until": "2026-10-29T00:00:00Z",
+    "generated_at": "2026-09-28T10:00:00Z",
+    "publication": {
+      "id": "ojms-i31-chart",
+      "revision": "2610",
+      "section": "DTA05",
+      "title": "Muwaffaq Salti ILS runway 31 chart"
+    },
+    "tool": {
+      "name": "DCS map file reader",
+      "version": "2.9.8"
+    }
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "runway": "31",
+  "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua",
+  "threshold_crossing_height": {
+    "unit": "ft",
+    "value": 50
+  }
+}

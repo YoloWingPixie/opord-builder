@@ -1,0 +1,58 @@
+{
+  "$schema": "urn:openaix:schema:measure-isr:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "coordination_instructions": [
+    "Contact Salti Tower before entry."
+  ],
+  "description": "Identification safety range around the Kestrel surface action group in the eastern Mediterranean, south-east of Cyprus.",
+  "establishing_authority": "caoc",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "kind": "trigger_zone",
+            "mission_id": "oir-syria",
+            "name": "OIR Kestrel ISR",
+            "object_id": 44,
+            "zone_type": "circle"
+          }
+        ]
+      }
+    }
+  },
+  "geometry": {
+    "center": {
+      "latitude": 34.35,
+      "longitude": 34.4
+    },
+    "kind": "circle",
+    "radius": {
+      "unit": "nm",
+      "value": 15
+    }
+  },
+  "id": "kestrel-isr",
+  "name": "Kestrel identification safety range",
+  "notes": "Aircraft inside the range show IFF modes 1, 3 and 4 to Kestrel.",
+  "range": {
+    "unit": "nm",
+    "value": 15
+  },
+  "reference_force": "Kestrel surface action group",
+  "reference_position": {
+    "latitude": 34.35,
+    "longitude": 34.4
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "Attack only while the Cobalt kill box is open."
+  ],
+  "type": "ISR"
+}

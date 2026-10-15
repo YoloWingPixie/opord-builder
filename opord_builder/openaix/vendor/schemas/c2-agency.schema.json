@@ -1,0 +1,165 @@
+{
+  "$defs": {
+    "AgencyArea": {
+      "additionalProperties": false,
+      "description": "An area selection is a reference to one planning area of the resource catalogue.",
+      "properties": {
+        "area": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the planning area that the agency covers.",
+          "x-catalog": "areas"
+        }
+      },
+      "required": [
+        "area"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:c2-agency:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A command and control agency is an organization with a call sign and a role in operations. Units contact it on its radio channels.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "areas": {
+      "description": "This list contains the areas that the agency covers. Each item is a polygon (an openAIX polygon or a GeoJSON polygon), a planning area or a control measure.",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+          },
+          {
+            "$ref": "#/$defs/AgencyArea"
+          },
+          {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection"
+          },
+          {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+          },
+          {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+          },
+          {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+          }
+        ]
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "callsign": {
+      "description": "This field gives the radio call sign of the agency, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "channels": {
+      "description": "This list identifies the radio channels that other units use to contact the agency.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "minItems": 1,
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "unit",
+                              "group",
+                              "static",
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this agency. Other records and orders use it to refer to this agency."
+    },
+    "kind": {
+      "const": "c2-agency",
+      "description": "The value identifies this record as a command and control agency."
+    },
+    "platform": {
+      "description": "This field gives the platform of the agency: on the ground (`ground`) or in an aircraft (`airborne`), as one of the enumerated values.",
+      "enum": [
+        "ground",
+        "airborne"
+      ]
+    },
+    "position": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "description": "This field gives the geographic position of the agency, as latitude and longitude. The field is applicable only to an agency that does not move."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the external resource catalogue that resolves the references of this record. The reference identifies the catalogue and gives its revision."
+    },
+    "role": {
+      "description": "This field gives the command and control function of the agency, as one of the enumerated values.",
+      "enum": [
+        "AOC",
+        "CRC",
+        "ASOC",
+        "DASC",
+        "TACP",
+        "AWACS",
+        "JTAC",
+        "ATC"
+      ],
+      "x-enum-descriptions": {
+        "AOC": "This value identifies the air operations centre (AOC), which plans, controls and assesses air operations. It publishes the air tasking order (ATO) and the airspace control order (ACO).",
+        "ASOC": "This value identifies the air support operations centre (ASOC), which controls the air operations that help ground forces directly.",
+        "ATC": "This value identifies air traffic control (ATC), which gives air traffic services such as approach control, tower control or range control.",
+        "AWACS": "This value identifies the Airborne Warning and Control System (AWACS), which gives airborne surveillance, early warning and control.",
+        "CRC": "This value identifies the control and reporting centre (CRC), which is an element on the ground for surveillance, identification and control of air operations.",
+        "DASC": "This value identifies the direct air support centre (DASC), which is the Marine Corps agency that controls the air operations that help ground forces directly.",
+        "JTAC": "This value identifies a joint terminal attack controller (JTAC), who controls close air support (CAS) aircraft from a forward position.",
+        "TACP": "This value identifies a tactical air control party (TACP), which is an air liaison element with a ground unit. It sends air support requests and gives terminal attack control."
+      }
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "callsign",
+    "role"
+  ],
+  "title": "Command and control agency",
+  "type": "object"
+}

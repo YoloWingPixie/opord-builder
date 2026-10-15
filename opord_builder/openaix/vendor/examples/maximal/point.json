@@ -1,0 +1,61 @@
+{
+  "$schema": "urn:openaix:schema:point:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "altitude": {
+    "lower": {
+      "reference": "FL",
+      "unit": "flight_level",
+      "value": 180
+    },
+    "upper": {
+      "reference": "FL",
+      "unit": "flight_level",
+      "value": 240
+    }
+  },
+  "aor": "oir-aor",
+  "channels": [
+    "control-uhf",
+    "banshee-uhf"
+  ],
+  "contact_agency": "banshee",
+  "coordination_instructions": [
+    "Banshee hands inbound flights to Darkstar at Juniper."
+  ],
+  "description": "Ingress gate west of At Tanf where traffic from Muwaffaq Salti enters the operating area under Darkstar control.",
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "handover_agency": "darkstar",
+  "id": "juniper",
+  "instructions": [
+    "Report Juniper with altitude and playtime; Darkstar assigns the corridor slot."
+  ],
+  "name": "Juniper",
+  "notes": "Expect a Darkstar picture call at Juniper; squawk the ATO Mode 3 code before the gate.",
+  "position": {
+    "latitude": 33.59,
+    "longitude": 38.552
+  },
+  "position_description": "Southwestern ingress gate; beginning of the Juniper-to-Marshal transit corridor.",
+  "reference_agency": "darkstar",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "Do not pass Juniper northbound without a Darkstar check-in."
+  ],
+  "roles": [
+    "control",
+    "ingress",
+    "gate"
+  ],
+  "route": "marshal-entry",
+  "type": "POINT"
+}

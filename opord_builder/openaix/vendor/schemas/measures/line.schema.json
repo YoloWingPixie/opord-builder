@@ -1,0 +1,149 @@
+{
+  "$id": "urn:openaix:schema:measure-line:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A coordination line is a line on the ground, with points in sequence, for the coordination of manoeuvre or identification. The line is the forward line of own troops (FLOT), the forward edge of the battle area (FEBA) or a ground manoeuvre graphic. These graphics are the phase line, the boundary, the limit of advance (LOA), the line of departure (LD) and the line of contact (LC). Other lines show where friendly aircraft set their identification, friend or foe (IFF) equipment to off or on.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this coordination line is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this coordination line has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this coordination line and its local conditions, as free text.",
+      "type": "string"
+    },
+    "establishing_authority": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the authority that set this coordination line.",
+      "x-catalog": "agencies"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "closed": {
+                            "const": false
+                          },
+                          "kind": {
+                            "enum": [
+                              "drawing"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "geometry": {
+      "description": "This field gives the horizontal geometry of the line: geographic positions in sequence. A `geojson` geometry (RFC 7946) of the same shape is also correct.",
+      "oneOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_line"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_line"
+        }
+      ]
+    },
+    "hostile_side": {
+      "description": "This field gives the side of the line on which the enemy is, as one of the enumerated values. The side is to the left or to the right of the line when it is followed from its first point to its last point.",
+      "enum": [
+        "left",
+        "right"
+      ],
+      "x-enum-descriptions": {
+        "left": "The enemy is on the left side of the line, from its first point to its last point.",
+        "right": "The enemy is on the right side of the line, from its first point to its last point."
+      }
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this coordination line. Other records and orders use it to refer to this coordination line."
+    },
+    "name": {
+      "description": "This field gives the name of this coordination line, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this coordination line, as free text.",
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this coordination line. The reference gives the identifier and the revision of the catalogue."
+    },
+    "type": {
+      "description": "This field gives the catalogue code of this control measure, as one of the enumerated values. The code identifies the definition of the control measure in doctrine. The catalogue of control measures gives its class and the source of its definition.",
+      "enum": [
+        "FEBA",
+        "FLOT",
+        "IFFON",
+        "IFFOFF",
+        "PL",
+        "BOUNDARY",
+        "LOA",
+        "LD",
+        "LC"
+      ],
+      "x-enum-descriptions": {
+        "BOUNDARY": "A boundary is a line that delineates surface areas for the coordination and deconfliction of operations. These operations are between units, formations or areas that are next to each other.",
+        "FEBA": "A forward edge of the battle area (FEBA) is the foremost limits of the areas of the ground combat units. It does not include the areas of the covering or screening forces. It helps to coordinate fire support, the positions of forces and manoeuvre.",
+        "FLOT": "A forward line of own troops (FLOT) is a line that shows the most forward positions of friendly forces at a given time. This is applicable to any kind of military operation.",
+        "IFFOFF": "An identification, friend or foe switch-off line (IFFOFF) is a phase line in the airspace control order (ACO). At this line, friendly aircraft stop the emission of their identification, friend or foe (IFF) signal. Aircraft stop their IFF transponder at this line, before they go to the target.",
+        "IFFON": "An identification, friend or foe switch-on line (IFFON) is a phase line in the airspace control order (ACO). At this line, friendly aircraft start the emission of their identification, friend or foe (IFF) signal. Aircraft start their IFF transponder again at this line, after the mission.",
+        "LC": "A line of contact (LC) is a general trace that delineates the location where friendly and enemy forces engage each other. In the defence, it is frequently the same as the forward line of own troops (FLOT). In an offensive operation, it can be the same as the line of departure (LD).",
+        "LD": "A line of departure (LD) is a line in land warfare that coordinates the departure of attack elements.",
+        "LOA": "A limit of advance (LOA) is a phase line that controls the forward progress of the attack. The attack unit does not advance its elements or assets across this line. The unit may move its security forces up to the line.",
+        "PL": "A phase line (PL) is an identifiable feature in the operational area, for the control and coordination of military operations. A phase line is not a boundary, unless the commander designates it as a boundary."
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "geometry",
+    "active"
+  ],
+  "title": "Coordination line",
+  "type": "object"
+}

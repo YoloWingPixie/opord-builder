@@ -22,10 +22,7 @@ from opord_builder.schema.shared import (
     CAPTrack,
     DTGString,
     GeoRef,
-    HVT,
-    JPITLEntry,
     MinimumRiskRoute,
-    TSTEntry,
 )
 
 
@@ -33,7 +30,7 @@ class DataSourceMeta(_Base):
     """Provenance header carried by every standalone data-source document."""
 
     title: str = Field(
-        description="Document title (e.g. 'JPITL for OP IRON STRIKE').",
+        description="Document title (e.g. 'CAP tracks for OP IRON STRIKE').",
     )
     classification: Optional[ClassificationLevel] = Field(
         default=None,
@@ -65,36 +62,6 @@ class DataTableDocument(_Base):
     )
     meta: DataSourceMeta = Field(
         description="Provenance metadata for this data source.",
-    )
-
-
-class JPITLDocument(DataTableDocument):
-    """Standalone Joint Prioritized Integrated Target List per JP 3-60 / ATP 3-60."""
-
-    kind: Literal["jpitl"] = "jpitl"
-    entries: list[JPITLEntry] = Field(
-        default_factory=list,
-        description="Joint Prioritized Integrated Target List entries.",
-    )
-
-
-class TSTDocument(DataTableDocument):
-    """Standalone Time-Sensitive Target list per JP 3-60."""
-
-    kind: Literal["tst"] = "tst"
-    entries: list[TSTEntry] = Field(
-        default_factory=list,
-        description="Time-Sensitive Target entries.",
-    )
-
-
-class HPTDocument(DataTableDocument):
-    """Standalone High-Payoff Target list."""
-
-    kind: Literal["hpt"] = "hpt"
-    entries: list[HVT] = Field(
-        default_factory=list,
-        description="High-Payoff Target list entries.",
     )
 
 
@@ -169,9 +136,6 @@ class GeoRefDocument(DataTableDocument):
 
 
 DATA_SOURCE_REGISTRY: dict[str, type[DataTableDocument]] = {
-    "jpitl": JPITLDocument,
-    "tst": TSTDocument,
-    "hpt": HPTDocument,
     "cap_tracks": CAPTrackDocument,
     "aar_tracks": AARTrackDocument,
     "awacs_orbits": AWACSOrbitDocument,

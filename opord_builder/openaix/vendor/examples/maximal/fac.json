@@ -1,0 +1,96 @@
+{
+  "$schema": "urn:openaix:schema:fac:0.1.0-draft.2",
+  "callsign": "Axeman 1-1",
+  "channels": [
+    "cas-uhf"
+  ],
+  "coordinate_source": "lrf",
+  "default_laser_code": "1688",
+  "egress_points": [
+    {
+      "id": "cedar",
+      "kind": "control_measure"
+    }
+  ],
+  "equipment": [
+    {
+      "available": true,
+      "id": "designator",
+      "kind": "laser_designator",
+      "laser_codes": [
+        "1688",
+        "1511"
+      ],
+      "max_range": {
+        "unit": "km",
+        "value": 10
+      },
+      "name": "Ground laser target designator",
+      "notes": "Spare batteries for 24 hours of operation.",
+      "quantity": 1
+    },
+    {
+      "available": true,
+      "horizontal_accuracy": {
+        "unit": "m",
+        "value": 10
+      },
+      "id": "rangefinder",
+      "kind": "laser_rangefinder",
+      "max_range": {
+        "unit": "km",
+        "value": 8
+      },
+      "name": "Handheld laser rangefinder",
+      "quantity": 1,
+      "vertical_accuracy": {
+        "unit": "m",
+        "value": 5
+      }
+    }
+  ],
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "kind": "unit",
+            "mission_id": "oir-syria",
+            "name": "OIR Axeman",
+            "object_id": 42,
+            "unit_type": "Hummer"
+          }
+        ],
+        "coalition": "blue"
+      }
+    }
+  },
+  "id": "axeman",
+  "initial_points": [
+    {
+      "id": "ip-silver",
+      "kind": "control_measure"
+    }
+  ],
+  "kind": "fac",
+  "laser_codes": [
+    "1688",
+    "1511"
+  ],
+  "platform": "ground",
+  "position": {
+    "latitude": 35.005,
+    "longitude": 40.265
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "role": "jtac",
+  "smoke_color": "white",
+  "terminal_control": [
+    "type_1",
+    "type_2",
+    "type_3"
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "$defs": {
+    "GlideSlope": {
+      "additionalProperties": false,
+      "properties": {
+        "angle_deg": {
+          "description": "This field gives the angle between the glide path and a horizontal line, in degrees.",
+          "exclusiveMaximum": 90,
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "elevation": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Elevation",
+          "description": "This field gives the elevation of the glide slope antenna above mean sea level, as an elevation with its unit."
+        },
+        "position": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the glide slope antenna, as latitude and longitude."
+        }
+      },
+      "required": [
+        "angle_deg",
+        "position"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:localizer:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A localizer is the transmitter of an instrument landing system (ILS) that shows the lateral position of the aircraft in relation to the course. The record has its frequency, its course and, when the ILS has one, its glide slope.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "airfield": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the airfield of the localizer. When the airfield has a list of its localizers, the list shall include this localizer.",
+      "x-catalog": "places"
+    },
+    "course": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+      "description": "This field gives the front course of the localizer, as a bearing with its unit and reference. A magnetic course includes the station declination, which is more than zero for east."
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "unit",
+                              "static",
+                              "scenery",
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "frequency": {
+      "allOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Frequency"
+        },
+        {
+          "properties": {
+            "unit": {
+              "const": "MHz",
+              "description": "This field gives the unit of the localizer frequency: megahertz (`MHz`)."
+            }
+          }
+        }
+      ],
+      "description": "This field gives the frequency of the localizer, as a frequency with its unit. The unit is megahertz."
+    },
+    "glide_slope": {
+      "$ref": "#/$defs/GlideSlope",
+      "description": "This field gives the glide slope transmitter for the same runway, when the runway has one."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this localizer. Other resources and orders use this stable identifier to refer to this localizer."
+    },
+    "ident": {
+      "description": "This field identifies this localizer as the station transmits it in Morse code. An example is `IDQQ`.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "ils_category": {
+      "description": "This field gives the instrument landing system (ILS) Category of the localizer, as one of the enumerated values. A localizer without a glide slope does not have this field.",
+      "enum": [
+        "I",
+        "II",
+        "III"
+      ],
+      "x-enum-descriptions": {
+        "I": "This value identifies an instrument landing system (ILS) for approaches with a decision height of 200 feet or more.",
+        "II": "This value identifies an instrument landing system (ILS) for approaches with a decision height from 100 feet to less than 200 feet.",
+        "III": "This value identifies an instrument landing system (ILS) for approaches with a decision height of less than 100 feet, or with no decision height."
+      }
+    },
+    "kind": {
+      "const": "localizer",
+      "description": "The value identifies this record as a localizer record. The value selects this navigation contract."
+    },
+    "name": {
+      "description": "This field gives the name of this localizer, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "position": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "description": "This field gives the geographic position of the localizer antenna, as latitude and longitude."
+    },
+    "provenance": {
+      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Provenance",
+      "description": "This field gives the provenance of this localizer as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this localizer. The reference gives the identifier and the revision of the catalogue."
+    },
+    "runway": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+      "description": "This field gives the designator of the runway of the localizer."
+    },
+    "source": {
+      "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "threshold_crossing_height": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+      "description": "This field gives the threshold crossing height (TCH) of the glide slope, as a length with its unit. It is the height of the glide slope above the landing threshold."
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "name",
+    "frequency",
+    "course",
+    "position"
+  ],
+  "title": "Localizer",
+  "type": "object",
+  "x-navigation-profile": "localizer"
+}

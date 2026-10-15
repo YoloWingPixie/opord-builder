@@ -1,0 +1,120 @@
+{
+  "$schema": "urn:openaix:schema:measure-route:0.1.0-draft.2",
+  "active": {
+    "continuous": true
+  },
+  "altitude": {
+    "lower": {
+      "surface": true
+    },
+    "upper": {
+      "reference": "MSL",
+      "unit": "ft",
+      "value": 4500
+    }
+  },
+  "channels": [
+    "salti-uhf"
+  ],
+  "controlling_agency": "salti-tower",
+  "coordination_instructions": [
+    "Report HIGHWAY to Salti Tower; continue on the north route from Salti Dam."
+  ],
+  "description": "Published VFR arrival from the highway east of Muwaffaq Salti; it arcs north at 8 nm to Salti Dam.",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "closed": true,
+            "kind": "drawing",
+            "layer": "Blue",
+            "line_mode": "segments",
+            "mission_id": "oir-syria",
+            "name": "OIR South transit",
+            "object_id": 44,
+            "primitive_type": "Line",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "geometry": {
+    "kind": "path",
+    "segments": [
+      {
+        "end": {
+          "latitude": 31.89198,
+          "longitude": 36.917165
+        },
+        "kind": "line",
+        "start": {
+          "latitude": 31.825137,
+          "longitude": 37.055691
+        }
+      },
+      {
+        "center": {
+          "latitude": 31.825431,
+          "longitude": 36.781257
+        },
+        "end_bearing": {
+          "reference": "true",
+          "value": 20
+        },
+        "kind": "arc",
+        "radius": {
+          "unit": "nm",
+          "value": 8
+        },
+        "start_bearing": {
+          "declination_deg": 5.0,
+          "reference": "true",
+          "value": 60
+        },
+        "turns": "left"
+      }
+    ]
+  },
+  "id": "vfr-salti-east",
+  "joins": [
+    {
+      "route": "vfr-salti-north",
+      "vertex": 2
+    }
+  ],
+  "name": "Salti east VFR arrival",
+  "notes": "Not sterile of other traffic; helicopters use the same highway.",
+  "purpose": "Keep VFR arrivals clear of the runway 31 final approach.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "Remain at or below 4,500 feet MSL until Salti Dam."
+  ],
+  "serves": [
+    {
+      "airfield": "ojms",
+      "runway": "31"
+    }
+  ],
+  "type": "VFRRTE",
+  "vertices": [
+    {
+      "index": 0,
+      "name": "HIGHWAY"
+    },
+    {
+      "index": 2,
+      "name": "DAM",
+      "point": "vrp-salti-dam"
+    }
+  ]
+}

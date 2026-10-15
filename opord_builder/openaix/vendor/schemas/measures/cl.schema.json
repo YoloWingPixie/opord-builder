@@ -1,0 +1,110 @@
+{
+  "$id": "urn:openaix:schema:measure-cl:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A coordination level or coordinating altitude is one altitude or height that divides airspace users. The code `CL` is the North Atlantic Treaty Organization (NATO) coordination level, and the code `CA` is the coordinating altitude of JP 3-52. The record can identify the agencies that control the airspace below and above the level. The lateral limits come from text or from unit boundaries, not from this record.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this coordination level or coordinating altitude is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this coordination level or coordinating altitude has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this coordination level or coordinating altitude and its local conditions, as free text.",
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {},
+                  "propertyNames": {
+                    "enum": [
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "geometry": {
+      "allOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_vertical"
+        },
+        {
+          "required": [
+            "level"
+          ]
+        }
+      ],
+      "description": "This field gives the vertical geometry of the coordination level: one altitude or height."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this coordination level or coordinating altitude. Other records and orders use it to refer to this coordination level or coordinating altitude."
+    },
+    "name": {
+      "description": "This field gives the name of this coordination level or coordinating altitude, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this coordination level or coordinating altitude, as free text.",
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this coordination level or coordinating altitude. The reference gives the identifier and the revision of the catalogue."
+    },
+    "responsibility_above": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the airspace above the level.",
+      "x-catalog": "agencies"
+    },
+    "responsibility_below": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the agency that controls the airspace below the level.",
+      "x-catalog": "agencies"
+    },
+    "type": {
+      "description": "This field gives the catalogue code of this control measure, as one of the enumerated values. The code identifies the definition of the control measure in doctrine. The catalogue of control measures gives its class and the source of its definition.",
+      "enum": [
+        "CL",
+        "CA"
+      ],
+      "x-enum-descriptions": {
+        "CA": "A coordinating altitude (CA) is an airspace coordinating measure that uses altitude to separate users and as the transition between different airspace control elements. Airspace users should coordinate with these elements before they fly or fire through it.",
+        "CL": "A coordination level (CL) is one altitude or height that sets airspace control responsibilities. The CL deconflicts airspace users, and this is its primary function. It usually divides the users above it from the users below it."
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "geometry",
+    "active"
+  ],
+  "title": "Coordination level or coordinating altitude",
+  "type": "object"
+}

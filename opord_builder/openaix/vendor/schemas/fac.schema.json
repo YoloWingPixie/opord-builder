@@ -1,0 +1,254 @@
+{
+  "$id": "urn:openaix:schema:fac:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A forward air controller (FAC) is a record of a FAC, a joint terminal attack controller (JTAC) or an airborne forward air controller (FAC(A)). It contains the role, the platform, the communications and the control functions of the controller.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "callsign": {
+      "description": "This field gives the radio call sign of the controller, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "channels": {
+      "description": "This list identifies the radio channels that the controller uses.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+      },
+      "minItems": 1,
+      "type": "array",
+      "x-catalog": "channels"
+    },
+    "coordinate_source": {
+      "description": "This field gives the method that the controller uses to get target coordinates, as one of the enumerated values. The value is not a type of target location error.",
+      "enum": [
+        "lrf",
+        "visual",
+        "exact"
+      ],
+      "x-enum-descriptions": {
+        "exact": "This value identifies accurate coordinates from the simulator.",
+        "lrf": "This value identifies coordinates from a laser rangefinder at a known observer position.",
+        "visual": "This value identifies a visual estimate by the controller."
+      }
+    },
+    "default_laser_code": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode",
+      "description": "This field gives the laser code that the controller uses when the brief gives no other code, as a laser code with its unit."
+    },
+    "egress_points": {
+      "description": "This list identifies the egress points that the controller gives to aircraft. Each one refers to a point with the role egress, gate or fix.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+        "x-measure-kinds": [
+          "POINT"
+        ],
+        "x-point-roles": [
+          "egress",
+          "gate",
+          "fix"
+        ]
+      },
+      "type": "array"
+    },
+    "equipment": {
+      "description": "This list contains the equipment items that the controller or the observer team has. When an item is not in the list, the list does not add or remove that equipment.",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "description": "The value is `true` when this equipment is available for the operation in the plan.",
+            "type": "boolean"
+          },
+          "horizontal_accuracy": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+            "description": "This field gives the horizontal precision of the equipment that its data gives, as a length with its unit."
+          },
+          "id": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "description": "This field identifies this equipment item. Other records and orders use it to refer to this equipment item."
+          },
+          "kind": {
+            "description": "This field gives the type of equipment, as one of the enumerated values.",
+            "enum": [
+              "laser_designator",
+              "laser_rangefinder",
+              "gps",
+              "day_optic",
+              "thermal_imager",
+              "night_vision",
+              "ir_pointer",
+              "smoke",
+              "illumination",
+              "radio",
+              "other"
+            ]
+          },
+          "laser_codes": {
+            "description": "This list contains the laser codes that the equipment can use.",
+            "items": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode"
+            },
+            "type": "array"
+          },
+          "max_range": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+            "description": "This field gives the maximum range at which the equipment operates, as a length with its unit."
+          },
+          "name": {
+            "description": "This field gives the name of this equipment item, for display. The name is the identification or the type of the equipment.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "notes": {
+            "description": "This field gives the notes about this equipment, such as limits, supply condition or employment, as free text.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "quantity": {
+            "description": "This field gives the number of items of this equipment that are available.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "vertical_accuracy": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+            "description": "This field gives the vertical precision of the equipment that its data gives, as a length with its unit."
+          }
+        },
+        "required": [
+          "id",
+          "kind"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "unit",
+                              "group",
+                              "static",
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record. The data in this field is for one consumer. The controller record keeps the data that all consumers can use. Examples are the identification, the equipment and the functions of the controller."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this controller. Other records and orders use it to refer to this controller."
+    },
+    "initial_points": {
+      "description": "This list identifies the initial points that the controller uses for attack briefs. Each one refers to a point with the role initial or fix.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+        "x-measure-kinds": [
+          "POINT"
+        ],
+        "x-point-roles": [
+          "initial",
+          "fix"
+        ]
+      },
+      "type": "array"
+    },
+    "kind": {
+      "const": "fac",
+      "description": "The value identifies this record as a forward air controller."
+    },
+    "laser_codes": {
+      "description": "This list contains the laser codes that the designators of the controller can use.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "platform": {
+      "description": "This field gives the platform of the controller: on the ground (`ground`) or in an aircraft (`airborne`), as one of the enumerated values.",
+      "enum": [
+        "ground",
+        "airborne"
+      ]
+    },
+    "position": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "description": "This field gives the geographic position of the controller, as latitude and longitude."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the external resource catalogue that resolves the references of this record. The reference identifies the catalogue and gives its revision."
+    },
+    "role": {
+      "description": "This field gives the qualification of the controller, as one of the enumerated values. The controller is a forward air controller (FAC), a joint terminal attack controller (JTAC) or an airborne forward air controller (FAC(A)).",
+      "enum": [
+        "fac",
+        "jtac",
+        "fac_a"
+      ]
+    },
+    "smoke_color": {
+      "description": "This field gives the colour of the smoke that identifies targets or friendly positions, as one of the enumerated values.",
+      "enum": [
+        "white",
+        "red",
+        "green",
+        "orange",
+        "blue"
+      ]
+    },
+    "terminal_control": {
+      "description": "This list contains the types of terminal attack control that the controller may give.",
+      "items": {
+        "enum": [
+          "type_1",
+          "type_2",
+          "type_3"
+        ]
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "callsign",
+    "role"
+  ],
+  "title": "Forward air controller",
+  "type": "object"
+}

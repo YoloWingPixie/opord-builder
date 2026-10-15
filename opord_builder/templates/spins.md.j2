@@ -1,0 +1,40 @@
+{% import '_spins_blocks.md.j2' as publication with context %}
+# {{ rich(document.meta.title) }}
+
+{% if document.meta.classification %}{{ document.meta.classification.value }}{% endif %}{% if document.meta.handling %} · {{ rich(document.meta.handling) }}{% endif %}
+
+{{ rich(document.meta.id) }} · Revision {{ rich(document.meta.revision) }}
+{% if document.meta.issued_at %}
+Issued {{ document.meta.issued_at.isoformat() }}
+{% endif %}
+{% if document.meta.issuing_unit %}
+{{ rich(document.meta.issuing_unit) }}
+{% endif %}
+{% if document.meta.author %}
+{{ rich(document.meta.author) }}
+{% endif %}
+{% if document.meta.operation %}
+{{ rich(document.meta.operation) }}
+{% endif %}
+{% if document.period %}
+Effective {{ document.period.start.isoformat() }} to {{ document.period.end.isoformat() }}
+{% endif %}
+
+{{ publication.blocks(document.content) }}
+{% if document.meta.references %}
+## References
+
+{% for reference in document.meta.references %}
+<a id="citation-{{ reference.id }}"></a>
+**{{ citation_labels[reference.id] }}.** {% if reference.author %}{{ rich(reference.author) }}. {% endif %}{% if reference.url %}[{{ rich(reference.title) }}](<{{ reference.url }}>){% else %}{{ rich(reference.title) }}{% endif %}{% if reference.date %}, {{ rich(reference.date) }}{% endif %}{% if reference.locator %}, {{ rich(reference.locator) }}{% endif %}.
+
+{% endfor %}
+{% endif %}
+
+{% if document.meta.distribution %}
+## Distribution
+
+{% for recipient in document.meta.distribution %}
+- {{ rich(recipient) }}
+{% endfor %}
+{% endif %}

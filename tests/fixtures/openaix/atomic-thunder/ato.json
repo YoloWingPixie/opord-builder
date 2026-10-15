@@ -1,0 +1,194 @@
+{
+  "$schema": "urn:openaix:schema:ato:0.1.0-draft.2",
+  "kind": "ato",
+  "schema_version": "0.1.0-draft.2",
+  "meta": {
+    "id": "atomic-thunder-ato",
+    "revision": "1",
+    "title": "Atomic Thunder Air Tasking Order",
+    "operation": "ATOMIC THUNDER",
+    "issuing_unit": "GermanyCW",
+    "classification": "UNCLASSIFIED",
+    "issued_at": "2026-10-14T06:00:00Z"
+  },
+  "period": {
+    "start": "2026-10-14T08:00:00Z",
+    "end": "2026-10-14T16:00:00Z"
+  },
+  "resources_ref": {
+    "id": "atomic-thunder-resources",
+    "revision": "1"
+  },
+  "packages": [
+    {
+      "id": "anvil",
+      "name": "Anvil",
+      "objective": "Destroy hardened shelters at the fictional airbase."
+    }
+  ],
+  "missions": [
+    {
+      "id": "oca-strike",
+      "mission_number": "4101",
+      "package": "anvil",
+      "priority": 1,
+      "tasking_relationship": "assigned",
+      "control": {
+        "kind": "agency",
+        "agency": "overlord"
+      },
+      "support": [
+        {
+          "role": "tanker",
+          "flight": "shell-1"
+        }
+      ],
+      "tasking": {
+        "kind": "preplanned_attack",
+        "role": "strike",
+        "objective": "Destroy hardened shelters at the fictional airbase",
+        "success_criteria": "Four shelters destroyed.",
+        "assignments": [
+          {
+            "id": "shelters",
+            "role": "primary",
+            "desired_effect": "DESTROY",
+            "target": {
+              "kind": "fixed",
+              "target": "airbase-bunkers",
+              "aimpoints": [
+                "shelter-1"
+              ]
+            }
+          }
+        ]
+      },
+      "flights": [
+        {
+          "id": "viper-1",
+          "callsign": "Viper 1",
+          "aircraft_type": "f-16c-50",
+          "count": 4,
+          "participation": "player",
+          "configuration": {
+            "primary_scl": "f16-oca",
+            "member_overrides": [
+              {
+                "member": 1,
+                "identification": {
+                  "tacan": {
+                    "channel": 14,
+                    "band": "Y",
+                    "identifier": "VP1"
+                  }
+                }
+              }
+            ]
+          },
+          "launch": {
+            "kind": "scheduled",
+            "departure": "etad",
+            "startup": "2026-10-14T09:10:00Z",
+            "taxi": "2026-10-14T09:20:00Z",
+            "takeoff": "2026-10-14T09:30:00Z"
+          },
+          "recovery": {
+            "destination": "etad",
+            "alternates": [
+              "etar"
+            ],
+            "planned_time": "2026-10-14T11:45:00Z"
+          },
+          "fuel": {
+            "initial": {
+              "value": 7000,
+              "unit": "lb"
+            },
+            "joker": {
+              "value": 2800,
+              "unit": "lb"
+            },
+            "bingo": {
+              "value": 1500,
+              "unit": "lb"
+            }
+          },
+          "identification": {
+            "tacan": {
+              "channel": 77,
+              "band": "Y",
+              "identifier": "VPR"
+            },
+            "mode_3": "4101",
+            "datalink_type": "Link 16",
+            "datalink_network": "Net 1",
+            "datalink_station": "01201"
+          },
+          "communications": [
+            {
+              "radio": "COMM1",
+              "channel": "overlord-uhf",
+              "preset": 1,
+              "purpose": "Overlord control"
+            },
+            {
+              "radio": "COMM2",
+              "channel": "guard-vhf",
+              "preset": 2,
+              "purpose": "Strike common"
+            },
+            {
+              "radio": "COMM1",
+              "channel": "shell-uhf",
+              "preset": 16,
+              "purpose": "Shell 1 tanker"
+            },
+            {
+              "radio": "COMM1",
+              "channel": "viper-intra",
+              "preset": 5,
+              "purpose": "Intraflight"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "anvil-tanker",
+      "mission_number": "4201",
+      "package": "anvil",
+      "tasking_relationship": "assigned",
+      "tasking": {
+        "kind": "refueling",
+        "method": "boom",
+        "area": {
+          "area": "aar-track-1"
+        },
+        "channel": "shell-uhf",
+        "tacan": {
+          "channel": 41,
+          "band": "Y",
+          "identifier": "SHL"
+        },
+        "receivers": [
+          {
+            "flight": "viper-1",
+            "planned_offload": {
+              "value": 4000,
+              "unit": "lb"
+            }
+          }
+        ]
+      },
+      "flights": [
+        {
+          "id": "shell-1",
+          "callsign": "Shell 1",
+          "aircraft_type": "kc-135",
+          "count": 1,
+          "participation": "ai"
+        }
+      ]
+    }
+  ]
+}

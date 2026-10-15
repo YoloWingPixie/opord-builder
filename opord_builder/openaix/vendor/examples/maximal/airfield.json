@@ -1,0 +1,733 @@
+{
+  "$schema": "urn:openaix:schema:airfield:0.1.0-draft.2",
+  "approach_instructions": [
+    "Expect radar vectors to the ILS runway 31 final from GHI.",
+    "Report 10 nm final to Salti Tower."
+  ],
+  "atis": {
+    "remarks": [
+      "Tower combines ground, tower and approach on 253.15 and 120.5; BAK-12 cables 1500 feet from both runway 13 and 31 thresholds.",
+      "Transient fighters park on stands 40 and 41; shelters are at the north-west end."
+    ],
+    "runway_in_use": "13",
+    "transition_level": {
+      "reference": "FL",
+      "unit": "flight_level",
+      "value": 150
+    }
+  },
+  "calm_wind_runway": "13",
+  "controlling_agency": "salti-tower",
+  "elevation": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 1636
+  },
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "kind": "airbase",
+            "mission_id": "oir-syria",
+            "name": "Muwaffaq Salti",
+            "object_id": 44
+          }
+        ],
+        "coalition": "blue"
+      }
+    }
+  },
+  "frequencies": [
+    {
+      "callsign": "Salti Tower",
+      "frequency": {
+        "band": "uhf",
+        "modulation": "AM",
+        "unit": "MHz",
+        "value": 253.15
+      },
+      "hours": {
+        "exclusions": [
+          {
+            "end": "2026-10-02T14:00:00Z",
+            "start": "2026-10-02T13:40:00Z"
+          }
+        ],
+        "periods": [
+          {
+            "end_day_offset": 0,
+            "end_time": "20:00:00",
+            "start_time": "04:00:00",
+            "weekdays": [
+              "fri"
+            ]
+          }
+        ],
+        "time_reference": "UTC"
+      },
+      "notes": "Monitor guard 243.0 MHz outside the tower hours.",
+      "role": "tower"
+    }
+  ],
+  "hung_ordnance_runway": "31",
+  "id": "ojms",
+  "ident": "OJMS",
+  "kind": "airfield",
+  "localizers": [
+    "ojms-ils-31",
+    "ojms-ils-26"
+  ],
+  "magnetic_variation_deg": 5.0,
+  "name": "Muwaffaq Salti",
+  "navaids": [
+    {
+      "id": "ghi",
+      "kind": "control_measure"
+    }
+  ],
+  "operating_hours": {
+    "periods": [
+      {
+        "end_day_offset": 1,
+        "end_time": "01:00:00",
+        "start_time": "03:00:00",
+        "weekdays": [
+          "sun",
+          "mon",
+          "tue",
+          "wed",
+          "thu"
+        ]
+      }
+    ],
+    "time_reference": "UTC"
+  },
+  "pads": [
+    {
+      "name": "EOR 31",
+      "position": {
+        "latitude": 31.826633,
+        "longitude": 36.795642
+      },
+      "use": [
+        "arm_dearm",
+        "hot_brake"
+      ]
+    }
+  ],
+  "parking": [
+    {
+      "category": "fighter",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "bindings": [
+              {
+                "kind": "stand",
+                "name": "40"
+              }
+            ]
+          }
+        }
+      },
+      "heading": {
+        "reference": "true",
+        "value": 324.9
+      },
+      "id": "stand-40",
+      "length": {
+        "unit": "m",
+        "value": 26
+      },
+      "name": "40",
+      "position": {
+        "latitude": 31.834801,
+        "longitude": 36.786459
+      },
+      "ramp": "Main ramp",
+      "width": {
+        "unit": "m",
+        "value": 24
+      }
+    },
+    {
+      "category": "fighter",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "bindings": [
+              {
+                "kind": "stand",
+                "name": "41"
+              }
+            ]
+          }
+        }
+      },
+      "heading": {
+        "reference": "true",
+        "value": 325.2
+      },
+      "id": "stand-41",
+      "length": {
+        "unit": "m",
+        "value": 26
+      },
+      "name": "41",
+      "position": {
+        "latitude": 31.834627,
+        "longitude": 36.786673
+      },
+      "ramp": "Main ramp",
+      "width": {
+        "unit": "m",
+        "value": 24
+      }
+    },
+    {
+      "category": "fighter",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "bindings": [
+              {
+                "kind": "stand",
+                "name": "29"
+              }
+            ]
+          }
+        }
+      },
+      "heading": {
+        "reference": "true",
+        "value": 339.3
+      },
+      "id": "stand-29",
+      "length": {
+        "unit": "m",
+        "value": 18
+      },
+      "name": "29",
+      "position": {
+        "latitude": 31.844813,
+        "longitude": 36.779449
+      },
+      "ramp": "North-west shelters",
+      "shelter": true,
+      "width": {
+        "unit": "m",
+        "value": 13
+      }
+    },
+    {
+      "category": "helicopter",
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "bindings": [
+              {
+                "kind": "stand",
+                "name": "H01"
+              }
+            ]
+          }
+        }
+      },
+      "heading": {
+        "reference": "true",
+        "value": 250.3
+      },
+      "helicopters": true,
+      "id": "stand-h01",
+      "length": {
+        "unit": "m",
+        "value": 18
+      },
+      "name": "H01",
+      "position": {
+        "latitude": 31.828852,
+        "longitude": 36.794642
+      },
+      "ramp": "South-east apron",
+      "width": {
+        "unit": "m",
+        "value": 15
+      }
+    }
+  ],
+  "position": {
+    "latitude": 31.825431,
+    "longitude": 36.781257
+  },
+  "procedures": [
+    "ojms-i31",
+    "ojms-par31",
+    "ojms-asr13",
+    "ojms-r13",
+    "ojms-salat1"
+  ],
+  "provenance": {
+    "authority": "Eagle Dynamics",
+    "derivation": "derived",
+    "tool": {
+      "name": "DCS map file reader",
+      "version": "2.9.8"
+    }
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "runways": [
+    {
+      "airfield": "ojms",
+      "designator": "08/26",
+      "ends": [
+        {
+          "designator": "08",
+          "displaced_threshold": {
+            "unit": "ft",
+            "value": 300
+          },
+          "heading": {
+            "declination_deg": 5.0,
+            "reference": "magnetic",
+            "value": 74.9
+          },
+          "threshold": {
+            "latitude": 31.815801,
+            "longitude": 36.766644
+          },
+          "threshold_crossing_height": {
+            "unit": "ft",
+            "value": 50
+          },
+          "threshold_elevation": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 1636
+          }
+        },
+        {
+          "designator": "26",
+          "heading": {
+            "declination_deg": 5.0,
+            "reference": "magnetic",
+            "value": 254.9
+          },
+          "lighting": {
+            "edge_lights": true,
+            "reil": true
+          },
+          "localizer": "ojms-ils-26",
+          "threshold": {
+            "latitude": 31.819432,
+            "longitude": 36.790728
+          },
+          "threshold_elevation": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 1636
+          }
+        }
+      ],
+      "extensions": {
+        "org.cjtf-oir.ato": {
+          "ato_day": "214"
+        }
+      },
+      "id": "ojms-rw08-26",
+      "kind": "runway",
+      "length": {
+        "unit": "ft",
+        "value": 7598
+      },
+      "name": "08/26",
+      "provenance": {
+        "airac_cycle": "2610",
+        "authority": "CJTF-OIR airspace control cell",
+        "derivation": "authored",
+        "effective_from": "2026-10-01T00:00:00Z",
+        "effective_until": "2026-10-29T00:00:00Z",
+        "generated_at": "2026-09-28T10:00:00Z",
+        "publication": {
+          "id": "ojms-i31-chart",
+          "revision": "2610",
+          "section": "DTA05",
+          "title": "Muwaffaq Salti ILS runway 31 chart"
+        }
+      },
+      "resources_ref": {
+        "id": "oir-resources",
+        "revision": "1"
+      },
+      "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua",
+      "surface": "hard",
+      "width": {
+        "unit": "ft",
+        "value": 197
+      }
+    },
+    {
+      "designator": "13/31",
+      "ends": [
+        {
+          "arresting_gear": [
+            {
+              "distance_from_threshold": {
+                "unit": "ft",
+                "value": 1500
+              },
+              "type": "BAK_12"
+            }
+          ],
+          "designator": "13",
+          "heading": {
+            "declination_deg": 5.0,
+            "reference": "magnetic",
+            "value": 126.1
+          },
+          "lighting": {
+            "edge_lights": true
+          },
+          "threshold": {
+            "latitude": 31.841077,
+            "longitude": 36.773265
+          },
+          "threshold_elevation": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 1636
+          }
+        },
+        {
+          "arresting_gear": [
+            {
+              "distance_from_threshold": {
+                "unit": "ft",
+                "value": 1500
+              },
+              "type": "BAK_12"
+            }
+          ],
+          "designator": "31",
+          "heading": {
+            "declination_deg": 5.0,
+            "reference": "magnetic",
+            "value": 306.1
+          },
+          "lighting": {
+            "approach_lighting": "SSALR",
+            "edge_lights": true,
+            "slope_indicator": "PAPI"
+          },
+          "localizer": "ojms-ils-31",
+          "threshold": {
+            "latitude": 31.825413,
+            "longitude": 36.79439
+          },
+          "threshold_elevation": {
+            "reference": "MSL",
+            "unit": "ft",
+            "value": 1636
+          },
+          "traffic_pattern": {
+            "altitude": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 3600
+            },
+            "break_point": "approach_end",
+            "categories": {
+              "fighter": {
+                "altitude": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 1500
+                },
+                "break_point": "approach_end",
+                "departure_ceiling": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 1000
+                },
+                "direction": "right",
+                "go_around": {
+                  "altitude": {
+                    "reference": "MSL",
+                    "unit": "ft",
+                    "value": 4600
+                  },
+                  "heading": {
+                    "reference": "magnetic",
+                    "value": 306
+                  }
+                },
+                "initial": [
+                  {
+                    "bearing": {
+                      "declination_deg": 5.0,
+                      "reference": "magnetic",
+                      "value": 126.1
+                    },
+                    "distance": {
+                      "unit": "nm",
+                      "value": 5
+                    }
+                  }
+                ],
+                "overhead_altitude": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 2500
+                },
+                "reentry": {
+                  "altitude": {
+                    "reference": "MSL",
+                    "unit": "ft",
+                    "value": 3600
+                  },
+                  "name": "40",
+                  "point": {
+                    "id": "vrp-salti-dam",
+                    "kind": "control_measure"
+                  }
+                },
+                "sfo": {
+                  "high_key": {
+                    "lower": {
+                      "reference": "AGL",
+                      "unit": "ft",
+                      "value": 7000
+                    },
+                    "upper": {
+                      "reference": "AGL",
+                      "unit": "ft",
+                      "value": 9000
+                    }
+                  },
+                  "low_key": {
+                    "lower": {
+                      "reference": "AGL",
+                      "unit": "ft",
+                      "value": 3000
+                    },
+                    "upper": {
+                      "reference": "AGL",
+                      "unit": "ft",
+                      "value": 5000
+                    }
+                  }
+                }
+              },
+              "heavy": {
+                "altitude": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 2000
+                }
+              },
+              "helicopter": {
+                "altitude": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 500
+                }
+              },
+              "trainer": {
+                "altitude": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 1000
+                },
+                "overhead_altitude": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 1500
+                }
+              }
+            },
+            "departure_ceiling": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 1000
+            },
+            "direction": "right",
+            "sfo": {
+              "high_key": {
+                "lower": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 7000
+                },
+                "upper": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 9000
+                }
+              },
+              "low_key": {
+                "lower": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 3000
+                },
+                "upper": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 5000
+                }
+              }
+            }
+          }
+        }
+      ],
+      "id": "ojms-rw13-31",
+      "kind": "runway",
+      "length": {
+        "unit": "ft",
+        "value": 8691
+      },
+      "name": "13/31",
+      "surface": "hard",
+      "width": {
+        "unit": "ft",
+        "value": 197
+      }
+    }
+  ],
+  "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua",
+  "taxi": {
+    "edges": [
+      {
+        "from": "stand-40-lead",
+        "taxiway": "A",
+        "to": "ramp-exit",
+        "width": {
+          "unit": "m",
+          "value": 52
+        }
+      },
+      {
+        "category": "heavy",
+        "from": "ramp-exit",
+        "to": "parallel-north",
+        "width": {
+          "unit": "m",
+          "value": 52
+        }
+      },
+      {
+        "from": "entry-turn",
+        "one_way": true,
+        "to": "hold-13",
+        "width": {
+          "unit": "m",
+          "value": 52
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "id": "stand-40-lead",
+        "kind": "parking",
+        "position": {
+          "latitude": 31.834355,
+          "longitude": 36.785792
+        },
+        "stand": "stand-40"
+      },
+      {
+        "id": "stand-41-lead",
+        "kind": "parking",
+        "position": {
+          "latitude": 31.834198,
+          "longitude": 36.786004
+        },
+        "stand": "stand-41"
+      },
+      {
+        "id": "ramp-exit",
+        "kind": "intersection",
+        "name": "Ramp exit",
+        "position": {
+          "latitude": 31.835153,
+          "longitude": 36.784718
+        }
+      },
+      {
+        "id": "parallel-north",
+        "kind": "intersection",
+        "name": "North-west corner",
+        "position": {
+          "latitude": 31.839513,
+          "longitude": 36.778844
+        }
+      },
+      {
+        "id": "entry-turn",
+        "kind": "intersection",
+        "name": "Runway 13 entry turn",
+        "position": {
+          "latitude": 31.839171,
+          "longitude": 36.778002
+        }
+      },
+      {
+        "id": "hold-13",
+        "kind": "hold_short",
+        "name": "Holding point runway 13",
+        "position": {
+          "latitude": 31.837092,
+          "longitude": 36.778961
+        },
+        "runway_end": "13"
+      }
+    ]
+  },
+  "traffic_pattern": {
+    "go_around": {
+      "altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 4600
+      },
+      "heading": {
+        "reference": "magnetic",
+        "value": 306
+      }
+    },
+    "initial": [
+      {
+        "distance": {
+          "unit": "nm",
+          "value": 5
+        }
+      }
+    ],
+    "overhead_altitude": {
+      "reference": "MSL",
+      "unit": "ft",
+      "value": 3600
+    },
+    "profile": "usaf-standard",
+    "reentry": {
+      "altitude": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 3600
+      },
+      "point": {
+        "id": "vrp-salti-dam",
+        "kind": "control_measure"
+      }
+    }
+  },
+  "transition_altitude": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 13000
+  },
+  "use": "military"
+}

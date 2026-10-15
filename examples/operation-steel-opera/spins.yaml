@@ -1,0 +1,971 @@
+# yaml-language-server: $schema=../../schemas/spins.schema.json
+kind: spins
+schema_version: '0.3'
+scope: standing
+meta:
+  id: operation-steel-opera-spins
+  title: Operation Steel Opera — Special Instructions
+  revision: draft-4
+  operation: Persian Gulf · Scenario start 1 June 2018, 06:00
+  handling: DRAFT — MISSION-MAKER REVIEW
+  references:
+  - id: mission
+    title: Operation Steel Opera.miz — exact source archive
+    locator: mission; l10n/DEFAULT/dictionary; warehouses. SHA-256 6a9bfb403461d4ea04bd3e2ffb26e8c36817a5f07a4073b50d96f57e3d712922
+  - id: air-traffic
+    title: Embedded Air Traffic configuration and route logic
+    locator: mission.trigrules[1].actions[1].text; CONFIG.airspaces, CONFIG.no_go, CONFIG.airports
+  - id: shipping
+    title: Embedded Shipping Traffic configuration and blockade logic
+    locator: mission.trigrules[2].actions[1].text; CONFIG and read_blockades
+  - id: terrain-radio
+    title: Installed Persian Gulf terrain radio database
+    locator: DCS World OpenBeta/Mods/terrains/PersianGulf/radio.lua; local DCS log identifies build 2.9.29.27468
+  - id: navigation-basis
+    title: FAA AIM, Navigation Aids — DME and VORTAC
+    url: https://www.faa.gov/air_traffic/publications/atpubs/aim_html/chap1_section_1.html
+    locator: Sections 1-1-6 and 1-1-7; DME measures slant range in nautical miles
+  - id: arrival-naming
+    title: FAA ATC, Arrival Procedures — arrival name and number
+    url: https://www.faa.gov/air_traffic/publications/atpubs/atc_html/chap4_section_7.html
+    locator: Naming convention reference only; the mission names below are newly authored
+  - id: tacan-technique
+    title: FAA Instrument Flying Handbook, Navigation Systems
+    url: https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/FAA-H-8083-15B.pdf
+    locator: Chapter 9, DME arc and lead-radial technique; aircraft-specific controls remain in the relevant
+      flight manual
+  - id: tacan-checkpoints
+    title: Calculated MA magnetic radial/range planning checkpoints
+    locator: Source mission route vertices; Persian Gulf projection checked against 101 installed beacon coordinate
+      pairs; installed DCS magvar model initialized to June 2018 at MA. These are calculated references, not
+      live cockpit checks.
+  - id: dhafra-drawings
+    title: Al Dhafra HI/LO entry-route drawings and altitude annotations
+    locator: 'mission.drawings, Common layer: Line-1, Line-6, Line-7, Line-10, Line-11, Line-12, Line-13, Line-14
+      and HI/LO text objects. MA reference position: PersianGulf/beacons.lua, airfield4_8.'
+  distribution:
+  - Mission maker
+  - Flight leads
+  - Designated controllers
+presentation:
+  font: sans
+  page_size: A4
+  contents: true
+content:
+- kind: section
+  title: Applicability and mission basis
+  blocks:
+  - kind: paragraph
+    lead: Status.
+    text: This is a mission-derived SPINS draft for Operation Steel Opera. Mission configuration is stated
+      as configured, not as a live service guarantee. Paragraphs marked “Draft procedure” propose coordination
+      rules for adoption by the mission maker.
+  - kind: paragraph
+    lead: Applicability.
+    text: These standing instructions apply to runs of the exact source mission identified in the references.
+      They remain a complete baseline until revised; no ATO-period amendment or expiry has been invented.
+  - kind: paragraph
+    lead: Scenario clock.
+    text: The mission starts on 1 June 2018 at 06:00 on its scenario clock. A UTC offset and end-of-mission
+      time are not established in the archive. Use the same explicitly briefed clock for all launch, entry,
+      support, and recovery times.
+  - kind: paragraph
+    lead: Mission tasking.
+    text: The source contains no authored Player or Client aircraft and no blue tasking paragraph. Flight callsigns,
+      target assignments, expected standard conventional loads (SCLs), routes, fuel states, and recovery assignments
+      are not supplied. Issue these in flight tasking; a map target label or AI loadout is not a player assignment.
+  - kind: paragraph
+    lead: Draft procedure — flight brief.
+    text: Before launch, each flight lead shall identify the assigned task, aircraft and SCL, departure and
+      recovery location, alternate, radio plan, fuel limits, planned control-area crossings, and abort conditions.
+      Resolve the open items in the mission-maker annex before using the document as an issued order.
+  - kind: paragraph
+    lead: Weather snapshot.
+    text: The configured temperature is 40 °C, visibility is 80 km, and cloud-base value is 4,200 m with Preset1.
+      Fog and dust are disabled. Obtain the current in-simulator altimeter setting, runway, wind, and recovery
+      condition; these instructions do not assign a carrier recovery case.
+- kind: section
+  title: Communications, navigation aids, and support
+  blocks:
+  - kind: paragraph
+    lead: Frequency basis.
+    text: Carrier and template data below come from the mission. Airfield VHF channels come from the installed
+      Persian Gulf terrain database. A frequency entry does not establish that a human controller is staffed
+      or that an inactive aircraft has launched.
+  - kind: table
+    id: service-plan
+    caption: Configured and briefing-listed services
+    columns:
+    - key: c0
+      heading: Agency / platform
+    - key: c1
+      heading: Radio
+    - key: c2
+      heading: Navigation aids
+    - key: c3
+      heading: Status / use
+    rows:
+    - c0: CVN-75 Harry S. Truman
+      c1: 127.500 MHz AM
+      c2: TACAN 75X, ident KU; ICLS 5
+      c3: Programmed on the carrier. The briefing instead lists TACAN 4X. Resolve this discrepancy before recovery.
+    - c0: ARCO (briefing entry)
+      c1: 210.000 MHz AM
+      c2: TACAN 11Y
+      c3: Briefing only. No matching active ARCO service is established by the archive.
+    - c0: E-2C template / MAGIC 1-1
+      c1: 251.000 MHz; AM mode value
+      c2: No dedicated TACAN recorded
+      c3: Late activation. No activation action for this group was found in the inspected mission.
+    - c0: S-3B tanker template / TEXACO 1-1
+      c1: 251.000 MHz; AM mode value
+      c2: TACAN 1X, ident TKR in template task
+      c3: Late activation; does not match the ARCO briefing entry. Not a guaranteed refueling service.
+    - c0: SH-60B template / DODGE 2-1
+      c1: 127.500 MHz; AM mode value
+      c2: None specified
+      c3: Late activation; transport task. Presence alone does not establish an available rescue service.
+  - kind: paragraph
+    lead: Draft procedure — initial contact.
+    text: Identify callsign, number and type of aircraft, position, altitude with reference, intended activity,
+      and requested clearance. Read back the assigned route, altitude, clearance limit, and reporting requirement.
+      Use the actual assigned agency and channel; do not treat the table’s inactive templates as available
+      controllers.
+  - kind: paragraph
+    lead: Draft procedure — support availability.
+    text: Confirm tanker identity, channel, beacon, station, operating altitude, and availability before relying
+      on aerial refueling. A fuel plan shall remain viable if the unverified support listed above is unavailable.
+  - kind: paragraph
+    lead: Draft procedure — navigation check.
+    text:
+    - text: 'For carrier recovery, reconcile the programmed and briefing-listed aids in '
+    - target: service-plan
+    - text: ' before launch. Verify beacon identification and establish communications before committing to
+        the recovery.'
+- kind: section
+  title: Airspace control and restrictions
+  blocks:
+  - kind: paragraph
+    lead: Control-measure names.
+    text: Use the exact mission drawing names in clearances and reports. The mission contains named civil control
+      volumes and a military-route label; its civil-traffic script gives these volumes population-specific
+      behavior. Do not treat every drawn polygon or hidden trigger zone as a general aircraft exclusion area.
+  - kind: table
+    id: control-volumes
+    caption: Mission airspace definitions and civil-traffic limits
+    columns:
+    - key: c0
+      heading: Measure
+    - key: c1
+      heading: Recorded vertical definition
+    - key: c2
+      heading: Scope / qualification
+    rows:
+    - c0: OMDB CTR-E
+      c1: 10,000–28,000 ft MSL in traffic configuration
+      c2: Drawing reads FL280–10000. Applies to generated civil traffic crossing the polygon.
+    - c0: OMDB CTR-W
+      c1: 10,000–28,000 ft MSL in traffic configuration
+      c2: Drawing reads FL280–10000. Applies to generated civil traffic crossing the polygon.
+    - c0: OMDB CTA
+      c1: Ground–12,000 ft MSL
+      c2: Dubai terminal area; overlaps must not be assumed to be empty.
+    - c0: OMAA CTR
+      c1: 10,000–28,000 ft MSL
+      c2: Abu Dhabi civil traffic volume. Drawing reads FL280–10000.
+    - c0: OMAA_APP
+      c1: 4,000–10,000 ft MSL
+      c2: Abu Dhabi approach volume.
+    - c0: OMAA CTA
+      c1: Ground–10,000 ft MSL
+      c2: Abu Dhabi terminal area.
+    - c0: OMRK CTA
+      c1: Ground–6,500 ft MSL
+      c2: Traffic-script restriction is filtered to Ras Al Khaimah traffic.
+    - c0: OMFJ CTA
+      c1: Ground–7,500 ft MSL
+      c2: Traffic-script restriction is filtered to Fujairah traffic.
+    - c0: MRR1
+      c1: 'Map label: FL180–UNLTD; civil script: ground–17,000 ft MSL'
+      c2: Different populations use different vertical definitions. No military level allocation by direction
+        is supplied.
+    - c0: CVN75_CATCC
+      c1: Civil-traffic exclusion at all altitudes; 5 NM planning buffer
+      c2: Fixed rectangular drawing. The source does not assign a military entry altitude or moving carrier-control
+        volume.
+  - kind: section
+    title: Vertical separation from civil traffic
+    blocks:
+    - kind: paragraph
+      lead: Draft rule — remain above or below.
+      text: Military flights shall remain outside the vertical limits of the civil traffic volumes unless a
+        crossing has been specifically coordinated. Select an altitude below the civil floor or above the civil
+        ceiling, while respecting the assigned route altitude and terrain clearance. A route drawn through
+        the horizontal footprint does not by itself permit flight within the civil altitude band.
+    - kind: paragraph
+      lead: Draft planning margin.
+      text: For this SPINS, plan at least 1,000 ft below a raised civil floor or above a civil ceiling. This
+        margin is a proposed mission rule. The table uses feet MSL from the traffic configuration. It provides
+        planning limits, not a terrain-clearance guarantee or permission to enter another overlapping volume.
+    - kind: table
+      id: civil-vertical-limits
+      caption: Draft military under/over limits — all numeric altitudes in feet MSL
+      columns:
+      - key: c0
+        heading: Civil volume
+      - key: c1
+        heading: Configured civil band
+      - key: c2
+        heading: Underflight limit
+      - key: c3
+        heading: Overflight limit
+      rows:
+      - c0: OMDB CTR-E
+        c1: 10,000–28,000
+        c2: At or below 9,000
+        c3: At or above 29,000
+      - c0: OMDB CTR-W
+        c1: 10,000–28,000
+        c2: At or below 9,000
+        c3: At or above 29,000
+      - c0: OMDB CTA
+        c1: Ground–12,000
+        c2: No underflight option
+        c3: At or above 13,000
+      - c0: OMRK CTA
+        c1: Ground–6,500
+        c2: No underflight option
+        c3: At or above 7,500
+      - c0: OMAA CTR
+        c1: 10,000–28,000
+        c2: At or below 9,000
+        c3: At or above 29,000
+      - c0: OMAA_APP
+        c1: 4,000–10,000
+        c2: At or below 3,000
+        c3: At or above 11,000
+      - c0: OMAA CTA
+        c1: Ground–10,000
+        c2: No underflight option
+        c3: At or above 11,000
+      - c0: MRR1
+        c1: Ground–17,000
+        c2: No underflight option
+        c3: At or above 18,000
+      - c0: OMFJ CTA
+        c1: Ground–7,500
+        c2: No underflight option
+        c3: At or above 8,500
+    - kind: paragraph
+      lead: Ground-based areas.
+      text: There is no underflight option for a volume extending down to ground. Use its overflight limit
+        or remain laterally outside it. This applies to OMDB CTA, OMAA CTA, OMRK CTA, OMFJ CTA, and the civil-traffic
+        band in MRR1.
+    - kind: paragraph
+      lead: Overlapping areas.
+      text: Remain outside every applicable civil band with the planning margin. Being below one floor can
+        place the aircraft inside another volume. For example, where OMAA_APP (4,000–10,000) and OMAA CTR (10,000–28,000)
+        overlap, the common outside options are at or below 3,000 or at or above 29,000 ft MSL, subject to
+        route and terrain limits. If a ground-based CTA also occupies the lower option, remain above the combined
+        ceiling or outside the overlap.
+    - kind: paragraph
+      lead: Climb and descent.
+      text: Complete the altitude change outside the affected lateral boundary. Do not descend from above a
+        civil volume to below it, or climb from below to above, through occupied civil altitudes without coordinated
+        crossing instructions. If terrain, route restrictions, or aircraft capability prevent an outside altitude,
+        remain clear and obtain a revised route or clearance.
+    - kind: paragraph
+      lead: MRR1.
+      text: The mission places generated civil traffic at or below 17,000 ft MSL in MRR1 and labels the military
+        route FL180–UNLTD. Maintain the assigned military level and at least 1,000 ft above the civil ceiling
+        using a common altitude reference. FL180 is a pressure flight level; confirm the pressure-altitude
+        relationship instead of treating it as exactly 18,000 ft MSL. Other overlapping civil volumes still
+        require coordination.
+    - kind: paragraph
+      lead: Traffic outside the volumes.
+      text: The polygons constrain the configured generator, not every possible aircraft. Civil flights also
+        use 30,000–40,000-ft entry/exit levels outside these areas. An overflight altitude clear of one volume
+        does not establish an empty traffic area. Continue traffic checks and avoid using AI routing constraints
+        as guaranteed separation.
+    id: civil-vertical-separation
+  - kind: paragraph
+    lead: Draft procedure — clearance to enter.
+    text: Before entering a civil terminal area, CVN75_CATCC, or a crossing involving conflicting traffic,
+      obtain coordination from the designated mission controller. State the measure name, entry point, intended
+      track, altitude, and exit. Report entry and clear. If no controller or published flight deconfliction
+      is available, remain clear until the conflict is resolved.
+  - kind: paragraph
+    lead: Draft procedure — MRR1.
+    text:
+    - text: 'Use the drawn MRR1 footprint and the military FL180–UNLTD label in '
+    - target: control-volumes
+    - text: . Assign a specific direction and flight level during the flight brief. The eastbound and westbound
+        arrows do not themselves allocate odd/even levels or separation. Do not use the civil script’s 17,000-ft
+        ceiling as a military route clearance.
+    id: mrr-procedure
+  - kind: paragraph
+    lead: Draft procedure — civil-area crossing.
+    text:
+    - text: 'Apply the underflight or overflight limits in '
+    - target: civil-vertical-separation
+    - text: ' before crossing a civil footprint. Obtain specific coordination if the planned route requires
+        passage through its civil band. Keep climbs, descents, and holds outside the volume until that coordination
+        is complete.'
+  - kind: paragraph
+    lead: CATCC geometry.
+    text: 'CVN75_CATCC is a fixed rectangle measuring 185,000 by 92,500 m. The carrier starts outside it: the
+      shortest mission-grid distance from the starting position to the rectangle is about 58.9 NM. It does
+      not follow the ship. Carrier protection and aircraft entry procedures therefore require an explicit mission-maker
+      decision.'
+  - kind: figure
+    id: control-schematic
+    caption: Control measures from the source mission. Fixed CATCC drawing and actual carrier start are shown
+      separately.
+    alt: Two mission-grid diagrams show civil control polygons, MRR1, a shipping blockade, the CATCC rectangle,
+      and the carrier starting position.
+    src: assets/control-measures.svg
+  - kind: paragraph
+    lead: Other map features.
+    text: DAISY, GATSBY, CARRAWAY, and JORDAN are area labels on the map. ADF-1 and ADF-2 are hidden trigger
+      zones without published vertical limits or entry procedures. None of these names alone grants clearance,
+      establishes a weapons-free area, or identifies an assigned target.
+- kind: section
+  title: Airfield operations
+  blocks:
+  - kind: paragraph
+    lead: Airfield coordination.
+    text: The mission contains drawn HI/LO entries for Al Dhafra, including a connection on the Al Minhad side.
+      Its civil-traffic generator separately serves Dubai, Abu Dhabi, Sharjah, Ras Al Khaimah, and Fujairah.
+      Civil airports and their drawn routes are not automatically military departure, recovery, or alternate
+      assignments.
+  - kind: table
+    id: airfield-radios
+    caption: Installed terrain VHF channels
+    columns:
+    - key: c0
+      heading: Airfield
+    - key: c1
+      heading: Mission / ICAO designation
+    - key: c2
+      heading: VHF AM
+    rows:
+    - c0: Al Minhad
+      c1: OMDM
+      c2: 118.550 MHz
+    - c0: Al Dhafra
+      c1: OMAM
+      c2: 126.500 MHz
+    - c0: Dubai International
+      c1: OMDB
+      c2: 118.750 MHz
+    - c0: Abu Dhabi International
+      c1: OMAA
+      c2: 119.200 MHz
+    - c0: Sharjah International
+      c1: OMSJ
+      c2: 118.600 MHz
+    - c0: Ras Al Khaimah International
+      c1: OMRK
+      c2: 121.600 MHz
+    - c0: Fujairah International
+      c1: OMFJ
+      c2: 124.600 MHz
+  - kind: paragraph
+    lead: Draft procedure — common departure and recovery.
+    text: Obtain the active runway and traffic information from local control. Confirm that the runway and
+      departure path are clear before entering or departing. For arrival, report position, altitude, fuel state,
+      intended recovery, and abnormal conditions. Coordinate any alternate or diversion; this SPINS does not
+      assign one.
+  - kind: section
+    title: Al Dhafra / OMAM — HI and LO entry routes
+    blocks:
+    - kind: paragraph
+      lead: Procedure names.
+      text: Use the named arrivals below in flight briefs and on the radio. These are Operation Steel Opera
+        mission procedures. Each title uses a name and revision number, such as OPERA ONE (OPERA1). The names
+        identify the drawn routes; they do not create new navigation fixes. Procedure revision ONE is independent
+        of paragraph numbering and this document’s draft revision.
+    - kind: table
+      id: al-dhafra-entry-table
+      caption: Al Dhafra named arrivals
+      columns:
+      - key: c0
+        heading: Arrival / identifier
+      - key: c1
+        heading: Entry
+      - key: c2
+        heading: Connection
+      rows:
+      - c0: OPERA ONE (OPERA1)
+        c1: Northern HI
+        c2: WEST ARC
+      - c0: MINHA ONE (MINHA1)
+        c1: Al Minhad-side HI
+        c2: SOUTH ARC / EAST TRANSITION
+      - c0: TENOR ONE (TENOR1)
+        c1: Outer northeastern HI
+        c2: NORTH JOIN to OPERA ONE, or EAST TRANSITION as assigned
+      - c0: LYRIC ONE (LYRIC1)
+        c1: Northwestern LO
+        c2: OPERA ONE / WEST ARC join; altitude transition requires coordination
+    - kind: paragraph
+      lead: OPERA ONE arrival.
+      text: Use the northern HI entry and its drawn western-side route. The high-route annotation is UNLTD-12000.
+        Continue toward WEST ARC, the nominal 15 DME arc west/northwest of MA, for the assigned airfield entry.
+    - kind: paragraph
+      lead: MINHA ONE arrival.
+      text: Use the HI route from the Al Minhad side. Its straight leg reaches MA and the drawing continues
+        to the southern arc and eastern connection. The high-route annotation is UNLTD-12000. SOUTH ARC is
+        the nominal 15 DME arc south/southeast of MA; use the assigned EAST TRANSITION and recovery clearance.
+    - kind: paragraph
+      lead: TENOR ONE arrival.
+      text: Use the outer northeastern HI entry, annotated UNLTD-12000. At the branching area, take NORTH JOIN
+        toward OPERA ONE, or the eastern continuation when assigned. Include the selected transition in the
+        entry clearance.
+    - kind: paragraph
+      lead: LYRIC ONE arrival.
+      text: Use the northwestern LO entry and its curved route toward OPERA ONE. The source annotation is 4000-8000.
+        Coordinate the altitude change and the WEST ARC connection before joining the high-route structure.
+    - kind: paragraph
+      lead: Civil traffic — route-specific application.
+      text:
+      - text: 'Apply the vertical limits in '
+      - target: civil-vertical-separation
+      - text: ' to the named arrival. The source geometry gives the following intersections; the route name
+          and HI/LO label do not override the civil bands.'
+    - kind: table
+      id: arrival-civil-separation
+      caption: Civil airspace crossed by the Al Dhafra arrival linework
+      columns:
+      - key: c0
+        heading: Arrival / segment
+      - key: c1
+        heading: Intersected civil volume
+      - key: c2
+        heading: Draft vertical guidance
+      rows:
+      - c0: OPERA ONE
+        c1: OMAA_APP and OMAA CTR
+        c2: 'Above OMAA_APP: at or above 11,000 ft MSL. At the CTR crossing: at or below 9,000 or at or above
+          29,000. Retaining the HI band prevents assuming the lower option; resolve the descent/re-route before
+          entry. Where both volumes overlap, apply the combined limits.'
+      - c0: LYRIC ONE
+        c1: OMAA CTR
+        c2: The drawn 4,000–8,000 low band is below the 10,000-ft civil floor. Keep at or below 9,000 ft MSL
+          and within the assigned low-route band until clear. Coordinate before climbing into the HI structure.
+      - c0: MINHA ONE
+        c1: OMAA CTA
+        c2: Cross above the ground–10,000-ft volume at or above 11,000 ft MSL. Maintain the assigned HI level
+          and delay descent until clear or specifically coordinated.
+      - c0: TENOR ONE
+        c1: OMDB CTA
+        c2: Cross above the ground–12,000-ft volume at or above 13,000 ft MSL. Exactly 12,000 is not vertically
+          separated from that civil ceiling.
+      - c0: WEST ARC / SOUTH ARC / EAST TRANSITION / joins
+        c1: Check each segment
+        c2: The straight part of MINHA ONE intersects OMAA CTA; the two measured main-arc portions and the
+          other connecting source linework have no positive-length intersection with the configured civil polygons.
+          Continue checking for traffic and any revised clearance.
+    - kind: paragraph
+      lead: DME reference.
+      text:
+      - text: 'Distance Measuring Equipment (DME) indicates slant-range distance to the selected navigation
+          aid, in nautical miles. Both arcs reference Al Dhafra MA VORTAC: 114.90 MHz / TACAN 96X. Identify
+          MA and use its DME readout. The nominal instruction “15 DME MA” means an indicated distance of 15
+          NM from MA. '
+      - citation: navigation-basis
+    - kind: table
+      id: al-dhafra-dme-arcs
+      caption: Al Dhafra DME-arc transitions
+      columns:
+      - key: c0
+        heading: Transition
+      - key: c1
+        heading: DME reference / nominal distance
+      - key: c2
+        heading: Drawn sector and use
+      rows:
+      - c0: WEST ARC
+        c1: MA / 96X — 15 DME
+        c2: West to northwest of MA. Used by the western-side arrival connection. The arc excludes the straight
+          spoke to the station and the curved join at its outer end.
+      - c0: SOUTH ARC
+        c1: MA / 96X — 15 DME
+        c2: South to southeast of MA, at the end of the Al Minhad-side route. Connects with the eastern-side
+          layout. The straight route through MA is not part of the arc.
+    - kind: paragraph
+      lead: Arc distance basis.
+      text: Both 15 DME values are nominal procedure distances reconstructed from the mission drawings. The
+        main western arc vertices lie 14.84–14.95 NM horizontally from MA; the main southern arc lies 15.17–15.39
+        NM away. Joining turns bend inside those ranges. The figure preserves the drawn geometry and adds a
+        15-NM plan-view reference circle; cockpit DME also includes the height difference to the station.
+    - kind: paragraph
+      lead: Draft procedure — flying the arc.
+      text: Tune and identify MA, confirm the assigned arc and altitude, and maintain the nominal 15 DME indication
+        while following the cleared direction. Confirm the arc exit and subsequent recovery instruction before
+        turning onto the next leg. The drawn vertex order does not itself assign an inbound direction, magnetic
+        radial, or runway.
+    - kind: paragraph
+      lead: Altitude bands.
+      text: The source annotates HI routes as UNLTD-12000, the LO route as 4000-8000, and the eastern/southeastern
+        segment as 12000-4000. These correspond to a high band at 12,000 and above, a low band from 4,000 to
+        8,000, and a connecting band from 4,000 to 12,000. The text objects do not specify units or altitude
+        datum. Confirm those conventions and the transition clearance in the flight brief; do not silently
+        substitute flight levels for the drawn numbers.
+    - kind: figure
+      id: al-dhafra-entry-chart
+      caption: Al Dhafra named arrivals and nominal 15 DME MA arcs. Original route geometry is preserved; procedure
+        names and the distance reference are added for this mission.
+      alt: Al Dhafra arrival diagram showing OPERA ONE, MINHA ONE, TENOR ONE, LYRIC ONE, and the WEST ARC and
+        SOUTH ARC at nominal 15 DME MA.
+      src: assets/al-dhafra-entry-routes.svg
+    - kind: section
+      title: TACAN-only cockpit guide
+      blocks:
+      - kind: paragraph
+        lead: Equipment and setup.
+        text: Use MA on TACAN 96X in ground transmit/receive mode, with TACAN selected as the navigation source.
+          Identify MA and confirm valid bearing and distance indications. Use the aircraft’s normal heading
+          indicator, altimeter, and a plotted route/briefing card. These instructions assume no GPS or INS
+          steering.
+      - kind: paragraph
+        lead: Radial versus bearing.
+        text: A radial is the magnetic direction FROM MA. The bearing-pointer head points TO MA; its reciprocal
+          gives the FROM radial. For example, a bearing to MA of 175 degrees corresponds approximately to MA
+          radial 355. Aircraft heading is a separate quantity. Read the radial and range together to locate
+          the aircraft.
+      - kind: table
+        id: ma-tacan-checkpoints
+        caption: Calculated MA planning checkpoints — magnetic FROM radials and horizontal map ranges
+        columns:
+        - key: c0
+          heading: Checkpoint
+        - key: c1
+          heading: MA radial (magnetic)
+        - key: c2
+          heading: Map range (NM)
+        rows:
+        - c0: OPERA ONE entry
+          c1: 355°
+          c2: '47.0'
+        - c0: MINHA ONE entry
+          c1: 043°
+          c2: '65.9'
+        - c0: TENOR ONE entry
+          c1: 022°
+          c2: '83.2'
+        - c0: LYRIC ONE entry
+          c1: 320°
+          c2: '58.4'
+        - c0: NORTH JOIN branching area
+          c1: 007°
+          c2: '35.6'
+        - c0: NORTH JOIN / OPERA ONE join
+          c1: 352°
+          c2: '30.5'
+        - c0: LYRIC ONE / OPERA ONE join
+          c1: 305°
+          c2: '21.7'
+        - c0: WEST ARC northwestern main-arc end
+          c1: 295°
+          c2: '14.9'
+        - c0: WEST ARC western main-arc end
+          c1: 267°
+          c2: '14.9'
+        - c0: SOUTH ARC southern main-arc end
+          c1: 177°
+          c2: '15.3'
+        - c0: SOUTH ARC southeastern main-arc end
+          c1: 129°
+          c2: '15.2'
+      - kind: paragraph
+        lead: Checkpoint basis.
+        text: The radial references use the source vertices, a projection checked against 101 installed terrain
+          beacon coordinates, and the installed DCS magnetic model for June 2018 (1.98 degrees east at MA).
+          Values are rounded planning references. Main-arc endpoint entries locate the measured circular portions;
+          joining turns extend beyond them. They are not assigned arc-entry or exit clearances.
+      - kind: paragraph
+        lead: Range interpretation.
+        text: The table gives horizontal map range; TACAN displays slant range. Compare both radial and distance
+          and account for altitude above MA. A point 15 NM horizontally from MA reads about 15.1 DME at 12,000
+          ft above the aid and about 15.7 DME at 28,000 ft above it. For WEST ARC or SOUTH ARC, the instructed
+          nominal 15 DME is the cockpit indication. DME-derived speed and time-to-station reflect closure to
+          MA; do not treat them as actual groundspeed while flying around the arc.
+      - kind: paragraph
+        lead: Flying a radial leg.
+        text: For a cleared straight leg along a MA radial, set the appropriate inbound or outbound course
+          and correct for wind while monitoring course deviation and DME trend. MINHA ONE’s initial straight
+          leg is approximately MA radial 043 inbound toward MA; its reciprocal inbound course is approximately
+          223 degrees. Confirm the current indication and clearance before using those calculated values.
+      - kind: paragraph
+        lead: Flying the other route shapes.
+        text: OPERA ONE, TENOR ONE, and LYRIC ONE include legs that are not a single MA radial or constant-distance
+          arc. Use the plotted fix-to-fix headings and successive radial/range checkpoints to check progress.
+          Turning the bearing pointer toward MA would cut across those routes. If the brief does not provide
+          a usable leg heading and next checkpoint, obtain heading instructions before entering the constrained
+          segment.
+      - kind: paragraph
+        lead: Joining the 15 DME arc.
+        text: Approach on the cleared intercept leg and lead the turn so that the aircraft rolls out tangent
+          to the arc near 15 DME. Set turn lead for groundspeed, bank, and wind. Do not use a fixed lead distance
+          for every aircraft or begin an unplanned turn at the civil boundary.
+      - kind: paragraph
+        lead: Maintaining the arc.
+        text: 'For clockwise travel around MA, keep the station approximately abeam on the right; for counterclockwise
+          travel, keep it approximately abeam on the left. Use small heading corrections and the DME trend:
+          increasing range requires a correction toward MA, while decreasing range requires a correction away.
+          Maintain the assigned altitude while monitoring the next FROM radial.'
+      - kind: paragraph
+        lead: Leaving the arc.
+        text: Before reaching the cleared exit radial, identify the subsequent course or heading and lead the
+          turn to capture it. Confirm the radial, DME, and subsequent course before leaving the arc. Maintain
+          the assigned altitude until cleared for a change; an arc exit does not clear descent through civil
+          airspace or establish a final approach.
+      - kind: paragraph
+        lead: Station passage and degraded indications.
+        text: Near or overhead MA, slant range need not reach zero and the bearing can change rapidly. Fly
+          the briefed heading through station passage and confirm the outbound indication after it stabilizes.
+          If identification, bearing, or range is lost, advise control, maintain the last safe assigned heading
+          and altitude, and obtain revised instructions; do not enter another constrained segment on an unreliable
+          fix.
+      - kind: paragraph
+        lead: Reporting example.
+        text: “OPERA ONE, MA radial three five five, four seven DME, [assigned altitude], request WEST ARC
+          transition.” Report the actual cockpit DME and state the altitude reference. A radial/range fix establishes
+          position; it does not provide traffic separation by itself.
+      id: tacan-only-guide
+    - kind: paragraph
+      lead: Draft procedure — entry selection.
+      text:
+      - text: 'Brief the selected HI or LO branch using '
+      - target: al-dhafra-entry-table
+      - text: ', the assigned altitude reference, and the intended transition to recovery. Contact Al Dhafra
+          on 126.500 MHz AM with callsign, named arrival and transition, position, altitude, fuel state, and
+          recovery intention. Example request: “Request OPERA ONE arrival, WEST ARC transition.” Obtain coordination
+          before changing branch or altitude band.'
+    - kind: paragraph
+      lead: Draft procedure — crossings and joins.
+      text: Remain on the briefed branch through the civil-airspace crossings. Coordinate the LO-to-HI join
+        and any use of the eastern connecting band in advance. Nearby Abu Dhabi control-area limits and the
+        civil arrival/departure flows still apply to their respective traffic; a military route line does not
+        itself clear a crossing.
+    - kind: paragraph
+      lead: Draft procedure — recovery handover.
+      text: Obtain the runway, recovery sequence, and clearance from local control before leaving the entry
+        route. An arrival name specifies the selected procedure; it does not by itself assign an altitude or
+        landing clearance.
+    id: al-dhafra-entry-routes
+  - kind: section
+    title: Al Minhad / OMDM
+    blocks:
+    - kind: paragraph
+      lead: Mission definition.
+      text:
+      - text: 'The source defines a hidden circular Al Minhad trigger zone with a 3,000-m radius. The Al Minhad-side
+          HI connection to Al Dhafra is shown in '
+      - target: al-dhafra-entry-routes
+      - text: . The zone itself does not define a circuit or instrument approach.
+    - kind: paragraph
+      lead: Draft procedure.
+      text: Brief the military departure and recovery before launch. Coordinate the route from Al Minhad with
+        the Dubai and Sharjah civil flows. Join MRR1 only after the assigned direction, level, and crossing
+        have been deconflicted.
+  - kind: section
+    title: Dubai International / OMDB
+    blocks:
+    - kind: paragraph
+      lead: Published traffic paths.
+      text: Civil departures use OMDB_SID1, OMDB_SID2; arrivals use OMDB_STAR. Configured arrival entry points
+        are IVOBA, ASNIS, KUMBO. These are the mission’s named drawing paths, not certified instrument charts.
+    - kind: paragraph
+      lead: Traffic behavior.
+      text: Dubai departures are configured to appear airborne at 100 ft AGL and 170 KIAS; the configuration
+        identifies runway 12R. Arrivals use a landing task. Expect runway-area traffic without a preceding
+        taxi sequence.
+    - kind: paragraph
+      lead: Draft procedure.
+      text: Keep clear of the depicted arrival and departure paths unless the flight has an assigned crossing.
+        Check the runway and final approach even when no aircraft has taxied. At fields with runway-overflight
+        arrivals, maintain separation until the aircraft has passed clear; do not assume it will stop on the
+        runway.
+  - kind: section
+    title: Abu Dhabi International / OMAA
+    blocks:
+    - kind: paragraph
+      lead: Published traffic paths.
+      text: Civil departures use OMAA_SID1, OMAA_SID2; arrivals use OMAA_STAR. Configured arrival entry points
+        are IVOBA, HSA. These are the mission’s named drawing paths, not certified instrument charts.
+    - kind: paragraph
+      lead: Traffic behavior.
+      text: Departures are configured to appear airborne at 100 ft AGL and 170 KIAS; the configuration identifies
+        runway 13R. Generated arrivals fly a runway overflight at 100 ft AGL rather than a landing task.
+    - kind: paragraph
+      lead: Draft procedure.
+      text: Keep clear of the depicted arrival and departure paths unless the flight has an assigned crossing.
+        Check the runway and final approach even when no aircraft has taxied. At fields with runway-overflight
+        arrivals, maintain separation until the aircraft has passed clear; do not assume it will stop on the
+        runway.
+  - kind: section
+    title: Sharjah International / OMSJ
+    blocks:
+    - kind: paragraph
+      lead: Published traffic paths.
+      text: Civil departures use OMSJ_SID1, OMSJ_SID2; arrivals use OMSJ_STAR. Configured arrival entry points
+        are IVOBA, ASNIS, KUMBO. These are the mission’s named drawing paths, not certified instrument charts.
+    - kind: paragraph
+      lead: Traffic behavior.
+      text: Departures are configured airborne at 100 ft AGL and 170 KIAS. Arrivals use a runway overflight
+        at 100 ft AGL. Dubai and Sharjah departures also share a scheduling interval; this is not positive
+        separation for military aircraft.
+    - kind: paragraph
+      lead: Draft procedure.
+      text: Keep clear of the depicted arrival and departure paths unless the flight has an assigned crossing.
+        Check the runway and final approach even when no aircraft has taxied. At fields with runway-overflight
+        arrivals, maintain separation until the aircraft has passed clear; do not assume it will stop on the
+        runway.
+  - kind: section
+    title: Ras Al Khaimah / OMRK
+    blocks:
+    - kind: paragraph
+      lead: Published traffic paths.
+      text: Civil departures use OMRK_SID1, OMRK_SID2; arrivals use OMRK_STAR. Configured arrival entry points
+        are IVOBA, ASNIS, KUMBO. These are the mission’s named drawing paths, not certified instrument charts.
+    - kind: paragraph
+      lead: Traffic behavior.
+      text: Generated departures use parking rather than the airborne-runway mode. Arrivals use a runway overflight
+        at 100 ft AGL. The OMRK CTA ceiling applies specifically to this airport’s generated traffic.
+    - kind: paragraph
+      lead: Draft procedure.
+      text: Keep clear of the depicted arrival and departure paths unless the flight has an assigned crossing.
+        Check the runway and final approach even when no aircraft has taxied. At fields with runway-overflight
+        arrivals, maintain separation until the aircraft has passed clear; do not assume it will stop on the
+        runway.
+  - kind: section
+    title: Fujairah International / OMFJ
+    blocks:
+    - kind: paragraph
+      lead: Published traffic paths.
+      text: Civil departures use OMFJ_SID1, OMFJ_SID2; arrivals use OMFJ_STAR. Configured arrival entry points
+        are LUDID, RASKI, PARAR. These are the mission’s named drawing paths, not certified instrument charts.
+    - kind: paragraph
+      lead: Traffic behavior.
+      text: Departures are configured airborne at 100 ft AGL and 170 KIAS. Arrivals use a runway overflight
+        at 100 ft AGL. The OMFJ CTA ceiling applies specifically to this airport’s generated traffic.
+    - kind: paragraph
+      lead: Draft procedure.
+      text: Keep clear of the depicted arrival and departure paths unless the flight has an assigned crossing.
+        Check the runway and final approach even when no aircraft has taxied. At fields with runway-overflight
+        arrivals, maintain separation until the aircraft has passed clear; do not assume it will stop on the
+        runway.
+- kind: section
+  title: Carrier operations
+  blocks:
+  - kind: paragraph
+    lead: Carrier group.
+    text: Carrier Strike Group 8 contains CVN-75 Harry S. Truman, CG-50 Valley Forge, DDG-96 Bainbridge, DDG-67
+      Cole, and DDG-107 Gravely. The carrier has a two-point route; it is not stationary. No cyclic launch/recovery
+      schedule, final bearing, or recovery case is supplied.
+  - kind: paragraph
+    lead: Draft procedure — departure.
+    text: Obtain the assigned departure, initial altitude, radio transfer, and route to the operating area.
+      Maintain awareness of the actual ship position and civil traffic. Do not use the distant fixed CATCC
+      rectangle as a substitute for local carrier traffic instructions.
+  - kind: paragraph
+    lead: Draft procedure — recovery.
+    text:
+    - text: 'Call the carrier on the channel in '
+    - target: service-plan
+    - text: ' and obtain current recovery instructions. Confirm the beacon discrepancy has been resolved, establish
+        the assigned recovery case and sequence, and report fuel or system limitations before committing. No
+        marshal radial, holding altitude, or emergency divert is invented here.'
+  - kind: paragraph
+    lead: Plane guard and recovery tanker.
+    text: The SH-60B and S-3B exist as late-activation templates. The inspected triggers do not activate them.
+      Treat rescue and recovery-tanker coverage as unavailable until specifically verified or added by the
+      mission maker.
+- kind: section
+  title: Civil air traffic and maritime restrictions
+  blocks:
+  - kind: paragraph
+    lead: Civil traffic picture.
+    text: The embedded traffic generator is configured for up to 40 active aircraft, with a startup target
+      of half that limit. It adds airport arrivals and departures, with entry and exit altitude selections
+      of 30,000–40,000 ft. Actual numbers and flight paths depend on initialization, aircraft availability,
+      traffic spacing, and AI behavior.
+  - kind: table
+    id: civil-gates
+    caption: Civil traffic entry gates and shared exits
+    columns:
+    - key: c0
+      heading: Airport flow
+    - key: c1
+      heading: Arrival gates
+    - key: c2
+      heading: Departure exits
+    rows:
+    - c0: DXB
+      c1: IVOBA, ASNIS, KUMBO
+      c2: LOTAV, REXOD, TOTOX, PARAR, RASKI, LUDID
+    - c0: AUH
+      c1: IVOBA, HSA
+      c2: LOTAV, REXOD, TOTOX, PARAR, RASKI, LUDID
+    - c0: SHJ
+      c1: IVOBA, ASNIS, KUMBO
+      c2: LOTAV, REXOD, TOTOX, PARAR, RASKI, LUDID
+    - c0: RKT
+      c1: IVOBA, ASNIS, KUMBO
+      c2: LOTAV, REXOD, TOTOX, PARAR, RASKI, LUDID
+    - c0: FJR
+      c1: LUDID, RASKI, PARAR
+      c2: LOTAV, REXOD, TOTOX, PARAR, RASKI, LUDID
+  - kind: paragraph
+    lead: Draft procedure — unidentified traffic.
+    text: Do not classify a contact as hostile solely from its presence in an operating area, airline paint
+      scheme, lack of response, or map label. Report identity uncertainty and keep clear while it is resolved.
+      Flight tasking must supply the applicable engagement authority.
+  - kind: paragraph
+    lead: Shipping.
+    text: The shipping script is configured for up to 40 generated neutral vessels using the named port and
+      sea-lane network. It applies a 0.5-NM lane offset and a 2-NM spawn-spacing criterion. These are generator
+      parameters, not protected approach distances or weapons-release criteria.
+  - kind: paragraph
+    lead: BLOCKADE_HORMUZ.
+    text: The mission defines a circular shipping blockade with a radius of 30,480 m (16.46 NM). The shipping
+      generator adds a 0.5-NM buffer, plans to stop another 1 NM short, and seeks a holding position within
+      its configured 5-NM holding radius. These are maritime-routing constraints; no airspace floor or ceiling
+      is assigned.
+  - kind: paragraph
+    lead: Draft procedure — blockade and surface contacts.
+    text: Expect neutral traffic to hold outside the blockade rather than disappear. Do not interpret stopping,
+      holding, or approaching a port as engagement authority. Coordinate any flight activity over the blockade
+      with the mission controller and keep the maritime restriction separate from aircraft clearances.
+  - kind: paragraph
+    lead: Minerva Nike.
+    text: Minerva Nike is a blue-side merchant-vessel group with a unit-linked 3,000-m zone. The source does
+      not publish a visit, boarding, attack, or rescue task for that vessel. Its presence and associated zone
+      do not constitute player tasking.
+- kind: section
+  title: Abnormal procedures and reporting
+  blocks:
+  - kind: paragraph
+    lead: Draft procedure — lost communications.
+    text: Attempt the last assigned agency and channel, then the prebriefed alternate or relay. Avoid uncoordinated
+      entry into occupied control areas. Use the flight’s published lost-communications route and recovery
+      decision; if none exists, settle it during the flight brief before departure.
+  - kind: paragraph
+    lead: Draft procedure — fuel or aircraft emergency.
+    text: Advise the controlling agency of callsign, position, altitude, nature of the emergency, fuel/endurance,
+      and intended action. Request priority and coordinate the recovery location. An unverified tanker is not
+      an emergency-fuel plan.
+  - kind: paragraph
+    lead: Draft procedure — traffic conflict.
+    text: Maintain aircraft control, report the conflict, and coordinate the maneuver and subsequent clearance.
+      The civil scripts do not provide a live controller or guarantee that AI aircraft remain within their
+      planned altitude and lateral limits.
+  - kind: list
+    style: lower_alpha
+    items:
+    - text: 'Entry/exit report: callsign, named measure, position, altitude, and next intention.'
+    - text: 'Support request: callsign, requested service, position, fuel/endurance, and aircraft limitations.'
+    - text: 'Mission completion: assigned task result, losses or damage, remaining stores and fuel, and recovery
+        intention.'
+    - text: 'Discrepancy report: observed condition, location/time, affected flight, and the specific instruction
+        or aid involved.'
+- kind: section
+  title: Mission-maker decisions and source traceability
+  blocks:
+  - kind: paragraph
+    lead: Release status.
+    text: This annex records the remaining decisions needed to issue the draft for player operations. It does
+      not alter the source mission. The flight procedures above are proposed instructions; their existence
+      in this document does not create simulator services or enforcement.
+  - kind: table
+    id: open-items
+    caption: Decisions required before issue
+    columns:
+    - key: c0
+      heading: Item
+    - key: c1
+      heading: Direct source evidence
+    - key: c2
+      heading: Required resolution
+    rows:
+    - c0: Carrier navigation
+      c1: 'Briefing: TACAN 4X. Programmed carrier task: 75X / KU and ICLS 5.'
+      c2: Choose the intended aid and align the mission and briefing. Draft service table reports the programmed
+        values.
+    - c0: ARCO availability
+      c1: 'Briefing: 210 AM / 11Y. Present tanker template: TEXACO 1-1, 251 MHz / 1X, late activation.'
+      c2: Provide and verify the intended tanker, or remove it from support planning.
+    - c0: AWACS / rescue availability
+      c1: E-2C and SH-60B are late-activation templates without a matching inspected activation action.
+      c2: Activate and configure the intended services or explicitly plan without them.
+    - c0: Carrier-control geometry
+      c1: Carrier starts approximately 58.9 NM outside the fixed CVN75_CATCC rectangle.
+      c2: Confirm whether the drawing is an intended operating box or needs relocation/replacement.
+    - c0: Player tasking and SCL
+      c1: No Player/Client aircraft, blue tasking text, or player loadouts are present.
+      c2: Supply player access, flight assignments, targets, payloads, fuel limits, and recovery/alternate
+        plans.
+    - c0: Control staffing and clearance
+      c1: Civil airspace definitions and traffic-routing logic are present; human agencies are not assigned.
+      c2: Assign controllers/channels or brief explicit flight-to-flight deconfliction before issue.
+    - c0: Altitude and time conventions
+      c1: Map uses FL labels; script limits use feet MSL. Mission clock starts 06:00 with no verified UTC offset.
+      c2: Brief altimeter/flight-level conventions and the common clock. Do not silently equate the two altitude
+        references.
+    - c0: Vertical separation
+      c1: Civil-volume floors/ceilings are recorded in the traffic script; the 1,000-ft military planning margin
+        is authored for this draft. OPERA ONE has a CTR crossing requiring profile resolution.
+      c2: Confirm the margin and flight-specific vertical profile. Complete altitude changes outside occupied
+        civil bands or coordinate a crossing.
+    - c0: TACAN-only navigation
+      c1: Calculated MA radials use verified terrain projection and the installed DCS June 2018 magnetic model.
+        The map’s range is horizontal; the aircraft shows slant range.
+      c2: Brief the full leg headings, assigned arc entry/exit, altitude reference, and recovery clearance.
+        Check the reference values in the cockpit before issue.
+    - c0: Al Dhafra route conventions
+      c1: Common-layer HI/LO routes include UNLTD-12000, 4000-8000, and 12000-4000 text. WEST ARC and SOUTH
+        ARC are nominal 15 DME MA reconstructed from approximate linework.
+      c2: Confirm altitude conventions, arc direction/exits, and recovery clearance. Check the named procedures
+        in DCS before issue.
+    - c0: Engagement permissions
+      c1: No blue mission task or player rules of engagement are published.
+      c2: Define target authorization, identification, restrictions, and abort criteria in tasking.
+  - kind: table
+    id: al-dhafra-source-mapping
+    caption: Al Dhafra procedure-to-drawing mapping
+    columns:
+    - key: c0
+      heading: Published mission name
+    - key: c1
+      heading: Original source objects
+    rows:
+    - c0: OPERA ONE (OPERA1)
+      c1: Line-1
+    - c0: MINHA ONE (MINHA1)
+      c1: Line-10
+    - c0: TENOR ONE (TENOR1)
+      c1: Line-13, Line-14
+    - c0: LYRIC ONE (LYRIC1)
+      c1: Line-6
+    - c0: WEST ARC
+      c1: Line-11 curved portion; main measured vertices 2–5
+    - c0: SOUTH ARC
+      c1: Line-10 southern curved portion; main measured vertices 3–8
+    - c0: EAST TRANSITION
+      c1: Line-7
+    - c0: EAST JOIN
+      c1: Line-12
+    - c0: NORTH JOIN
+      c1: Line-14
+  - kind: paragraph
+    lead: Source selection.
+    text: The source is the spaced filename Operation Steel Opera.miz, SHA-256 6a9bfb403461d4ea04bd3e2ffb26e8c36817a5f07a4073b50d96f57e3d712922.
+      The newer hyphenated file was identified but not substituted.
+  - kind: paragraph
+    lead: Verification boundary.
+    text: The archive, embedded script configuration, drawing geometry, and installed terrain radio data were
+      inspected. No mission script was executed and no DCS session was flown. Configured traffic, beacons,
+      runway behavior, and support availability still require in-simulator verification.
+  role: annex

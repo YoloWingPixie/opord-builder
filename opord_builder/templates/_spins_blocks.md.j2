@@ -1,0 +1,42 @@
+{% import '_spins_blocks.html.j2' as html_publication with context %}
+{% macro blocks(items, path='content', depth=1) %}
+{% for block in items %}
+{% set here = path ~ '-' ~ loop.index0 %}
+{% set label = labels[here] %}
+{% if block.kind != 'list' %}<a id="{{ anchor(block, here) }}"></a>
+
+{% endif %}
+{% if block.kind == 'section' %}
+{{ '#' * ([depth + 1, 6]|min) }} {{ rich(label) }} {{ rich(block.title) }}
+
+{{ blocks(block.blocks, here, depth + 1) }}
+{% elif block.kind == 'paragraph' %}
+**{{ rich(label) }}** {% if block.lead %}**{{ rich(block.lead) }}** {% endif %}{{ rich(block.text) }}
+
+{{ blocks(block.blocks, here, depth + 1) }}
+{% elif block.kind == 'list' %}
+{{ html_publication.render_block(block, here, depth) }}
+
+{% elif block.kind == 'table' %}
+**{{ rich(label) }}. {{ rich(block.caption) }}**
+
+|{% for column in block.columns %} {{ rich(column.heading) }} |{% endfor %}{{ '\n' -}}
+|{% for column in block.columns %} {{ ':---' if column.align == 'left' else ':---:' if column.align == 'center' else '---:' }} |{% endfor %}{{ '\n' -}}
+{% for row in block.rows %}|{% for column in block.columns %} {{ rich(row[column.key])|replace('\n', '<br>') }} |{% endfor %}{{ '\n' -}}
+{% endfor %}
+
+{% elif block.kind == 'figure' %}
+![{{ rich(block.alt) }}]({{ figures[here] }})
+
+{{ rich(label) }}. {{ rich(block.caption) }}
+
+{% elif block.kind == 'note' %}
+**{{ rich(label) }}.{% if block.heading != 'NOTE' %} {{ rich(block.heading) }}.{% endif %}** {{ rich(block.text) }}
+
+{% elif block.kind == 'reference' %}
+{% set reference = citations[block.reference] %}
+[{{ rich(label) }}: {{ rich(reference.title) }}](#citation-{{ reference.id }})
+
+{% endif %}
+{% endfor %}
+{% endmacro %}

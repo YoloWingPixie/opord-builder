@@ -1,0 +1,58 @@
+{
+  "$schema": "urn:openaix:schema:measure-line:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "coordination_instructions": [
+    "Fires across the boundary are coordinated with the adjacent task force."
+  ],
+  "description": "Lateral boundary between Task Force Bastion to the east and Task Force Basin to the west, from PL BRASS to PL ZINC.",
+  "establishing_authority": "caoc",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "closed": false,
+            "kind": "drawing",
+            "layer": "Blue",
+            "line_mode": "segments",
+            "mission_id": "oir-syria",
+            "name": "OIR Bastion Basin boundary",
+            "object_id": 44,
+            "primitive_type": "Line",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "geometry": {
+    "kind": "line",
+    "points": [
+      {
+        "latitude": 34.835,
+        "longitude": 40.126
+      },
+      {
+        "latitude": 35.025,
+        "longitude": 40.125
+      }
+    ]
+  },
+  "hostile_side": "left",
+  "id": "bastion-basin-boundary",
+  "name": "Task Force Bastion and Task Force Basin boundary",
+  "notes": "Fires across the boundary need coordination between Task Force Bastion and Task Force Basin.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "type": "BOUNDARY"
+}

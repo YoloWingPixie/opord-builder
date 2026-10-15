@@ -1,0 +1,36 @@
+{
+  "$schema": "urn:openaix:schema:measure-aor:0.1.0-draft.2",
+  "active": {
+    "continuous": true
+  },
+  "geometry": {
+    "kind": "polygon",
+    "rings": [
+      [
+        {
+          "latitude": 32.54,
+          "longitude": 36.9
+        },
+        {
+          "latitude": 32.54,
+          "longitude": 40.9
+        },
+        {
+          "latitude": 35.8,
+          "longitude": 40.9
+        },
+        {
+          "latitude": 35.8,
+          "longitude": 36.9
+        },
+        {
+          "latitude": 32.54,
+          "longitude": 36.9
+        }
+      ]
+    ]
+  },
+  "id": "oir-aor",
+  "name": "OIR area of responsibility",
+  "type": "AOR"
+}

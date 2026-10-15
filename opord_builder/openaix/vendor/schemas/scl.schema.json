@@ -1,0 +1,596 @@
+{
+  "$defs": {
+    "Countermeasures": {
+      "additionalProperties": false,
+      "description": "A countermeasure load is the chaff, the flares and the dispenser program of a load.",
+      "properties": {
+        "chaff": {
+          "description": "This field gives the number of chaff cartridges in each aircraft.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "flares": {
+          "description": "This field gives the number of flares in each aircraft.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "program": {
+          "description": "This field gives the countermeasure program of the dispensers, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Fuze": {
+      "additionalProperties": false,
+      "description": "A fuze setting is the fuzes of a weapon, their function and their time adjustments. The `extensions.sim.dcs` data of a station keeps the Digital Combat Simulator (DCS) values of the fuze.",
+      "properties": {
+        "arming_delay_s": {
+          "description": "This field gives the time after the aircraft releases the weapon until the fuze can operate, in seconds.",
+          "minimum": 0,
+          "type": "number"
+        },
+        "delay_ms": {
+          "description": "This field gives the time after the weapon hits the target until the fuze functions, in milliseconds.",
+          "minimum": 0,
+          "type": "number"
+        },
+        "function": {
+          "description": "This field gives the function of the fuze, as one of the enumerated values.",
+          "enum": [
+            "instantaneous",
+            "delay",
+            "proximity",
+            "airburst"
+          ]
+        },
+        "height_of_burst": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the height above the ground at which the fuze functions, as a length with its unit."
+        },
+        "nose_fuze": {
+          "description": "This field gives the nose fuze of the weapon, such as `DSU-33`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "tail_fuze": {
+          "description": "This field gives the tail fuze of the weapon, such as `FMU-139`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "function"
+      ],
+      "type": "object"
+    },
+    "SCLMission": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "preplanned_attack"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "enum": [
+                  "strike",
+                  "sead",
+                  "dead",
+                  "scheduled_cas",
+                  "maritime_attack",
+                  "air_interdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "on_call_cas"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "cap"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "escort"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "refueling"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "airborne_control"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "reconnaissance"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "electromagnetic"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "transport"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "enum": [
+                  "airlift",
+                  "aeromedical_evacuation",
+                  "noncombatant_evacuation",
+                  "humanitarian_assistance",
+                  "air_assault",
+                  "airdrop"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "personnel_recovery"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "enum": [
+                  "search_and_rescue",
+                  "combat_search_and_rescue"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "training"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "custom"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "counterair"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "enum": [
+                  "fighter_sweep",
+                  "interception"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "tasking": {
+                "const": "counterland_control"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "enum": [
+                  "scar",
+                  "fac_a"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "description": "A standard conventional load (SCL) mission is a tasking family and a role for which the load is applicable.",
+      "properties": {
+        "role": {
+          "description": "This field gives the role or mission type in the tasking family, as one of the enumerated values. It agrees with the `role` field or the `mission_type` field of the tasking. If the entry does not give a role, the load is applicable to all roles of the tasking family. The role shall be a role of the tasking family.",
+          "enum": [
+            "aeromedical_evacuation",
+            "air_assault",
+            "air_interdiction",
+            "airdrop",
+            "airlift",
+            "combat_search_and_rescue",
+            "dead",
+            "fac_a",
+            "fighter_sweep",
+            "humanitarian_assistance",
+            "interception",
+            "maritime_attack",
+            "noncombatant_evacuation",
+            "scar",
+            "scheduled_cas",
+            "sead",
+            "search_and_rescue",
+            "strike"
+          ]
+        },
+        "tasking": {
+          "description": "This field gives the tasking family, as the `kind` field of an air tasking order (ATO) tasking gives it, as one of the enumerated values.",
+          "enum": [
+            "preplanned_attack",
+            "on_call_cas",
+            "cap",
+            "escort",
+            "refueling",
+            "airborne_control",
+            "reconnaissance",
+            "electromagnetic",
+            "transport",
+            "personnel_recovery",
+            "training",
+            "custom",
+            "counterair",
+            "counterland_control"
+          ]
+        }
+      },
+      "required": [
+        "tasking"
+      ],
+      "type": "object"
+    },
+    "StationLoad": {
+      "additionalProperties": false,
+      "description": "A station load is the stores on one weapon station of the aircraft.",
+      "properties": {
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {},
+                      "propertyNames": {
+                        "enum": [
+                          "pylon",
+                          "label",
+                          "clsid",
+                          "settings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "items": {
+          "description": "This list contains the stores on this station.",
+          "items": {
+            "$ref": "#/$defs/StoreLoad"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "rack": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the store of the `rack` type that has the other stores on this station.",
+          "x-catalog": "stores"
+        },
+        "station": {
+          "description": "This field gives the label of the weapon station in the flight manual or the simulator, such as `3` or `5L`, as free text. Each station shall occur one time in the list of stations.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "station",
+        "items"
+      ],
+      "type": "object"
+    },
+    "StoreLoad": {
+      "additionalProperties": false,
+      "description": "A store load is one store of a load with its quantity, fuze, laser code and program.",
+      "properties": {
+        "fuze": {
+          "$ref": "#/$defs/Fuze",
+          "description": "This field gives the fuze setting of the store."
+        },
+        "laser_code": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode",
+          "description": "This field gives the laser code of the store. It replaces the laser code of the standard conventional load (SCL) for this store."
+        },
+        "program": {
+          "description": "This field gives the weapon program of the store, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "quantity": {
+          "description": "This field gives the number of items of the store in each aircraft, or on the station in a station entry.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "store": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the store that this entry is for.",
+          "x-catalog": "stores"
+        }
+      },
+      "required": [
+        "store",
+        "quantity"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:scl:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A standard conventional load (SCL) is one store configuration of one aircraft type. It gives the stores of each aircraft, their stations and fuzes, the gun rounds and the countermeasures. The load does not show that it is possible to install the stores on the aircraft.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "aircraft_type": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the aircraft type that this load is for. Each flight with this standard conventional load (SCL) shall have this aircraft type.",
+      "x-catalog": "aircraft_types"
+    },
+    "code": {
+      "description": "This field gives the standard conventional load (SCL) code of the load, such as `4G12.3A.1X.2`. Some units use these short codes. They are not a standard for all units. OpenAIX does not use the code to find the stores. The stores and the stations of the record are the reference.",
+      "minLength": 1,
+      "pattern": "^[0-9A-Z]+(\\.[0-9A-Z]+)*$",
+      "type": "string"
+    },
+    "countermeasures": {
+      "$ref": "#/$defs/Countermeasures",
+      "description": "This field gives the chaff, the flares and the countermeasure program of the load."
+    },
+    "era": {
+      "description": "This field gives the era of the load, such as `modern` or `retro`, as free text. The unit sets its eras.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {},
+                  "propertyNames": {
+                    "enum": [
+                      "payload"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "gun_rounds": {
+      "description": "This field gives the number of gun rounds in each aircraft.",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this standard conventional load (SCL). Other records and orders use it to refer to this SCL."
+    },
+    "kind": {
+      "const": "scl",
+      "description": "The value identifies this record as a standard conventional load (SCL)."
+    },
+    "laser_code": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode",
+      "description": "This field gives the default laser code for the weapons of this load. A store entry can give a different code."
+    },
+    "missions": {
+      "description": "This list contains the tasking families and roles that this load is applicable to. The list shall include the tasking of each flight that has this load as its primary load.",
+      "items": {
+        "$ref": "#/$defs/SCLMission"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "name": {
+      "description": "This field gives the name of this standard conventional load (SCL), for display. An example is `AI-1 GBU-12`.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "remarks": {
+      "description": "This field gives the remarks about the load, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the external resource catalogue that resolves the references of this record. The reference identifies the catalogue and gives its revision."
+    },
+    "scl_number": {
+      "description": "This field gives the number of the load in the table of the unit, such as `DTA05` or `101`, as free text.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "source": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef",
+      "description": "This field identifies the source document. The reference identifies the document. It may also give a revision and a locator."
+    },
+    "stations": {
+      "description": "This list contains the weapon stations of the load, with the stores on each station.",
+      "items": {
+        "$ref": "#/$defs/StationLoad"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "stores": {
+      "description": "This list contains the stores of the load, with the quantity of each store in each aircraft. This list does not give the stations. Each store shall occur one time in the list. With stations, the quantity of each store shall be equal to the sum on its stations.",
+      "items": {
+        "$ref": "#/$defs/StoreLoad"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "variant_tags": {
+      "description": "This list contains the labels of this load variant, such as `120B` or `Pre-2015`. Each label shows a difference from the other load variants with the same number.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "name",
+    "aircraft_type"
+  ],
+  "title": "Standard conventional load",
+  "type": "object"
+}

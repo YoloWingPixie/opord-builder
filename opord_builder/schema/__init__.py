@@ -35,6 +35,7 @@ from opord_builder.schema.core import (
     FRAGO,
     FrequencyChannel,
     FrequencyTable,
+    OpenAIXRefs,
     FriendlyForces,
     Header,
     HealthServices,
@@ -128,11 +129,9 @@ from opord_builder.schema.data_sources import (
     DataSourceMeta,
     DataTableDocument,
     GeoRefDocument,
-    HPTDocument,
     IngressCorridorDocument,
-    JPITLDocument,
-    TSTDocument,
 )
+from opord_builder.schema.spins import SPINS
 from opord_builder.schema.shared import (
     ACM,
     ASRoute,
@@ -202,6 +201,7 @@ WARNO.model_rebuild()
 
 
 __all__ = [
+    "SPINS",
     # Data sources
     "AARTrackDocument",
     "AICSectorDocument",
@@ -212,10 +212,7 @@ __all__ = [
     "DataSourceMeta",
     "DataTableDocument",
     "GeoRefDocument",
-    "HPTDocument",
     "IngressCorridorDocument",
-    "JPITLDocument",
-    "TSTDocument",
     # Core
     "CANONICAL_ANNEXES",
     "RESERVED_LETTERS",
@@ -240,6 +237,7 @@ __all__ = [
     "Execution",
     "FrequencyChannel",
     "FrequencyTable",
+    "OpenAIXRefs",
     "FriendlyForces",
     "Header",
     "HealthServices",

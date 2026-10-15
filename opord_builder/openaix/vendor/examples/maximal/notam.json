@@ -1,0 +1,40 @@
+{
+  "$schema": "urn:openaix:schema:notam:0.1.0-draft.2",
+  "affects": [
+    {
+      "id": "ghi",
+      "kind": "control_measure"
+    }
+  ],
+  "code": "QRTCA",
+  "effective": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:30:00Z"
+  },
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "id": "ojms-a0215",
+  "kind": "notam",
+  "location": "ojms",
+  "lower": {
+    "surface": true
+  },
+  "number": {
+    "number": 215,
+    "series": "A",
+    "year": 2026
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "text": "TEMPO RESTRICTED AREA ACT FOR LIVE FIRING WI 5NM OF GHI",
+  "upper": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 8000
+  }
+}

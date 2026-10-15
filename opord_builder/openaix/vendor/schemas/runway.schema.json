@@ -1,0 +1,302 @@
+{
+  "$defs": {
+    "ArrestingGear": {
+      "additionalProperties": false,
+      "description": "An arresting gear is one cable or barrier across the runway that stops aircraft.",
+      "properties": {
+        "distance_from_threshold": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the distance from the landing threshold of this end to the cable, as a length with its unit."
+        },
+        "type": {
+          "description": "This field gives the type of the arresting gear, as one of the enumerated values.",
+          "enum": [
+            "BAK_12",
+            "BAK_13",
+            "BAK_14",
+            "BAK_15",
+            "MA_1A",
+            "E_5",
+            "E_28"
+          ],
+          "x-enum-descriptions": {
+            "BAK_12": "This value identifies the `BAK-12` arresting gear with a cable.",
+            "BAK_13": "This value identifies the `BAK-13` arresting gear with a cable.",
+            "BAK_14": "This value identifies the `BAK-14` arresting gear with a cable that retracts.",
+            "BAK_15": "This value identifies the `BAK-15` barrier with a net.",
+            "E_28": "This value identifies the `E-28` arresting gear with a cable.",
+            "E_5": "This value identifies the `E-5` arresting gear with a chain.",
+            "MA_1A": "This value identifies the `MA-1A` barrier with a net and a cable."
+          }
+        }
+      },
+      "required": [
+        "type",
+        "distance_from_threshold"
+      ],
+      "type": "object"
+    },
+    "Lighting": {
+      "additionalProperties": false,
+      "description": "Runway lighting is the approach lights, the runway lights and the visual slope indicator.",
+      "properties": {
+        "approach_lighting": {
+          "description": "This field gives the approach lighting system, as one of the enumerated values.",
+          "enum": [
+            "ALSF_1",
+            "ALSF_2",
+            "MALSR",
+            "MALSF",
+            "MALS",
+            "SSALR",
+            "SSALF",
+            "SSALS",
+            "ODALS"
+          ],
+          "x-enum-descriptions": {
+            "ALSF_1": "This value identifies `ALSF-1`: a high intensity approach lighting system with sequenced flashing lights, for Category `I` approaches.",
+            "ALSF_2": "This value identifies `ALSF-2`: a high intensity approach lighting system with sequenced flashing lights, for Category `II` and `III` approaches.",
+            "MALS": "This value identifies `MALS`: a medium intensity approach lighting system.",
+            "MALSF": "This value identifies `MALSF`: a medium intensity approach lighting system with sequenced flashing lights.",
+            "MALSR": "This value identifies `MALSR`: a medium intensity approach lighting system with runway alignment indicator lights.",
+            "ODALS": "This value identifies `ODALS`: an omnidirectional approach lighting system.",
+            "SSALF": "This value identifies `SSALF`: a simplified short approach lighting system with sequenced flashing lights.",
+            "SSALR": "This value identifies `SSALR`: a simplified short approach lighting system with runway alignment indicator lights.",
+            "SSALS": "This value identifies `SSALS`: a simplified short approach lighting system."
+          }
+        },
+        "edge_lights": {
+          "description": "The value is `true` when the runway has edge lights. The value is `false` when the runway has no edge lights.",
+          "type": "boolean"
+        },
+        "reil": {
+          "description": "The value is `true` when the runway end has runway end identifier lights (REIL). The value is `false` when the runway end has no REIL.",
+          "type": "boolean"
+        },
+        "slope_indicator": {
+          "description": "This field gives the visual slope indicator for the approach, as one of the enumerated values.",
+          "enum": [
+            "PAPI",
+            "VASI"
+          ],
+          "x-enum-descriptions": {
+            "PAPI": "This value identifies the precision approach path indicator (PAPI). It is one row of light units that show the aircraft position in relation to the approach path.",
+            "VASI": "This value identifies the visual approach slope indicator (VASI). It is two or three rows of light units that show the aircraft position in relation to the approach path."
+          }
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "RunwayEnd": {
+      "additionalProperties": false,
+      "description": "A runway end is one end of a runway and the landing direction to that end. It has the threshold, the heading, the approach equipment and the local pattern values.",
+      "properties": {
+        "arresting_gear": {
+          "description": "This list contains the arresting gear across the runway. Distances are from the threshold of this end.",
+          "items": {
+            "$ref": "#/$defs/ArrestingGear"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "designator": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "description": "This field gives the designator of this runway end. It is the magnetic heading in degrees divided by 10, with an optional suffix `L`, `R`, `C`, `W`, `S`, `G` or `U`."
+        },
+        "displaced_threshold": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the distance from the runway end to the displaced threshold, as a length with its unit. The record does not have this field when the landing threshold is at the runway end."
+        },
+        "heading": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "description": "This field gives the bearing of the runway in this landing direction, as a bearing with its unit and reference. A magnetic heading includes the declination of the airfield. Thus, a consumer can calculate the true heading from it."
+        },
+        "lighting": {
+          "$ref": "#/$defs/Lighting",
+          "description": "This field gives the runway lighting for this landing direction."
+        },
+        "localizer": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the localizer that is for this runway end. The field `runway` of the localizer shall identify this runway end.",
+          "x-catalog": "localizers"
+        },
+        "threshold": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the landing threshold for this landing direction, as latitude and longitude."
+        },
+        "threshold_crossing_height": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the threshold crossing height (TCH) of the approach path, as a length with its unit. It is the height of the approach path above the landing threshold."
+        },
+        "threshold_elevation": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Elevation",
+          "description": "This field gives the elevation of the landing threshold above mean sea level, as an elevation with its unit."
+        },
+        "traffic_pattern": {
+          "$ref": "urn:openaix:schema:airfield:0.1.0-draft.2#/$defs/TrafficPattern",
+          "description": "This field gives the traffic pattern values for this landing direction. They replace the values of the airfield pattern, and each value is optional."
+        }
+      },
+      "required": [
+        "designator",
+        "threshold",
+        "heading"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:runway:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A runway is one runway with its two ends, its dimensions and its surface. Each end has the threshold, the heading and the equipment that is necessary for a flight simulator.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "airfield": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the airfield that has this runway. In the runway list of an airfield, the value shall be the identifier of that airfield.",
+      "x-catalog": "places"
+    },
+    "designator": {
+      "description": "This field gives the designator of the runway, for example `03L/21R`. The value shall contain the designators of the two runway ends, with `/` between them.",
+      "pattern": "^(0[1-9]|[12][0-9]|3[0-6])[LRCWSGU]?/(0[1-9]|[12][0-9]|3[0-6])[LRCWSGU]?$",
+      "type": "string"
+    },
+    "ends": {
+      "description": "This list contains the two ends of the runway. The two ends shall have opposite designators. Each runway end in the airfield has a different designator.",
+      "items": {
+        "$ref": "#/$defs/RunwayEnd"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this runway. Other resources and orders use this stable identifier to refer to this runway."
+    },
+    "kind": {
+      "const": "runway",
+      "description": "The value identifies this record as a runway record. The value selects this navigation contract."
+    },
+    "length": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+      "description": "This field gives the published length of the runway, as a length with its unit."
+    },
+    "name": {
+      "description": "This field gives the name of this runway, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "provenance": {
+      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Provenance",
+      "description": "This field gives the provenance of this runway as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this runway. The reference gives the identifier and the revision of the catalogue."
+    },
+    "source": {
+      "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "surface": {
+      "description": "This field gives the surface of the runway, as one of the enumerated values.",
+      "enum": [
+        "hard",
+        "soft",
+        "water"
+      ],
+      "x-enum-descriptions": {
+        "hard": "This value identifies a surface of asphalt, concrete or an equivalent hard material.",
+        "soft": "This value identifies a surface of gravel, grass or ground, without asphalt or concrete.",
+        "water": "This value identifies an area of water that seaplanes use as a runway."
+      }
+    },
+    "width": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+      "description": "This field gives the published width of the runway, as a length with its unit."
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "name",
+    "designator",
+    "length",
+    "ends"
+  ],
+  "title": "Runway",
+  "type": "object",
+  "x-navigation-profile": "runway"
+}

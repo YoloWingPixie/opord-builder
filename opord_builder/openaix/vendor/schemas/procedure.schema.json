@@ -1,0 +1,2363 @@
+{
+  "$defs": {
+    "CategoryMinimum": {
+      "additionalProperties": false,
+      "description": "A category minimum is the minima of a minima line for one or more aircraft approach categories. It has a decision altitude or a minimum descent altitude (MDA), a height and a visibility or a runway visual range (RVR).",
+      "oneOf": [
+        {
+          "required": [
+            "decision_altitude"
+          ]
+        },
+        {
+          "required": [
+            "minimum_descent_altitude"
+          ]
+        }
+      ],
+      "properties": {
+        "categories": {
+          "description": "This list contains the aircraft approach categories to which these minima apply. Categories `A` to `E` follow the speed at the threshold, and category `H` is for helicopters.",
+          "items": {
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "H"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true,
+          "x-enum-descriptions": {
+            "A": "This value identifies aircraft with a threshold speed of less than 91 knots.",
+            "B": "This value identifies aircraft with a threshold speed from 91 knots to less than 121 knots.",
+            "C": "This value identifies aircraft with a threshold speed from 121 knots to less than 141 knots.",
+            "D": "This value identifies aircraft with a threshold speed from 141 knots to less than 166 knots.",
+            "E": "This value identifies aircraft with a threshold speed from 166 knots to less than 211 knots.",
+            "H": "This value identifies helicopters that fly a procedure for helicopters."
+          }
+        },
+        "decision_altitude": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+            },
+            {
+              "properties": {
+                "reference": {
+                  "const": "MSL"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the decision altitude above mean sea level, as an altitude with its unit and reference. At this altitude the pilot starts the missed approach when the required visual references are not visible. The minima shall have this field or `minimum_descent_altitude`, but not both."
+        },
+        "height": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the height of the decision altitude or the minimum descent altitude (MDA) above the elevation that `height_reference` of the line names, as a length with its unit. For a decision altitude, this height is the decision height."
+        },
+        "minimum_descent_altitude": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+            },
+            {
+              "properties": {
+                "reference": {
+                  "const": "MSL"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the minimum descent altitude (MDA) above mean sea level, as an altitude with its unit and reference. The aircraft does not descend below this altitude without the required visual references."
+        },
+        "runway_visual_range": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "enum": [
+                    "ft",
+                    "m"
+                  ]
+                }
+              }
+            }
+          ],
+          "description": "This field gives the minimum runway visual range (RVR) for the approach, as a length with its unit. The unit is feet or metres."
+        },
+        "visibility": {
+          "$ref": "#/$defs/Visibility",
+          "description": "This field gives the minimum visibility for the approach, as a visibility with its unit."
+        }
+      },
+      "required": [
+        "categories"
+      ],
+      "type": "object"
+    },
+    "ClimbGradient": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "until"
+          ]
+        },
+        {
+          "required": [
+            "until_fix"
+          ]
+        }
+      ],
+      "description": "A climb gradient is a minimum climb gradient of a departure or a missed approach. The aircraft climbs at this gradient or more until the altitude in `until` or the fix in `until_fix`.",
+      "properties": {
+        "gradient": {
+          "$ref": "#/$defs/Gradient",
+          "description": "This field gives the minimum climb gradient, as a gradient with its unit."
+        },
+        "notes": {
+          "description": "This field gives the notes about the climb gradient, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "reason": {
+          "description": "This field gives the reason for the climb gradient, as one of the enumerated values.",
+          "enum": [
+            "obstacle",
+            "atc"
+          ],
+          "x-enum-descriptions": {
+            "atc": "This value identifies a gradient that air traffic control (ATC) needs for airspace or for separation from other traffic.",
+            "obstacle": "This value identifies a gradient that keeps the obstacle clearance above the obstacles under the climb."
+          }
+        },
+        "runway": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "description": "This field gives the designator of the departure runway of the climb gradient."
+        },
+        "until": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+            },
+            {
+              "properties": {
+                "reference": {
+                  "const": "MSL"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the altitude above mean sea level up to which the climb gradient applies, as an altitude with its unit and reference. The climb gradient shall have this field or `until_fix`."
+        },
+        "until_fix": {
+          "$ref": "#/$defs/Fix",
+          "description": "This field gives the fix up to which the climb gradient applies."
+        }
+      },
+      "required": [
+        "gradient",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "Duration": {
+      "additionalProperties": false,
+      "description": "A time interval is a time interval in minutes.",
+      "properties": {
+        "unit": {
+          "const": "min",
+          "description": "This field gives the unit of the time interval: minutes."
+        },
+        "value": {
+          "description": "This field gives the number of minutes.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "Fix": {
+      "description": "A fix is a navigation fix: its published identifier and position, or a reference to a point or a navigation aid in the resource catalogue.",
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "ident": {
+              "description": "This field identifies this fix as published. An example is `ZOOKS`.",
+              "minLength": 1,
+              "type": "string"
+            },
+            "position": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+              "description": "This field gives the geographic position of the fix, as latitude and longitude."
+            }
+          },
+          "required": [
+            "ident",
+            "position"
+          ],
+          "type": "object"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+          "x-measure-kinds": [
+            "POINT",
+            "NAVAID"
+          ]
+        }
+      ]
+    },
+    "Gradient": {
+      "additionalProperties": false,
+      "description": "A gradient is a climb gradient with its unit.",
+      "properties": {
+        "unit": {
+          "description": "This field gives the unit of the gradient, as one of the enumerated values.",
+          "enum": [
+            "ft/nm",
+            "percent"
+          ],
+          "x-enum-descriptions": {
+            "ft/nm": "This value identifies a gradient in feet of climb for each nautical mile of distance.",
+            "percent": "This value identifies a gradient as a percentage of vertical climb to horizontal distance."
+          }
+        },
+        "value": {
+          "description": "This field gives the value of the gradient, in the unit of `unit`.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "Hold": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "leg_length"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "leg_time"
+              ]
+            }
+          }
+        }
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "leg_length"
+          ]
+        },
+        {
+          "required": [
+            "leg_time"
+          ]
+        }
+      ],
+      "description": "A hold is a holding pattern with a fix, an inbound course, a turn direction, and a leg length or a leg time. Altitude constraints and speed constraints are optional.",
+      "properties": {
+        "altitude": {
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "between"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "required": [
+                  "lower",
+                  "upper"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "at",
+                      "at_or_above"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "upper"
+                  ]
+                },
+                "required": [
+                  "lower"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "at_or_below"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "lower"
+                  ]
+                },
+                "required": [
+                  "upper"
+                ]
+              }
+            }
+          ],
+          "description": "This field gives the altitude constraint for the hold.",
+          "properties": {
+            "kind": {
+              "description": "This field gives the type of the altitude constraint for the hold, as one of the enumerated values. The type tells which of the fields `lower` and `upper` the altitude constraint has.",
+              "enum": [
+                "at",
+                "at_or_above",
+                "at_or_below",
+                "between"
+              ],
+              "x-enum-descriptions": {
+                "at": "The aircraft is at the `lower` altitude at the fix.",
+                "at_or_above": "The aircraft is at or above the `lower` altitude at the fix.",
+                "at_or_below": "The aircraft is at or below the `upper` altitude at the fix.",
+                "between": "The aircraft is between the `lower` altitude and the `upper` altitude at the fix."
+              }
+            },
+            "lower": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+              "description": "This field gives the lower altitude of the altitude constraint, as an altitude with its unit and reference. It is the crossing altitude for `at`, and the minimum for `at_or_above` and `between`."
+            },
+            "upper": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+              "description": "This field gives the higher altitude of the altitude constraint, as an altitude with its unit and reference. It is the maximum for `at_or_below` and `between`."
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        },
+        "fix": {
+          "$ref": "#/$defs/Fix",
+          "description": "This field gives the fix of the holding pattern."
+        },
+        "inbound_course": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "description": "This field gives the course of the inbound leg to the holding fix, as a bearing with its unit and reference."
+        },
+        "leg_length": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the length of each holding leg, as a length with its unit. When the hold has this length, it does not have a leg time."
+        },
+        "leg_time": {
+          "$ref": "#/$defs/Duration",
+          "description": "This field gives the flight time of each holding leg, in minutes. When the hold has this time, it does not have a leg length."
+        },
+        "speed": {
+          "$ref": "#/$defs/SpeedConstraint",
+          "description": "This field gives the speed constraint for the hold."
+        },
+        "turn_direction": {
+          "description": "This field gives the direction of the turns in the holding pattern, as one of the enumerated values.",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "x-enum-descriptions": {
+            "left": "Each turn is a left turn. This is not the standard holding pattern.",
+            "right": "Each turn is a right turn. This is the standard holding pattern."
+          }
+        }
+      },
+      "required": [
+        "fix",
+        "inbound_course",
+        "turn_direction"
+      ],
+      "type": "object"
+    },
+    "Leg": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
+                  "initial_fix",
+                  "track_to_fix",
+                  "course_to_fix",
+                  "direct_to_fix",
+                  "radius_to_fix",
+                  "arc_to_fix",
+                  "fix_to_altitude",
+                  "track_from_fix_for_distance",
+                  "track_from_fix_to_dme_distance",
+                  "fix_to_manual_termination",
+                  "procedure_turn"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "fix"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
+                  "course_to_altitude",
+                  "course_to_dme_distance",
+                  "course_to_fix",
+                  "course_to_intercept",
+                  "course_to_radial",
+                  "fix_to_altitude",
+                  "track_from_fix_for_distance",
+                  "track_from_fix_to_dme_distance",
+                  "fix_to_manual_termination",
+                  "heading_to_altitude",
+                  "heading_to_dme_distance",
+                  "heading_to_intercept",
+                  "heading_to_manual_termination",
+                  "heading_to_radial",
+                  "procedure_turn"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "course"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
+                  "course_to_altitude",
+                  "fix_to_altitude",
+                  "heading_to_altitude"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "altitude"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
+                  "radius_to_fix"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "arc_center",
+              "arc_radius"
+            ]
+          }
+        },
+        {
+          "else": {
+            "not": {
+              "required": [
+                "hold"
+              ]
+            }
+          },
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
+                  "hold_to_altitude",
+                  "hold_to_fix",
+                  "hold_to_manual_termination"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "hold"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
+                  "initial_fix",
+                  "track_to_fix",
+                  "course_to_fix",
+                  "direct_to_fix",
+                  "fix_to_altitude",
+                  "track_from_fix_for_distance",
+                  "track_from_fix_to_dme_distance",
+                  "fix_to_manual_termination",
+                  "course_to_altitude",
+                  "course_to_dme_distance",
+                  "course_to_intercept",
+                  "course_to_radial",
+                  "radius_to_fix",
+                  "arc_to_fix",
+                  "heading_to_altitude",
+                  "heading_to_dme_distance",
+                  "heading_to_intercept",
+                  "heading_to_manual_termination",
+                  "heading_to_radial",
+                  "hold_to_altitude",
+                  "hold_to_fix",
+                  "hold_to_manual_termination"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "procedure_turn"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "A leg is one leg of a procedure: a path and the point at the end of the path. For each leg type, conditional rules make sure that the leg has the necessary data.",
+      "properties": {
+        "altitude": {
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "between"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "required": [
+                  "lower",
+                  "upper"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "at",
+                      "at_or_above"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "upper"
+                  ]
+                },
+                "required": [
+                  "lower"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "at_or_below"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "lower"
+                  ]
+                },
+                "required": [
+                  "upper"
+                ]
+              }
+            }
+          ],
+          "description": "This field gives the altitude constraint at the end of the leg.",
+          "properties": {
+            "kind": {
+              "description": "This field gives the type of the altitude constraint at the end of the leg, as one of the enumerated values. The type tells which of the fields `lower` and `upper` the altitude constraint has.",
+              "enum": [
+                "at",
+                "at_or_above",
+                "at_or_below",
+                "between"
+              ],
+              "x-enum-descriptions": {
+                "at": "The aircraft is at the `lower` altitude at the fix.",
+                "at_or_above": "The aircraft is at or above the `lower` altitude at the fix.",
+                "at_or_below": "The aircraft is at or below the `upper` altitude at the fix.",
+                "between": "The aircraft is between the `lower` altitude and the `upper` altitude at the fix."
+              }
+            },
+            "lower": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+              "description": "This field gives the lower altitude of the altitude constraint, as an altitude with its unit and reference. It is the crossing altitude for `at`, and the minimum for `at_or_above` and `between`."
+            },
+            "upper": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+              "description": "This field gives the higher altitude of the altitude constraint, as an altitude with its unit and reference. It is the maximum for `at_or_below` and `between`."
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        },
+        "approach_fix": {
+          "description": "This field gives the approach function of the fix of the leg, as one of the enumerated values.",
+          "enum": [
+            "initial_approach_fix",
+            "intermediate_fix",
+            "final_approach_course_fix",
+            "final_approach_fix",
+            "missed_approach_point"
+          ],
+          "x-enum-descriptions": {
+            "final_approach_course_fix": "This value identifies a fix on the extension of the final approach course, before the final approach fix.",
+            "final_approach_fix": "This value identifies the fix at the start of the final approach segment, where the descent to the runway starts.",
+            "initial_approach_fix": "This value identifies the fix at the start of the initial approach segment.",
+            "intermediate_fix": "This value identifies the fix at the end of the initial approach segment and the start of the intermediate approach segment.",
+            "missed_approach_point": "This value identifies the point at or before which the aircraft starts the missed approach procedure. This keeps the minimum obstacle clearance."
+          }
+        },
+        "arc_center": {
+          "$ref": "#/$defs/Fix",
+          "description": "This field gives the fix at the centre of the constant-radius arc of a `radius_to_fix` leg. A `radius_to_fix` leg shall have this field."
+        },
+        "arc_radius": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the radius of the constant-radius arc of a `radius_to_fix` leg, as a length with its unit. A `radius_to_fix` leg shall have this field."
+        },
+        "course": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "description": "This field gives the course, the track or the heading of the aircraft on the leg, as a bearing with its unit and reference. The reference is magnetic north or true north."
+        },
+        "distance": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the published distance of the leg, as a length with its unit."
+        },
+        "fix": {
+          "$ref": "#/$defs/Fix",
+          "description": "This field gives the fix at the end of the leg. For `fix_to_altitude`, `track_from_fix_for_distance`, `track_from_fix_to_dme_distance`, `fix_to_manual_termination` and `procedure_turn` legs, it is the fix at the start of the leg."
+        },
+        "fly_over": {
+          "description": "The value is `true` when the aircraft is above the fix before it turns onto the next leg. The value is `false` when the aircraft starts the turn before the fix, as at a fly-by fix.",
+          "type": "boolean"
+        },
+        "hold": {
+          "$ref": "#/$defs/Hold",
+          "description": "This field gives the holding pattern that the aircraft flies on a `hold_to_altitude`, `hold_to_fix` or `hold_to_manual_termination` leg. The hold has the fix, the course, the altitude constraint and the speed constraint of the leg. Other leg types shall not have this field."
+        },
+        "leg_type": {
+          "description": "This field gives the type of the leg, as one of the enumerated values. The type gives the path that the aircraft flies and the point at the end of the leg. Each value is a path terminator, and the text of the value gives its code of two letters. An example is `track_to_fix`, which has the code `TF`.",
+          "enum": [
+            "initial_fix",
+            "track_to_fix",
+            "course_to_fix",
+            "direct_to_fix",
+            "fix_to_altitude",
+            "track_from_fix_for_distance",
+            "track_from_fix_to_dme_distance",
+            "fix_to_manual_termination",
+            "course_to_altitude",
+            "course_to_dme_distance",
+            "course_to_intercept",
+            "course_to_radial",
+            "radius_to_fix",
+            "arc_to_fix",
+            "heading_to_altitude",
+            "heading_to_dme_distance",
+            "heading_to_intercept",
+            "heading_to_manual_termination",
+            "heading_to_radial",
+            "procedure_turn",
+            "hold_to_altitude",
+            "hold_to_fix",
+            "hold_to_manual_termination"
+          ],
+          "x-enum-descriptions": {
+            "arc_to_fix": "This value identifies an arc to a fix (`AF`). The aircraft flies an arc at one distance measuring equipment (DME) distance from a navigation aid to the fix of the leg.",
+            "course_to_altitude": "This value identifies a course to an altitude (`CA`). The aircraft flies a given course. The aircraft completes the leg when it is at or above a given altitude, at no given position.",
+            "course_to_dme_distance": "This value identifies a course to a distance measuring equipment (DME) distance (`CD`). The aircraft flies a given course to a given DME distance from a navigation aid.",
+            "course_to_fix": "This value identifies a course to a fix (`CF`). The aircraft flies a given course to the fix of the leg.",
+            "course_to_intercept": "This value identifies a course to intercept the next leg (`CI`). The aircraft flies a given course until it intercepts the next leg.",
+            "course_to_radial": "This value identifies a course to a radial (`CR`). The aircraft flies a given course to a given radial of a very high frequency omnidirectional range (VOR).",
+            "direct_to_fix": "This value identifies a direct-to-fix leg (`DF`). The aircraft flies directly from its position to the fix of the leg.",
+            "fix_to_altitude": "This value identifies a course from a fix to an altitude (`FA`). The aircraft flies a given course from the fix of the leg. The aircraft completes the leg when it is at or above a given altitude.",
+            "fix_to_manual_termination": "This value identifies a course from a fix to a manual termination (`FM`). The aircraft flies a given course from the fix of the leg until a manual termination by the pilot, usually to fly a radar vector.",
+            "heading_to_altitude": "This value identifies a heading to an altitude (`VA`). The aircraft flies a given heading. The aircraft completes the leg when it is at or above a given altitude, at no given position.",
+            "heading_to_dme_distance": "This value identifies a heading to a distance measuring equipment (DME) distance (`VD`). The aircraft flies a given heading to a given DME distance from a navigation aid.",
+            "heading_to_intercept": "This value identifies a heading to intercept the next leg (`VI`). The aircraft flies a given heading until it intercepts the next leg.",
+            "heading_to_manual_termination": "This value identifies a heading to a manual termination (`VM`). The aircraft flies a given heading until a manual termination by the pilot, usually to fly a radar vector.",
+            "heading_to_radial": "This value identifies a heading to a radial (`VR`). The aircraft flies a given heading to a given radial of a very high frequency omnidirectional range (VOR).",
+            "hold_to_altitude": "This value identifies a hold to an altitude (`HA`). The aircraft flies the holding pattern until it is at a given altitude.",
+            "hold_to_fix": "This value identifies a hold to a fix (`HF`). The aircraft flies one circuit of the holding pattern and completes the leg at the holding fix.",
+            "hold_to_manual_termination": "This value identifies a holding pattern to a manual termination (`HM`). The aircraft flies the holding pattern until a manual termination by the pilot.",
+            "initial_fix": "This value identifies an initial fix (`IF`). The procedure or the transition in the procedure data starts at this fix. The leg has no path.",
+            "procedure_turn": "This value identifies a procedure turn (`PI`). From the fix of the leg, the aircraft flies an outbound leg. Then it makes a left turn or a right turn, and a turn of 180 degrees to intercept the next leg.",
+            "radius_to_fix": "This value identifies a radius to a fix (`RF`). The aircraft flies a constant-radius arc around a given centre, from the previous fix to the fix of the leg.",
+            "track_from_fix_for_distance": "This value identifies a track from a fix for a distance (`FC`). From the fix of the leg, the aircraft flies the track over the ground of the leg for a given distance.",
+            "track_from_fix_to_dme_distance": "This value identifies a track from a fix to a distance measuring equipment (DME) distance (`FD`). The aircraft flies the track over the ground of the leg from the fix of the leg. The aircraft completes the leg at a given DME distance from a navigation aid.",
+            "track_to_fix": "This value identifies a track to a fix (`TF`). The aircraft flies a straight track from the previous fix to the fix of the leg."
+          }
+        },
+        "missed_approach": {
+          "description": "The value is `true` when the leg is part of the missed approach procedure.",
+          "type": "boolean"
+        },
+        "procedure_turn": {
+          "$ref": "#/$defs/ProcedureTurn",
+          "description": "This field gives the type and the limits of the procedure turn of a `procedure_turn` leg. The field `course` of the leg is the outbound course, `turn_direction` is the direction of the first turn, and `altitude` is the procedure turn altitude. Other leg types shall not have this field."
+        },
+        "recommended_navaid": {
+          "$ref": "#/$defs/NavaidRef",
+          "description": "This field gives the recommended navigation aid: the navigation aid that gives the course, the radial or the distance for the leg."
+        },
+        "rnp_value": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "nm"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the lateral navigation accuracy that the leg needs, as a required navigation performance (RNP) value in nautical miles, as a length with its unit. It applies to this leg only, for example a leg of an RNP approach with authorization required. When the leg does not have this field, the value of the navigation specification applies."
+        },
+        "speed": {
+          "$ref": "#/$defs/SpeedConstraint",
+          "description": "This field gives the speed constraint at the end of the leg."
+        },
+        "time": {
+          "$ref": "#/$defs/Duration",
+          "description": "This field gives the published flight time of the leg, in minutes."
+        },
+        "turn_direction": {
+          "description": "This field gives the direction of the turn onto this leg, as one of the enumerated values.",
+          "enum": [
+            "left",
+            "right",
+            "either"
+          ],
+          "x-enum-descriptions": {
+            "either": "The aircraft can make a left turn or a right turn onto the leg.",
+            "left": "The aircraft makes a left turn onto the leg.",
+            "right": "The aircraft makes a right turn onto the leg."
+          }
+        },
+        "vertical_angle_deg": {
+          "description": "This field gives the vertical path angle to the fix, in degrees. A value less than zero is a descent.",
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number"
+        }
+      },
+      "required": [
+        "leg_type"
+      ],
+      "type": "object"
+    },
+    "MinimaLine": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "required": [
+              "runway"
+            ]
+          },
+          "if": {
+            "properties": {
+              "manoeuvre": {
+                "enum": [
+                  "circling"
+                ]
+              }
+            },
+            "required": [
+              "manoeuvre"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "runway"
+              ]
+            },
+            "properties": {
+              "category_minima": {
+                "items": {
+                  "not": {
+                    "required": [
+                      "decision_altitude"
+                    ]
+                  }
+                }
+              },
+              "height_reference": {
+                "const": "aerodrome"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "line": {
+                "enum": [
+                  "lp",
+                  "lnav",
+                  "localizer",
+                  "vor",
+                  "tacan",
+                  "ndb",
+                  "asr"
+                ]
+              }
+            },
+            "required": [
+              "line"
+            ]
+          },
+          "then": {
+            "properties": {
+              "category_minima": {
+                "items": {
+                  "not": {
+                    "required": [
+                      "decision_altitude"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "line": {
+                "enum": [
+                  "ils",
+                  "gls",
+                  "par",
+                  "lpv",
+                  "lnav_vnav",
+                  "rnp"
+                ]
+              },
+              "manoeuvre": {
+                "const": "straight_in"
+              }
+            },
+            "required": [
+              "line",
+              "manoeuvre"
+            ]
+          },
+          "then": {
+            "properties": {
+              "category_minima": {
+                "items": {
+                  "not": {
+                    "required": [
+                      "minimum_descent_altitude"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "line": {
+                "enum": [
+                  "par",
+                  "lpv",
+                  "lnav_vnav",
+                  "rnp",
+                  "lp",
+                  "lnav",
+                  "localizer",
+                  "vor",
+                  "tacan",
+                  "ndb",
+                  "asr"
+                ]
+              }
+            },
+            "required": [
+              "line"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "ils_category"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "line": {
+                "enum": [
+                  "ils",
+                  "gls",
+                  "par",
+                  "lpv",
+                  "lnav_vnav",
+                  "lp",
+                  "lnav",
+                  "localizer",
+                  "vor",
+                  "tacan",
+                  "ndb",
+                  "asr"
+                ]
+              }
+            },
+            "required": [
+              "line"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "rnp_value"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "A minima line is one line of the published minima of an approach: the minima for one type of guidance and one manoeuvre. It gives the minima for each aircraft approach category.",
+      "properties": {
+        "category_minima": {
+          "description": "This list contains the minima of the line for the aircraft approach categories. Each item gives the minima for one or more categories. A straight-in line with vertical guidance shall give decision altitudes, and other lines shall give minimum descent altitudes.",
+          "items": {
+            "$ref": "#/$defs/CategoryMinimum"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "condition": {
+          "description": "This field gives the condition in which this line applies, for example a remote altimeter setting or inoperative approach lights, as free text. A line without this field gives the standard minima.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "height_reference": {
+          "description": "This field gives the elevation from which the heights of the line are measured, as one of the enumerated values.",
+          "enum": [
+            "touchdown_zone",
+            "threshold",
+            "aerodrome"
+          ],
+          "x-enum-descriptions": {
+            "aerodrome": "This value identifies the published elevation of the aerodrome, as for circling heights.",
+            "threshold": "This value identifies the elevation of the runway threshold, as for International Civil Aviation Organization (ICAO) decision heights.",
+            "touchdown_zone": "This value identifies the highest elevation of the first 3000 feet of the landing surface, as for Federal Aviation Administration (FAA) heights above touchdown."
+          }
+        },
+        "ils_category": {
+          "description": "This field gives the instrument landing system (ILS) category of the minima, as one of the enumerated values. Only a line of type `ils` or `gls` shall have this field.",
+          "enum": [
+            "I",
+            "II",
+            "III"
+          ],
+          "x-enum-descriptions": {
+            "I": "This value identifies category `I` minima with a decision height of 200 feet or more.",
+            "II": "This value identifies category `II` minima with a decision height from 100 feet to less than 200 feet.",
+            "III": "This value identifies category `III` minima with a decision height of less than 100 feet, or with no decision height."
+          }
+        },
+        "label": {
+          "description": "This field gives the name of the minima line as the chart shows it, for example `S-ILS 31` or `LNAV/VNAV`.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "line": {
+          "description": "This field gives the guidance that the minima line uses, as one of the enumerated values.",
+          "enum": [
+            "ils",
+            "gls",
+            "par",
+            "lpv",
+            "lnav_vnav",
+            "rnp",
+            "lp",
+            "lnav",
+            "localizer",
+            "vor",
+            "tacan",
+            "ndb",
+            "asr"
+          ],
+          "x-enum-descriptions": {
+            "asr": "This value identifies minima for an airport surveillance radar (ASR) approach, with a minimum descent altitude (MDA).",
+            "gls": "This value identifies minima for a ground-based augmentation system landing system (GLS) approach, with a decision altitude.",
+            "ils": "This value identifies minima for an instrument landing system (ILS) approach, with a decision altitude.",
+            "lnav": "This value identifies minima with lateral navigation (LNAV) lateral guidance only, with a minimum descent altitude (MDA).",
+            "lnav_vnav": "This value identifies minima with lateral navigation (LNAV) and barometric or satellite vertical guidance, with a decision altitude.",
+            "localizer": "This value identifies minima for a localizer approach without the glide slope, with a minimum descent altitude (MDA).",
+            "lp": "This value identifies minima with localizer performance (LP) lateral guidance and no vertical guidance, with a minimum descent altitude (MDA).",
+            "lpv": "This value identifies minima with localizer performance with vertical guidance (LPV) vertical guidance from satellite augmentation, with a decision altitude.",
+            "ndb": "This value identifies minima for an approach with guidance from a non-directional beacon (NDB) station, with a minimum descent altitude (MDA).",
+            "par": "This value identifies minima for a precision approach radar (PAR) approach, with a decision altitude.",
+            "rnp": "This value identifies minima of a required navigation performance (RNP) approach with authorization required, with a decision altitude for one RNP value.",
+            "tacan": "This value identifies minima for an approach with guidance from a Tactical Air Navigation (TACAN) station, with a minimum descent altitude (MDA).",
+            "vor": "This value identifies minima for an approach with guidance from a very high frequency omnidirectional range (VOR) station, with a minimum descent altitude (MDA)."
+          }
+        },
+        "manoeuvre": {
+          "description": "This field gives the manoeuvre after the approach, as one of the enumerated values. A `circling` line shall not have `runway`, and other lines shall have it. The minima of a `circling` line shall be minimum descent altitudes, with the height above the aerodrome.",
+          "enum": [
+            "straight_in",
+            "circling",
+            "sidestep"
+          ],
+          "x-enum-descriptions": {
+            "circling": "This value identifies a visual manoeuvre around the aerodrome to land on a different runway or direction.",
+            "sidestep": "This value identifies a visual manoeuvre to land on a parallel runway next to the runway of the final approach.",
+            "straight_in": "This value identifies a landing straight ahead on the runway of the final approach course."
+          }
+        },
+        "remarks": {
+          "description": "This list contains the remarks for this minima line, as free text.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "rnp_value": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "nm"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the required navigation performance (RNP) value of the minima line, in nautical miles, as a length with its unit. An approach with authorization required can publish one line for each RNP value. Only a line of type `rnp` shall have this field."
+        },
+        "runway": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "description": "This field gives the designator of the runway of a straight-in line, or of the runway after a sidestep."
+        }
+      },
+      "required": [
+        "line",
+        "manoeuvre",
+        "category_minima"
+      ],
+      "type": "object"
+    },
+    "NavaidRef": {
+      "description": "A navigation aid reference is a navigation aid: its identifier and position, or a reference to a navigation aid in the resource catalogue.",
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "ident": {
+              "description": "This field identifies this navigation aid.",
+              "minLength": 1,
+              "type": "string"
+            },
+            "position": {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+              "description": "This field gives the geographic position of the navigation aid, as latitude and longitude."
+            }
+          },
+          "required": [
+            "ident",
+            "position"
+          ],
+          "type": "object"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+          "x-measure-kinds": [
+            "NAVAID"
+          ]
+        }
+      ]
+    },
+    "NavigationSpecification": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "navigation_type": {
+                "enum": [
+                  "conventional"
+                ]
+              }
+            },
+            "required": [
+              "navigation_type"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "specification"
+                  ]
+                },
+                {
+                  "required": [
+                    "rnp_value"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "navigation_type": {
+                "enum": [
+                  "rnav"
+                ]
+              }
+            },
+            "required": [
+              "navigation_type"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "rnp_value"
+              ]
+            },
+            "properties": {
+              "specification": {
+                "enum": [
+                  "rnav_10",
+                  "rnav_5",
+                  "rnav_2",
+                  "rnav_1"
+                ]
+              }
+            },
+            "required": [
+              "specification"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "navigation_type": {
+                "enum": [
+                  "rnp"
+                ]
+              }
+            },
+            "required": [
+              "navigation_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "specification": {
+                "enum": [
+                  "rnp_4",
+                  "rnp_2",
+                  "rnp_1",
+                  "advanced_rnp",
+                  "rnp_apch",
+                  "rnp_ar_apch",
+                  "rnp_0_3"
+                ]
+              }
+            },
+            "required": [
+              "specification"
+            ]
+          }
+        }
+      ],
+      "description": "A navigation specification is the navigation that the procedure needs: conventional navigation, area navigation (RNAV) or required navigation performance (RNP). It gives the performance-based navigation (PBN) navigation specification, the RNP value, the sensors and the navigation aids.",
+      "properties": {
+        "navigation_type": {
+          "description": "This field gives the type of navigation of the procedure, as one of the enumerated values. A `conventional` procedure shall not have `specification` or `rnp_value`. An `rnav` or `rnp` procedure shall have a `specification` of its type.",
+          "enum": [
+            "conventional",
+            "rnav",
+            "rnp"
+          ],
+          "x-enum-descriptions": {
+            "conventional": "This value identifies navigation on courses and radials of ground navigation aids, without area navigation.",
+            "rnav": "This value identifies an area navigation (RNAV) navigation specification, without on-board performance monitoring and alerting.",
+            "rnp": "This value identifies a required navigation performance (RNP) navigation specification, with on-board performance monitoring and alerting."
+          }
+        },
+        "notes": {
+          "description": "This field gives the notes about the navigation equipment of the procedure, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "required_navaids": {
+          "description": "This list contains the navigation aids that are necessary to fly the procedure. Each item is a navigation aid with its identifier and position, or a reference to a navigation aid in the resource catalogue.",
+          "items": {
+            "$ref": "#/$defs/NavaidRef"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "rnp_value": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "nm"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the lateral navigation accuracy of the procedure, as a required navigation performance (RNP) value in nautical miles, as a length with its unit. An `rnav` procedure shall not have this field."
+        },
+        "sensors": {
+          "description": "This list contains the navigation sensors that the procedure needs. The aircraft uses one or more of them.",
+          "items": {
+            "enum": [
+              "gnss",
+              "gbas",
+              "dme_dme",
+              "dme_dme_iru",
+              "vor_dme",
+              "vor",
+              "dme",
+              "tacan",
+              "ndb",
+              "ils"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true,
+          "x-enum-descriptions": {
+            "dme": "This value identifies an interrogator in the aircraft that measures the slant range to a distance measuring equipment (DME) station.",
+            "dme_dme": "This value identifies area navigation from the distances to two or more distance measuring equipment (DME) stations.",
+            "dme_dme_iru": "This value identifies area navigation from distance measuring equipment (DME) distances with an inertial reference unit (IRU) for gaps in DME coverage.",
+            "gbas": "This value identifies a ground-based augmentation system (GBAS) receiver for a ground-based augmentation system landing system (GLS) approach.",
+            "gnss": "This value identifies a global navigation satellite system (GNSS) receiver for satellite navigation, for example Global Positioning System (GPS).",
+            "ils": "This value identifies an instrument landing system (ILS) receiver for the localizer and the glide slope.",
+            "ndb": "This value identifies an automatic direction finder for the bearing to a non-directional beacon (NDB) station.",
+            "tacan": "This value identifies Tactical Air Navigation (TACAN) equipment for the bearing and the distance of a TACAN station.",
+            "vor": "This value identifies a very high frequency omnidirectional range (VOR) receiver for courses and radials.",
+            "vor_dme": "This value identifies area navigation from the bearing and the distance of a very high frequency omnidirectional range (VOR) station with distance measuring equipment (DME)."
+          }
+        },
+        "specification": {
+          "description": "This field gives the performance-based navigation (PBN) navigation specification of the procedure, as one of the enumerated values.",
+          "enum": [
+            "rnav_10",
+            "rnav_5",
+            "rnav_2",
+            "rnav_1",
+            "rnp_4",
+            "rnp_2",
+            "rnp_1",
+            "advanced_rnp",
+            "rnp_apch",
+            "rnp_ar_apch",
+            "rnp_0_3"
+          ],
+          "x-enum-descriptions": {
+            "advanced_rnp": "This value identifies the `A-RNP` specification for routes, terminal areas and approaches, with radius-to-fix legs.",
+            "rnav_1": "This value identifies the `RNAV 1` specification for departures, arrivals and terminal areas, with 1 nautical mile accuracy.",
+            "rnav_10": "This value identifies the `RNAV 10` specification for oceanic and remote routes, with 10 nautical miles accuracy.",
+            "rnav_2": "This value identifies the `RNAV 2` specification for routes and terminal areas, with 2 nautical miles accuracy.",
+            "rnav_5": "This value identifies the `RNAV 5` specification for continental routes, with 5 nautical miles accuracy.",
+            "rnp_0_3": "This value identifies the `RNP 0.3` specification for helicopter routes and terminal areas.",
+            "rnp_1": "This value identifies the `RNP 1` specification for departures and arrivals, with 1 nautical mile accuracy.",
+            "rnp_2": "This value identifies the `RNP 2` specification for continental and remote routes, with 2 nautical miles accuracy.",
+            "rnp_4": "This value identifies the `RNP 4` specification for oceanic and remote routes, with 4 nautical miles accuracy.",
+            "rnp_apch": "This value identifies the `RNP APCH` specification for approaches with lateral navigation (LNAV), LNAV/VNAV, localizer performance (LP) or localizer performance with vertical guidance (LPV) minima.",
+            "rnp_ar_apch": "This value identifies the `RNP AR APCH` specification for approaches that need a special authorization."
+          }
+        }
+      },
+      "required": [
+        "navigation_type"
+      ],
+      "type": "object"
+    },
+    "Obstacle": {
+      "additionalProperties": false,
+      "description": "An obstacle is terrain or an object that the assessment of a segment uses.",
+      "properties": {
+        "elevation": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Elevation",
+          "description": "This field gives the elevation of the top of the obstacle above mean sea level, as an elevation with its unit."
+        },
+        "height": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the height of the obstacle above the ground, as a length with its unit."
+        },
+        "ident": {
+          "description": "This field identifies this obstacle in its source data. An example is the number of the obstacle in an obstacle file.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "obstacle_type": {
+          "description": "This field gives the type of the obstacle, as one of the enumerated values.",
+          "enum": [
+            "terrain",
+            "structure",
+            "vegetation"
+          ],
+          "x-enum-descriptions": {
+            "structure": "This value identifies a building, a tower, an antenna or another object that people built.",
+            "terrain": "This value identifies the ground surface, for example a ridge or a peak.",
+            "vegetation": "This value identifies trees or other plants above the ground surface."
+          }
+        },
+        "position": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the obstacle, as latitude and longitude."
+        }
+      },
+      "required": [
+        "obstacle_type",
+        "elevation"
+      ],
+      "type": "object"
+    },
+    "ObstacleAssessment": {
+      "additionalProperties": false,
+      "description": "An obstacle clearance assessment is the result of an assessment of the terrain and the obstacles under the procedure. For each segment it gives the controlling obstacle, the obstacle clearance and the lowest altitude.",
+      "properties": {
+        "assessed_at": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time of the assessment."
+        },
+        "criteria": {
+          "description": "This field gives the design criteria of the assessment, as one of the enumerated values.",
+          "enum": [
+            "pans_ops",
+            "terps",
+            "other"
+          ],
+          "x-enum-descriptions": {
+            "other": "This value identifies national or military criteria that `criteria_document` names.",
+            "pans_ops": "This value identifies the International Civil Aviation Organization (ICAO) criteria for the construction of instrument procedures in Doc 8168.",
+            "terps": "This value identifies the United States Standard for Terminal Instrument Procedures in Federal Aviation Administration (FAA) Order 8260.3."
+          }
+        },
+        "criteria_document": {
+          "description": "This field gives the document and the edition of the criteria, for example `FAA Order 8260.3G`.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "notes": {
+          "description": "This field gives the notes about the assessment, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "obstacle_data": {
+          "description": "This field gives the terrain data and obstacle data of the assessment, for example the name of the elevation model and its resolution, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "segments": {
+          "description": "This list contains the results of the assessment for the segments of the procedure.",
+          "items": {
+            "$ref": "#/$defs/SegmentAssessment"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "tool": {
+          "$ref": "#/$defs/Tool",
+          "description": "This field gives the software that made the assessment."
+        }
+      },
+      "required": [
+        "criteria",
+        "segments"
+      ],
+      "type": "object"
+    },
+    "ProcedureTurn": {
+      "additionalProperties": false,
+      "description": "A procedure turn is a course reversal from the outbound course onto the inbound course of an approach. The aircraft stays on the manoeuvring side of the outbound course and in the distance in `remain_within`.",
+      "properties": {
+        "inbound_course": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "description": "This field gives the course of the inbound leg after the course reversal, as a bearing with its unit and reference."
+        },
+        "outbound_time": {
+          "$ref": "#/$defs/Duration",
+          "description": "This field gives the flight time on the outbound leg before the aircraft turns back, in minutes. Base turns and some procedure turns publish this time."
+        },
+        "remain_within": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the distance from the fix of the leg in which the aircraft completes the procedure turn, as a length with its unit."
+        },
+        "turn_type": {
+          "description": "This field gives the type of the course reversal, as one of the enumerated values.",
+          "enum": [
+            "turn_45_180",
+            "turn_80_260",
+            "base_turn"
+          ],
+          "x-enum-descriptions": {
+            "base_turn": "This value identifies a turn from an outbound course that diverges from the inbound course, as in a teardrop course reversal.",
+            "turn_45_180": "This value identifies a 45 degree turn away from the outbound course, a straight leg, then a 180 degree turn back to the inbound course.",
+            "turn_80_260": "This value identifies an 80 degree turn away from the outbound course and then a 260 degree turn the other way to the inbound course."
+          }
+        }
+      },
+      "required": [
+        "turn_type"
+      ],
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "A provenance is the origin of a navigation record: how its data were made, by which authority, for which aeronautical information regulation and control (AIRAC) cycle and with which tool.",
+      "properties": {
+        "airac_cycle": {
+          "description": "This field gives the aeronautical information regulation and control (AIRAC) cycle of the data, as two digits of the year and two digits of the cycle, for example `2610`.",
+          "pattern": "^[0-9]{2}(0[1-9]|1[0-4])$",
+          "type": "string"
+        },
+        "authority": {
+          "description": "This field gives the name of the authority that publishes the source data, for example `FAA`.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "derivation": {
+          "description": "This field gives the way in which the data of the record were made, as one of the enumerated values.",
+          "enum": [
+            "published",
+            "derived",
+            "synthesized",
+            "authored"
+          ],
+          "x-enum-descriptions": {
+            "authored": "This value identifies data that a person wrote for a mission or a scenario.",
+            "derived": "This value identifies data that a tool converted or computed from published data.",
+            "published": "This value identifies data that an authority publishes, taken without changes.",
+            "synthesized": "This value identifies data that a tool designed where no published procedure or record exists."
+          }
+        },
+        "effective_from": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time of the start of the period in which the data are effective."
+        },
+        "effective_until": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time of the end of the period in which the data are effective."
+        },
+        "generated_at": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time of the conversion or the generation of the data."
+        },
+        "publication": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef",
+          "description": "This field identifies the publication from which the data come. An example is the chart of the procedure."
+        },
+        "tool": {
+          "$ref": "#/$defs/Tool",
+          "description": "This field gives the software tool that converted or made the data."
+        }
+      },
+      "required": [
+        "derivation"
+      ],
+      "type": "object"
+    },
+    "RadarApproach": {
+      "additionalProperties": false,
+      "description": "A radar approach is the final approach of a precision approach radar (PAR) or an airport surveillance radar (ASR) approach, which a controller gives from the radar. The field `approach_type` of the procedure gives the type of radar.",
+      "properties": {
+        "coverage": {
+          "$ref": "#/$defs/RadarCoverage",
+          "description": "This field gives the volume in which the radar gives the approach."
+        },
+        "final_approach_course": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "description": "This field gives the final approach course of the radar approach, as a bearing with its unit and reference."
+        },
+        "glide_path_angle_deg": {
+          "description": "This field gives the angle between the precision approach radar (PAR) glide path and a horizontal line, in degrees. A PAR approach shall have this field, and an airport surveillance radar (ASR) approach shall not have it.",
+          "exclusiveMaximum": 90,
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        "lost_communications": {
+          "description": "This list contains the lost communications instructions for the radar approach, as free text.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "missed_approach_point_distance": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the distance of the missed approach point of an airport surveillance radar (ASR) approach from the runway threshold, as a length with its unit. A precision approach radar (PAR) approach shall not have this field."
+        },
+        "position": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the radar antenna, as latitude and longitude."
+        },
+        "recommended_altitudes": {
+          "description": "This list contains the altitudes that the controller recommends at distances from the runway on an airport surveillance radar (ASR) approach. A precision approach radar (PAR) approach shall not have this field.",
+          "items": {
+            "$ref": "#/$defs/RecommendedAltitude"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "runway": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "description": "This field gives the designator of the runway of the radar approach."
+        },
+        "threshold_crossing_height": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the threshold crossing height (TCH) of the precision approach radar (PAR) glide path, as a length with its unit. It is the height of the glide path above the landing threshold."
+        }
+      },
+      "required": [
+        "runway",
+        "final_approach_course"
+      ],
+      "type": "object"
+    },
+    "RadarCoverage": {
+      "additionalProperties": false,
+      "description": "A radar coverage is the volume of the radar on the final approach. The azimuth limits are angles from the final approach course, and the elevation limits are angles above a horizontal line.",
+      "properties": {
+        "azimuth_left_deg": {
+          "description": "This field gives the azimuth limit left of the final approach course, in degrees.",
+          "maximum": 90,
+          "minimum": 0,
+          "type": "number"
+        },
+        "azimuth_right_deg": {
+          "description": "This field gives the azimuth limit right of the final approach course, in degrees.",
+          "maximum": 90,
+          "minimum": 0,
+          "type": "number"
+        },
+        "elevation_lower_deg": {
+          "description": "This field gives the lower elevation limit of the precision approach radar (PAR), in degrees. A value less than zero is below the horizontal. An airport surveillance radar (ASR) approach shall not have this field.",
+          "maximum": 90,
+          "minimum": -10,
+          "type": "number"
+        },
+        "elevation_upper_deg": {
+          "description": "This field gives the upper elevation limit of the precision approach radar (PAR), in degrees. An airport surveillance radar (ASR) approach shall not have this field.",
+          "exclusiveMinimum": 0,
+          "maximum": 90,
+          "type": "number"
+        },
+        "range": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the range of the radar coverage on the final approach, from the runway threshold, as a length with its unit."
+        }
+      },
+      "required": [
+        "range"
+      ],
+      "type": "object"
+    },
+    "RecommendedAltitude": {
+      "additionalProperties": false,
+      "description": "A recommended altitude is an altitude that the controller recommends at one distance from the runway on an airport surveillance radar (ASR) approach.",
+      "properties": {
+        "altitude": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+            },
+            {
+              "properties": {
+                "reference": {
+                  "const": "MSL"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the recommended altitude above mean sea level at this distance, as an altitude with its unit and reference."
+        },
+        "distance": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the distance from the runway threshold, as a length with its unit."
+        }
+      },
+      "required": [
+        "distance",
+        "altitude"
+      ],
+      "type": "object"
+    },
+    "SegmentAssessment": {
+      "additionalProperties": false,
+      "description": "A segment assessment is the obstacle clearance result for one segment of the procedure.",
+      "properties": {
+        "controlling_obstacle": {
+          "$ref": "#/$defs/Obstacle",
+          "description": "This field gives the controlling obstacle: the obstacle that sets the lowest altitude of the segment."
+        },
+        "from_fix": {
+          "description": "This field gives the identifier of the fix at the start of the segment.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "minimum_altitude": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+            },
+            {
+              "properties": {
+                "reference": {
+                  "const": "MSL"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the lowest altitude of the segment above mean sea level that keeps the obstacle clearance, as an altitude with its unit and reference."
+        },
+        "notes": {
+          "description": "This field gives the notes about the result for the segment, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "obstacle_clearance": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the obstacle clearance that the assessment applies above the controlling obstacle, as a length with its unit. It is the minimum obstacle clearance of International Civil Aviation Organization (ICAO) Doc 8168 or the required obstacle clearance of Federal Aviation Administration (FAA) Order 8260.3."
+        },
+        "satisfied": {
+          "description": "The value is `true` when the published altitudes of the segment are at or above `minimum_altitude`. The value is `false` when a published altitude of the segment is below `minimum_altitude`.",
+          "type": "boolean"
+        },
+        "segment": {
+          "description": "This field gives the type of the segment, as one of the enumerated values.",
+          "enum": [
+            "departure",
+            "arrival",
+            "feeder",
+            "initial",
+            "intermediate",
+            "final",
+            "missed_approach",
+            "circling",
+            "holding"
+          ],
+          "x-enum-descriptions": {
+            "arrival": "This value identifies the route from the en-route structure to the start of the approach.",
+            "circling": "This value identifies the visual manoeuvring area around the aerodrome for a circling approach.",
+            "departure": "This value identifies the climb from the runway along a departure route.",
+            "feeder": "This value identifies a route from the en-route structure to the initial approach fix.",
+            "final": "This value identifies the final approach segment, from the final approach fix to the runway or the missed approach point.",
+            "holding": "This value identifies the protected area of a holding pattern of the procedure.",
+            "initial": "This value identifies the initial approach segment, from the initial approach fix to the intermediate fix.",
+            "intermediate": "This value identifies the intermediate approach segment, from the intermediate fix to the final approach fix.",
+            "missed_approach": "This value identifies the climb from the missed approach point to the holding fix or the en-route structure."
+          }
+        },
+        "to_fix": {
+          "description": "This field gives the identifier of the fix at the end of the segment.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "transition": {
+          "description": "This field gives the identifier of the transition of the segment, as in `ident` of the transition.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "segment",
+        "obstacle_clearance",
+        "minimum_altitude"
+      ],
+      "type": "object"
+    },
+    "SpeedConstraint": {
+      "additionalProperties": false,
+      "description": "A speed constraint is a speed restriction with its type and its speed.",
+      "properties": {
+        "kind": {
+          "description": "This field gives the type of the speed restriction, as one of the enumerated values.",
+          "enum": [
+            "at",
+            "at_or_below",
+            "at_or_above"
+          ],
+          "x-enum-descriptions": {
+            "at": "The aircraft flies at the speed in `value`.",
+            "at_or_above": "The speed is a minimum speed. The aircraft flies at or above the speed in `value`.",
+            "at_or_below": "The speed is a maximum speed. The aircraft flies at or below the speed in `value`."
+          }
+        },
+        "value": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Speed",
+          "description": "This field gives the speed of the restriction, as a speed with its unit."
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "type": "object"
+    },
+    "TakeoffMinimum": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "visibility"
+          ]
+        },
+        {
+          "required": [
+            "runway_visual_range"
+          ]
+        }
+      ],
+      "description": "A takeoff minimum is the lowest weather for a takeoff on this departure. It shall have `visibility` or `runway_visual_range`.",
+      "properties": {
+        "ceiling": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the lowest ceiling for the takeoff, above the aerodrome, as a length with its unit."
+        },
+        "climb_gradient": {
+          "$ref": "#/$defs/ClimbGradient",
+          "description": "This field gives the climb gradient that the aircraft needs to use these minima."
+        },
+        "condition": {
+          "description": "This field gives the condition in which this takeoff minimum applies, for example the number of engines, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "remarks": {
+          "description": "This list contains the remarks for the takeoff, for example obstacle notes, as free text.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "runway": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "description": "This field gives the designator of the runway of the takeoff minimum."
+        },
+        "runway_visual_range": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "enum": [
+                    "ft",
+                    "m"
+                  ]
+                }
+              }
+            }
+          ],
+          "description": "This field gives the lowest runway visual range (RVR) for the takeoff, as a length with its unit. The unit is feet or metres."
+        },
+        "visibility": {
+          "$ref": "#/$defs/Visibility",
+          "description": "This field gives the lowest visibility for the takeoff."
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Tool": {
+      "additionalProperties": false,
+      "description": "A tool is a software tool with its version.",
+      "properties": {
+        "name": {
+          "description": "This field gives the name of the software tool.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "version": {
+          "description": "This field gives the version of the software tool.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "Transition": {
+      "additionalProperties": false,
+      "description": "A transition is one transition or route segment of a procedure.",
+      "properties": {
+        "ident": {
+          "description": "This field identifies this transition. Examples are the entry fix and the runway. The common route and the final approach do not have this field.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "legs": {
+          "description": "This list contains the legs of the transition, in the sequence of flight, in order.",
+          "items": {
+            "$ref": "#/$defs/Leg"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "legs"
+      ],
+      "type": "object"
+    },
+    "Visibility": {
+      "additionalProperties": false,
+      "description": "A visibility is a horizontal visibility with its unit.",
+      "properties": {
+        "unit": {
+          "description": "This field gives the unit of the visibility, as one of the enumerated values.",
+          "enum": [
+            "m",
+            "km",
+            "sm"
+          ],
+          "x-enum-descriptions": {
+            "km": "This value identifies a visibility in kilometres.",
+            "m": "This value identifies a visibility in metres.",
+            "sm": "This value identifies a visibility in statute miles, as United States charts publish it."
+          }
+        },
+        "value": {
+          "description": "This field gives the value of the visibility, in the unit of `unit`.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:procedure:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "procedure_type": {
+            "enum": [
+              "departure",
+              "arrival"
+            ]
+          }
+        },
+        "required": [
+          "procedure_type"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "approach_type"
+              ]
+            },
+            {
+              "required": [
+                "minima"
+              ]
+            },
+            {
+              "required": [
+                "radar_approach"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "procedure_type": {
+            "enum": [
+              "arrival",
+              "approach"
+            ]
+          }
+        },
+        "required": [
+          "procedure_type"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "takeoff_minima"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "procedure_type": {
+            "enum": [
+              "arrival"
+            ]
+          }
+        },
+        "required": [
+          "procedure_type"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "climb_gradients"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "radar_approach"
+              ]
+            }
+          ]
+        },
+        "required": [
+          "transitions"
+        ]
+      },
+      "if": {
+        "properties": {
+          "approach_type": {
+            "enum": [
+              "par",
+              "asr"
+            ]
+          }
+        },
+        "required": [
+          "approach_type"
+        ]
+      },
+      "then": {
+        "required": [
+          "radar_approach"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "approach_type": {
+            "enum": [
+              "par"
+            ]
+          }
+        },
+        "required": [
+          "approach_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "radar_approach": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "recommended_altitudes"
+                  ]
+                },
+                {
+                  "required": [
+                    "missed_approach_point_distance"
+                  ]
+                }
+              ]
+            },
+            "required": [
+              "glide_path_angle_deg"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "approach_type": {
+            "enum": [
+              "asr"
+            ]
+          }
+        },
+        "required": [
+          "approach_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "radar_approach": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "glide_path_angle_deg"
+                  ]
+                },
+                {
+                  "required": [
+                    "threshold_crossing_height"
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "coverage": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "elevation_lower_deg"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "elevation_upper_deg"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "description": "An instrument procedure is a standard instrument departure (SID), a standard terminal arrival route (STAR) or an approach. It is a sequence of legs with altitude constraints and speed constraints.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "airfield": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the airfield at the start or at the end of the procedure. When the airfield has a list of its procedures, the list shall include this procedure.",
+      "x-catalog": "places"
+    },
+    "approach_type": {
+      "description": "This field gives the guidance of the final approach segment of an approach, as one of the enumerated values. Only an approach shall have this field. A `par` or `asr` approach shall have `radar_approach`, and other procedures shall not have it.",
+      "enum": [
+        "ils",
+        "localizer",
+        "gls",
+        "rnav",
+        "vor",
+        "tacan",
+        "ndb",
+        "par",
+        "asr"
+      ],
+      "x-enum-descriptions": {
+        "asr": "This value identifies an airport surveillance radar (ASR) approach: a controller gives the course and recommended altitudes from a surveillance radar.",
+        "gls": "This value identifies a ground-based augmentation system landing system (GLS) approach, with lateral and vertical guidance from a ground-based augmentation system (GBAS) ground station.",
+        "ils": "This value identifies an instrument landing system (ILS) approach, with a localizer and a glide slope.",
+        "localizer": "This value identifies a localizer approach, with lateral guidance from a localizer and no glide slope.",
+        "ndb": "This value identifies an approach with guidance from a non-directional beacon (NDB) station.",
+        "par": "This value identifies a precision approach radar (PAR) approach: a controller gives the course and the glide path from a precision radar.",
+        "rnav": "This value identifies an area navigation (RNAV) or required navigation performance (RNP) approach with satellite navigation, for example `RNAV (GPS)` or `RNP`.",
+        "tacan": "This value identifies an approach with lateral guidance from a Tactical Air Navigation (TACAN) station.",
+        "vor": "This value identifies an approach with lateral guidance from a very high frequency omnidirectional range (VOR) station, with or without distance measuring equipment (DME)."
+      }
+    },
+    "climb_gradients": {
+      "description": "This list contains the minimum climb gradients of a departure or of the missed approach of an approach. An arrival shall not have this field.",
+      "items": {
+        "$ref": "#/$defs/ClimbGradient"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this procedure. Other resources and orders use this stable identifier to refer to this procedure."
+    },
+    "ident": {
+      "description": "This field identifies this procedure as published. An example is `I16R`.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "kind": {
+      "const": "procedure",
+      "description": "The value identifies this record as a procedure record. The value selects this navigation contract."
+    },
+    "minima": {
+      "description": "This list contains the published minima lines of the approach. Only an approach shall have this field.",
+      "items": {
+        "$ref": "#/$defs/MinimaLine"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "name": {
+      "description": "This field gives the name of this procedure, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "navigation_specification": {
+      "$ref": "#/$defs/NavigationSpecification",
+      "description": "This field gives the navigation specification of the procedure: conventional navigation, area navigation (RNAV) or required navigation performance (RNP), and the sensors and navigation aids that it needs."
+    },
+    "obstacle_assessment": {
+      "$ref": "#/$defs/ObstacleAssessment",
+      "description": "This field gives the result of the obstacle clearance assessment of the procedure, segment by segment."
+    },
+    "procedure_type": {
+      "description": "This field gives the type of the procedure, as one of the enumerated values.",
+      "enum": [
+        "departure",
+        "arrival",
+        "approach"
+      ],
+      "x-enum-descriptions": {
+        "approach": "This value identifies an instrument approach procedure, from the initial approach fix to a landing or a missed approach.",
+        "arrival": "This value identifies a standard terminal arrival route (STAR): an instrument flight rules (IFR) route from the en-route structure to the approach.",
+        "departure": "This value identifies a standard instrument departure (SID): an instrument flight rules (IFR) route from the runway to the en-route structure."
+      }
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance",
+      "description": "This field gives the provenance of this procedure as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
+    },
+    "radar_approach": {
+      "$ref": "#/$defs/RadarApproach",
+      "description": "This field gives the final approach of a precision approach radar (PAR) or an airport surveillance radar (ASR) approach: the runway, the course, the glide path and the radar coverage."
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this procedure. The reference gives the identifier and the revision of the catalogue."
+    },
+    "source": {
+      "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "takeoff_minima": {
+      "description": "This list contains the takeoff minima of a departure. Only a departure shall have this field.",
+      "items": {
+        "$ref": "#/$defs/TakeoffMinimum"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "transitions": {
+      "description": "This list contains the transitions and common route segments of the procedure. A transition without an identifier is the common route or the final approach. A procedure shall have this field, except a `par` or `asr` approach.",
+      "items": {
+        "$ref": "#/$defs/Transition"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "name"
+  ],
+  "title": "Procedure",
+  "type": "object",
+  "x-navigation-profile": "procedure"
+}

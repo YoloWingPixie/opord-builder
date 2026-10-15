@@ -1,0 +1,119 @@
+{
+  "$schema": "urn:openaix:schema:measure-kb:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "channels": [
+    "banshee-uhf"
+  ],
+  "components": [
+    {
+      "active": {
+        "end": "2026-10-02T15:00:00Z",
+        "start": "2026-10-02T13:00:00Z"
+      },
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "bindings": [
+              {
+                "kind": "drawing",
+                "layer": "Blue",
+                "mission_id": "oir-syria",
+                "name": "OIR Cobalt Boundary",
+                "object_id": 42,
+                "polygon_mode": "free",
+                "primitive_type": "Polygon",
+                "style": {
+                  "color": "0x3366FFFF",
+                  "fill_color": "0x3366FF20",
+                  "thickness": 2,
+                  "visible": true
+                }
+              }
+            ]
+          }
+        }
+      },
+      "geometry": {
+        "kind": "polygon",
+        "rings": [
+          [
+            {
+              "latitude": 35.035,
+              "longitude": 40.225
+            },
+            {
+              "latitude": 35.035,
+              "longitude": 40.374
+            },
+            {
+              "latitude": 35.155,
+              "longitude": 40.375
+            },
+            {
+              "latitude": 35.155,
+              "longitude": 40.225
+            },
+            {
+              "latitude": 35.035,
+              "longitude": 40.225
+            }
+          ]
+        ]
+      },
+      "id": "cobalt-volume",
+      "lower_limit": {
+        "surface": true
+      },
+      "maximum_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 18000
+      },
+      "minimum_limit": {
+        "reference": "AGL",
+        "unit": "ft",
+        "value": 500
+      },
+      "name": "Cobalt volume",
+      "operation": "add",
+      "upper_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 13000
+      }
+    }
+  ],
+  "controlling_agency": "banshee",
+  "coordinating_altitude": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 10000
+  },
+  "coordination_instructions": [
+    "Enter only from Marshal after Banshee reports the box open."
+  ],
+  "description": "Kill Box (KB) over the Cobalt compound west of the Euphrates, north of the transit and rescue areas.",
+  "establishing_authority": "caoc",
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "grid_label": "Cobalt 1",
+  "id": "cobalt-box",
+  "killbox_kind": "blue",
+  "name": "Cobalt kill box",
+  "notes": "Banshee opens the box only after Sweeper reports the area clear of civilian traffic.",
+  "purpose": "Air-to-surface attacks on the Cobalt compound and vehicle park.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "Firing status follows the assignment intervals below; no attacks on the river crossings."
+  ],
+  "type": "KB"
+}

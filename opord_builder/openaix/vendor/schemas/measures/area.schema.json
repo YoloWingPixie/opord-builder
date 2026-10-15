@@ -1,0 +1,204 @@
+{
+  "$id": "urn:openaix:schema:measure-area:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "RFA"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "restrictions"
+        ]
+      }
+    }
+  ],
+  "description": "A surface fire support or manoeuvre area is an area on the ground in two dimensions, with no vertical limits. The code `NFA` prevents fires and their effects, and with the code `FFA`, fires can occur without more coordination. With the code `RFA`, fires that do not obey the restrictions of the area can occur only with coordination. The code `EA` identifies the engagement area that the commander plans, and `AOA` identifies the amphibious objective area. The codes `OBJ`, `BP`, `AA`, `NAI` and `TAI` identify ground manoeuvre graphics. The code `FSA` identifies a sea area for fire support ships.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "type": "string"
+    },
+    "active": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "description": "This field gives the time interval during which this area is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
+    },
+    "coordination_instructions": {
+      "description": "This list contains the instructions that coordinate entry, operations and handover. The instructions are for the agencies or forces that this area has an effect on.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "This field gives the information about this area and its local conditions, as free text.",
+      "type": "string"
+    },
+    "establishing_authority": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies the headquarters that set the area.",
+      "x-catalog": "agencies"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "properties": {
+            "sim": {
+              "properties": {
+                "dcs": {
+                  "properties": {
+                    "bindings": {
+                      "items": {
+                        "allOf": [
+                          {
+                            "if": {
+                              "properties": {
+                                "primitive_type": {
+                                  "const": "Line"
+                                }
+                              },
+                              "required": [
+                                "primitive_type"
+                              ]
+                            },
+                            "then": {
+                              "properties": {
+                                "closed": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "closed"
+                              ]
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "drawing",
+                              "trigger_zone"
+                            ]
+                          },
+                          "primitive_type": {
+                            "enum": [
+                              "Polygon",
+                              "Line"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "propertyNames": {
+                    "enum": [
+                      "bindings",
+                      "coalition"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "geometry": {
+      "description": "This field gives the horizontal geometry of the area on the ground or at sea: a polygon, or a radius from a centre point. A `geojson` geometry (RFC 7946) of the same shape is also correct. The boundary follows terrain features that are easy to identify.",
+      "oneOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polyarc"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+        },
+        {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+        }
+      ]
+    },
+    "id": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "description": "This field identifies this area. Other records and orders use it to refer to this area."
+    },
+    "name": {
+      "description": "This field gives the name of this area, for display.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "notes": {
+      "description": "This field gives the notes about this area, as free text.",
+      "type": "string"
+    },
+    "resources_ref": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "description": "This field identifies the resource catalogue that resolves the references of this area. The reference gives the identifier and the revision of the catalogue."
+    },
+    "restrictions": {
+      "description": "This list contains the restrictions on fires or tasks. A restrictive fire area (RFA) shall give them.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": {
+      "description": "This field gives the catalogue code of this control measure, as one of the enumerated values. The code identifies the definition of the control measure in doctrine. The catalogue of control measures gives its class and the source of its definition.",
+      "enum": [
+        "AOA",
+        "EA",
+        "NFA",
+        "RFA",
+        "FFA",
+        "OBJ",
+        "BP",
+        "AA",
+        "NAI",
+        "TAI",
+        "FSA"
+      ],
+      "x-enum-descriptions": {
+        "AA": "An assembly area (AA) is an area where a unit makes its preparation for an operation.",
+        "AOA": "An amphibious objective area (AOA) is a geographical area that the initiating directive gives for command and control. It contains the objectives that the amphibious task force is to make safe.",
+        "BP": "A battle position (BP) is a defence location in the direction of a likely enemy avenue of approach. It is not an area of operations.",
+        "EA": "An engagement area (EA) is an area of ground manoeuvre control in which the commander plans to contain and destroy an enemy force. The commander uses the massed effects of all available weapons and the systems that help them. Close air support is an example. The commander may divide the area into smaller areas for subordinate units.",
+        "FFA": "A free-fire area (FFA) is a permissive area for fires. Any weapon system may fire into it without further coordination with the establishing headquarters (HQ). Joint fires can occur more quickly in it, and it helps aircraft jettison munitions. Only the commander with jurisdiction, usually at division or higher, may establish it.",
+        "FSA": "A fire support area (FSA) is a sea manoeuvre area that the naval force commander gives to fire support ships. From this area, the ships supply gunfire support to an amphibious operation. The officer in tactical command establishes it.",
+        "NAI": "A named area of interest (NAI) is a geospatial area, or a systems node or link, where forces get information for a specified information requirement. This information usually shows enemy and adversary courses of action.",
+        "NFA": "A no-fire area (NFA) is a restrictive area that prohibits joint fires and their effects into the area. The establishing headquarters (HQ) may give approval for fires into it, one mission at a time. When an enemy force in the area engages a friendly force, the friendly force may use minimal force in self-defence. A unit of any size may establish an NFA.",
+        "OBJ": "An objective (OBJ) is a location for the orientation of operations, the phases of operations, changes of direction and unity of effort. It can be a terrain objective or a force objective.",
+        "RFA": "A restrictive fire area (RFA) is an area with special restrictions on joint fires. Units do not fire joint fires that are more than these restrictions, or that have such effects, without coordination with the establishing headquarters (HQ). A manoeuvre battalion or higher usually establishes it. Restrictive fire areas can also be on-call areas that units prepare before the operation.",
+        "TAI": "A target area of interest (TAI) is a geographical area where friendly forces find and engage high-value targets."
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "geometry",
+    "active"
+  ],
+  "title": "Fire support or manoeuvre area",
+  "type": "object"
+}

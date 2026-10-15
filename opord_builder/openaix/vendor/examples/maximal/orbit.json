@@ -1,0 +1,84 @@
+{
+  "$schema": "urn:openaix:schema:orbit:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "altitude": {
+    "lower": {
+      "reference": "FL",
+      "unit": "flight_level",
+      "value": 220
+    },
+    "upper": {
+      "reference": "FL",
+      "unit": "flight_level",
+      "value": 260
+    }
+  },
+  "channels": [
+    "control-uhf"
+  ],
+  "controlling_agency": "darkstar",
+  "coordination_instructions": [
+    "Report Falcon on station and off station to Darkstar on 251.000 MHz AM."
+  ],
+  "description": "Combat air patrol racetrack north of the support orbits, facing the northern threat axis.",
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "closed": true,
+            "kind": "drawing",
+            "layer": "Blue",
+            "line_mode": "segments",
+            "mission_id": "oir-syria",
+            "name": "OIR Falcon Track",
+            "object_id": 43,
+            "primitive_type": "Line",
+            "style": {
+              "color": "0x66CCFFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "geometry": {
+    "kind": "racetrack",
+    "leg_length": {
+      "unit": "nm",
+      "value": 20
+    },
+    "point": {
+      "latitude": 34.885,
+      "longitude": 40.275
+    },
+    "radial": {
+      "declination_deg": 5.0,
+      "reference": "true",
+      "value": 270
+    },
+    "turn_radius": {
+      "unit": "nm",
+      "value": 2
+    },
+    "turns": "right"
+  },
+  "id": "falcon",
+  "name": "Falcon patrol",
+  "notes": "Falcon is the CAP station on the northern threat axis.",
+  "purpose": "Falcon protects the strike package and the high-value orbits from the north.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "restrictions": [
+    "Remain between FL220 and FL260; do not cross south of Shell without Darkstar approval."
+  ],
+  "type": "ORBIT"
+}

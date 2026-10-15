@@ -1,0 +1,7 @@
+{
+  "$schema": "urn:openaix:schema:c2-agency:0.1.0-draft.2",
+  "callsign": "Darkstar",
+  "id": "darkstar",
+  "kind": "c2-agency",
+  "role": "AWACS"
+}

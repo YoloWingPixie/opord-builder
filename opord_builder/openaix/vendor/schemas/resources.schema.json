@@ -1,0 +1,1907 @@
+{
+  "$defs": {
+    "AfterTime": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/Offset"
+            }
+          ],
+          "description": "This field gives the time before which the event does not occur. The value is a date and time, or an offset in minutes from the start of the order period."
+        },
+        "kind": {
+          "const": "not_before",
+          "description": "The value identifies this record as a time condition not before a time.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "at"
+      ],
+      "title": "AfterTime",
+      "type": "object"
+    },
+    "Aimpoint": {
+      "additionalProperties": false,
+      "properties": {
+        "briefing": {
+          "description": "This list contains the attachments for the brief on this aimpoint. An attachment is an image, a map, a document or a link.",
+          "items": {
+            "$ref": "#/$defs/Attachment"
+          },
+          "type": "array"
+        },
+        "description": {
+          "description": "This field gives the data about this aimpoint and its local conditions, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "elevation": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Elevation",
+          "description": "This field gives the elevation of the aimpoint above mean sea level (MSL), as an elevation with its unit."
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "unit",
+                                  "group",
+                                  "static",
+                                  "scenery",
+                                  "drawing",
+                                  "trigger_zone"
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "objects": {
+                          "items": {
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "unit",
+                                  "group",
+                                  "static",
+                                  "scenery"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings",
+                          "objects"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "name": {
+          "description": "This field gives the name of this aimpoint, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the aimpoint, as latitude and longitude."
+        }
+      },
+      "required": [
+        "position"
+      ],
+      "title": "Aimpoint",
+      "type": "object"
+    },
+    "AircraftType": {
+      "additionalProperties": false,
+      "description": "An aircraft type is a type and version of aircraft that flights and standard conventional loads (SCLs) refer to. The type names of simulators are in `extensions.sim`.",
+      "properties": {
+        "category": {
+          "description": "This field gives the class of the aircraft type, as one of the enumerated values.",
+          "enum": [
+            "airplane",
+            "helicopter",
+            "unmanned"
+          ]
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {},
+                      "propertyNames": {
+                        "enum": [
+                          "type"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "name": {
+          "description": "This field gives the name of this aircraft type, for display. An example is `F-16C Fighting Falcon Block 50`.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "AirspaceSelection": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection"
+    },
+    "Altitude": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+      "description": "An altitude is a vertical position with its unit and its reference: mean sea level (MSL), above ground level (AGL) or flight level (FL)."
+    },
+    "AltitudeBlock": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+      "description": "An altitude block is a vertical band between a floor and a ceiling. The floor can be the surface, and the ceiling can have no limit."
+    },
+    "Area": {
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "$ref": "#/$defs/Window",
+          "description": "This field gives the time interval during which the area is active. The value is a schedule, or one continuous period."
+        },
+        "altitude": {
+          "$ref": "#/$defs/AltitudeBlock",
+          "description": "This field gives the vertical limits of the area, as an altitude block with a floor and a ceiling."
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "allOf": [
+                              {
+                                "if": {
+                                  "properties": {
+                                    "primitive_type": {
+                                      "const": "Line"
+                                    }
+                                  },
+                                  "required": [
+                                    "primitive_type"
+                                  ]
+                                },
+                                "then": {
+                                  "properties": {
+                                    "closed": {
+                                      "const": true
+                                    }
+                                  },
+                                  "required": [
+                                    "closed"
+                                  ]
+                                }
+                              }
+                            ],
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "drawing",
+                                  "trigger_zone"
+                                ]
+                              },
+                              "primitive_type": {
+                                "enum": [
+                                  "Polygon",
+                                  "Line"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "geometry": {
+          "description": "This field gives the horizontal geometry of the area: a circle, a polygon, a corridor, a rectangle or an ellipse.",
+          "oneOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_corridor"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+            },
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+            }
+          ]
+        },
+        "name": {
+          "description": "This field gives the name of this area, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "restrictions": {
+          "description": "This list contains the limits and conditions that are applicable to this area.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "geometry"
+      ],
+      "title": "Area",
+      "type": "object"
+    },
+    "AreaSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "area": {
+          "description": "This field identifies the planning area that this selection contains.",
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "type": "string",
+          "x-catalog": "areas"
+        }
+      },
+      "required": [
+        "area"
+      ],
+      "title": "AreaSelection",
+      "type": "object"
+    },
+    "AreaTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "area": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AreaSelection"
+            },
+            {
+              "$ref": "#/$defs/AirspaceSelection"
+            }
+          ],
+          "description": "This field identifies the planning area or control measure that contains the area target."
+        },
+        "briefing": {
+          "description": "This list contains the attachments for the brief on this area target. An attachment is an image, a map, a document or a link.",
+          "items": {
+            "$ref": "#/$defs/Attachment"
+          },
+          "type": "array"
+        },
+        "description": {
+          "description": "This field gives the data about this target and the conditions of the operation, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "allOf": [
+                              {
+                                "if": {
+                                  "properties": {
+                                    "primitive_type": {
+                                      "const": "Line"
+                                    }
+                                  },
+                                  "required": [
+                                    "primitive_type"
+                                  ]
+                                },
+                                "then": {
+                                  "properties": {
+                                    "closed": {
+                                      "const": true
+                                    }
+                                  },
+                                  "required": [
+                                    "closed"
+                                  ]
+                                }
+                              }
+                            ],
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "drawing",
+                                  "trigger_zone"
+                                ]
+                              },
+                              "primitive_type": {
+                                "enum": [
+                                  "Polygon",
+                                  "Line"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "identification_features": {
+          "description": "This list contains the signs that identify this area target.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "kind": {
+          "const": "area",
+          "description": "The value identifies this record as an area target.",
+          "type": "string"
+        },
+        "name": {
+          "description": "This field gives the name of this area target, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "restrictions": {
+          "description": "This list contains the limits and conditions on tasks against this target.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "source": {
+          "$ref": "#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference identifies the document. It may also give a revision and a locator."
+        },
+        "target_number": {
+          "description": "This field identifies this area target in target lists. An example is `CS-0001`.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "target_population": {
+          "description": "This field gives the types of target objects in the target area, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "threat_refs": {
+          "description": "This list identifies the possible threats that are applicable to this area target.",
+          "items": {
+            "pattern": "^[a-z][a-z0-9_.-]*$",
+            "type": "string"
+          },
+          "type": "array",
+          "x-catalog": "threats"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "area"
+      ],
+      "title": "AreaTarget",
+      "type": "object"
+    },
+    "AtTime": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/Offset"
+            }
+          ],
+          "description": "This field gives the time at which the event occurs. The value is a date and time, or an offset in minutes from the start of the order period."
+        },
+        "kind": {
+          "const": "at",
+          "description": "The value identifies this record as a time condition at a time.",
+          "type": "string"
+        },
+        "tolerance_seconds": {
+          "default": 0,
+          "description": "This field gives the maximum time interval between the event and the time in `at`, in seconds. The limit is applicable before and after that time.",
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "at"
+      ],
+      "title": "AtTime",
+      "type": "object"
+    },
+    "Attachment": {
+      "additionalProperties": false,
+      "properties": {
+        "caption": {
+          "description": "This field gives the short text that goes with this attachment, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "description": "This field gives the type of attachment, as one of the enumerated values.",
+          "enum": [
+            "image",
+            "map",
+            "document",
+            "link"
+          ],
+          "type": "string",
+          "x-enum-descriptions": {
+            "document": "This value identifies a file with written text, for example an order or a brief.",
+            "image": "This value identifies an image file that shows an area, an object or a plan.",
+            "link": "This value identifies a link to an external resource.",
+            "map": "This value identifies a file that shows a map or a chart of an area."
+          }
+        },
+        "path": {
+          "description": "This field gives the path or link of the file of the attachment, as free text. A path starts at the folder of the document that contains the attachment.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "title": {
+          "description": "This field gives the title of this attachment, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "kind"
+      ],
+      "title": "Attachment",
+      "type": "object"
+    },
+    "BeforeTime": {
+      "additionalProperties": false,
+      "properties": {
+        "at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/Offset"
+            }
+          ],
+          "description": "This field gives the time after which the event does not occur. The value is a date and time, or an offset in minutes from the start of the order period."
+        },
+        "kind": {
+          "const": "not_after",
+          "description": "The value identifies this record as a time condition not after a time.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "at"
+      ],
+      "title": "BeforeTime",
+      "type": "object"
+    },
+    "Channel": {
+      "additionalProperties": false,
+      "properties": {
+        "frequency": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Frequency"
+            },
+            {
+              "required": [
+                "modulation"
+              ]
+            }
+          ],
+          "description": "This field gives the frequency of the channel, as a frequency with its unit."
+        },
+        "name": {
+          "description": "This field gives the name of this channel, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "notes": {
+          "description": "This field gives the notes about this channel, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "usage": {
+          "description": "This field gives the function of the channel, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "frequency"
+      ],
+      "title": "Channel",
+      "type": "object"
+    },
+    "DocumentRef": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef",
+      "description": "A document reference is a document that a record refers to. Consumers do not get the document automatically through a network."
+    },
+    "Emitter": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "position"
+          ]
+        },
+        {
+          "properties": {
+            "extensions": {
+              "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record.",
+              "required": [
+                "sim"
+              ]
+            }
+          },
+          "required": [
+            "extensions"
+          ]
+        }
+      ],
+      "description": "An emitter is an air defence radar with the system that it is a part of, its position and its threat ring. Briefs and orders refer to the emitter by its identifier and do not copy it. A consumer shows the threat ring as a circle around the position of the emitter. An emitter shall have a position or simulator bindings.",
+      "properties": {
+        "detection_range": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the largest range at which the radar can find an aircraft, as a length with its unit."
+        },
+        "engagement_ceiling": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+          "description": "This field gives the ceiling of the engagement envelope of the system: an altitude with its reference, or no limit."
+        },
+        "engagement_floor": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+          "description": "This field gives the floor of the engagement envelope of the system: an altitude with its reference, or the surface."
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "unit",
+                                  "group",
+                                  "static",
+                                  "drawing",
+                                  "trigger_zone"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings",
+                          "alic_code",
+                          "coalition"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies this emitter. Each emitter in the resource catalogue has a different identifier. Briefs, threats and orders use it to refer to this emitter."
+        },
+        "last_seen": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time of of the last report of the emitter."
+        },
+        "max_engagement_range": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the largest range at which the system can engage an aircraft, as a length with its unit."
+        },
+        "measures": {
+          "description": "This list identifies the missile engagement zones, missile arcs and the other measures of air defence that are for this emitter. Each missile arc shall start at the emitter, and each engagement zone shall contain it.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+            "x-measure-kinds": [
+              "MEZ",
+              "MISARC",
+              "SAMEZ",
+              "FEZ",
+              "JEZ",
+              "WFZ"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "min_engagement_range": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "description": "This field gives the smallest range at which the system can engage an aircraft, as a length with its unit."
+        },
+        "mobility": {
+          "description": "This field gives the mobility of the emitter, as one of the enumerated values.",
+          "enum": [
+            "fixed",
+            "mobile",
+            "relocatable"
+          ],
+          "x-enum-descriptions": {
+            "fixed": "This value identifies a system that does not move.",
+            "mobile": "This value identifies a system that can fire while it moves or a short time after it stops.",
+            "relocatable": "This value identifies a system that can fire only from a fire position, after it moves there."
+          }
+        },
+        "name": {
+          "description": "This field gives the name of this emitter site, such as `Cobalt SA-6 battery`, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "native_designation": {
+          "description": "This field gives the designation of the weapon system in the armed forces that operate it, such as `2K12 Kub`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "position": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the emitter, as latitude and longitude. For a mobile emitter, the position is the position from the last report."
+        },
+        "radar_reporting_name": {
+          "description": "This field gives the North Atlantic Treaty Organization (NATO) reporting name of the radar, such as `Straight Flush`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "radar_roles": {
+          "description": "This list contains the functions of the radar in its air defence unit. Appendix B of the `DCS F-16C Early Access Guide` gives these types.",
+          "items": {
+            "enum": [
+              "early_warning",
+              "surveillance",
+              "target_acquisition",
+              "target_tracking",
+              "target_illumination",
+              "fire_control",
+              "ranging",
+              "continuous_wave_acquisition",
+              "search_and_tracking"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "radar_system_id": {
+          "description": "This field gives the designation of the radar, such as `1S91`, as free text. Many radars have only a reporting name.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "remarks": {
+          "description": "This field gives the notes about the emitter, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "reporting_name": {
+          "description": "This field gives the North Atlantic Treaty Organization (NATO) reporting name of the weapon system, such as `Gainful`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "rwr_symbol": {
+          "description": "This field gives the symbol that the radar warning receiver (RWR) shows for the radar, for display, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "description": "This field gives the condition of the emitter from the last report, as one of the enumerated values.",
+          "enum": [
+            "active",
+            "silent",
+            "suspected",
+            "destroyed"
+          ],
+          "x-enum-descriptions": {
+            "active": "This value identifies an emitter that transmits.",
+            "destroyed": "This value identifies an emitter that an assessment shows as destroyed.",
+            "silent": "This value identifies an emitter that does not transmit at this time.",
+            "suspected": "This value identifies an emitter that one report gives and that no other source agrees with."
+          }
+        },
+        "system_id": {
+          "description": "This field gives the North Atlantic Treaty Organization (NATO) designation of the weapon system, such as `SA-6`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "system_id",
+        "mobility",
+        "max_engagement_range"
+      ],
+      "type": "object"
+    },
+    "FixedTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "aimpoints": {
+          "additionalProperties": false,
+          "description": "This map contains the aimpoint entries of the fixed target. The key of each item is its identifier.",
+          "minProperties": 1,
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "$ref": "#/$defs/Aimpoint"
+            }
+          },
+          "type": "object"
+        },
+        "briefing": {
+          "description": "This list contains the attachments for the brief on this fixed target. An attachment is an image, a map, a document or a link.",
+          "items": {
+            "$ref": "#/$defs/Attachment"
+          },
+          "type": "array"
+        },
+        "description": {
+          "description": "This field gives the data about this target and the conditions of the operation, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "unit",
+                                  "group",
+                                  "static",
+                                  "scenery",
+                                  "drawing",
+                                  "trigger_zone"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "identification_features": {
+          "description": "This list contains the signs that identify this fixed target.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "kind": {
+          "const": "fixed",
+          "description": "The value identifies this record as a fixed target.",
+          "type": "string"
+        },
+        "name": {
+          "description": "This field gives the name of this fixed target, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "restrictions": {
+          "description": "This list contains the limits and conditions on tasks against this target.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "source": {
+          "$ref": "#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference identifies the document. It may also give a revision and a locator."
+        },
+        "target_number": {
+          "description": "This field identifies this fixed target in target lists. An example is `CS-0001`.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "threat_refs": {
+          "description": "This list identifies the possible threats that are applicable to this fixed target.",
+          "items": {
+            "pattern": "^[a-z][a-z0-9_.-]*$",
+            "type": "string"
+          },
+          "type": "array",
+          "x-catalog": "threats"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "aimpoints"
+      ],
+      "title": "FixedTarget",
+      "type": "object"
+    },
+    "GeoPoint": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "description": "A geographic point is a position in WGS 84 decimal degrees. An adapter is necessary for the Cartesian coordinates of a simulator."
+    },
+    "InWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "window",
+          "description": "The value identifies this record as a time condition in a window.",
+          "type": "string"
+        },
+        "window": {
+          "$ref": "#/$defs/Window",
+          "description": "This field gives the time interval during which the event occurs."
+        }
+      },
+      "required": [
+        "kind",
+        "window"
+      ],
+      "title": "InWindow",
+      "type": "object"
+    },
+    "LastKnownPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time of the last known position."
+        },
+        "position": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the last known position, as latitude and longitude."
+        }
+      },
+      "required": [
+        "position"
+      ],
+      "title": "LastKnownPosition",
+      "type": "object"
+    },
+    "MobileTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "briefing": {
+          "description": "This list contains the attachments for the brief on this mobile target. An attachment is an image, a map, a document or a link.",
+          "items": {
+            "$ref": "#/$defs/Attachment"
+          },
+          "type": "array"
+        },
+        "description": {
+          "description": "This field gives the data about this target and the conditions of the operation, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "expected_movement": {
+          "description": "This field gives the possible movement of the mobile target, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "unit",
+                                  "group",
+                                  "drawing",
+                                  "trigger_zone"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "identification_features": {
+          "description": "This list contains the signs that identify this mobile target.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "kind": {
+          "const": "mobile",
+          "description": "The value identifies this record as a mobile target.",
+          "type": "string"
+        },
+        "last_known": {
+          "$ref": "#/$defs/LastKnownPosition",
+          "description": "This field gives the last known position of the mobile target, with its time."
+        },
+        "name": {
+          "description": "This field gives the name of this mobile target, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "restrictions": {
+          "description": "This list contains the limits and conditions on tasks against this target.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "search_area": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AreaSelection"
+            },
+            {
+              "$ref": "#/$defs/AirspaceSelection"
+            }
+          ],
+          "description": "This field identifies the planning area or control measure in which flights do a search for the mobile target."
+        },
+        "source": {
+          "$ref": "#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference identifies the document. It may also give a revision and a locator."
+        },
+        "target_number": {
+          "description": "This field identifies this mobile target in target lists. An example is `CS-0001`.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "threat_refs": {
+          "description": "This list identifies the possible threats that are applicable to this mobile target.",
+          "items": {
+            "pattern": "^[a-z][a-z0-9_.-]*$",
+            "type": "string"
+          },
+          "type": "array",
+          "x-catalog": "threats"
+        }
+      },
+      "required": [
+        "name",
+        "kind"
+      ],
+      "title": "MobileTarget",
+      "type": "object"
+    },
+    "Offset": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Offset",
+      "description": "An offset is a number of minutes from the start of the period of the air tasking order (ATO) that contains it. The value can be less than zero."
+    },
+    "OnOrder": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "description": "This field identifies the command and control agency that gives the order for the event.",
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "type": "string",
+          "x-catalog": "agencies"
+        },
+        "condition": {
+          "description": "This field gives the condition in which the authority gives the order for the event, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "const": "on_order",
+          "description": "The value identifies this record as a time condition on order.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "condition"
+      ],
+      "title": "OnOrder",
+      "type": "object"
+    },
+    "Procedure": {
+      "additionalProperties": false,
+      "properties": {
+        "references": {
+          "description": "This list contains the documents that the procedure refers to.",
+          "items": {
+            "$ref": "#/$defs/DocumentRef"
+          },
+          "type": "array"
+        },
+        "steps": {
+          "description": "This list contains the steps of the procedure, in order. Units do the steps in their sequence.",
+          "items": {
+            "$ref": "#/$defs/ProcedureStep"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "title": {
+          "description": "This field gives the title of the procedure, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "steps"
+      ],
+      "title": "Procedure",
+      "type": "object"
+    },
+    "ProcedureStep": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "description": "This field gives the task of this step, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "completion": {
+          "description": "This field gives the condition at which this step is completed, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "condition": {
+          "description": "This field gives the condition in which this step is applicable, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "title": "ProcedureStep",
+      "type": "object"
+    },
+    "ReportDefinition": {
+      "additionalProperties": false,
+      "description": "A report definition is a report that a unit should send. ATP 6-02.x and the standard operating procedure (SOP) of the unit give the report.",
+      "properties": {
+        "channel": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the radio channel that is for the report.",
+          "x-catalog": "channels"
+        },
+        "classification": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ClassificationLevel",
+          "description": "This field gives the highest security classification of the data in the report, as one of the enumerated values."
+        },
+        "format_ref": {
+          "description": "This field gives the reference to the format of the report, as free text. Examples are a paragraph of a standard operating procedure (SOP) and a USMTF format.",
+          "type": "string"
+        },
+        "frequency": {
+          "description": "This field gives the interval at which units send the report, such as `Daily NLT 0600` or `On event`, as free text.",
+          "type": "string"
+        },
+        "medium": {
+          "description": "This field gives the transmission method of the report, as one of the enumerated values.",
+          "enum": [
+            "voice",
+            "datalink",
+            "chat",
+            "message",
+            "debrief"
+          ]
+        },
+        "name": {
+          "description": "This field gives the name of this report, for display. Examples are `SITREP`, `LOGSTAT` and `CASREP`.",
+          "type": "string"
+        },
+        "precedence": {
+          "description": "This field gives the message precedence of the report, as JP 6-0 gives it, as one of the enumerated values.",
+          "enum": [
+            "FLASH",
+            "IMMEDIATE",
+            "PRIORITY",
+            "ROUTINE"
+          ],
+          "type": "string"
+        },
+        "recipient": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that receives the report.",
+          "x-catalog": "agencies"
+        },
+        "submitter": {
+          "description": "This field gives the unit or staff section that has the task to send the report, as free text.",
+          "type": "string"
+        },
+        "trigger": {
+          "description": "This field gives the event or schedule that causes a unit to send the report, as free text.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ReportDefinition",
+      "type": "object"
+    },
+    "ResourceData": {
+      "additionalProperties": false,
+      "properties": {
+        "agencies": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:c2-agency:0.1.0-draft.2"
+          },
+          "description": "This map contains the command and control agencies. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "aircraft_types": {
+          "additionalProperties": {
+            "$ref": "#/$defs/AircraftType"
+          },
+          "description": "This map contains the aircraft types. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "areas": {
+          "additionalProperties": false,
+          "description": "This map contains the planning areas that are not control measures. The key of each item is its identifier.",
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "$ref": "#/$defs/Area"
+            }
+          },
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "channels": {
+          "additionalProperties": false,
+          "description": "This map contains the radio channels. The key of each item is its identifier.",
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "$ref": "#/$defs/Channel"
+            }
+          },
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "control_measures": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/MeasureCatalogue",
+          "description": "This map contains the control measures. The key of each item is its identifier."
+        },
+        "emitters": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Emitter"
+          },
+          "description": "This map contains the emitters, which are air defence radars with their systems and threat rings. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "facs": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:fac:0.1.0-draft.2"
+          },
+          "description": "This map contains the forward air controllers. The key of each item is its identifier. A controller contact of an air tasking order (ATO) can identify a forward air controller of this map. An identifier shall not be in `agencies` and in `facs`.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "instrument_procedures": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2"
+          },
+          "description": "This map contains the instrument procedures that airfields refer to. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "localizers": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:localizer:0.1.0-draft.2"
+          },
+          "description": "This map contains the localizers to which airfields and the ends of runways refer. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "notams": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:notam:0.1.0-draft.2"
+          },
+          "description": "This map contains the notice to air missionses (NOTAMs) that planners write before the operation. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "pattern_profiles": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:airfield:0.1.0-draft.2#/$defs/TrafficPattern"
+          },
+          "description": "This map contains the traffic pattern profiles that airfields refer to. The key of each item is its identifier. A traffic pattern profile in this map shall not refer to a traffic pattern profile.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "places": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:airfield:0.1.0-draft.2"
+          },
+          "description": "This map contains the operating locations for departure, recovery, diversion and transport: airfields, carriers and forward arming and refuelling points (FARPs). The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "procedures": {
+          "additionalProperties": false,
+          "description": "This map contains the procedures. The key of each item is its identifier.",
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "$ref": "#/$defs/Procedure"
+            }
+          },
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "reports": {
+          "additionalProperties": false,
+          "description": "This map contains the report definitions that taskings refer to in their report requirements. The key of each item is its identifier.",
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "$ref": "#/$defs/ReportDefinition"
+            }
+          },
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "routes": {
+          "additionalProperties": false,
+          "description": "This map contains the routes. The key of each item is its identifier.",
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "$ref": "#/$defs/Route"
+            }
+          },
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "scls": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:scl:0.1.0-draft.2"
+          },
+          "description": "This map contains the standard conventional loads (SCLs). The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "stores": {
+          "additionalProperties": false,
+          "description": "This map contains the weapons, pods, tanks and other stores. The key of each item is its identifier.",
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "$ref": "#/$defs/Store"
+            }
+          },
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "targets": {
+          "additionalProperties": false,
+          "description": "This map contains the fixed targets, mobile targets and area targets. The key of each item is its identifier.",
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FixedTarget"
+                },
+                {
+                  "$ref": "#/$defs/MobileTarget"
+                },
+                {
+                  "$ref": "#/$defs/AreaTarget"
+                }
+              ]
+            }
+          },
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "threats": {
+          "additionalProperties": false,
+          "description": "This map contains the possible threats. The key of each item is its identifier.",
+          "patternProperties": {
+            "^[a-z][a-z0-9_.-]*$": {
+              "$ref": "#/$defs/Threat"
+            }
+          },
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+          },
+          "type": "object"
+        }
+      },
+      "title": "Resources",
+      "type": "object"
+    },
+    "Route": {
+      "additionalProperties": false,
+      "properties": {
+        "contingencies": {
+          "description": "This list contains the instructions for contingencies on the route.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "This field gives the name of this route, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "points": {
+          "description": "This list contains the points of the route, in order. The points are in the sequence of the flight.",
+          "items": {
+            "$ref": "#/$defs/RoutePoint"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "points"
+      ],
+      "title": "Route",
+      "type": "object"
+    },
+    "RoutePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "description": "This field gives the flight phase at this route point, as one of the enumerated values.",
+          "enum": [
+            "departure",
+            "transit",
+            "ingress",
+            "egress",
+            "hold",
+            "approach",
+            "recovery"
+          ],
+          "type": "string",
+          "x-enum-descriptions": {
+            "approach": "At this point, the flight starts its approach to an airfield for the landing.",
+            "departure": "The flight starts its route from the departure airfield at this point.",
+            "egress": "This value identifies the egress from the task area.",
+            "hold": "The flight holds at the point.",
+            "ingress": "This value identifies the ingress to the task area.",
+            "recovery": "At this point, the flight starts to go back to an airfield after the task.",
+            "transit": "This value identifies a transit between two points."
+          }
+        },
+        "altitude": {
+          "$ref": "#/$defs/Altitude",
+          "description": "This field gives the altitude that the order gives for this route point, as an altitude with its unit and reference."
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "drawing",
+                                  "trigger_zone",
+                                  "unit",
+                                  "group",
+                                  "static",
+                                  "scenery",
+                                  "airbase"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "id": {
+          "description": "This field identifies this route point. Other records and orders use it to refer to this route point.",
+          "pattern": "^[a-z][a-z0-9_.-]*$",
+          "type": "string"
+        },
+        "instructions": {
+          "description": "This list contains the instructions for this route point.",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "This field gives the name of this route point, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the route point, as latitude and longitude."
+        },
+        "speed": {
+          "$ref": "#/$defs/Speed",
+          "description": "This field gives the speed that the plan gives for this route point, as a speed with its unit."
+        },
+        "timing": {
+          "description": "This field gives the time condition for the flight at this point. The condition is at a time, in a window, not before a time, not after a time, or on order.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/AtTime"
+            },
+            {
+              "$ref": "#/$defs/InWindow"
+            },
+            {
+              "$ref": "#/$defs/BeforeTime"
+            },
+            {
+              "$ref": "#/$defs/AfterTime"
+            },
+            {
+              "$ref": "#/$defs/OnOrder"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "position"
+      ],
+      "title": "RoutePoint",
+      "type": "object"
+    },
+    "Speed": {
+      "additionalProperties": false,
+      "description": "A speed is a speed with its unit: knots, Mach number or kilometres in one hour.",
+      "properties": {
+        "unit": {
+          "description": "This field gives the unit of the speed: knots, kilometres in one hour or Mach number, as one of the enumerated values. The suffix `_ias` identifies an indicated airspeed (IAS), and the suffix `_tas` identifies a true airspeed (TAS).",
+          "enum": [
+            "knots_ias",
+            "knots_tas",
+            "kmh_ias",
+            "kmh_tas",
+            "mach"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "description": "This field gives the value of the speed, in the unit of `unit`.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "title": "Speed",
+      "type": "object"
+    },
+    "Store": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "role"
+            ]
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "const": "pod"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {},
+                      "propertyNames": {
+                        "enum": [
+                          "clsids"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "family": {
+          "description": "This field gives the store family, such as `AIM-120` for an `AIM-120C`, as free text. A load variant can use a different store of the same store family.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "description": "This field gives the type of store, as one of the enumerated values.",
+          "enum": [
+            "weapon",
+            "pod",
+            "tank",
+            "rack",
+            "cargo",
+            "other"
+          ],
+          "type": "string",
+          "x-enum-descriptions": {
+            "cargo": "This value identifies a load in the aircraft that goes to other units.",
+            "other": "This value identifies a store that the other values do not include.",
+            "pod": "This value identifies a pod with sensors or other equipment, such as a targeting pod. The aircraft does not release it.",
+            "rack": "This value identifies a store that has other stores on it.",
+            "tank": "This value identifies an external fuel tank.",
+            "weapon": "This value identifies a weapon, such as a missile, that the aircraft fires or drops."
+          }
+        },
+        "name": {
+          "description": "This field gives the name of this store, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "notes": {
+          "description": "This field gives the notes about this store, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "role": {
+          "description": "This field gives the function of the pod, as one of the enumerated values. Only a store of the `pod` type shall have a role.",
+          "enum": [
+            "targeting",
+            "navigation",
+            "self_protection_jamming",
+            "tactical_jamming",
+            "emitter_targeting",
+            "datalink",
+            "reconnaissance",
+            "other"
+          ],
+          "x-enum-descriptions": {
+            "datalink": "This value identifies a pod that sends data to the weapons of the aircraft or receives data from them.",
+            "emitter_targeting": "This value identifies a pod that finds enemy radars and gives their positions to weapons such as the high-speed anti-radiation missile (HARM).",
+            "navigation": "This value identifies a pod with sensors for navigation at night or at low altitude.",
+            "other": "This value identifies a pod with a function that the other values do not include.",
+            "reconnaissance": "This value identifies a pod that collects images or other data for reconnaissance.",
+            "self_protection_jamming": "This value identifies a jammer that gives protection to the aircraft that has it.",
+            "tactical_jamming": "This value identifies a jammer that attacks enemy radars and radios for other aircraft.",
+            "targeting": "This value identifies a pod that finds, tracks and designates targets."
+          }
+        }
+      },
+      "required": [
+        "name",
+        "kind"
+      ],
+      "title": "Store",
+      "type": "object"
+    },
+    "Threat": {
+      "additionalProperties": false,
+      "properties": {
+        "airfield": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "description": "This field identifies the operating location that is the base of the threat, for example the airfield of enemy aircraft.",
+          "x-catalog": "places"
+        },
+        "area": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AreaSelection"
+            },
+            {
+              "$ref": "#/$defs/AirspaceSelection"
+            }
+          ],
+          "description": "This field identifies the planning area or control measure in which the threat operates."
+        },
+        "as_of": {
+          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "description": "This field gives the time of the threat data."
+        },
+        "briefing": {
+          "description": "This list contains the attachments for the brief on this threat. An attachment is an image, a map, a document or a link.",
+          "items": {
+            "$ref": "#/$defs/Attachment"
+          },
+          "type": "array"
+        },
+        "description": {
+          "description": "This field gives the data about this threat and its local conditions, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "emitters": {
+          "description": "This list identifies the emitters that are a part of this threat.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "x-catalog": "emitters"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "expected_activity": {
+          "description": "This field gives the possible operations of the threat, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "description": "This field gives the type of threat, as one of the enumerated values.",
+          "enum": [
+            "air",
+            "air_defense",
+            "surface",
+            "electromagnetic",
+            "environmental",
+            "other"
+          ],
+          "type": "string",
+          "x-enum-descriptions": {
+            "air": "This value identifies enemy aircraft.",
+            "air_defense": "This value identifies surface-to-air weapons, such as surface-to-air missiles (SAMs) and air defence guns.",
+            "electromagnetic": "This value identifies an electromagnetic threat to radio or radar equipment.",
+            "environmental": "This value identifies a dangerous condition from the weather or the terrain.",
+            "other": "This value identifies a threat that the other values do not include.",
+            "surface": "This value identifies surface forces other than air defence."
+          }
+        },
+        "name": {
+          "description": "This field gives the name of this threat, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference identifies the document. It may also give a revision and a locator."
+        },
+        "system": {
+          "description": "This field gives the system of the threat, such as `2K12 Kub`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "kind"
+      ],
+      "title": "Threat",
+      "type": "object"
+    },
+    "Window": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+      "description": "A window is a time interval with limits that are absolute date-times or offsets from the period of the order that contains it."
+    }
+  },
+  "$id": "urn:openaix:schema:resources:0.1.0-draft.2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A resource catalogue is a catalogue with a version that contains the resources that plans and control measures refer to. Each resource has a name.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "kind": {
+      "const": "resources",
+      "description": "The value identifies this record as a resource catalogue."
+    },
+    "meta": {
+      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "description": "This field gives the identification, revision and issue data of this resource catalogue."
+    },
+    "resources": {
+      "$ref": "#/$defs/ResourceData",
+      "description": "This field contains the resources of this catalogue, in maps. Each map identifies its items by their identifiers."
+    },
+    "schema_version": {
+      "const": "0.1.0-draft.2",
+      "description": "This field gives the version of the openAIX schema that this resource catalogue agrees with."
+    }
+  },
+  "required": [
+    "kind",
+    "resources"
+  ],
+  "type": "object"
+}

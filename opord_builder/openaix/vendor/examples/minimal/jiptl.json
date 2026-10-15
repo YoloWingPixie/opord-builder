@@ -1,0 +1,5 @@
+{
+  "$schema": "urn:openaix:schema:jiptl:0.1.0-draft.2",
+  "kind": "jiptl",
+  "targets": []
+}

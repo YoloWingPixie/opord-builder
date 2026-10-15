@@ -1,0 +1,19 @@
+{
+  "$schema": "urn:openaix:schema:path-point:0.1.0-draft.2",
+  "flight_path_alignment_point": {
+    "latitude": 31.84288,
+    "longitude": 36.770832
+  },
+  "glide_path_angle_deg": 3.0,
+  "id": "ojms-r31-path-point",
+  "kind": "path-point",
+  "landing_threshold_point": {
+    "latitude": 31.825413,
+    "longitude": 36.79439
+  },
+  "name": "Muwaffaq Salti RNAV runway 31 final approach path",
+  "threshold_crossing_height": {
+    "unit": "ft",
+    "value": 50
+  }
+}

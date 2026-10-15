@@ -1,0 +1,309 @@
+{
+  "$schema": "urn:openaix:schema:runway:0.1.0-draft.2",
+  "airfield": "ojms",
+  "designator": "13/31",
+  "ends": [
+    {
+      "arresting_gear": [
+        {
+          "distance_from_threshold": {
+            "unit": "ft",
+            "value": 1500
+          },
+          "type": "BAK_12"
+        }
+      ],
+      "designator": "13",
+      "displaced_threshold": {
+        "unit": "ft",
+        "value": 300
+      },
+      "heading": {
+        "declination_deg": 5.0,
+        "reference": "magnetic",
+        "value": 126.1
+      },
+      "lighting": {
+        "edge_lights": true,
+        "reil": true
+      },
+      "threshold": {
+        "latitude": 31.841077,
+        "longitude": 36.773265
+      },
+      "threshold_crossing_height": {
+        "unit": "ft",
+        "value": 50
+      },
+      "threshold_elevation": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 1636
+      }
+    },
+    {
+      "arresting_gear": [
+        {
+          "distance_from_threshold": {
+            "unit": "ft",
+            "value": 1500
+          },
+          "type": "BAK_12"
+        }
+      ],
+      "designator": "31",
+      "heading": {
+        "declination_deg": 5.0,
+        "reference": "magnetic",
+        "value": 306.1
+      },
+      "lighting": {
+        "approach_lighting": "SSALR",
+        "edge_lights": true,
+        "slope_indicator": "PAPI"
+      },
+      "localizer": "ojms-ils-31",
+      "threshold": {
+        "latitude": 31.825413,
+        "longitude": 36.79439
+      },
+      "threshold_crossing_height": {
+        "unit": "ft",
+        "value": 50
+      },
+      "threshold_elevation": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 1636
+      },
+      "traffic_pattern": {
+        "altitude": {
+          "reference": "AGL",
+          "unit": "ft",
+          "value": 500
+        },
+        "break_point": "approach_end",
+        "categories": {
+          "fighter": {
+            "altitude": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 1500
+            },
+            "break_point": "approach_end",
+            "departure_ceiling": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 1000
+            },
+            "direction": "right",
+            "go_around": {
+              "altitude": {
+                "reference": "AGL",
+                "unit": "ft",
+                "value": 2000
+              }
+            },
+            "initial": [
+              {
+                "distance": {
+                  "unit": "nm",
+                  "value": 5
+                }
+              }
+            ],
+            "overhead_altitude": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 2500
+            },
+            "reentry": {
+              "altitude": {
+                "reference": "AGL",
+                "unit": "ft",
+                "value": 2000
+              },
+              "name": "Re-entry point"
+            },
+            "sfo": {
+              "high_key": {
+                "lower": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 7000
+                },
+                "upper": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 9000
+                }
+              },
+              "low_key": {
+                "lower": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 3000
+                },
+                "upper": {
+                  "reference": "AGL",
+                  "unit": "ft",
+                  "value": 5000
+                }
+              }
+            }
+          },
+          "heavy": {
+            "altitude": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 2000
+            }
+          },
+          "helicopter": {
+            "altitude": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 500
+            }
+          },
+          "trainer": {
+            "altitude": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 1000
+            },
+            "overhead_altitude": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 1500
+            }
+          }
+        },
+        "departure_ceiling": {
+          "reference": "AGL",
+          "unit": "ft",
+          "value": 1000
+        },
+        "direction": "right",
+        "go_around": {
+          "altitude": {
+            "reference": "AGL",
+            "unit": "ft",
+            "value": 2000
+          },
+          "heading": {
+            "declination_deg": 5.0,
+            "reference": "magnetic",
+            "value": 126.1
+          }
+        },
+        "initial": [
+          {
+            "bearing": {
+              "declination_deg": 5.0,
+              "reference": "magnetic",
+              "value": 126.1
+            },
+            "distance": {
+              "unit": "nm",
+              "value": 5
+            }
+          }
+        ],
+        "overhead_altitude": {
+          "reference": "MSL",
+          "unit": "ft",
+          "value": 3600
+        },
+        "profile": "usaf-standard",
+        "reentry": {
+          "altitude": {
+            "reference": "AGL",
+            "unit": "ft",
+            "value": 2000
+          },
+          "name": "Re-entry point",
+          "point": {
+            "id": "vrp-salti-dam",
+            "kind": "control_measure"
+          }
+        },
+        "sfo": {
+          "high_key": {
+            "lower": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 7000
+            },
+            "upper": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 9000
+            }
+          },
+          "low_key": {
+            "lower": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 3000
+            },
+            "upper": {
+              "reference": "AGL",
+              "unit": "ft",
+              "value": 5000
+            }
+          }
+        }
+      }
+    }
+  ],
+  "extensions": {
+    "sim": {
+      "dcs": {
+        "bindings": [
+          {
+            "closed": true,
+            "kind": "drawing",
+            "layer": "Blue",
+            "line_mode": "segments",
+            "mission_id": "oir-syria",
+            "name": "OIR Salti runway 13/31",
+            "object_id": 44,
+            "primitive_type": "Line",
+            "style": {
+              "color": "0x3366FFFF",
+              "fill_color": "0x3366FF20",
+              "thickness": 2,
+              "visible": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "id": "ojms-rw13-31",
+  "kind": "runway",
+  "length": {
+    "unit": "ft",
+    "value": 8691
+  },
+  "name": "Muwaffaq Salti runway 13/31",
+  "provenance": {
+    "authority": "Eagle Dynamics",
+    "derivation": "derived",
+    "tool": {
+      "name": "DCS map file reader",
+      "version": "2.9.8"
+    }
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua",
+  "surface": "hard",
+  "width": {
+    "unit": "ft",
+    "value": 197
+  }
+}

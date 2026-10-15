@@ -1,0 +1,322 @@
+{
+  "$schema": "urn:openaix:schema:scl:0.1.0-draft.2",
+  "aircraft_type": "f-16c-50",
+  "code": "4G12.3A.1X.2",
+  "countermeasures": {
+    "chaff": 60,
+    "flares": 60,
+    "program": "MAN 1"
+  },
+  "era": "modern",
+  "extensions": {
+    "org.vcsg8.scl-tools": {
+      "mission": "DTA",
+      "payload_prefix": "93rd"
+    },
+    "sim": {
+      "dcs": {
+        "payload": {
+          "name": "93rd DTA05 (4G12.3A.1X.2)",
+          "task_ids": [
+            31,
+            30,
+            32
+          ],
+          "unit_type": "F-16C_50"
+        }
+      }
+    }
+  },
+  "gun_rounds": 510,
+  "id": "f16-ai",
+  "kind": "scl",
+  "laser_code": "1688",
+  "missions": [
+    {
+      "role": "air_interdiction",
+      "tasking": "preplanned_attack"
+    }
+  ],
+  "name": "DTA05 GBU-12",
+  "remarks": "93rd XAI, CAS and TASMO load. The code leaves out the jammer, the HTS and the targeting pod: the 93rd assumes them in the modern era.",
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "scl_number": "DTA05",
+  "source": {
+    "id": "vcsg8-scl-data",
+    "path": "scl/f-16c-viper",
+    "revision": "1",
+    "section": "DTA05",
+    "title": "VCSG8 SCL data page, F-16C Viper table"
+  },
+  "stations": [
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+            "label": "1",
+            "pylon": 1
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "aim-120c"
+        }
+      ],
+      "station": "1"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{5CE2FF2A-645A-4197-B48D-8720AC69394F}",
+            "label": "2",
+            "pylon": 2
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "aim-9x"
+        }
+      ],
+      "station": "2"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{TER_9A_2L*GBU-12}",
+            "label": "3",
+            "pylon": 3,
+            "settings": {
+              "01_prfx_arm_delay_ctrl_FMU139CB_LD": 4,
+              "01_prfx_function_delay_ctrl_FMU139CB_LD": 0,
+              "NFP_PRESID": "Paveway_II",
+              "NFP_PRESVER": 2,
+              "NFP_VIS_DrawArgNo_55": 0.1,
+              "NFP_VIS_DrawArgNo_57": 0,
+              "NFP_fuze_type_tail": "FMU139CB_LD",
+              "laser_code": 1688
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 2,
+          "store": "gbu-12"
+        }
+      ],
+      "rack": "ter-9a",
+      "station": "3"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+            "label": "4",
+            "pylon": 4
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "tank-370"
+        }
+      ],
+      "station": "4"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+            "label": "6",
+            "pylon": 6
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "tank-370"
+        }
+      ],
+      "station": "6"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{TER_9A_2R*GBU-12}",
+            "label": "7",
+            "pylon": 7,
+            "settings": {
+              "01_prfx_arm_delay_ctrl_FMU139CB_LD": 4,
+              "01_prfx_function_delay_ctrl_FMU139CB_LD": 0,
+              "NFP_PRESID": "Paveway_II",
+              "NFP_PRESVER": 2,
+              "NFP_VIS_DrawArgNo_55": 0.1,
+              "NFP_VIS_DrawArgNo_57": 0,
+              "NFP_fuze_type_tail": "FMU139CB_LD",
+              "laser_code": 1688
+            }
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 2,
+          "store": "gbu-12"
+        }
+      ],
+      "rack": "ter-9a",
+      "station": "7"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+            "label": "8",
+            "pylon": 8
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "aim-120c"
+        }
+      ],
+      "station": "8"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+            "label": "9",
+            "pylon": 9
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "aim-120c"
+        }
+      ],
+      "station": "9"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "ALQ_184_Long",
+            "label": "5",
+            "pylon": 5
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "alq-184-long"
+        }
+      ],
+      "station": "5"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{AN_ASQ_213}",
+            "label": "5L",
+            "pylon": 10
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "hts"
+        }
+      ],
+      "station": "5L"
+    },
+    {
+      "extensions": {
+        "sim": {
+          "dcs": {
+            "clsid": "{AN_AAQ_33}",
+            "label": "5R",
+            "pylon": 11
+          }
+        }
+      },
+      "items": [
+        {
+          "quantity": 1,
+          "store": "sniper"
+        }
+      ],
+      "station": "5R"
+    }
+  ],
+  "stores": [
+    {
+      "laser_code": "1688",
+      "program": "MAN 1",
+      "quantity": 3,
+      "store": "aim-120c"
+    },
+    {
+      "quantity": 1,
+      "store": "aim-9x"
+    },
+    {
+      "fuze": {
+        "arming_delay_s": 4,
+        "delay_ms": 0,
+        "function": "instantaneous",
+        "height_of_burst": {
+          "unit": "ft",
+          "value": 20
+        },
+        "nose_fuze": "DSU-33",
+        "tail_fuze": "FMU-139"
+      },
+      "quantity": 4,
+      "store": "gbu-12"
+    },
+    {
+      "quantity": 2,
+      "store": "tank-370"
+    },
+    {
+      "quantity": 1,
+      "store": "alq-184-long"
+    },
+    {
+      "quantity": 1,
+      "store": "hts"
+    },
+    {
+      "quantity": 1,
+      "store": "sniper"
+    }
+  ],
+  "variant_tags": [
+    "Pre-2015"
+  ]
+}

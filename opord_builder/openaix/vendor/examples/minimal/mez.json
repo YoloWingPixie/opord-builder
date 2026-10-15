@@ -1,0 +1,35 @@
+{
+  "$schema": "urn:openaix:schema:measure-mez:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "components": [
+    {
+      "geometry": {
+        "center": {
+          "latitude": 34.735,
+          "longitude": 40.225
+        },
+        "kind": "circle",
+        "radius": {
+          "unit": "nm",
+          "value": 2.5
+        }
+      },
+      "id": "sage-shorad-volume",
+      "lower_limit": {
+        "surface": true
+      },
+      "operation": "add",
+      "upper_limit": {
+        "reference": "MSL",
+        "unit": "ft",
+        "value": 8000
+      }
+    }
+  ],
+  "id": "sage-shoradez",
+  "name": "Sage SHORADEZ",
+  "type": "MEZ"
+}

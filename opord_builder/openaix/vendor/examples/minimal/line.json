@@ -1,0 +1,23 @@
+{
+  "$schema": "urn:openaix:schema:measure-line:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "geometry": {
+    "kind": "line",
+    "points": [
+      {
+        "latitude": 34.835,
+        "longitude": 40.126
+      },
+      {
+        "latitude": 35.025,
+        "longitude": 40.125
+      }
+    ]
+  },
+  "id": "bastion-basin-boundary",
+  "name": "Task Force Bastion and Task Force Basin boundary",
+  "type": "BOUNDARY"
+}

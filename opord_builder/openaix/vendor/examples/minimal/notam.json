@@ -1,0 +1,21 @@
+{
+  "$schema": "urn:openaix:schema:notam:0.1.0-draft.2",
+  "code": "QRTCA",
+  "effective": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:30:00Z"
+  },
+  "id": "ojms-a0215",
+  "kind": "notam",
+  "location": "ojms",
+  "number": {
+    "number": 215,
+    "series": "A",
+    "year": 2026
+  },
+  "resources_ref": {
+    "id": "oir-resources",
+    "revision": "1"
+  },
+  "text": "TEMPO RESTRICTED AREA ACT FOR LIVE FIRING WI 5NM OF GHI"
+}

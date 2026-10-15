@@ -1,0 +1,51 @@
+{
+  "$schema": "urn:openaix:schema:airfield:0.1.0-draft.2",
+  "elevation": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 1636
+  },
+  "id": "ojms",
+  "kind": "airfield",
+  "name": "Muwaffaq Salti",
+  "position": {
+    "latitude": 31.825431,
+    "longitude": 36.781257
+  },
+  "runways": [
+    {
+      "designator": "08/26",
+      "ends": [
+        {
+          "designator": "08",
+          "heading": {
+            "reference": "magnetic",
+            "value": 74.9
+          },
+          "threshold": {
+            "latitude": 31.815801,
+            "longitude": 36.766644
+          }
+        },
+        {
+          "designator": "26",
+          "heading": {
+            "reference": "magnetic",
+            "value": 254.9
+          },
+          "threshold": {
+            "latitude": 31.819432,
+            "longitude": 36.790728
+          }
+        }
+      ],
+      "id": "ojms-rw08-26",
+      "kind": "runway",
+      "length": {
+        "unit": "ft",
+        "value": 7598
+      },
+      "name": "08/26"
+    }
+  ]
+}

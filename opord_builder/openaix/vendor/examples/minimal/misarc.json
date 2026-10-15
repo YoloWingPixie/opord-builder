@@ -1,0 +1,22 @@
+{
+  "$schema": "urn:openaix:schema:measure-misarc:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T14:00:00Z",
+    "start": "2026-10-02T13:40:00Z"
+  },
+  "axis": {
+    "reference": "true",
+    "value": 45
+  },
+  "center": {
+    "latitude": 34.35,
+    "longitude": 34.4
+  },
+  "id": "kestrel-misarc",
+  "name": "Kestrel missile arc",
+  "range": {
+    "unit": "nm",
+    "value": 30
+  },
+  "type": "MISARC"
+}

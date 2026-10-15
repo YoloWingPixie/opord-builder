@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=../../schemas/spins.schema.json
+# Steel Opera SPINS tables built from typed OpenAIX data (the vendored maximal examples,
+# copied under tests/fixtures/openaix/steel-opera). Render with: opord spins examples/operation-steel-opera/spins-openaix.yaml
+kind: spins
+schema_version: '0.3'
+scope: standing
+meta:
+  id: operation-steel-opera-spins-openaix
+  title: Operation Steel Opera - Special Instructions (typed data)
+  revision: draft-1
+  operation: Persian Gulf · Scenario start 1 June 2018, 06:00
+  handling: DRAFT - MISSION-MAKER REVIEW
+presentation:
+  font: sans
+  page_size: A4
+  contents: true
+openaix:
+  spins: ../../tests/fixtures/openaix/steel-opera/spins.json
+  resources: ../../tests/fixtures/openaix/steel-opera/resources.json
+  airfields:
+  - ../../tests/fixtures/openaix/steel-opera/airfield.json
+  - ../../tests/fixtures/openaix/steel-opera/carrier.json
+content:
+- kind: section
+  title: Typed instructions
+  blocks:
+  - kind: paragraph
+    lead: Source.
+    text: The tables below are read from OpenAIX SPINS, resources and airfield records. They are not retyped here.
+  - kind: openaix_table
+    id: nets
+    caption: Communications nets
+    source: spins
+    pointer: /communications/nets
+    columns:
+    - {key: net, heading: Net, field: /name}
+    - {key: agency, heading: Agency, field: /agency, lookup: 'resources:/resources/agencies'}
+    - {key: channel, heading: Channel, field: /channel, lookup: 'resources:/resources/channels'}
+    - {key: purpose, heading: Purpose, field: /purpose}
+  - kind: openaix_table
+    caption: Resource channels
+    source: resources
+    pointer: /resources/channels
+    rows: entries
+    columns:
+    - {key: id, heading: ID, field: '#key'}
+    - {key: name, heading: Name, field: /name}
+    - {key: frequency, heading: Frequency, field: /frequency, align: right}
+  - kind: openaix_table
+    caption: Tanker procedures
+    source: spins
+    pointer: /tanker_procedures
+    columns:
+    - {key: track, heading: Track, field: /track}
+    - {key: altitude, heading: Altitude, field: /altitude}
+    - {key: tacan, heading: TACAN, field: /tacan}
+  - kind: openaix_table
+    caption: Runways
+    source: airfield
+    pointer: /runways
+    empty: notice
+    columns:
+    - {key: runway, heading: Runway, field: /designator}
+    - {key: length, heading: Length, field: /length, align: right}
+  - kind: openaix_table
+    caption: ATO missions
+    source: ato
+    pointer: /missions
+    empty: notice
+    columns:
+    - {key: mission, heading: Mission, field: /id}

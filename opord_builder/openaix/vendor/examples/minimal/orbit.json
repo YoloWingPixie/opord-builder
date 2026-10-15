@@ -1,0 +1,38 @@
+{
+  "$schema": "urn:openaix:schema:orbit:0.1.0-draft.2",
+  "active": {
+    "end": "2026-10-02T15:00:00Z",
+    "start": "2026-10-02T13:00:00Z"
+  },
+  "altitude": {
+    "lower": {
+      "reference": "FL",
+      "unit": "flight_level",
+      "value": 220
+    },
+    "upper": {
+      "reference": "FL",
+      "unit": "flight_level",
+      "value": 260
+    }
+  },
+  "geometry": {
+    "kind": "racetrack",
+    "leg_length": {
+      "unit": "nm",
+      "value": 20
+    },
+    "point": {
+      "latitude": 34.885,
+      "longitude": 40.275
+    },
+    "radial": {
+      "reference": "true",
+      "value": 270
+    },
+    "turns": "right"
+  },
+  "id": "falcon",
+  "name": "Falcon patrol",
+  "type": "ORBIT"
+}
