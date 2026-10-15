@@ -472,7 +472,7 @@
         "band": "uhf"
       },
       "usage": "recovery tanker",
-      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+      "notes": "Comm plan lists TEXACO11 285.00 and TEXACO21 285.20; the rest continue in 0.2 MHz steps."
     },
     "texaco41": {
       "name": "TEXACO41",
@@ -483,7 +483,7 @@
         "band": "uhf"
       },
       "usage": "recovery tanker",
-      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+      "notes": "Comm plan lists TEXACO11 285.00 and TEXACO21 285.20; the rest continue in 0.2 MHz steps."
     },
     "texaco51": {
       "name": "TEXACO51",
@@ -494,7 +494,7 @@
         "band": "uhf"
       },
       "usage": "recovery tanker",
-      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+      "notes": "Comm plan lists TEXACO11 285.00 and TEXACO21 285.20; the rest continue in 0.2 MHz steps."
     },
     "texaco61": {
       "name": "TEXACO61",
@@ -505,7 +505,7 @@
         "band": "uhf"
       },
       "usage": "recovery tanker",
-      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+      "notes": "Comm plan lists TEXACO11 285.00 and TEXACO21 285.20; the rest continue in 0.2 MHz steps."
     },
     "texaco71": {
       "name": "TEXACO71",
@@ -516,7 +516,7 @@
         "band": "uhf"
       },
       "usage": "recovery tanker",
-      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+      "notes": "Comm plan lists TEXACO11 285.00 and TEXACO21 285.20; the rest continue in 0.2 MHz steps."
     },
     "texaco81": {
       "name": "TEXACO81",
@@ -527,7 +527,7 @@
         "band": "uhf"
       },
       "usage": "recovery tanker",
-      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+      "notes": "Comm plan lists TEXACO11 285.00 and TEXACO21 285.20; the rest continue in 0.2 MHz steps."
     },
     "magic": {
       "name": "MAGIC",
@@ -1406,7 +1406,7 @@
         "senator"
       ],
       "stn_prefix": "04",
-      "mode_1": "04",
+      "mode_1": "10",
       "status": "adopted",
       "source": {
         "id": "victoria",
@@ -1424,7 +1424,7 @@
         "liner"
       ],
       "stn_prefix": "02",
-      "mode_1": "02",
+      "mode_1": "20",
       "status": "proposed",
       "source": {
         "id": "victoria",
@@ -1448,7 +1448,7 @@
         "artemis"
       ],
       "stn_prefix": "03",
-      "mode_1": "03",
+      "mode_1": "30",
       "status": "proposed",
       "source": {
         "id": "victoria",
@@ -1472,7 +1472,7 @@
         "rage"
       ],
       "stn_prefix": "01",
-      "mode_1": "01",
+      "mode_1": "40",
       "status": "proposed",
       "source": {
         "id": "victoria",
@@ -2387,7 +2387,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07001",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6001",
       "status": "proposed",
       "proposals": [
@@ -2415,7 +2415,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07002",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6002",
       "status": "proposed",
       "proposals": [
@@ -2443,7 +2443,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07003",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6003",
       "status": "proposed",
       "proposals": [
@@ -2471,7 +2471,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07004",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6004",
       "status": "proposed",
       "proposals": [
@@ -2498,7 +2498,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07005",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6005",
       "status": "proposed",
       "proposals": [
@@ -2525,7 +2525,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07006",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6006",
       "status": "proposed",
       "proposals": [
@@ -2552,7 +2552,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07007",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6007",
       "status": "proposed",
       "proposals": [
@@ -2579,7 +2579,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07010",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6010",
       "status": "proposed",
       "proposals": [
@@ -2606,7 +2606,7 @@
       },
       "datalink_callsign": "AR",
       "stn": "07011",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6011",
       "status": "proposed",
       "proposals": [
@@ -2633,7 +2633,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07012",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6012",
       "status": "proposed",
       "proposals": [
@@ -2660,7 +2660,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07013",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6013",
       "status": "proposed",
       "proposals": [
@@ -2687,7 +2687,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07014",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6014",
       "status": "proposed",
       "proposals": [
@@ -2714,7 +2714,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07015",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6015",
       "status": "proposed",
       "proposals": [
@@ -2741,7 +2741,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07016",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6016",
       "status": "proposed",
       "proposals": [
@@ -2768,7 +2768,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07017",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6017",
       "status": "proposed",
       "proposals": [
@@ -2795,7 +2795,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07020",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6020",
       "status": "proposed",
       "proposals": [
@@ -2822,7 +2822,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07021",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6021",
       "status": "proposed",
       "proposals": [
@@ -2849,7 +2849,7 @@
       },
       "datalink_callsign": "SH",
       "stn": "07022",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6022",
       "status": "proposed",
       "proposals": [
@@ -2876,7 +2876,7 @@
       },
       "datalink_callsign": "TX",
       "stn": "07023",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6023",
       "status": "proposed",
       "proposals": [
@@ -2903,7 +2903,7 @@
       },
       "datalink_callsign": "TX",
       "stn": "07024",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6024",
       "status": "proposed",
       "proposals": [
@@ -2930,7 +2930,7 @@
       },
       "datalink_callsign": "TX",
       "stn": "07025",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6025",
       "status": "proposed",
       "proposals": [
@@ -2958,7 +2958,7 @@
       },
       "datalink_callsign": "TX",
       "stn": "07026",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6026",
       "status": "proposed",
       "proposals": [
@@ -2986,7 +2986,7 @@
       },
       "datalink_callsign": "TX",
       "stn": "07027",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6027",
       "status": "proposed",
       "proposals": [
@@ -3014,7 +3014,7 @@
       },
       "datalink_callsign": "TX",
       "stn": "07030",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6030",
       "status": "proposed",
       "proposals": [
@@ -3043,7 +3043,7 @@
       },
       "datalink_callsign": "TX",
       "stn": "07031",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6031",
       "status": "proposed",
       "proposals": [
@@ -3072,7 +3072,7 @@
       },
       "datalink_callsign": "TX",
       "stn": "07032",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6032",
       "status": "proposed",
       "proposals": [
@@ -3101,7 +3101,7 @@
       },
       "datalink_callsign": "MC",
       "stn": "07771",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6771",
       "status": "proposed",
       "proposals": [
@@ -3127,7 +3127,7 @@
       },
       "datalink_callsign": "OD",
       "stn": "07772",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6772",
       "status": "proposed",
       "proposals": [
@@ -3153,7 +3153,7 @@
       },
       "datalink_callsign": "FS",
       "stn": "07773",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6773",
       "status": "proposed",
       "proposals": [
@@ -3179,7 +3179,7 @@
       },
       "datalink_callsign": "WD",
       "stn": "07774",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6774",
       "status": "proposed",
       "proposals": [
@@ -3205,7 +3205,7 @@
       },
       "datalink_callsign": "DR",
       "stn": "07775",
-      "mode_1": "07",
+      "mode_1": "70",
       "mode_3": "6775",
       "status": "proposed",
       "proposals": [
@@ -3485,7 +3485,7 @@
       "cutlass": "1761",
       "saber": "1771",
       "dagger": "1781",
-      "rapier": "1811"
+      "rapier": "1651"
     },
     "status": "proposed",
     "proposals": [
@@ -3517,7 +3517,7 @@
     {
       "field": "mode_1",
       "pattern": "squadron",
-      "text": "Mode 1 is the two-digit squadron code of the squadron record."
+      "text": "Mode 1 is the two-digit squadron code of the squadron record: squadron digit 1-4 then 0, support 70 (second digit 0-3 in DCS)."
     },
     {
       "field": "tacan_wing",

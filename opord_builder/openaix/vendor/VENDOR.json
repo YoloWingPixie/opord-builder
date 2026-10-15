@@ -1,6 +1,6 @@
 {
   "repo": "https://github.com/YoloWingPixie/openAIX",
-  "commit": "d5b14ac0c9a8cd99ecc80df5494da692346e9576",
+  "commit": "b89e6eff26a4d0322b9edf2be8dfda5e2f27eaf5",
   "version": "0.2.0-draft.1",
   "files": {
     "LICENSE": "76898addf2fa8d93e3260872014cf4874091aa8e970ef345e62f3cb44d264e72",
@@ -8,7 +8,7 @@
     "__init__.py": "ebd12fcee12451776d76fa2bc2a60883da8f699fc2923938674e8b18f220cca0",
     "catalogues/airspace-types.json": "80fd95a13df934c7948f46d2ba765d9be40c3b48a0229818b44f73226f5bc5de",
     "catalogues/control-measures.json": "fe91f224fc4236787734e557349d381a8c15221e01205831a90e436bc8156b7b",
-    "catalogues/example-notes.json": "5c5fee656a3a9a4b2373461a1d16e52b6fd5a3208a0f84c6a12c8f04c9fdec94",
+    "catalogues/example-notes.json": "14e9b4d087c12aa81c2a3071d9a5a87d8e0fa74e6776de86ba2fdce1501f369c",
     "coordinates.py": "f13ba55d7a3b429bb45eebde439eba7e05f10971b022c29da3044ff0f116acec",
     "examples/maximal/aca.json": "fc4e06e1f743bd4327ffac9ca2239c7103d9aedb9aa5784379c203717f4e7029",
     "examples/maximal/aco.json": "d62efa7e4b5ae80920bc576dd6bda66027134cf8c50e66bb2970027e8cbc5431",
@@ -21,7 +21,7 @@
     "examples/maximal/c2-agency.json": "ee0e67f3f0a7d47943f8fc5145bcee07202c84912cd2c4cc25b893e053083fd6",
     "examples/maximal/cl.json": "3f9c43642991fb2e2c7168d4bf777bef56878560fc4604ca40d7be396a34cabd",
     "examples/maximal/common.json": "0e1d202c2d61f253de22c662b8e2ad572257a8b616f196e5b9dd1780a47e5404",
-    "examples/maximal/comms-standard.json": "0f05dbdfc89326ccd814c89d98c65c74bf74d270fc1a34995c37eaf3880d7594",
+    "examples/maximal/comms-standard.json": "e0ace21912a4e8ea0f3bdb5109795865415ac50ec81471ae5a086f793859ab37",
     "examples/maximal/control-measure.json": "629d0dba9e37dd81466c4fcf797bcbfc9a692b3d76523a8afc9428e3c6d89d04",
     "examples/maximal/fac.json": "9cb2f1800137d1685dd1a05cedd4e07ea31d22bdbf51f8e8c6ee154a9e0b44bc",
     "examples/maximal/fire-support-line.json": "74d63127d5e0242c62012d55fbf1bec24a5c82acb7d500e1f7e6d9c277d56ca4",
@@ -99,7 +99,7 @@
     "schemas/ato.schema.json": "7499f80876e9b38219a368e7275274ffc4289e5d8132c7af951e17025a831938",
     "schemas/c2-agency.schema.json": "9217efbe4510db98c826d5e792a83aa8e4653319c4d129d120a7a39084c9fce7",
     "schemas/common.schema.json": "b1a0ff746d55c64b5cada7f000ccd3266b0d745896c0fdbfd56e10b0faf7d3e0",
-    "schemas/comms-standard.schema.json": "32e396211905fae99dd92fea07bf06d2f31db28dc26376a0bfdec65bca3ad1fd",
+    "schemas/comms-standard.schema.json": "8ca8adc3c860f5de9761eef8438014b71e3c19cdeb180b13c19fd79f6a8a2536",
     "schemas/control-measure.schema.json": "1b38a9991eee6d3058176dd8750c4a8c3a871285606bb93fa70d263a3f9df555",
     "schemas/fac.schema.json": "0bb33fcf40fdbfb7c3fbc4b77dca13c11a9f61afe37d3233b627c57f78053348",
     "schemas/frago.schema.json": "73abca6f8ce0f4e1aca1fd8cc946203b9b1bf2ab58060c5697be1414530ef351",
@@ -136,6 +136,6 @@
     "schemas/scl.schema.json": "a1a95e1695744ca37be80a1d119d252d957d9d0b6006ddd4a1cca9be2699d806",
     "schemas/spins.schema.json": "172eacb767999fcc42b592add7acfee467709a8352c1ec49ae952ed8ed63afd2",
     "schemas/tst.schema.json": "268f5c6bbeef01c45bf5471d5f7baa79316ab784aa1d909e036939bdd0bcc35e",
-    "standards/csg8/comms-standard.json": "c27c26b20a5469c9b4b2d9909966e6e8ecee1c95d5c784afa52e2da24fda2571"
+    "standards/csg8/comms-standard.json": "49ab7ccef064e3942d22756e37715cad103dc496f48e66a9835ffb4b3ad76c08"
   }
 }

@@ -281,7 +281,7 @@
       "flights": [
         "sol"
       ],
-      "mode_1": "02",
+      "mode_1": "20",
       "name": "VFA-81",
       "source": {
         "id": "vcsg8-scl-data",
@@ -299,7 +299,7 @@
         "texaco11"
       ],
       "datalink_callsign": "TX",
-      "mode_1": "02",
+      "mode_1": "20",
       "mode_3": "6023",
       "refuel": "basket",
       "role": "recovery_tanker",

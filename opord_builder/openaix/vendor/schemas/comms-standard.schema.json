@@ -806,7 +806,7 @@
         "mode_1": {
           "description": "This field gives the identification Mode 1 code of the squadron, as two octal digits.",
           "minLength": 1,
-          "pattern": "^[0-7]{2}$",
+          "pattern": "^[0-7][0-3]$",
           "type": "string"
         },
         "name": {
@@ -885,7 +885,7 @@
         "mode_1": {
           "description": "This field gives the identification Mode 1 code of the support aircraft, as two octal digits.",
           "minLength": 1,
-          "pattern": "^[0-7]{2}$",
+          "pattern": "^[0-7][0-3]$",
           "type": "string"
         },
         "mode_3": {
