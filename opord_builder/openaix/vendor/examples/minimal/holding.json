@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:holding:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:holding:0.2.0-draft.1",
   "hold": {
     "fix": {
       "ident": "GHI",

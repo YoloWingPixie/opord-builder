@@ -1,0 +1,69 @@
+{
+  "$schema": "urn:openaix:schema:opord:0.2.0-draft.1",
+  "kind": "opord",
+  "schema_version": "0.2.0-draft.1",
+  "meta": {
+    "id": "atomic-thunder-opord",
+    "revision": "1",
+    "title": "Atomic Thunder Operation Order",
+    "classification": "UNCLASSIFIED"
+  },
+  "mission": {
+    "statement": "Destroy hardened shelters at the fictional airbase on 14 October 2026."
+  },
+  "situation": {
+    "area_of_operations": {
+      "weather": {
+        "forecasts": [
+          {
+            "window": {
+              "start": "2026-10-14T08:00:00Z",
+              "end": "2026-10-14T12:00:00Z"
+            },
+            "altimeter": {
+              "value": 29.92,
+              "unit": "inHg"
+            },
+            "clouds": [
+              {
+                "coverage": "scattered",
+                "base": {
+                  "value": 4000,
+                  "unit": "ft",
+                  "reference": "AGL"
+                }
+              }
+            ],
+            "winds_aloft": [
+              {
+                "altitude": {
+                  "value": 18000,
+                  "unit": "ft",
+                  "reference": "MSL"
+                },
+                "direction": {
+                  "value": 270,
+                  "reference": "true"
+                },
+                "speed": {
+                  "value": 35,
+                  "unit": "kt"
+                }
+              }
+            ]
+          },
+          {
+            "window": {
+              "start": "2026-10-14T12:00:00Z",
+              "end": "2026-10-14T16:00:00Z"
+            },
+            "altimeter": {
+              "value": 30.05,
+              "unit": "inHg"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:navaid:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:navaid:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "allOf": [
@@ -106,7 +106,7 @@
       "type": "string"
     },
     "airfield": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the airfield at which the navigation aid is. When the airfield has a list of its navigation aids, the list shall include this navigation aid.",
       "x-catalog": "places"
     },
@@ -132,15 +132,15 @@
       }
     },
     "dme_position": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
       "description": "This field gives the geographic position of the distance measuring equipment (DME) antenna, as latitude and longitude. The record has this field when the source publishes this position. A station with only a DME or only a Tactical Air Navigation (TACAN) does not always have a second position."
     },
     "elevation": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Elevation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Elevation",
       "description": "This field gives the elevation of the distance measuring equipment (DME) antenna above mean sea level, as an elevation with its unit."
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -179,11 +179,11 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "frequency": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Frequency",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Frequency",
       "description": "This field gives the frequency of the station, as a frequency with its unit. The unit is kilohertz for a non-directional beacon (NDB). For the other classes, the unit is megahertz. A station with only a Tactical Air Navigation (TACAN) has no frequency."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this navigation aid. Other resources and orders use this stable identifier to refer to this navigation aid."
     },
     "ident": {
@@ -203,15 +203,15 @@
       "type": "string"
     },
     "position": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
       "description": "This field gives the geographic position of the `VOR`, `NDB` or `TACAN` station, as latitude and longitude."
     },
     "provenance": {
-      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Provenance",
+      "$ref": "urn:openaix:schema:procedure:0.2.0-draft.1#/$defs/Provenance",
       "description": "This field gives the provenance of this navigation aid as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this navigation aid. The reference gives the identifier and the revision of the catalogue."
     },
     "source": {
@@ -220,7 +220,7 @@
       "type": "string"
     },
     "tacan": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/TACAN",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
       "description": "This field gives the channel and the band of the Tactical Air Navigation (TACAN) of the station. For a `VORTAC`, it is the channel that the distance measuring equipment (DME) channel pairing table gives for the `VOR` frequency."
     },
     "type": {

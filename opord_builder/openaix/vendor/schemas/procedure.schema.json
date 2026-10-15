@@ -43,7 +43,7 @@
         "decision_altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -56,13 +56,13 @@
           "description": "This field gives the decision altitude above mean sea level, as an altitude with its unit and reference. At this altitude the pilot starts the missed approach when the required visual references are not visible. The minima shall have this field or `minimum_descent_altitude`, but not both."
         },
         "height": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the height of the decision altitude or the minimum descent altitude (MDA) above the elevation that `height_reference` of the line names, as a length with its unit. For a decision altitude, this height is the decision height."
         },
         "minimum_descent_altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -77,7 +77,7 @@
         "runway_visual_range": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length"
             },
             {
               "properties": {
@@ -139,13 +139,13 @@
           }
         },
         "runway": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
           "description": "This field gives the designator of the departure runway of the climb gradient."
         },
         "until": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -200,7 +200,7 @@
               "type": "string"
             },
             "position": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
               "description": "This field gives the geographic position of the fix, as latitude and longitude."
             }
           },
@@ -211,7 +211,7 @@
           "type": "object"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
           "x-measure-kinds": [
             "POINT",
             "NAVAID"
@@ -369,11 +369,11 @@
               }
             },
             "lower": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
               "description": "This field gives the lower altitude of the altitude constraint, as an altitude with its unit and reference. It is the crossing altitude for `at`, and the minimum for `at_or_above` and `between`."
             },
             "upper": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
               "description": "This field gives the higher altitude of the altitude constraint, as an altitude with its unit and reference. It is the maximum for `at_or_below` and `between`."
             }
           },
@@ -387,11 +387,11 @@
           "description": "This field gives the fix of the holding pattern."
         },
         "inbound_course": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the course of the inbound leg to the holding fix, as a bearing with its unit and reference."
         },
         "leg_length": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the length of each holding leg, as a length with its unit. When the hold has this length, it does not have a leg time."
         },
         "leg_time": {
@@ -691,11 +691,11 @@
               }
             },
             "lower": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
               "description": "This field gives the lower altitude of the altitude constraint, as an altitude with its unit and reference. It is the crossing altitude for `at`, and the minimum for `at_or_above` and `between`."
             },
             "upper": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
               "description": "This field gives the higher altitude of the altitude constraint, as an altitude with its unit and reference. It is the maximum for `at_or_below` and `between`."
             }
           },
@@ -726,15 +726,15 @@
           "description": "This field gives the fix at the centre of the constant-radius arc of a `radius_to_fix` leg. A `radius_to_fix` leg shall have this field."
         },
         "arc_radius": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the radius of the constant-radius arc of a `radius_to_fix` leg, as a length with its unit. A `radius_to_fix` leg shall have this field."
         },
         "course": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the course, the track or the heading of the aircraft on the leg, as a bearing with its unit and reference. The reference is magnetic north or true north."
         },
         "distance": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the published distance of the leg, as a length with its unit."
         },
         "fix": {
@@ -817,7 +817,7 @@
         "rnp_value": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length"
             },
             {
               "properties": {
@@ -1142,7 +1142,7 @@
         "rnp_value": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length"
             },
             {
               "properties": {
@@ -1155,7 +1155,7 @@
           "description": "This field gives the required navigation performance (RNP) value of the minima line, in nautical miles, as a length with its unit. An approach with authorization required can publish one line for each RNP value. Only a line of type `rnp` shall have this field."
         },
         "runway": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
           "description": "This field gives the designator of the runway of a straight-in line, or of the runway after a sidestep."
         }
       },
@@ -1178,7 +1178,7 @@
               "type": "string"
             },
             "position": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
               "description": "This field gives the geographic position of the navigation aid, as latitude and longitude."
             }
           },
@@ -1189,7 +1189,7 @@
           "type": "object"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
           "x-measure-kinds": [
             "NAVAID"
           ]
@@ -1327,7 +1327,7 @@
         "rnp_value": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length"
             },
             {
               "properties": {
@@ -1411,11 +1411,11 @@
       "description": "An obstacle is terrain or an object that the assessment of a segment uses.",
       "properties": {
         "elevation": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Elevation",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Elevation",
           "description": "This field gives the elevation of the top of the obstacle above mean sea level, as an elevation with its unit."
         },
         "height": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the height of the obstacle above the ground, as a length with its unit."
         },
         "ident": {
@@ -1437,7 +1437,7 @@
           }
         },
         "position": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the obstacle, as latitude and longitude."
         }
       },
@@ -1452,7 +1452,7 @@
       "description": "An obstacle clearance assessment is the result of an assessment of the terrain and the obstacles under the procedure. For each segment it gives the controlling obstacle, the obstacle clearance and the lowest altitude.",
       "properties": {
         "assessed_at": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
           "description": "This field gives the time of the assessment."
         },
         "criteria": {
@@ -1507,7 +1507,7 @@
       "description": "A procedure turn is a course reversal from the outbound course onto the inbound course of an approach. The aircraft stays on the manoeuvring side of the outbound course and in the distance in `remain_within`.",
       "properties": {
         "inbound_course": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the course of the inbound leg after the course reversal, as a bearing with its unit and reference."
         },
         "outbound_time": {
@@ -1515,7 +1515,7 @@
           "description": "This field gives the flight time on the outbound leg before the aircraft turns back, in minutes. Base turns and some procedure turns publish this time."
         },
         "remain_within": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the distance from the fix of the leg in which the aircraft completes the procedure turn, as a length with its unit."
         },
         "turn_type": {
@@ -1567,19 +1567,19 @@
           }
         },
         "effective_from": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
           "description": "This field gives the time of the start of the period in which the data are effective."
         },
         "effective_until": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
           "description": "This field gives the time of the end of the period in which the data are effective."
         },
         "generated_at": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
           "description": "This field gives the time of the conversion or the generation of the data."
         },
         "publication": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
           "description": "This field identifies the publication from which the data come. An example is the chart of the procedure."
         },
         "tool": {
@@ -1601,7 +1601,7 @@
           "description": "This field gives the volume in which the radar gives the approach."
         },
         "final_approach_course": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the final approach course of the radar approach, as a bearing with its unit and reference."
         },
         "glide_path_angle_deg": {
@@ -1620,11 +1620,11 @@
           "type": "array"
         },
         "missed_approach_point_distance": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the distance of the missed approach point of an airport surveillance radar (ASR) approach from the runway threshold, as a length with its unit. A precision approach radar (PAR) approach shall not have this field."
         },
         "position": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the radar antenna, as latitude and longitude."
         },
         "recommended_altitudes": {
@@ -1636,11 +1636,11 @@
           "type": "array"
         },
         "runway": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
           "description": "This field gives the designator of the runway of the radar approach."
         },
         "threshold_crossing_height": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the threshold crossing height (TCH) of the precision approach radar (PAR) glide path, as a length with its unit. It is the height of the glide path above the landing threshold."
         }
       },
@@ -1679,7 +1679,7 @@
           "type": "number"
         },
         "range": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the range of the radar coverage on the final approach, from the runway threshold, as a length with its unit."
         }
       },
@@ -1695,7 +1695,7 @@
         "altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -1708,7 +1708,7 @@
           "description": "This field gives the recommended altitude above mean sea level at this distance, as an altitude with its unit and reference."
         },
         "distance": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the distance from the runway threshold, as a length with its unit."
         }
       },
@@ -1734,7 +1734,7 @@
         "minimum_altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -1752,7 +1752,7 @@
           "type": "string"
         },
         "obstacle_clearance": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the obstacle clearance that the assessment applies above the controlling obstacle, as a length with its unit. It is the minimum obstacle clearance of International Civil Aviation Organization (ICAO) Doc 8168 or the required obstacle clearance of Federal Aviation Administration (FAA) Order 8260.3."
         },
         "satisfied": {
@@ -1820,7 +1820,7 @@
           }
         },
         "value": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Speed",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Speed",
           "description": "This field gives the speed of the restriction, as a speed with its unit."
         }
       },
@@ -1847,7 +1847,7 @@
       "description": "A takeoff minimum is the lowest weather for a takeoff on this departure. It shall have `visibility` or `runway_visual_range`.",
       "properties": {
         "ceiling": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the lowest ceiling for the takeoff, above the aerodrome, as a length with its unit."
         },
         "climb_gradient": {
@@ -1869,13 +1869,13 @@
           "type": "array"
         },
         "runway": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
           "description": "This field gives the designator of the runway of the takeoff minimum."
         },
         "runway_visual_range": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length"
             },
             {
               "properties": {
@@ -1971,7 +1971,7 @@
       "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:procedure:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:procedure:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "allOf": [
@@ -2194,7 +2194,7 @@
       "type": "string"
     },
     "airfield": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the airfield at the start or at the end of the procedure. When the airfield has a list of its procedures, the list shall include this procedure.",
       "x-catalog": "places"
     },
@@ -2232,7 +2232,7 @@
       "type": "array"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -2272,7 +2272,7 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this procedure. Other resources and orders use this stable identifier to refer to this procedure."
     },
     "ident": {
@@ -2327,7 +2327,7 @@
       "description": "This field gives the final approach of a precision approach radar (PAR) or an airport surveillance radar (ASR) approach: the runway, the course, the glide path and the radar coverage."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this procedure. The reference gives the identifier and the revision of the catalogue."
     },
     "source": {

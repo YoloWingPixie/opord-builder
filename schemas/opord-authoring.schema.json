@@ -5892,6 +5892,18 @@
           "default": null,
           "description": "TACAN channel plan."
         },
+        "timing": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/KneeboardTiming"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Package time on target and push."
+        },
         "primary_objectives": {
           "description": "Primary mission objectives.",
           "items": {
@@ -6149,6 +6161,32 @@
         "callsign"
       ],
       "title": "KneeboardTanker",
+      "type": "object"
+    },
+    "KneeboardTiming": {
+      "additionalProperties": false,
+      "description": "Package timing figures for the flight.",
+      "properties": {
+        "tot": {
+          "default": "",
+          "description": "Time on target (e.g. '1030Z', '1030Z-1045Z', 'NLT 1045Z').",
+          "title": "Tot",
+          "type": "string"
+        },
+        "push": {
+          "default": "",
+          "description": "Push time (e.g. '0950Z').",
+          "title": "Push",
+          "type": "string"
+        },
+        "push_point": {
+          "default": "",
+          "description": "Name of the push point.",
+          "title": "Push Point",
+          "type": "string"
+        }
+      },
+      "title": "KneeboardTiming",
       "type": "object"
     },
     "LiaisonElement": {

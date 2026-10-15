@@ -5,7 +5,7 @@
       "description": "An area selection is a reference to one planning area of the resource catalogue.",
       "properties": {
         "area": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the planning area that the agency covers.",
           "x-catalog": "areas"
         }
@@ -16,7 +16,7 @@
       "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:c2-agency:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:c2-agency:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A command and control agency is an organization with a call sign and a role in operations. Units contact it on its radio channels.",
@@ -32,22 +32,22 @@
       "items": {
         "oneOf": [
           {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_polygon"
           },
           {
             "$ref": "#/$defs/AgencyArea"
           },
           {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection"
           },
           {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_rectangle"
           },
           {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_ellipse"
           },
           {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_geojson_polygon"
           }
         ]
       },
@@ -62,14 +62,14 @@
     "channels": {
       "description": "This list identifies the radio channels that other units use to contact the agency.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "minItems": 1,
       "type": "array",
       "x-catalog": "channels"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -108,7 +108,7 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this agency. Other records and orders use it to refer to this agency."
     },
     "kind": {
@@ -123,11 +123,11 @@
       ]
     },
     "position": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
       "description": "This field gives the geographic position of the agency, as latitude and longitude. The field is applicable only to an agency that does not move."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the external resource catalogue that resolves the references of this record. The reference identifies the catalogue and gives its revision."
     },
     "role": {

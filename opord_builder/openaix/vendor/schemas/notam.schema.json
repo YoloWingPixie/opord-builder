@@ -34,7 +34,7 @@
       "description": "A procedure selection is a reference to one instrument procedure of the resource catalogue.",
       "properties": {
         "id": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the instrument procedure that the notice to air missions (NOTAM) is about.",
           "x-catalog": "instrument_procedures"
         },
@@ -54,7 +54,7 @@
       "description": "A runway selection is a reference to one runway end of the location of the notice to air missions (NOTAM).",
       "properties": {
         "designator": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
           "description": "This field gives the designator of the runway end, for example `03L`."
         },
         "kind": {
@@ -69,7 +69,7 @@
       "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:notam:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:notam:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "Notice to air missions (NOTAM) are a notice about the establishment, condition or change of an aeronautical facility, service, procedure or hazard. This record has the basic items of the International Civil Aviation Organization (ICAO) NOTAM format of Annex 15: the number, the location, the NOTAM Code, the effective time interval, the text and the vertical limits. Planners write NOTAMs before the operation.",
@@ -84,7 +84,7 @@
       "items": {
         "oneOf": [
           {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection"
           },
           {
             "$ref": "#/$defs/RunwaySelection"
@@ -103,11 +103,11 @@
       "type": "string"
     },
     "effective": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Window",
       "description": "This field gives the time interval during which the notice to air missions (NOTAM) is in effect. It is items B and C of the NOTAM."
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -127,7 +127,7 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this notice to air missions (NOTAM). Other resources and orders use this stable identifier to refer to this NOTAM."
     },
     "kind": {
@@ -135,12 +135,12 @@
       "description": "The value identifies this record as a notice to air missions (NOTAM) record. The value selects this contract."
     },
     "location": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the operating location that the notice to air missions (NOTAM) is about. It is item A of the NOTAM.",
       "x-catalog": "places"
     },
     "lower": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/VerticalLimit",
       "description": "This field gives the floor of the area that the notice to air missions (NOTAM) is about: an altitude with its reference, the surface or no limit. It is item F of the NOTAM."
     },
     "number": {
@@ -148,7 +148,7 @@
       "description": "This field gives the notice to air missions (NOTAM) number: the series, the number in the series and the year. An example is `A0123/26`."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this notice to air missions (NOTAM). The reference gives the identifier and the revision of the catalogue."
     },
     "text": {
@@ -157,7 +157,7 @@
       "type": "string"
     },
     "upper": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/VerticalLimit",
       "description": "This field gives the ceiling of the area that the notice to air missions (NOTAM) is about: an altitude with its reference, the surface or no limit. It is item G of the NOTAM."
     }
   },

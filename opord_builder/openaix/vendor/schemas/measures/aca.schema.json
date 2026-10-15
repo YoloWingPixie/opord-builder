@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:measure-aca:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:measure-aca:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "allOf": [
@@ -44,13 +44,13 @@
       }
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this airspace coordination area is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "channels": {
       "description": "This list identifies the communications channels of this airspace coordination area.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "type": "array",
       "x-catalog": "channels"
@@ -58,13 +58,13 @@
     "components": {
       "description": "This list contains the airspace components of the coordination volume. A formal airspace coordination area (ACA) is usually a corridor component along its baseline, between the minimum and maximum altitudes.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AirspaceComponent"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/AirspaceComponent"
       },
       "minItems": 1,
       "type": "array"
     },
     "controlling_agency": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the agency that controls the operations in this airspace coordination area.",
       "x-catalog": "agencies"
     },
@@ -81,12 +81,12 @@
       "type": "string"
     },
     "establishing_authority": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the authority that set this airspace coordination area.",
       "x-catalog": "agencies"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -152,7 +152,7 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this airspace coordination area. Other records and orders use it to refer to this airspace coordination area."
     },
     "name": {
@@ -170,7 +170,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this airspace coordination area. The reference gives the identifier and the revision of the catalogue."
     },
     "restrictions": {

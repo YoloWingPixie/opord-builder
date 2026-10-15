@@ -486,7 +486,8 @@ def export(
         "a YAML card with the same flight callsign overrides the ATO card field by "
         "field (explicit YAML values win, with a warning where they disagree); YAML "
         "cards for other flights are kept. --resources adds an OpenAIX resources "
-        "document (channels, airfields, SCLs). Warnings go to stderr."
+        "document (channels, airfields, SCLs); --opord adds an OpenAIX opord (altimeter "
+        "setting). Warnings go to stderr."
     )
 )
 def kneeboard(
@@ -523,9 +524,17 @@ def kneeboard(
         readable=True,
         help="OpenAIX resources JSON for the ATO (needs --ato).",
     ),
+    opord: Optional[Path] = typer.Option(
+        None,
+        "--opord",
+        exists=True,
+        dir_okay=False,
+        readable=True,
+        help="OpenAIX opord JSON for the altimeter setting of the cards (needs --ato).",
+    ),
 ) -> None:
-    if ato is None and (flight or resources):
-        typer.secho("--flight and --resources need --ato.", fg=typer.colors.RED, err=True)
+    if ato is None and (flight or resources or opord):
+        typer.secho("--flight, --resources and --opord need --ato.", fg=typer.colors.RED, err=True)
         raise typer.Exit(code=2)
     if ato is None and input_file is None:
         typer.secho("Give an INPUT_FILE, --ato, or both.", fg=typer.colors.RED, err=True)
@@ -557,7 +566,9 @@ def kneeboard(
     from opord_builder.openaix.kneeboard import cards_from_files
 
     try:
-        cards, warns = cards_from_files(ato, resources, flight, getattr(doc, "kneeboards", None))
+        cards, warns = cards_from_files(
+            ato, resources, flight, getattr(doc, "kneeboards", None), opord_path=opord
+        )
     except ValueError as exc:
         typer.secho(str(exc), fg=typer.colors.RED, err=True)
         raise typer.Exit(code=2)

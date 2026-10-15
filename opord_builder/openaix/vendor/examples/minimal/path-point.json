@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:path-point:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:path-point:0.2.0-draft.1",
   "flight_path_alignment_point": {
     "latitude": 31.84288,
     "longitude": 36.770832

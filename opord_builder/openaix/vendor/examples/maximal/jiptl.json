@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:jiptl:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:jiptl:0.2.0-draft.1",
   "extensions": {
     "org.cjtf-oir.ato": {
       "ato_day": "214"
@@ -40,7 +40,7 @@
     "id": "oir-resources",
     "revision": "1"
   },
-  "schema_version": "0.1.0-draft.2",
+  "schema_version": "0.2.0-draft.1",
   "targets": [
     {
       "authorized_engagement_means": [
@@ -50,15 +50,15 @@
           "system": "F-15E"
         }
       ],
-      "component_tasked": "AIR",
-      "desired_effect": "DESTROY",
+      "component_tasked": "air",
+      "desired_effect": "destroy",
       "location": {
         "latitude": 35.1,
         "longitude": 40.3
       },
       "location_mgrs": "37SFU1848684905",
       "priority_rank": 1,
-      "status": "APPROVED",
+      "status": "approved",
       "target": "cobalt-array",
       "target_description": "ISIS command post and vehicle park.",
       "target_name": "Cobalt compound",
@@ -72,15 +72,15 @@
           "system": "F-16C"
         }
       ],
-      "component_tasked": "AIR",
-      "desired_effect": "SUPPRESS",
+      "component_tasked": "air",
+      "desired_effect": "suppress",
       "location": {
         "latitude": 35.215,
         "longitude": 40.265
       },
       "location_mgrs": "37SFU1513397619",
       "priority_rank": 2,
-      "status": "APPROVED",
+      "status": "approved",
       "target": "gainful-battery",
       "target_description": "Mobile surface-to-air missile battery.",
       "target_name": "SA-6 battery",

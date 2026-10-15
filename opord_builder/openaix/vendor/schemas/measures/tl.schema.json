@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:measure-tl:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:measure-tl:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A traverse level (TL) is the vertical displacement above low-level air defence at which aircraft can cross the area. It is a height and an altitude. It gives the defenders one more procedure to identify friendly aircraft. The record gives the level as a height above the ground and as an altitude above mean sea level.",
@@ -9,7 +9,7 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this traverse level is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "coordination_instructions": {
@@ -25,7 +25,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -49,7 +49,7 @@
     "geometry": {
       "allOf": [
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_vertical"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_vertical"
         },
         {
           "required": [
@@ -61,7 +61,7 @@
       "description": "This field gives the vertical geometry of the traverse level: a height above the ground and an altitude above mean sea level."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this traverse level. Other records and orders use it to refer to this traverse level."
     },
     "name": {
@@ -74,7 +74,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this traverse level. The reference gives the identifier and the revision of the catalogue."
     },
     "type": {

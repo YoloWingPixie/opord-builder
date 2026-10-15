@@ -56,7 +56,7 @@
       "description": "A change target is the type, identifier and revision of the order that a change is for.",
       "properties": {
         "id": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the order that the change is for. The value is the `meta.id` field of the order."
         },
         "kind": {
@@ -154,7 +154,7 @@
       "description": "An order reference is the identifier and the revision of one order.",
       "properties": {
         "id": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the order that this reference is for. The value is the `meta.id` field of the order."
         },
         "revision": {
@@ -169,9 +169,62 @@
       ],
       "title": "OrderRef",
       "type": "object"
+    },
+    "PrintExtension": {
+      "additionalProperties": false,
+      "description": "A print extension is the page data that `opord-builder` puts on each printed page of the order. The namespace is `org.opord-builder.print`, and the group is for this application only.",
+      "properties": {
+        "classification_banner": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ClassificationLevel",
+          "description": "This field gives the classification marking on the top and the bottom of each page."
+        },
+        "classification_caveat": {
+          "description": "This field gives the dissemination caveat after the classification marking, such as `REL TO USA, FVEY`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "copy_number": {
+          "description": "This field gives the number of this copy in the distribution. The number should not be more than `number_of_copies`.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "logo": {
+          "description": "This field gives the path or the web address of the logo for the cover page.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "message_reference_number": {
+          "description": "This field gives the message reference number that the originator gives to the order, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "number_of_copies": {
+          "description": "This field gives the number of copies in the distribution.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "page_icon": {
+          "description": "This field gives the path or the web address of the icon for the header of each page.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "place_of_issue": {
+          "description": "This field gives the place where the order is issued, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "watermark": {
+          "description": "This field gives the watermark of each page: short text such as `DRAFT`, or the path or the web address of an image.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "PrintExtension",
+      "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:frago:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:frago:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "anyOf": [
@@ -225,15 +278,26 @@
       "type": "string"
     },
     "date_time": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
       "description": "This field gives the time of signature of the fragmentary order (FRAGO)."
     },
     "effective_time": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
       "description": "This field gives the time of the start of the effect of the fragmentary order (FRAGO)."
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "allOf": [
+        {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions"
+        },
+        {
+          "properties": {
+            "org.opord-builder.print": {
+              "$ref": "#/$defs/PrintExtension"
+            }
+          }
+        }
+      ],
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record. The namespace `org.opord-builder.print` contains the data that `opord-builder` puts on each page."
     },
     "frago_number": {
@@ -252,7 +316,7 @@
       "type": "string"
     },
     "meta": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Metadata",
       "description": "This field gives the identification, revision and issue data of this document."
     },
     "mission": {
@@ -263,13 +327,13 @@
     "references": {
       "description": "This list contains the documents that the fragmentary order (FRAGO) refers to.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef"
       },
       "minItems": 0,
       "type": "array"
     },
     "schema_version": {
-      "const": "0.1.0-draft.2",
+      "const": "0.2.0-draft.1",
       "description": "This field gives the version of the openAIX schema that this document agrees with.",
       "type": "string"
     },

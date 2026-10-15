@@ -5,7 +5,7 @@
       "description": "A minimum safe altitude (MSA) sector is one sector around the centre fix. Its bearings are bearings to the centre, as the chart shows them, and they are usually magnetic. The sector goes in the clockwise direction from `start_bearing` to `end_bearing`.",
       "properties": {
         "end_bearing": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the bearing to the centre at the end of the sector, as a bearing with its unit and reference. It is equal to `start_bearing` only for a full circle."
         },
         "full_circle": {
@@ -15,7 +15,7 @@
         "minimum_altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -29,11 +29,11 @@
           "description": "This field gives the minimum safe altitude (MSA) in the sector, above mean sea level, as an altitude with its unit and reference."
         },
         "radius": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the radius of the sector from the centre, as a length with its unit."
         },
         "start_bearing": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the bearing to the centre at the start of the sector, as a bearing with its unit and reference. From this bearing, the sector goes in the clockwise direction."
         }
       },
@@ -47,7 +47,7 @@
       "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:msa:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:msa:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A minimum safe altitude (MSA) is the minimum altitudes in sectors around a centre fix, in the radius of the sectors. The bearings of a sector are bearings to the centre. Each sector goes in the clockwise direction from the bearing at its start to the bearing at its end.",
@@ -58,16 +58,16 @@
       "type": "string"
     },
     "airfield": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the airfield of this record. An example is `kden`.",
       "x-catalog": "places"
     },
     "center": {
-      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Fix",
+      "$ref": "urn:openaix:schema:procedure:0.2.0-draft.1#/$defs/Fix",
       "description": "This field gives the fix at the centre of the sectors: a navigation aid, a waypoint or an airport reference point."
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -132,7 +132,7 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this record of a minimum safe altitude. Other resources and orders use this stable identifier to refer to this record of a minimum safe altitude."
     },
     "kind": {
@@ -145,11 +145,11 @@
       "type": "string"
     },
     "provenance": {
-      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Provenance",
+      "$ref": "urn:openaix:schema:procedure:0.2.0-draft.1#/$defs/Provenance",
       "description": "This field gives the provenance of this record of a minimum safe altitude as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this record of a minimum safe altitude. The reference gives the identifier and the revision of the catalogue."
     },
     "sectors": {

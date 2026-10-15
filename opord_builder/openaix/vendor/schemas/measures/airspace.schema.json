@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:airspace:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:airspace:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "allOf": [
@@ -189,7 +189,7 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this airspace is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "airspace_class_code": {
@@ -287,7 +287,7 @@
     "channels": {
       "description": "This list identifies the communications channels of this airspace.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "type": "array",
       "x-catalog": "channels"
@@ -295,13 +295,13 @@
     "components": {
       "description": "This list contains the airspace volumes of this airspace, in order. Each volume has a floor and a ceiling.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AirspaceComponent"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/AirspaceComponent"
       },
       "minItems": 1,
       "type": "array"
     },
     "controlling_agency": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the agency that controls the operations in this airspace.",
       "x-catalog": "agencies"
     },
@@ -323,7 +323,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -389,7 +389,7 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this airspace. Other records and orders use it to refer to this airspace."
     },
     "local_type": {
@@ -412,7 +412,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this airspace. The reference gives the identifier and the revision of the catalogue."
     },
     "restrictions": {

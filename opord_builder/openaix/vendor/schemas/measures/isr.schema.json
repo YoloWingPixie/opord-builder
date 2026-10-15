@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:measure-isr:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:measure-isr:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "An identification safety range (ISR) is the minimum range to which aircraft can close to a maritime force without positive identification. This identification shows that the aircraft are friendly. This range makes sure that the maritime force does not mistake the aircraft for hostile. The officer in tactical command sets it. The range moves with the maritime force. A record can give a circle geometry for display at a specified time.",
@@ -9,7 +9,7 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this identification safety range is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "coordination_instructions": {
@@ -25,12 +25,12 @@
       "type": "string"
     },
     "establishing_authority": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the officer in tactical command that set the range.",
       "x-catalog": "agencies"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -96,11 +96,11 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "geometry": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_circle",
       "description": "This field gives the horizontal geometry of the range: an optional circle around the position of the force at a specified time, for display. When the two do not agree, the `range` value is correct."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this identification safety range. Other records and orders use it to refer to this identification safety range."
     },
     "name": {
@@ -113,7 +113,7 @@
       "type": "string"
     },
     "range": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
       "description": "This field gives the identification safety range, as a length with its unit. An aircraft may close to this range from the force without positive identification as a friendly aircraft."
     },
     "reference_force": {
@@ -122,11 +122,11 @@
       "type": "string"
     },
     "reference_position": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
       "description": "This field gives the geographic position of the maritime force at the time when the range starts, as latitude and longitude. The record gives it only when the position is known."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this identification safety range. The reference gives the identifier and the revision of the catalogue."
     },
     "restrictions": {

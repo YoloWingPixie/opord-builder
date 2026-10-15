@@ -13,7 +13,7 @@ from typer.testing import CliRunner
 from opord_builder.cli import app
 from opord_builder.openaix import convert as c
 from opord_builder.openaix.from_openaix import OpenAIXImportError, from_openaix
-from opord_builder.openaix.registry import VENDOR_DIR
+from opord_builder.openaix.registry import VENDOR_DIR, schemas
 from opord_builder.openaix.to_openaix import OWNED_PATHS, to_openaix
 from opord_builder.openaix.validate import validate
 from opord_builder.renderer import load_opord
@@ -204,16 +204,14 @@ def test_header_and_print_extension():
         "number_of_copies",
         "place_of_issue",
         "message_reference_number",
-        "annex_status",
     ):
         assert key in print_ext, key
     assert print_ext["copy_number"] == 3
-    assert set(print_ext["annex_status"].values()) <= {
-        "published",
-        "omitted",
-        "not_used",
-    }
-    assert print_ext["annex_status"]["A"] == "published"
+    # The print extension is closed in 0.2: annex status rides in the authoring extension.
+    assert "annex_status" not in print_ext
+    status = doc["extensions"]["org.opord-builder.authoring"]["@annex_status"]
+    assert set(status.values()) <= {"published", "omitted", "not_used"}
+    assert status["A"] == "published"
 
 
 def test_dtg_round_trip_and_unconvertible_dtg_stays_in_overlay():
@@ -289,7 +287,7 @@ def test_task_organization_collision_suffix():
 # --------------------------------------------------------------------------- annexes
 
 
-def test_annexes_by_letter_with_status_in_print_extension():
+def test_annexes_by_letter_with_status_in_authoring_extension():
     model = mini(
         annexes=[
             {"letter": "B", "body": "Intel body."},
@@ -301,7 +299,8 @@ def test_annexes_by_letter_with_status_in_print_extension():
     doc = to_openaix(model).opord
     assert list(doc["annexes"]) == ["B", "Z"]
     assert doc["annexes"]["B"]["summary"] == "Intel body."
-    status = doc["extensions"]["org.opord-builder.print"]["annex_status"]
+    assert "annex_status" not in doc["extensions"]["org.opord-builder.print"]
+    status = doc["extensions"]["org.opord-builder.authoring"]["@annex_status"]
     assert status == {
         "B": "published",
         "G": "omitted",
@@ -361,8 +360,14 @@ def test_measures_use_catalogue_codes_and_extensions():
                 {
                     "name": "AXIS ONE",
                     "type": "axis",
-                    "grid_or_trace": grid2,
+                    "grid_or_trace": area,
                     "purpose": "Axis of advance.",
+                },
+                {
+                    "name": "AXIS LINE",
+                    "type": "axis",
+                    "grid_or_trace": grid2,
+                    "purpose": "A trace is not an area.",
                 },
                 {
                     "name": "OBJ SWORD",
@@ -378,6 +383,12 @@ def test_measures_use_catalogue_codes_and_extensions():
                     "effective_dtg_start": "181200ZAPR26",
                     "grid_or_coords": area,
                     "remarks": "No fires without approval.",
+                },
+                {
+                    "type": "CFZ",
+                    "name": "CFZ ONE",
+                    "effective_dtg_start": "181200ZAPR26",
+                    "grid_or_coords": area,
                 },
                 {
                     "type": "SFA",
@@ -422,24 +433,36 @@ def test_measures_use_catalogue_codes_and_extensions():
     by_name = {v["name"]: v for v in cm.values()}
     assert by_name["PL DAGGER"]["type"] == "PL"
     assert by_name["OBJ SWORD"]["type"] == "OBJ"
-    assert (
-        by_name["AXIS ONE"]["type"] == c.MEASURE_NAMESPACE
-    )  # AXIS has no catalogue code yet
-    assert by_name["AXIS ONE"]["extensions"][c.MEASURE_NAMESPACE]["code"] == "AXIS"
+    # AXIS and CFZ are catalogue codes since 0.2.0-draft.1
+    assert by_name["AXIS ONE"]["type"] == "AXIS"
+    assert by_name["AXIS ONE"]["geometry"]["kind"] == "polygon"
+    assert by_name["AXIS LINE"]["type"] == c.MEASURE_NAMESPACE  # a trace is no area
+    assert by_name["AXIS LINE"]["extensions"][c.MEASURE_NAMESPACE]["code"] == "AXIS"
+    assert by_name["CFZ ONE"]["type"] == "CFZ"
     assert by_name["RFZ ONE"]["type"] == "RFA"  # RFZ -> RFA
     assert by_name["RFZ ONE"]["restrictions"] == ["No fires without approval."]
     assert by_name["SFA ONE"]["type"] == c.MEASURE_NAMESPACE
     assert by_name["SFA ONE"]["extensions"][c.MEASURE_NAMESPACE]["code"] == "SFA"
     assert by_name["CFL ONE"]["type"] == "CFL"
-    assert by_name["SAR NORTH"]["extensions"][c.MEASURE_NAMESPACE]["code"] == "SARDOT"
+    # SAR is the catalogue's Search and Rescue Point: a POINT with the search_and_rescue role
+    sar = by_name["SAR NORTH"]
+    assert (sar["type"], sar["roles"]) == ("POINT", ["search_and_rescue"])
+    assert sar["altitude"]["upper"]["value"] == 5000 and "position" in sar
+    assert c.MEASURE_NAMESPACE not in sar.get("extensions", {})
     assert by_name["ROZ HAMMER"]["type"] == "ROZ"
     assert by_name["ROZ HAMMER"]["components"][0]["geometry"]["kind"] == "circle"
     # the OPORD names them by identifier
     c_annex = bundle.opord["annexes"]["C"]
-    assert c_annex["operation_overlay"] == ["pl-dagger", "axis-one", "obj-sword"]
+    assert c_annex["operation_overlay"] == [
+        "pl-dagger",
+        "axis-one",
+        "axis-line",
+        "obj-sword",
+    ]
     assert c_annex["airspace"]["measures"] == ["sar-north", "roz-hammer"]
     assert bundle.opord["annexes"]["D"]["fire_support_coordination_measures"] == [
         "rfz-one",
+        "cfz-one",
         "sfa-one",
         "cfl-one",
     ]
@@ -526,7 +549,7 @@ def test_example_full_targeting_is_typed():
     first = b.jiptl["targets"][0]
     assert first["target_number"] == "TGT 0042" and first["priority_rank"] == 1
     assert (
-        first["desired_effect"] == "NEUTRALIZE"
+        first["desired_effect"] == "neutralize"
         and first["location_mgrs"] == "32UMA123456"
     )
     assert first["authorized_engagement_means"][0] == {
@@ -609,3 +632,258 @@ def test_retired_target_documents_are_gone():
         assert kind not in DATA_SOURCE_REGISTRY
         assert not (ROOT / "schemas" / f"{kind}.schema.json").exists()
     assert not (EXAMPLES / "data_sources" / "fires").exists()
+
+
+# --------------------------------------------------------------------------- 0.2 gameplay fields
+
+
+def _nine_line(**changes):
+    line = {
+        "ip_or_bp": "IP ALPHA",
+        "heading_magnetic": 88,
+        "heading_offset": "L",
+        "distance_nm": 15.0,
+        "target_elevation_ft": 1740,
+        "target_description": "2x T-72 in a tree line",
+        "target_location": "32UMA1245645456",
+        "mark_type": "IR_POINTER",
+        "laser_code": "1688",
+        "friendlies_distance_m": 850,
+        "friendlies_direction": "SW",
+        "friendlies_marking": "ir strobe",
+        "egress": "SOUTH LOW",
+        "final_attack_heading": 90,
+        "time_on_target": "190500ZAPR26",
+        "time_to_target_min": 12,
+        "type_of_control": "TYPE_2",
+        "control_agency": "DAGGER 11",
+        "cas_callsign": "VIPER 11",
+        "threats": ["SA-13", "MANPADS"],
+        "hazards": ["Wires on the final"],
+        "danger_close": True,
+        "ground_commander_initials": "T.M.",
+        "remarks": "Abort code THUNDER.",
+    }
+    line.update(changes)
+    return line
+
+
+def _cas_model(*lines):
+    return mini(
+        annexes=[
+            {
+                "letter": "D",
+                "typed_body": {"letter": "D", "cas_nine_lines": list(lines)},
+            }
+        ]
+    )
+
+
+def test_nine_line_cas_is_typed_as_a_cas_brief():
+    model = _cas_model(_nine_line())
+    bundle = to_openaix(model)
+    (brief,) = bundle.opord["annexes"]["D"]["air_support"]["cas_briefs"]
+    assert brief["id"] == "cas-1"
+    assert brief["heading"] == {"value": 88, "reference": "magnetic"}
+    assert brief["offset_direction"] == "left"
+    assert brief["distance"] == {"value": 15.0, "unit": "nm"}
+    assert brief["target_elevation"] == {
+        "value": 1740,
+        "reference": "MSL",
+        "unit": "ft",
+    }
+    assert brief["mark"] == "infrared_pointer"  # was `infrared` before 0.2
+    assert brief["laser_code"] == "1688"
+    assert brief["friendly_distance"] == {"value": 850, "unit": "m"}
+    assert brief["friendly_direction"] == "south_west"
+    assert brief["friendly_marking"] == "infrared_strobe"
+    assert brief["final_attack_headings"] == [
+        {
+            "start_bearing": {"value": 90, "reference": "magnetic"},
+            "end_bearing": {"value": 90, "reference": "magnetic"},
+        }
+    ]
+    assert brief["time_on_target"] == "2026-04-19T05:00:00Z"
+    assert brief["time_to_target_seconds"] == 720
+    assert brief["control_type"] == "type_2"
+    assert brief["danger_close"] is True
+    assert brief["remarks"] == "Abort code THUNDER."
+    assert brief["hazards"] == [{"kind": "other", "description": "Wires on the final"}]
+    threats = bundle.resources["resources"]["threats"]
+    assert [threats[t]["name"] for t in brief["threats"]] == ["SA-13", "MANPADS"]
+    assert validate(bundle.opord) == [] and validate(bundle.resources) == []
+    # what has no typed home stays in the authoring overlay; the rest does not
+    stash = bundle.opord["extensions"]["org.opord-builder.authoring"]["annexes.0"]
+    prefix = "annexes.0.typed_body.cas_nine_lines.0."
+    assert {k.removeprefix(prefix) for k in stash if k.startswith(prefix)} == {
+        "ip_or_bp",
+        "egress",
+        "control_agency",
+        "cas_callsign",
+        "ground_commander_initials",
+    }
+    assert from_openaix(bundle.opord, bundle.resources, carry=False)[0] == model
+
+
+@pytest.mark.parametrize("mark", ["NONE", "GOGGLES"])
+def test_cas_mark_without_an_openaix_value_is_left_out_and_survives(mark):
+    model = _cas_model(_nine_line(mark_type=mark, laser_code=None))
+    bundle = to_openaix(model)
+    (brief,) = bundle.opord["annexes"]["D"]["air_support"]["cas_briefs"]
+    assert "mark" not in brief  # no `none` value: absent means no mark
+    stash = bundle.opord["extensions"]["org.opord-builder.authoring"]["annexes.0"]
+    assert stash["annexes.0.typed_body.cas_nine_lines.0.mark_type"] == mark
+    assert from_openaix(bundle.opord, bundle.resources, carry=False)[0] == model
+
+
+def test_cas_values_that_do_not_fit_stay_in_the_overlay():
+    line = _nine_line(
+        laser_code="1999",
+        friendlies_marking="red smoke and a panel",
+        friendlies_direction="NNE",
+    )
+    model = _cas_model(line)
+    bundle = to_openaix(model)
+    (brief,) = bundle.opord["annexes"]["D"]["air_support"]["cas_briefs"]
+    assert not {"laser_code", "friendly_marking", "friendly_direction"} & set(brief)
+    assert validate(bundle.opord) == []
+    assert from_openaix(bundle.opord, bundle.resources, carry=False)[0] == model
+
+
+def test_cas_without_an_mgrs_location_stays_whole_in_the_overlay():
+    model = _cas_model(_nine_line(), _nine_line(target_location="the bridge"))
+    bundle = to_openaix(model)
+    assert "air_support" not in bundle.opord.get("annexes", {}).get("D", {})
+    assert from_openaix(bundle.opord, bundle.resources, carry=False)[0] == model
+
+
+def test_cas_threats_are_shared_between_briefs():
+    model = _cas_model(_nine_line(), _nine_line(target_location="32UMA1300045456"))
+    bundle = to_openaix(model)
+    briefs = bundle.opord["annexes"]["D"]["air_support"]["cas_briefs"]
+    assert briefs[0]["threats"] == briefs[1]["threats"]
+    assert len(bundle.resources["resources"]["threats"]) == 2
+    assert from_openaix(bundle.opord, bundle.resources, carry=False)[0] == model
+
+
+def test_cas_brief_from_openaix_reads_the_new_fields():
+    doc = json.loads((MAXIMAL / "opord.json").read_text())
+    res = json.loads((MAXIMAL / "resources.json").read_text())
+    model, warns = from_openaix(doc, res, carry=False)
+    briefs = doc["annexes"]["D"]["air_support"]["cas_briefs"]
+    # the example briefs lack the fields the authoring model requires (IP, egress): skipped with a warning
+    assert briefs and any("cas_nine_lines" in w for w in warns)
+    d = next(a for a in model.annexes if a.letter == "D")
+    assert not getattr(d.typed_body, "cas_nine_lines", [])
+
+
+def test_jpitl_enums_are_lower_case_in_openaix():
+    model = load_opord(EXAMPLES / "example_full.yaml")
+    b = to_openaix(model)
+    for t in b.jiptl["targets"]:
+        assert t["status"] == t["status"].lower()
+        assert t["desired_effect"] == t["desired_effect"].lower()
+        assert t.get("component_tasked", "x") == t.get("component_tasked", "x").lower()
+    back, _ = from_openaix(b.opord, b.resources, b.jiptl, carry=False)
+    assert back == model
+    original = [
+        e.status for a in model.annexes if a.letter == "D" for e in a.typed_body.jpitl
+    ]
+    assert original and all(s.isupper() for s in original)  # authoring keeps upper case
+
+
+def test_jpitl_component_io_has_no_openaix_value_and_stays_in_the_overlay():
+    model = load_opord(EXAMPLES / "example_full.yaml")
+    data = model.model_dump(mode="json", exclude_unset=True, exclude_none=True)
+    d = next(a for a in data["annexes"] if a["letter"] == "D")
+    d["typed_body"]["jpitl"][0]["component_tasked"] = "IO"
+    model = OPORD.model_validate(data)
+    b = to_openaix(model)
+    assert "component_tasked" not in b.jiptl["targets"][0]
+    assert validate(b.jiptl) == []
+    assert from_openaix(b.opord, b.resources, b.jiptl, carry=False)[0] == model
+
+
+def test_classification_caveat_is_typed_in_the_closed_print_extension():
+    model = mini(header__classification_caveat="REL TO USA, FVEY")
+    doc = to_openaix(model).opord
+    ext = doc["extensions"]["org.opord-builder.print"]
+    assert ext["classification_caveat"] == "REL TO USA, FVEY"
+    allowed = set(schemas()["opord"]["$defs"]["PrintExtension"]["properties"])
+    assert set(ext) <= allowed  # the extension is closed in 0.2
+    assert from_openaix(doc, carry=False)[0] == model
+
+
+def test_sar_zone_is_the_catalogue_sardot_point():
+    zone = {
+        "name": "SAR NORTH",
+        "kind": "SAR",
+        "anchor_point": "32UPU1000010000",
+        "radius_nm": 5.0,
+        "altitude_floor_ft": 0,
+        "altitude_ceiling_ft": 5000,
+        "purpose": "Rescue.",
+    }
+    model = _zones_model(zone)
+    bundle = to_openaix(model)
+    doc = next(iter(bundle.resources["resources"]["control_measures"].values()))
+    assert doc["type"] == "POINT" and doc["roles"] == ["search_and_rescue"]
+    assert doc["altitude"] == {
+        "lower": {"value": 0, "unit": "ft", "reference": "MSL"},
+        "upper": {"value": 5000, "unit": "ft", "reference": "MSL"},
+    }
+    assert doc["description"] == "Rescue."
+    assert c.MEASURE_NAMESPACE not in doc.get("extensions", {})
+    # the radius has no field on a point: it rides in the authoring overlay
+    stash = bundle.opord["extensions"]["org.opord-builder.authoring"]["annexes.0"]
+    assert (
+        stash["annexes.0.typed_body.airspace_control.airspace_zones.0.radius_nm"] == 5.0
+    )
+    assert from_openaix(bundle.opord, bundle.resources, carry=False)[0] == model
+
+
+def test_sar_zone_without_an_anchor_point_stays_an_extension_measure():
+    zone = {
+        "name": "SAR CORRIDOR",
+        "kind": "SAR",
+        "polygon_vertices": ["32UPU1000010000", "32UPU1000020000", "32UPU2000020000"],
+        "altitude_floor_ft": 0,
+        "altitude_ceiling_ft": 5000,
+        "purpose": "Rescue.",
+    }
+    model = _zones_model(zone)
+    bundle = to_openaix(model)
+    doc = next(iter(bundle.resources["resources"]["control_measures"].values()))
+    assert doc["type"] == c.MEASURE_NAMESPACE
+    assert doc["extensions"][c.MEASURE_NAMESPACE]["code"] == "SARDOT"
+    assert from_openaix(bundle.opord, bundle.resources, carry=False)[0] == model
+
+
+def _zones_model(*zones):
+    return mini(
+        annexes=[
+            {
+                "letter": "C",
+                "typed_body": {
+                    "letter": "C",
+                    "airspace_control": {"airspace_zones": list(zones)},
+                },
+            }
+        ]
+    )
+
+
+def test_anchor_georef_uses_the_anchor_point_role():
+    ref = {"name": "ANCHOR ONE", "kind": "ANCHOR", "coordinates": "32UPU1000010000"}
+    model = mini(
+        annexes=[
+            {
+                "letter": "C",
+                "typed_body": {"letter": "C", "airspace_control": {"geo_refs": [ref]}},
+            }
+        ]
+    )
+    bundle = to_openaix(model)
+    doc = next(iter(bundle.resources["resources"]["control_measures"].values()))
+    assert doc["roles"] == ["anchor"]
+    assert from_openaix(bundle.opord, bundle.resources, carry=False)[0] == model

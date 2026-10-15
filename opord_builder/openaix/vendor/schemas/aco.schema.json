@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:aco:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:aco:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "An airspace control order (ACO) is an order that activates or deactivates control measures for a specified period. It also gives the function and the restrictions of each control measure that it refers to.",
@@ -73,7 +73,7 @@
           "control_points": {
             "description": "This list identifies the reference points, control points or rendezvous points that this assignment uses. Their coordinates stay in the catalogue of control measures. This field agrees with the `CNTRLPT` set of the airspace control means request (ACMREQ) message in AJP-3.3.5 Annex C. OpenAIX does not tell that the order agrees fully with the airspace control order (ACO) message standard.",
             "items": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
               "x-measure-kinds": [
                 "POINT",
                 "NAVAID"
@@ -84,26 +84,26 @@
             "uniqueItems": true
           },
           "controlling_agency": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "description": "This field identifies the agency that controls the control measure during this assignment. The standing agency of the control measure does not change. This field agrees with the `CONTAUTH` set of the airspace control means request (ACMREQ) message in AJP-3.3.5 Annex C. OpenAIX does not tell that the order agrees fully with the airspace control order (ACO) message standard.",
             "x-catalog": "agencies"
           },
           "effective": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Window",
             "description": "This field gives the time interval during which this assignment is in effect. The interval is in the order period. This field agrees with the `APERIOD` set of the airspace control means request (ACMREQ) message in AJP-3.3.5 Annex C. OpenAIX does not tell that the order agrees fully with the airspace control order (ACO) message standard."
           },
           "entry_route": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "description": "This field identifies the route that aircraft use to go into the holding pattern of the assignment.",
             "x-catalog": "routes"
           },
           "exit_route": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "description": "This field identifies the route that aircraft use to go out of the holding pattern of the assignment.",
             "x-catalog": "routes"
           },
           "extensions": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
             "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
           },
           "killbox_status": {
@@ -114,7 +114,7 @@
             ]
           },
           "measure": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "description": "This field identifies the control measure that this assignment is for. This field agrees with the `ACMID` set of the airspace control means request (ACMREQ) message in AJP-3.3.5 Annex C. OpenAIX does not tell that the order agrees fully with the airspace control order (ACO) message standard.",
             "x-catalog": "control_measures"
           },
@@ -199,7 +199,7 @@
       "type": "array"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "instructions": {
@@ -216,30 +216,30 @@
       "description": "The value identifies this record as an airspace control order (ACO)."
     },
     "meta": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Metadata",
       "description": "This field gives the identification, revision and issue data of this airspace control order (ACO)."
     },
     "period": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Period",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Period",
       "description": "This field gives the time interval during which the order is in effect. Each assignment is in this interval."
     },
     "references": {
       "description": "This list contains the coordination documents for the order, such as the airspace control plan, the air tasking order (ATO) or the special instructions (SPINS).",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef"
       },
       "type": "array"
     },
     "resources": {
-      "$ref": "urn:openaix:schema:resources:0.1.0-draft.2#/$defs/ResourceData",
+      "$ref": "urn:openaix:schema:resources:0.2.0-draft.1#/$defs/ResourceData",
       "description": "This field contains a resource catalogue in the order. The catalogue resolves the references to control measures, agencies, channels and routes of the order. The order shall have `resources` or `resources_ref`, but not the two fields."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the external resource catalogue that resolves the references of the order. More than one document can use the same catalogue. The reference identifies the catalogue and gives its revision. The order shall have `resources` or `resources_ref`, but not the two fields."
     },
     "schema_version": {
-      "const": "0.1.0-draft.2",
+      "const": "0.2.0-draft.1",
       "description": "This field gives the version of the openAIX schema that this airspace control order (ACO) agrees with."
     }
   },

@@ -60,7 +60,7 @@ def test_registry_has_every_id_and_fails_unresolved():
 
 def test_vendor_sha256_matches():
     manifest = _load(VENDOR_DIR / "VENDOR.json")
-    assert manifest["version"] == "0.1.0-draft.2"
+    assert manifest["version"] == "0.2.0-draft.1"
     assert len(manifest["commit"]) == 40
     assert manifest["files"]
     for rel, digest in manifest["files"].items():

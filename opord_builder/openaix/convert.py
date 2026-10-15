@@ -513,6 +513,21 @@ ENUMS: dict[str, dict[str, str]] = {
         "DENY": "deny",
         "DIVERT": "divert",
     },
+    "jpitl_status": {
+        "APPROVED": "approved",
+        "PENDING": "pending",
+        "DENIED": "denied",
+        "EXECUTED": "executed",
+        "EXPIRED": "expired",
+    },
+    "target_component": {
+        "LAND": "land",
+        "AIR": "air",
+        "MARITIME": "maritime",
+        "SOF": "sof",
+        "CYBER": "cyber",
+        "SPACE": "space",
+    },  # IO has no OpenAIX value
     "target_timing": {
         "Immediate": "immediate",
         "Planned": "planned",
@@ -521,12 +536,11 @@ ENUMS: dict[str, dict[str, str]] = {
     "cas_control_type": {"TYPE_1": "type_1", "TYPE_2": "type_2", "TYPE_3": "type_3"},
     "cas_mark": {
         "LASER": "laser",
-        "IR_POINTER": "infrared",
+        "IR_POINTER": "infrared_pointer",
         "SMOKE": "smoke",
         "WP": "white_phosphorus",
         "FLARE": "illumination",
-        "NONE": "none",
-    },  # GOGGLES has no OpenAIX value
+    },  # NONE (the mark is simply absent) and GOGGLES have no OpenAIX value
     "coa_designation": {
         "MLCOA": "most_likely",
         "MDCOA": "most_dangerous",
@@ -546,7 +560,28 @@ ENUMS: dict[str, dict[str, str]] = {
         "GSR": "general_support_reinforcing",
         "R": "reinforcing",
     },
-    "refueling_method": {},  # TODO(openaix feat/gameplay-fields): BOOM/DROGUE/BOTH have no draft.2 enum
+    "refueling_method": {"BOOM": "boom", "DROGUE": "drogue", "BOTH": "both"},
+    "cas_friendly_direction": {
+        "N": "north",
+        "NE": "north_east",
+        "E": "east",
+        "SE": "south_east",
+        "S": "south",
+        "SW": "south_west",
+        "W": "west",
+        "NW": "north_west",
+    },
+    "cas_offset": {"L": "left", "R": "right"},
+    # Matched case-insensitively; any other wording stays in the authoring overlay.
+    "friendly_marking": {
+        "panel": "panel",
+        "smoke": "smoke",
+        "mirror": "mirror",
+        "strobe": "strobe",
+        "ir strobe": "infrared_strobe",
+        "chemlight": "chemical_light",
+        "flare": "flare",
+    },
 }
 
 
@@ -571,8 +606,9 @@ def unmap_enum(enum: str, value: str, field: str | None = None) -> str:
 
 # --------------------------------------------------------------------------- control measures
 
-# Local aliases in addition to the catalogue's own (HIMEZ, LOMEZ, ROA, SHORADEZ).
-_LOCAL_ALIASES = {"SAFE": "SAFES", "RFZ": "RFA", "SAR": "SARDOT"}
+# Local alias in addition to the catalogue's own aliases (HIMEZ, LOMEZ, ROA, SHORADEZ) and its `code_mappings`
+# for opord-builder (RFZ -> RFA, SAR -> SARDOT).
+_LOCAL_ALIASES = {"SAFE": "SAFES"}
 # Kinds with no catalogue code that OpenAIX itself validates as measures.
 CANONICAL_KINDS = {
     "POINT": "arm",
@@ -581,10 +617,9 @@ CANONICAL_KINDS = {
     "AIRWAY": "atcm",
     "NAVAID": "atcm",
 }
-# No catalogue code at the vendored commit. SFA stays an opord-builder extension permanently (user decision).
-# TODO(openaix feat/gameplay-fields): AXIS and CFZ may gain codes; SARDOT is not yet in the catalogue, so SAR falls
-# back to an extension measure with code SARDOT until it is (the lookup below prefers the catalogue automatically).
-EXTENSION_MEASURES = ("AXIS", "CFZ", "SFA", "SARDOT")
+# No catalogue code at the vendored commit (`code_mappings` maps SFA to null). SFA stays an opord-builder extension
+# permanently (user decision); AXIS, CFZ and SARDOT are catalogue codes since 0.2.0-draft.1.
+EXTENSION_MEASURES = ("SFA",)
 
 
 @cache
@@ -601,7 +636,8 @@ def _catalogue() -> dict[str, Any]:
 def measure_type(code: str, field: str = "type") -> dict[str, Any]:
     """Authoring measure code -> {code, schema, category, values, alias_of, extension, namespace}.
 
-    Exact-case lookup: catalogue codes, then catalogue aliases, then SAFE, then extension fallback. `values` are
+    Exact-case lookup: catalogue codes, then catalogue aliases, then the catalogue's opord-builder `code_mappings`,
+    then SAFE, then extension fallback. `values` are
     field values an alias implies (HIMEZ -> {"mez_kind": "high"})."""
     cat = _catalogue()
     types = {t["code"]: t for t in cat["types"]}
@@ -613,6 +649,10 @@ def measure_type(code: str, field: str = "type") -> dict[str, Any]:
         resolved, values, alias_of = alias["code"], dict(alias.get("values", {})), code
     elif code in _LOCAL_ALIASES:
         resolved, alias_of = _LOCAL_ALIASES[code], code
+    elif (cat.get("code_mappings", {}).get("opord-builder", {}).get(code) or {}).get(
+        "code"
+    ):
+        resolved, alias_of = cat["code_mappings"]["opord-builder"][code]["code"], code
     if resolved in types:
         t = types[resolved]
         return {

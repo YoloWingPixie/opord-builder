@@ -1,8 +1,8 @@
 {
-  "$schema": "urn:openaix:schema:opord:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:opord:0.2.0-draft.1",
   "kind": "opord",
   "mission": {
     "statement": "OIR air forces destroy the Cobalt compound on 2 October 2026 between 1300Z and 1500Z to train a coordinated strike, counterair, CAS and rescue package."
   },
-  "schema_version": "0.1.0-draft.2"
+  "schema_version": "0.2.0-draft.1"
 }

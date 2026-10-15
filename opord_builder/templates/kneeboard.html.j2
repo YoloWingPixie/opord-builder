@@ -398,6 +398,33 @@
     </div>
     {% endif %}
 
+    {# ── TIMING ── #}
+    {% if card.timing and (card.timing.tot or card.timing.push or card.timing.push_point) %}
+    <div class="kb-section accent-red">
+      <div class="kb-label">Timing</div>
+      <div class="kb-tacan-grid">
+        {% if card.timing.tot %}
+        <div class="kb-tacan-item">
+          <div class="tacan-sub">TOT</div>
+          <div class="tacan-val">{{ card.timing.tot }}</div>
+        </div>
+        {% endif %}
+        {% if card.timing.push %}
+        <div class="kb-tacan-item">
+          <div class="tacan-sub">Push</div>
+          <div class="tacan-val">{{ card.timing.push }}</div>
+        </div>
+        {% endif %}
+        {% if card.timing.push_point %}
+        <div class="kb-tacan-item">
+          <div class="tacan-sub">Push point</div>
+          <div class="tacan-val">{{ card.timing.push_point }}</div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
     {# ── PRIMARY OBJECTIVES ── #}
     {% if card.primary_objectives %}
     <div class="kb-section">

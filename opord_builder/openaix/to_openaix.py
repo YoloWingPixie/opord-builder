@@ -12,9 +12,12 @@ tree with `parent`, relationships in annex A), mission statement, the area of op
 most-likely / most-dangerous courses of action, higher headquarters (one and two up), assumptions, commander's
 intent purpose / key tasks / end state summary, concept of operations summary, scheme summaries, coordinating
 instructions (effective time, PIR, FFIR, EEFI, ROE, other), tasks to subordinate units (when every unit is in the
-task organization), the signal summary, annex summaries (annex `body`) and the annex status map, authentication and
-acknowledgement, control measures (Annex C control_measures and airspace_control, Annex D FSCMs) as
-`resources.control_measures`, frequency-table rows as `resources.channels`.
+task organization), the signal summary, annex summaries (annex `body`), authentication and acknowledgement,
+control measures (Annex C control_measures and airspace_control, Annex D FSCMs) as `resources.control_measures`
+(SAR zones as the catalogue's SARDOT point; AXIS, CFZ and RFA / RFZ by catalogue code), frequency-table rows as
+`resources.channels`, JPITL entries (lower-case OpenAIX enums), time-sensitive and high-payoff targets, and the 9-line
+CAS briefs (Annex D `cas_nine_lines`) as `annexes.D.air_support.cas_briefs` with their threats in `resources.threats`.
+The annex status map (`@annex_status`) rides in the authoring extension: the print extension is closed in 0.2.
 
 Authoring overlay (no typed OpenAIX home, or a faithful structure would be disproportionate):
   * header.task_organization_note and header.references[].description
@@ -23,13 +26,17 @@ Authoring overlay (no typed OpenAIX home, or a faithful structure would be dispr
   * execution: end-state friendly / enemy / terrain / civil, CONOPS maneuver / decisive / shaping / sustaining /
     reserve / fires, every other scheme, stability, assessment, the coordinating instructions that have no typed
     field (FSCM, ACM, risk, personnel recovery, environmental, themes, CEMA, time line, movement, R&S, orders group,
-    rehearsal), and the callsign / purpose / priorities of each subordinate-unit task
+    rehearsal), and the callsign / purpose / priorities of each subordinate-unit task. The authoring weather is free
+    text, so WeatherForecast altimeter, clouds and winds aloft have nothing to type; they are read on import only
+    (the kneeboard builder takes the altimeter from them).
   * sustainment (all), command_and_signal except the signal summary, authentication.distribution
   * annexes: title when not canonical, appendices (bodies, frequency-table titles), distribution lists, call-sign
-    groups, every typed_body except the measures above (phases, decision points, JPITL, TST, HPT, CAS, CDE, ...)
+    groups, every typed_body except the measures, targeting and CAS briefs above (phases, decision points, CDE, ...)
+    and, inside a CAS brief, the IP / BP, egress, control agency, CAS callsign and ground commander's initials
   * measures: every field the measure document cannot carry (orbit geometry, tanker types, AWACS orbits, AIC
     sectors, radio frequencies of a track, engagement rules, TACAN, ...). Items that no catalogue schema accepts
-    (DZ, LZ, PZ, MRR, CFZ, SFA, SAR/SARDOT, AXIS, OTHER, AAR/CAP orbit detail) are extension measures in namespace
+    (DZ, LZ, PZ, MRR, SFA, OTHER, AAR/CAP orbit detail; a SAR zone with no single anchor point; an AXIS or CFZ that is
+    not an area) are extension measures in namespace
     `org.opord-builder.measure` with the original code.
   * kneeboards, openaix (file references) and any value whose reverse conversion is not exact (for example a
     frequency written `251.000`, an upper-case relationship such as `OPCON`).
@@ -81,6 +88,7 @@ RESOURCES_OWNED_PATHS = [
     "/resources/control_measures",
     "/resources/channels",
     "/resources/targets",
+    "/resources/threats",
 ]
 # The same for the `jiptl` document (JPITL entries of Annex D).
 JIPTL_OWNED_PATHS = ["/$schema", "/kind", "/schema_version", "/meta", "/targets"]

@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:airfield:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:airfield:0.2.0-draft.1",
   "id": "cvn-72",
   "kind": "carrier",
   "name": "USS Abraham Lincoln",
@@ -7,6 +7,12 @@
   "carrier": {
     "hull_number": "CVN-72",
     "icls_channel": 11,
+    "link4": {"value": 335.4, "unit": "MHz"},
+    "acls": true,
+    "recovery_windows": [
+      {"case": "case_i", "window": {"start": "2026-10-02T13:00:00Z", "end": "2026-10-02T14:00:00Z"}, "brc": {"value": 90, "reference": "magnetic"}},
+      {"case": "case_iii", "window": {"start": "2026-10-02T14:00:00Z", "end": "2026-10-02T15:00:00Z"}}
+    ],
     "tacan": {"channel": 72, "band": "X", "identifier": "ABE"},
     "case_recovery": {
       "case": "case_iii",

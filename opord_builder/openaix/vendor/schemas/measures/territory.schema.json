@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:territory:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:territory:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A territory is a land area with an affiliation: friendly, hostile or neutral. The required shape gives the boundary, and it has priority over the country codes. Thus a territory can be in a real, a historic or a fictional world. Without vertical limits, a territory runs from the surface with no upper limit.",
@@ -9,7 +9,7 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this territory is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "affiliation": {
@@ -40,7 +40,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -109,25 +109,25 @@
       "description": "This field gives the horizontal geometry of the territory: a polygon or a GeoJSON polygon or multipolygon (RFC 7946).",
       "oneOf": [
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_polygon"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_rectangle"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_ellipse"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_geojson_polygon"
         }
       ]
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this territory. Other records and orders use it to refer to this territory."
     },
     "lower_limit": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/VerticalLimit",
       "description": "This field gives the floor of the territory: an altitude with its reference, or the surface. This field is optional; without it, the floor is the surface."
     },
     "name": {
@@ -140,7 +140,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this territory. The reference gives the identifier and the revision of the catalogue."
     },
     "type": {
@@ -148,7 +148,7 @@
       "description": "The value identifies this record as a territory. The value is the same for all territories."
     },
     "upper_limit": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/VerticalLimit",
       "description": "This field gives the ceiling of the territory: an altitude with its reference, or no limit. This field is optional; without it, the territory has no upper limit."
     }
   },

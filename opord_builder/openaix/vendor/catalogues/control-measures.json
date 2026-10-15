@@ -44,7 +44,25 @@
       }
     }
   },
-  "schema_version": "0.1.0-draft.2",
+  "code_mappings": {
+    "description": "Codes of other applications that openAIX does not catalogue. Each maps to a catalogue code. These are not doctrinal synonyms: no first-party publication defines them, so they have no source text.",
+    "opord-builder": {
+      "RFZ": {
+        "code": "RFA",
+        "note": "RFZ is the opord-builder spelling of the Restricted Fire Area (RFA); no first-party publication defines a restricted fire zone."
+      },
+      "SAR": {
+        "code": "SARDOT",
+        "note": "SAR is the opord-builder airspace zone kind for search and rescue; the first-party measure is the Search and Rescue Point (SARDOT)."
+      },
+      "SFA": {
+        "code": null,
+        "note": "SFA (`Sensitive Fire Area` in opord-builder) has no first-party definition and no catalogue code. Carry it as extension data of opord-builder; the opord-builder namespace of openAIX (`org.opord-builder.print`) holds print data only and has no place for measure codes."
+      }
+    },
+    "source": "opord-builder-fscm"
+  },
+  "schema_version": "0.2.0-draft.1",
   "types": [
     {
       "category": "mcm",
@@ -72,7 +90,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Assembly Area",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -95,7 +113,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Air-to-Air Refuelling Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -119,7 +137,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Airspace Coordination Area",
-      "schema": "urn:openaix:schema:measure-aca:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-aca:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -142,7 +160,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Airspace Control Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -165,7 +183,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Airborne Command and Control Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "arm",
@@ -182,7 +200,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -205,7 +223,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Air Defence Identification Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -235,7 +253,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Air Defense Sector",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -250,7 +268,7 @@
         "airway_type": "advisory",
         "type": "AIRWAY"
       },
-      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airway:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -273,7 +291,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Airborne Early Warning Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -289,7 +307,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Air Corridor",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -307,7 +325,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Air Route",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -330,7 +348,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Altitude Reservation",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -351,7 +369,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Amphibious Objective Area",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -372,7 +390,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Area of Responsibility",
-      "schema": "urn:openaix:schema:measure-aor:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-aor:0.2.0-draft.1"
     },
     {
       "category": "mdm",
@@ -387,7 +405,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Approach Corridor",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -402,7 +420,7 @@
         "airway_type": "airway",
         "type": "AIRWAY"
       },
-      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airway:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -417,7 +435,43 @@
         "airway_type": "air_traffic_services",
         "type": "AIRWAY"
       },
-      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airway:0.2.0-draft.1"
+    },
+    {
+      "category": "mcm",
+      "code": "AXIS",
+      "definition": "An axis of advance is the general area through which the bulk of the combat power of a unit must move. A commander uses it to make the force bypass locations that could delay it. It also shows that the force does not have to clear all of the assigned area. It shows a unit in an encirclement, exploitation or pursuit that it must move quickly toward an objective. Bypass criteria go with it. Any manoeuvre echelon can use one. The axis of a subordinate unit stays inside the axis of its higher headquarters.",
+      "definition_source": {
+        "locator": "Appendix A, paragraph A-48, page A-15",
+        "note": "This code is not in AJP-3.3.5 Annex B. Its measure category is `mcm`, the manoeuvre control measures of Annex B. It is with the movement control measures in FM 3-90 (2023) Appendix A.",
+        "references": [
+          {
+            "locator": "Chapter 3, paragraph 3-24, page 3-4",
+            "source": "army-adp-3-90-2019"
+          },
+          {
+            "locator": "Glossary, page 8",
+            "source": "army-fm-1-02-1-2026"
+          },
+          {
+            "locator": "Table 5-9, page 186",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-fm-3-90-2023"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Axis of Advance",
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "fscm",
@@ -441,7 +495,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Battlefield Coordination Line",
-      "schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-fire-support-line:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -464,7 +518,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Base Defence Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -492,7 +546,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Boundary",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -524,7 +578,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Battle Position",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "arm",
@@ -549,7 +603,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "arm",
@@ -572,7 +626,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Buffer Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -599,7 +653,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Coordinating Altitude",
-      "schema": "urn:openaix:schema:measure-cl:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-cl:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -622,7 +676,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Coordinated Air Defence Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -645,7 +699,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Cross-Border Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "mdm",
@@ -668,7 +722,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Carrier Control Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -683,7 +737,7 @@
         "airway_type": "conditional",
         "type": "AIRWAY"
       },
-      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airway:0.2.0-draft.1"
     },
     {
       "category": "fscm",
@@ -699,7 +753,39 @@
       ],
       "geometry_path": "geometry",
       "name": "Coordinated Fire Line",
-      "schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-fire-support-line:0.2.0-draft.1"
+    },
+    {
+      "category": "fscm",
+      "code": "CFZ",
+      "definition": "A critical friendly zone is an area of friendly weapons locating radar coverage that a commander designates. It is critical to the protection of an asset. The loss of that asset would seriously jeopardize the mission. The zone needs weapons locating radar coverage and attack assets that can give counterfire. The supporting field artillery unit puts enemy indirect fire that the radar acquires into the zone ahead of all other counterfire targets.",
+      "definition_source": {
+        "locator": "Appendix B, paragraph B-62, page B-20",
+        "note": "This code is not in AJP-3.3.5 Annex B. FM 3-09 Appendix B gives it as a fire support coordination measure for radar zones. FM 1-02.1 glossary wording differs slightly ('weapons location radar').",
+        "references": [
+          {
+            "locator": "Glossary, page 24",
+            "source": "army-fm-1-02-1-2026"
+          },
+          {
+            "locator": "Chapter 5, critical friendly zone symbol, page 232",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "army-fm-3-09-2024"
+      },
+      "geometries": [
+        "polygon",
+        "circle",
+        "polyarc",
+        "rectangle",
+        "ellipse",
+        "geojson:Polygon",
+        "geojson:MultiPolygon"
+      ],
+      "geometry_path": "geometry",
+      "name": "Critical Friendly Zone",
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -714,7 +800,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Coordination Level",
-      "schema": "urn:openaix:schema:measure-cl:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-cl:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -741,7 +827,7 @@
         "airspace_type": "ClassA",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -768,7 +854,7 @@
         "airspace_type": "ClassB",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -795,7 +881,7 @@
         "airspace_type": "ClassC",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -822,7 +908,7 @@
         "airspace_type": "ClassD",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -850,7 +936,7 @@
         "airspace_type": "ClassE",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -877,7 +963,7 @@
         "airspace_type": "ClassF",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -904,7 +990,7 @@
         "airspace_type": "ClassG",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "mdm",
@@ -927,7 +1013,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Crossover Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "arm",
@@ -944,7 +1030,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -971,7 +1057,7 @@
         "airspace_type": "CTA",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -998,7 +1084,7 @@
         "airspace_type": "CTR",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -1025,7 +1111,7 @@
         "airspace_type": "Danger",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1048,7 +1134,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Drop Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1070,7 +1156,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Engagement Area",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1093,7 +1179,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Electromagnetic Combat",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "arm",
@@ -1110,7 +1196,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1133,7 +1219,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Force Air Coordination Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1149,7 +1235,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Forward Edge of the Battle Area",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -1172,7 +1258,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Fighter Engagement Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "fscm",
@@ -1194,7 +1280,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Free-Fire Area",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -1221,7 +1307,7 @@
         "airspace_type": "FIR",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1237,7 +1323,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Forward Line of Own Troops",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1269,7 +1355,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Fire Support Area",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "fscm",
@@ -1285,7 +1371,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Fire Support Coordination Line",
-      "schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-fire-support-line:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1315,7 +1401,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -1332,7 +1418,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1355,7 +1441,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "High-Density Airspace Control Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "arm",
@@ -1371,7 +1457,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Identification, Friend or Foe (IFF) Switch-Off Line",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "arm",
@@ -1387,7 +1473,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Identification, Friend or Foe (IFF) Switch-On Line",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "arm",
@@ -1405,7 +1491,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "mdm",
@@ -1422,7 +1508,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "mdm",
@@ -1437,7 +1523,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Identification Safety Range",
-      "schema": "urn:openaix:schema:measure-isr:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-isr:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -1478,7 +1564,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Joint Engagement Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "fscm",
@@ -1529,7 +1615,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Kill Box",
-      "schema": "urn:openaix:schema:measure-kb:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-kb:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1556,7 +1642,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Line of Contact",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1583,7 +1669,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Line of Departure",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1598,7 +1684,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Low-Level Transit Route",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1625,7 +1711,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Limit of Advance",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1648,7 +1734,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Landing Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -1679,7 +1765,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Missile Engagement Zone",
-      "schema": "urn:openaix:schema:measure-mez:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-mez:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -1696,7 +1782,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -1708,7 +1794,7 @@
         "source": "nato-ajp-3-3-5"
       },
       "name": "Missile Arc",
-      "schema": "urn:openaix:schema:measure-misarc:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-misarc:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1724,7 +1810,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Minimum-Risk Route",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1752,7 +1838,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Named Area of Interest",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -1767,7 +1853,7 @@
         "airway_type": "area_navigation",
         "type": "AIRWAY"
       },
-      "schema": "urn:openaix:schema:airway:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airway:0.2.0-draft.1"
     },
     {
       "category": "fscm",
@@ -1789,7 +1875,7 @@
       ],
       "geometry_path": "geometry",
       "name": "No-Fire Area",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1812,7 +1898,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "No-Fly Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1845,7 +1931,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Objective",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -1873,7 +1959,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Phase Line",
-      "schema": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-line:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -1900,7 +1986,7 @@
         "airspace_type": "Prohibited",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1923,7 +2009,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Pickup Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -1950,7 +2036,7 @@
         "airspace_type": "Restricted",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -1973,7 +2059,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Reduced Coordination",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -1996,7 +2082,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Reconnaissance Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "fscm",
@@ -2018,7 +2104,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Restrictive Fire Area",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "fscm",
@@ -2046,7 +2132,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Restrictive Fire Line",
-      "schema": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-fire-support-line:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2069,7 +2155,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Restricted Operating Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2102,7 +2188,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Slow Aviation Assets Flight Route",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "mdm",
@@ -2125,7 +2211,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Safety Sector",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -2152,7 +2238,35 @@
       "projection": {
         "type": "MEZ"
       },
-      "schema": "urn:openaix:schema:measure-mez:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-mez:0.2.0-draft.1"
+    },
+    {
+      "category": "arm",
+      "code": "SARDOT",
+      "definition": "A search and rescue point is a predesignated specific location. Isolated personnel give their position to recovery forces relative to this location.",
+      "definition_source": {
+        "locator": "Appendix C, page C-12",
+        "note": "This code is not in AJP-3.3.5 Annex B. The opord-builder zone kind `SAR` maps to this code. FM 3-52 and FM 1-02.2 locators not page-checked.",
+        "references": [
+          {
+            "locator": "airspace coordinating measures table (SARDOT row)",
+            "source": "army-fm-3-52-2016"
+          },
+          {
+            "locator": "page 168",
+            "source": "army-fm-1-02-2-2025"
+          }
+        ],
+        "source": "joint-jp-3-52-2014"
+      },
+      "name": "Search and Rescue Point",
+      "projection": {
+        "roles": [
+          "search_and_rescue"
+        ],
+        "type": "POINT"
+      },
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2167,7 +2281,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Special Corridor",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "mdm",
@@ -2190,7 +2304,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Ship Control Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -2205,7 +2319,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Safe Lane",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2228,7 +2342,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Surface-to-Surface Missile System",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -2256,7 +2370,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Target Area of Interest",
-      "schema": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-area:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2271,7 +2385,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Transit Corridor",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -2298,7 +2412,7 @@
         "airspace_type": "TMA",
         "type": "AIRSPACE"
       },
-      "schema": "urn:openaix:schema:airspace:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:airspace:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -2313,7 +2427,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Traverse Level",
-      "schema": "urn:openaix:schema:measure-tl:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-tl:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2328,7 +2442,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Temporary Minimum-Risk Route",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2343,7 +2457,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Transit Route",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2366,7 +2480,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Temporary Reserved Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2389,7 +2503,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Training Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "mcm",
@@ -2418,7 +2532,7 @@
         ],
         "type": "POINT"
       },
-      "schema": "urn:openaix:schema:point:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:point:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2441,7 +2555,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Temporary Segregated Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "acm",
@@ -2464,7 +2578,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Unmanned Aircraft Area",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     },
     {
       "category": "atcm",
@@ -2483,7 +2597,7 @@
       ],
       "geometry_path": "geometry",
       "name": "Published VFR Route",
-      "schema": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-route:0.2.0-draft.1"
     },
     {
       "category": "adm",
@@ -2506,7 +2620,7 @@
       ],
       "geometry_path": "components/geometry",
       "name": "Weapons Free Zone",
-      "schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+      "schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
     }
   ]
 }

@@ -4,10 +4,10 @@
       "description": "An activation is the time when a control measure is available. It is an interval, a Coordinated Universal Time (UTC) schedule for each week in an interval, or continuous activation.",
       "oneOf": [
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Window"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ScheduledWindow"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ScheduledWindow"
         },
         {
           "additionalProperties": false,
@@ -29,11 +29,11 @@
       "description": "An airspace component is one part of an airspace in three dimensions, with a boundary, a floor and a ceiling. Each component adds a volume, subtracts a volume or intersects a volume, in sequence.",
       "properties": {
         "active": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
           "description": "This field gives the time interval during which this component is available, in the time interval of the parent control measure. This field is optional."
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -101,45 +101,45 @@
           "description": "This field gives the horizontal boundary of this component: points, distances and bearings in a format for a simulator. A `geojson` geometry (RFC 7946) of the same shape is also correct.",
           "oneOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_polygon"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_circle"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_sector"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_sector"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polyarc"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_polyarc"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_corridor"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_corridor"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_rectangle"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_ellipse"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_geojson_polygon"
             }
           ]
         },
         "id": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies this component. Each component in its parent airspace has a different identifier."
         },
         "lower_limit": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/VerticalLimit",
           "description": "This field gives the floor of this component: an altitude with its reference, or the surface."
         },
         "maximum_limit": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
           "description": "This field gives the maximum limit of this component, as an altitude with its unit and reference. Where this value is higher than `upper_limit`, it increases the ceiling. Each value keeps its reference."
         },
         "minimum_limit": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
           "description": "This field gives the minimum floor of this component, as an altitude with its unit and reference. Where this value is higher than `lower_limit`, it replaces the floor. To compare limits with different references, a consumer uses terrain or atmospheric data."
         },
         "name": {
@@ -156,7 +156,7 @@
           ]
         },
         "upper_limit": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/VerticalLimit",
           "description": "This field gives the ceiling of this component: an altitude with its reference, or no limit."
         }
       },
@@ -282,6 +282,355 @@
       ],
       "type": "object"
     },
+    "BearingRange": {
+      "additionalProperties": false,
+      "description": "A bearing range is a range of bearings from a start bearing clockwise to an end bearing.",
+      "properties": {
+        "end_bearing": {
+          "$ref": "#/$defs/Bearing",
+          "description": "This field gives the end of the range of bearings, as a bearing with its unit and reference."
+        },
+        "start_bearing": {
+          "$ref": "#/$defs/Bearing",
+          "description": "This field gives the start of the range of bearings, as a bearing with its unit and reference."
+        }
+      },
+      "required": [
+        "start_bearing",
+        "end_bearing"
+      ],
+      "type": "object"
+    },
+    "CasBrief": {
+      "additionalProperties": false,
+      "description": "A close air support (CAS) brief is the data that the aircrew get for one CAS attack: the 9-line data of JP 3-09.3 and the mission-level data of the air tasking order (ATO). The ATO and the operation order (OPORD) use this one definition. A field that a use does not need stays out of the record. JP 3-09.3 (2014) Chapter V gives the check-in briefing and the CAS brief.",
+      "properties": {
+        "ato_mission": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the mission of the air tasking order (ATO) that receives the brief. The `orders` field of the operation order (OPORD) identifies the ATO.",
+          "x-catalog": "ato_missions"
+        },
+        "check_in": {
+          "$ref": "#/$defs/CheckIn",
+          "description": "This field gives the check-in data for the controller."
+        },
+        "contact_points": {
+          "description": "This list identifies the contact points that the aircraft fly to before the controller gives them a task. Each point shall have the role `control`.",
+          "items": {
+            "$ref": "#/$defs/ControlMeasureSelection",
+            "x-measure-kinds": [
+              "POINT"
+            ],
+            "x-point-roles": [
+              "control"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "control_type": {
+          "description": "This field gives the type of terminal attack control, as one of the enumerated values.",
+          "enum": [
+            "type_1",
+            "type_2",
+            "type_3"
+          ],
+          "x-enum-descriptions": {
+            "type_1": "This value identifies type 1 terminal attack control, in which the controller sees the target and the aircraft.",
+            "type_2": "This value identifies type 2 terminal attack control, in which the controller does not see the target or the aircraft.",
+            "type_3": "This value identifies type 3 terminal attack control, in which the controller gives clearance for all attacks in an area."
+          }
+        },
+        "controller": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the command and control agency that gives the brief.",
+          "x-catalog": "controllers"
+        },
+        "controllers": {
+          "description": "This list contains the agencies and radio channels that control the close air support (CAS) for this brief.",
+          "items": {
+            "$ref": "#/$defs/ControllerContact"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "danger_close": {
+          "description": "The value is `true` when the friendly forces are inside the danger-close distance of the weapons for the attack. The value is `false` when the friendly forces are outside that distance.",
+          "type": "boolean"
+        },
+        "distance": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the distance from the initial point to the target, as a length with its unit."
+        },
+        "egress_point": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the point that is the egress point. The point shall have the role `egress`.",
+          "x-catalog": "control_measures",
+          "x-point-roles": [
+            "egress"
+          ]
+        },
+        "final_attack_headings": {
+          "description": "This list contains the ranges of final attack headings that the aircraft can use for the attack. Each range goes clockwise from its start bearing to its end bearing.",
+          "items": {
+            "$ref": "#/$defs/BearingRange"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "fire_support_measures": {
+          "description": "This list identifies the fire support coordination measures that apply to the close air support (CAS) mission.",
+          "items": {
+            "$ref": "#/$defs/ControlMeasureSelection",
+            "x-measure-kinds": [
+              "BCL",
+              "CFL",
+              "CFZ",
+              "FFA",
+              "FSCL",
+              "KB",
+              "NFA",
+              "RFA",
+              "RFL",
+              "ACA"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "friendly_direction": {
+          "description": "This field gives the direction from the target to the nearest friendly forces, as one of the enumerated values.",
+          "enum": [
+            "north",
+            "north_east",
+            "east",
+            "south_east",
+            "south",
+            "south_west",
+            "west",
+            "north_west"
+          ]
+        },
+        "friendly_distance": {
+          "$ref": "#/$defs/Length",
+          "description": "This field gives the distance from the target to the nearest friendly forces, as a length with its unit."
+        },
+        "friendly_lines": {
+          "description": "This list identifies the lines and boundaries that show the positions of the friendly ground forces.",
+          "items": {
+            "$ref": "#/$defs/ControlMeasureSelection",
+            "x-measure-kinds": [
+              "FLOT",
+              "FEBA",
+              "PL",
+              "LOA",
+              "LD",
+              "BOUNDARY"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "friendly_marking": {
+          "$ref": "#/$defs/FriendlyMarking",
+          "description": "This field gives the means that marks the position of the nearest friendly forces, as one of the enumerated values."
+        },
+        "ground_scheme_summary": {
+          "description": "This field gives the plan of the friendly ground forces, in short form, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "hazards": {
+          "description": "This list contains the hazards in the target area that are not threats.",
+          "items": {
+            "$ref": "#/$defs/Hazard"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "heading": {
+          "$ref": "#/$defs/Bearing",
+          "description": "This field gives the heading from the initial point to the target, as a bearing with its unit and reference."
+        },
+        "holding": {
+          "description": "This list identifies the orbits, points or zones that the aircraft use to hold before they get a task.",
+          "items": {
+            "$ref": "#/$defs/ControlMeasureSelection",
+            "x-measure-kinds": [
+              "ORBIT",
+              "POINT",
+              "ROZ"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "holding_altitude": {
+          "$ref": "#/$defs/AltitudeBlock",
+          "description": "This field gives the vertical limits of the holding stack, as an altitude block with a floor and a ceiling."
+        },
+        "id": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies this close air support (CAS) brief. Each CAS brief in the order has a different identifier. Other parts of the order use it to refer to this CAS brief."
+        },
+        "initial_point": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the point that is the initial point of the attack. The point shall have the role `initial`.",
+          "x-catalog": "control_measures",
+          "x-point-roles": [
+            "initial"
+          ]
+        },
+        "initial_points": {
+          "description": "This list identifies the initial points that start the attack runs of the aircraft. Each point shall have the role `initial`.",
+          "items": {
+            "$ref": "#/$defs/ControlMeasureSelection",
+            "x-measure-kinds": [
+              "POINT"
+            ],
+            "x-point-roles": [
+              "initial"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "laser_code": {
+          "$ref": "#/$defs/LaserCode",
+          "description": "This field gives the code of the laser mark, as a laser code with its unit."
+        },
+        "laser_codes": {
+          "description": "This list contains the laser codes for the controller and the aircraft in this brief.",
+          "items": {
+            "$ref": "#/$defs/LaserCode"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "laser_target_line": {
+          "$ref": "#/$defs/Bearing",
+          "description": "This field gives the laser target line, as a bearing with its unit and reference."
+        },
+        "mark": {
+          "$ref": "#/$defs/TargetMark",
+          "description": "This field gives the type of mark of the target, as one of the enumerated values."
+        },
+        "marks": {
+          "description": "This list contains the types of target mark that the controller can supply. JP 3-09.3 (2014) gives these marks.",
+          "items": {
+            "$ref": "#/$defs/TargetMark"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "method_of_attack": {
+          "description": "This field gives the method of attack, as one of the enumerated values.",
+          "enum": [
+            "bomb_on_target",
+            "bomb_on_coordinate"
+          ]
+        },
+        "offset_direction": {
+          "description": "This field gives the side of the line from the initial point to the target on which the aircraft fly the attack, as one of the enumerated values.",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "x-enum-descriptions": {
+            "left": "The aircraft fly the attack to the left of the line from the initial point to the target.",
+            "right": "The aircraft fly the attack to the right of the line from the initial point to the target."
+          }
+        },
+        "remarks": {
+          "description": "This field gives the notes for the aircrews that are not in the other fields of this brief, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the target of the resource catalogue that the brief is for.",
+          "x-catalog": "targets"
+        },
+        "target_description": {
+          "description": "This field gives the target description, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "target_elevation": {
+          "$ref": "#/$defs/Elevation",
+          "description": "This field gives the elevation of the target, as an elevation with its unit."
+        },
+        "target_position": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the target, as latitude and longitude."
+        },
+        "threats": {
+          "description": "This list identifies the threats of the resource catalogue that are a danger to the aircraft in the target area.",
+          "items": {
+            "$ref": "#/$defs/Identifier",
+            "x-catalog": "threats"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "time_on_target": {
+          "$ref": "#/$defs/DateTime",
+          "description": "This field gives the time at which the weapons hit the target."
+        },
+        "time_to_target_seconds": {
+          "description": "This field gives the time from the time of the brief to the time on target, in seconds.",
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "CheckIn": {
+      "additionalProperties": false,
+      "description": "A close air support (CAS) check-in is the data that the CAS aircrew gives to the controller at check-in. JP 3-09.3 (2014) Figure V-4 gives the check-in briefing.",
+      "properties": {
+        "abort_code": {
+          "description": "This field gives the abort code for the controller and the aircrew, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "items": {
+          "description": "This list contains the parts of the check-in briefing that the aircrew gives.",
+          "items": {
+            "enum": [
+              "mission_number",
+              "aircraft_number_and_type",
+              "position_and_altitude",
+              "ordnance",
+              "time_on_station",
+              "capabilities",
+              "abort_code"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true,
+          "x-enum-descriptions": {
+            "abort_code": "This value identifies the code that the aircrew uses to make sure that an abort call comes from the controller.",
+            "aircraft_number_and_type": "This value identifies the quantity of aircraft in the flight and their aircraft type.",
+            "capabilities": "This value identifies the sensors and the other capabilities of the aircraft.",
+            "mission_number": "This value identifies the mission number of the flight in the air tasking order (ATO).",
+            "ordnance": "This value identifies the weapons on the aircraft, with the quantity of each.",
+            "position_and_altitude": "This value identifies the position of the flight at this time, usually from a control point, and its altitude.",
+            "time_on_station": "This value identifies the time that the aircraft can stay on station."
+          }
+        },
+        "procedure": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the procedure that gives the check-in steps.",
+          "x-catalog": "procedures"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
     "ClassificationLevel": {
       "description": "A classification level is a security classification of the American government that the banner of an operation order (OPORD) can show.",
       "enum": [
@@ -307,61 +656,61 @@
       "description": "A control measure is one openAIX control measure: a reference to one control measure contract, or an extension control measure with a namespace. The `type` field selects the contract.",
       "oneOf": [
         {
-          "$ref": "urn:openaix:schema:measure-aca:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-aca:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:airspace:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:airspace:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:airway:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:airway:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-aor:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-aor:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-area:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-area:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-cl:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-cl:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-fire-support-line:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-isr:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-isr:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-kb:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-kb:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-line:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-line:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-mez:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-mez:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-misarc:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-misarc:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:navaid:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:navaid:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:orbit:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:orbit:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:point:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:point:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-route:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-route:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:territory:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:territory:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-tl:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-tl:0.2.0-draft.1"
         },
         {
-          "$ref": "urn:openaix:schema:measure-volume:0.1.0-draft.2"
+          "$ref": "urn:openaix:schema:measure-volume:0.2.0-draft.1"
         },
         {
           "additionalProperties": false,
@@ -371,7 +720,7 @@
               "type": "string"
             },
             "active": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
               "description": "This field gives the time interval during which the extension control measure is available. The value is a schedule or a flag for continuous activation."
             },
             "description": {
@@ -379,7 +728,7 @@
               "type": "string"
             },
             "extensions": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
               "allOf": [
                 {
                   "properties": {
@@ -445,11 +794,11 @@
               "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
             },
             "geometry": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry",
               "description": "This field gives the horizontal geometry of the extension control measure: a position or a boundary. The geometry uses points, distances and bearings in a format for a simulator, or a GeoJSON geometry (RFC 7946)."
             },
             "id": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
               "description": "This field identifies this extension control measure. Other records and orders use it to refer to this extension control measure."
             },
             "name": {
@@ -462,7 +811,7 @@
               "type": "string"
             },
             "resources_ref": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
               "description": "This field identifies the resource catalogue that resolves the references of this extension control measure. The reference gives the identifier and the revision of the catalogue."
             },
             "type": {
@@ -500,6 +849,31 @@
       ],
       "type": "object"
     },
+    "ControllerContact": {
+      "additionalProperties": false,
+      "description": "An agency channel is an agency for the aircrew, with its radio channels.",
+      "properties": {
+        "agency": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the agency or forward air controller that the aircrew speaks to. The value is the identifier of a command and control agency or of a forward air controller (FAC) of the resource catalogue.",
+          "x-catalog": "controllers"
+        },
+        "alternate_channel": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the alternative radio channel that connects the aircrew and the agency when the primary channel is not available.",
+          "x-catalog": "channels"
+        },
+        "channel": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the primary radio channel that connects the aircrew and the agency.",
+          "x-catalog": "channels"
+        }
+      },
+      "required": [
+        "agency"
+      ],
+      "type": "object"
+    },
     "DCSData": {
       "additionalProperties": false,
       "dependentRequired": {
@@ -527,7 +901,7 @@
         "bindings": {
           "description": "This list contains the objects in a Digital Combat Simulator (DCS) mission that are this record or show it on the map. The record keeps its geometry in latitude and longitude, independently of these objects.",
           "items": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DCSObjectRef"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DCSObjectRef"
           },
           "type": "array"
         },
@@ -547,7 +921,7 @@
           "uniqueItems": true
         },
         "coalition": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Coalition",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Coalition",
           "description": "This field gives the Digital Combat Simulator (DCS) coalition of the record: `blue`, `red` or `neutral`, as one of the enumerated values. The coalition is the side of the record in the DCS mission."
         },
         "label": {
@@ -558,7 +932,7 @@
         "objects": {
           "description": "This list contains the units, groups or static objects in a Digital Combat Simulator (DCS) mission that are parts of the aimpoint.",
           "items": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DCSObjectRef"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DCSObjectRef"
           },
           "type": "array"
         },
@@ -1184,6 +1558,28 @@
       ],
       "type": "object"
     },
+    "FriendlyMarking": {
+      "description": "A friendly marking is the means that marks the position of the friendly forces for the aircrew.",
+      "enum": [
+        "panel",
+        "smoke",
+        "mirror",
+        "strobe",
+        "infrared_strobe",
+        "chemical_light",
+        "flare"
+      ],
+      "type": "string",
+      "x-enum-descriptions": {
+        "chemical_light": "This value identifies a chemical light stick that gives light for a short time, usually at night.",
+        "flare": "This value identifies a pyrotechnic flare that burns bright at the friendly position.",
+        "infrared_strobe": "This value identifies an infrared strobe light that aircrew with night vision devices can see.",
+        "mirror": "This value identifies a mirror that reflects the light of the sun.",
+        "panel": "This value identifies a panel with a bright colour on the ground.",
+        "smoke": "This value identifies coloured smoke from a grenade or a canister at the friendly position.",
+        "strobe": "This value identifies a visible strobe light that flashes at the friendly position."
+      }
+    },
     "GeoJSONLineString": {
       "additionalProperties": false,
       "description": "A GeoJSON line string is a GeoJSON geometry object of the type `LineString`, as in RFC 7946.",
@@ -1505,7 +1901,7 @@
       "description": "An ellipse geometry is an ellipse with a centre in latitude and longitude and with dimensions in metres. It is not a polygon of sample points. A Digital Combat Simulator (DCS) drawing keeps its angle and its theatre projection in `extensions.sim.dcs`.",
       "properties": {
         "center": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the centre of the ellipse, as latitude and longitude."
         },
         "east_radius_m": {
@@ -1514,7 +1910,7 @@
           "type": "number"
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -1942,11 +2338,11 @@
       "description": "A rectangle geometry is a rectangle with a centre in latitude and longitude and with dimensions in metres. It is not a polygon of sample points. A Digital Combat Simulator (DCS) drawing keeps its angle and its theatre projection in `extensions.sim.dcs`.",
       "properties": {
         "center": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the centre of the rectangle, as latitude and longitude."
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -2133,6 +2529,46 @@
           "type": "object"
         }
       ]
+    },
+    "Hazard": {
+      "additionalProperties": false,
+      "description": "A hazard is a danger to the aircraft in the target area that is not a threat.",
+      "properties": {
+        "description": {
+          "description": "This field gives the hazard, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "description": "This field gives the type of hazard, as one of the enumerated values.",
+          "enum": [
+            "obstruction",
+            "wires",
+            "terrain",
+            "friendly_aircraft",
+            "indirect_fire",
+            "weather",
+            "other"
+          ],
+          "x-enum-descriptions": {
+            "friendly_aircraft": "This value identifies other friendly aircraft in the target area.",
+            "indirect_fire": "This value identifies friendly artillery, mortar or naval gun fire in the target area.",
+            "obstruction": "This value identifies an obstruction, such as a tower or a mast.",
+            "other": "This value identifies a hazard that the other values do not include.",
+            "terrain": "This value identifies high ground in or near the attack run.",
+            "weather": "This value identifies a dangerous weather condition in the target area.",
+            "wires": "This value identifies wires or cables in the air."
+          }
+        },
+        "position": {
+          "$ref": "#/$defs/GeoPoint",
+          "description": "This field gives the geographic position of the hazard, as latitude and longitude."
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
     },
     "Identifier": {
       "minLength": 1,
@@ -2324,7 +2760,7 @@
       "description": "A point location is a geographic point, a location in free text, or the two.",
       "properties": {
         "position": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the point, as latitude and longitude."
         },
         "position_description": {
@@ -2333,6 +2769,72 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "Pressure": {
+      "additionalProperties": false,
+      "description": "A pressure is an atmospheric pressure with its unit: inches of mercury or hectopascals.",
+      "properties": {
+        "unit": {
+          "description": "This field gives the unit of the pressure: inches of mercury or hectopascals, as one of the enumerated values.",
+          "enum": [
+            "inHg",
+            "hPa"
+          ],
+          "x-enum-descriptions": {
+            "hPa": "The pressure is in hectopascals.",
+            "inHg": "The pressure is in inches of mercury."
+          }
+        },
+        "value": {
+          "description": "This field gives the value of the pressure, in the unit of `unit`.",
+          "exclusiveMinimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "RadioAssignment": {
+      "additionalProperties": false,
+      "properties": {
+        "activities": {
+          "description": "This list identifies the flight operations that use this radio assignment. Each identifier shall refer to an item of `activities` of the flight. When the list is not given, the assignment is for the complete mission.",
+          "items": {
+            "pattern": "^[a-z][a-z0-9_.-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "channel": {
+          "$ref": "#/$defs/Identifier",
+          "description": "This field identifies the radio channel that this assignment uses.",
+          "x-catalog": "channels"
+        },
+        "preset": {
+          "description": "This field gives the preset number of the radio channel on the radio of the aircraft.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "purpose": {
+          "description": "This field gives the operation or objective of this radio assignment, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "radio": {
+          "description": "This field gives the radio of the aircraft that uses the channel, such as `UHF` or `VHF`, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel"
+      ],
       "type": "object"
     },
     "ResourceRef": {
@@ -2369,7 +2871,7 @@
           "type": "string"
         },
         "schedule": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/WeeklySchedule",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/WeeklySchedule",
           "description": "This field gives the Coordinated Universal Time (UTC) schedule for each week in the interval."
         },
         "start": {
@@ -2392,12 +2894,12 @@
       "description": "Simulator data is the data of a record for each simulator, with the simulator identifier as the key, for example `dcs`. The other fields of the record do not change with a simulator. The Digital Combat Simulator (DCS) data has fixed fields, and the data of a different simulator is an object with no fixed fields.",
       "properties": {
         "dcs": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DCSData",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DCSData",
           "description": "This field contains the Digital Combat Simulator (DCS) data of the record."
         }
       },
       "propertyNames": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "type": "object"
     },
@@ -2455,6 +2957,30 @@
       ],
       "title": "TACAN",
       "type": "object"
+    },
+    "TargetMark": {
+      "description": "A target mark is the means that marks a target for the aircrew. The close air support (CAS) briefs of the air tasking order (ATO) and the operation order (OPORD) use this one list of values.",
+      "enum": [
+        "laser",
+        "infrared_pointer",
+        "smoke",
+        "white_phosphorus",
+        "illumination",
+        "indirect_fire",
+        "tracer",
+        "talk_on"
+      ],
+      "type": "string",
+      "x-enum-descriptions": {
+        "illumination": "This value identifies a mark from illumination ammunition above or near the target.",
+        "indirect_fire": "This value identifies a mark from artillery, mortar or naval gun fire.",
+        "infrared_pointer": "This value identifies a mark from an infrared pointer. Aircrew with night vision devices can see it on the target.",
+        "laser": "This value identifies a mark from a laser designator, which the seeker of the weapon or the targeting pod of the aircraft detects.",
+        "smoke": "This value identifies a mark from smoke ammunition at or near the target.",
+        "talk_on": "This value identifies a talk-on, in which the controller tells the aircrew how to find the target by voice.",
+        "tracer": "This value identifies a mark from tracer rounds, which show the line of fire to the target.",
+        "white_phosphorus": "This value identifies a mark from white phosphorus ammunition at or near the target."
+      }
     },
     "VerticalLimit": {
       "description": "A vertical limit is a floor or a ceiling: an altitude with its reference, the surface, or no limit. The surface is below all altitudes, and the value `unlimited` is above all altitudes.",
@@ -2568,7 +3094,7 @@
         "periods": {
           "description": "This list contains the time intervals in each week.",
           "items": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/WeeklyPeriod"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/WeeklyPeriod"
           },
           "minItems": 1,
           "type": "array"
@@ -2619,7 +3145,7 @@
       "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:common:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:common:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "description": "Definitions for all openAIX documents are the identifiers, positions, geometry, units, time intervals and resource references that more than one type of document contains.",
   "title": "openAIX common resources"

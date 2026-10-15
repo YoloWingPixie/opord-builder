@@ -1,6 +1,6 @@
 {
-  "$schema": "urn:openaix:schema:spins:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:spins:0.2.0-draft.1",
   "kind": "spins",
-  "schema_version": "0.1.0-draft.2",
+  "schema_version": "0.2.0-draft.1",
   "scope": "standing"
 }

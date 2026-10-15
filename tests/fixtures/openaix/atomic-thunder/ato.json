@@ -1,7 +1,7 @@
 {
-  "$schema": "urn:openaix:schema:ato:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:ato:0.2.0-draft.1",
   "kind": "ato",
-  "schema_version": "0.1.0-draft.2",
+  "schema_version": "0.2.0-draft.1",
   "meta": {
     "id": "atomic-thunder-ato",
     "revision": "1",
@@ -23,7 +23,17 @@
     {
       "id": "anvil",
       "name": "Anvil",
-      "objective": "Destroy hardened shelters at the fictional airbase."
+      "objective": "Destroy hardened shelters at the fictional airbase.",
+      "push_point": "push-ivory",
+      "push_time": {
+        "kind": "at",
+        "at": "2026-10-14T09:50:00Z"
+      },
+      "time_on_target": {
+        "kind": "at",
+        "at": "2026-10-14T10:30:00Z",
+        "tolerance_seconds": 300
+      }
     }
   ],
   "missions": [
@@ -52,7 +62,7 @@
           {
             "id": "shelters",
             "role": "primary",
-            "desired_effect": "DESTROY",
+            "desired_effect": "destroy",
             "target": {
               "kind": "fixed",
               "target": "airbase-bunkers",
@@ -80,8 +90,63 @@
                     "channel": 14,
                     "band": "Y",
                     "identifier": "VP1"
+                  },
+                  "link16": {
+                    "stn": "01201",
+                    "team": [
+                      "01202",
+                      "01203",
+                      "01204"
+                    ]
+                  }
+                },
+                "board_number": "401",
+                "crew": [
+                  {
+                    "name": "Maverick",
+                    "role": "pilot"
+                  }
+                ]
+              },
+              {
+                "member": 2,
+                "board_number": "402",
+                "crew": [
+                  {
+                    "name": "Goose",
+                    "role": "pilot"
+                  }
+                ],
+                "laser_code": "1687",
+                "identification": {
+                  "link16": {
+                    "stn": "01202"
                   }
                 }
+              },
+              {
+                "member": 3,
+                "board_number": "403",
+                "crew": [
+                  {
+                    "name": "Iceman",
+                    "role": "pilot"
+                  }
+                ]
+              },
+              {
+                "member": 4,
+                "board_number": "404",
+                "crew": [
+                  {
+                    "name": "Viper",
+                    "role": "pilot"
+                  },
+                  {
+                    "name": "Jester",
+                    "role": "weapon_systems_officer"
+                  }
+                ]
               }
             ]
           },
@@ -104,6 +169,10 @@
               "value": 7000,
               "unit": "lb"
             },
+            "mission_required": {
+              "value": 5200,
+              "unit": "lb"
+            },
             "joker": {
               "value": 2800,
               "unit": "lb"
@@ -120,9 +189,10 @@
               "identifier": "VPR"
             },
             "mode_3": "4101",
-            "datalink_type": "Link 16",
-            "datalink_network": "Net 1",
-            "datalink_station": "01201"
+            "link16": {
+              "fighter_channel": 7,
+              "mission_channel": 3
+            }
           },
           "communications": [
             {
@@ -135,7 +205,20 @@
               "radio": "COMM2",
               "channel": "guard-vhf",
               "preset": 2,
-              "purpose": "Strike common"
+              "purpose": "Strike common",
+              "activities": [
+                "push",
+                "target"
+              ]
+            },
+            {
+              "radio": "COMM2",
+              "channel": "etad-ground-vhf",
+              "preset": 3,
+              "purpose": "Spang Ground",
+              "activities": [
+                "departure"
+              ]
             },
             {
               "radio": "COMM1",
@@ -149,7 +232,26 @@
               "preset": 5,
               "purpose": "Intraflight"
             }
-          ]
+          ],
+          "activities": [
+            {
+              "id": "departure",
+              "kind": "transit"
+            },
+            {
+              "id": "push",
+              "kind": "transit"
+            },
+            {
+              "id": "target",
+              "kind": "task"
+            },
+            {
+              "id": "recovery",
+              "kind": "recovery"
+            }
+          ],
+          "comm_plan": "etad-recovery"
         }
       ]
     },

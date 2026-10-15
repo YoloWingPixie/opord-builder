@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:aco:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:aco:0.2.0-draft.1",
   "assignments": [
     {
       "control_points": [
@@ -397,11 +397,36 @@
         "name": "Salti Tower",
         "notes": "VHF 120.5 is the same position.",
         "usage": "Muwaffaq Salti tower, ground and approach (combined)"
+      },
+      "strike-vhf": {
+        "frequency": {
+          "modulation": "AM",
+          "unit": "MHz",
+          "value": 138.75
+        },
+        "name": "Anvil package",
+        "usage": "Strike package inter-flight"
+      }
+    },
+    "comm_plans": {
+      "anvil-comms": {
+        "assignments": [
+          {
+            "activities": [
+              "viper-refuel"
+            ],
+            "channel": "strike-vhf",
+            "preset": 1,
+            "purpose": "Package common",
+            "radio": "VHF"
+          }
+        ],
+        "name": "Anvil package communications"
       }
     },
     "control_measures": {
       "cobalt-box": {
-        "$schema": "urn:openaix:schema:measure-kb:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:measure-kb:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -510,7 +535,7 @@
         "type": "KB"
       },
       "falcon": {
-        "$schema": "urn:openaix:schema:orbit:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:orbit:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -592,7 +617,7 @@
         "type": "ORBIT"
       },
       "gainful-misarc": {
-        "$schema": "urn:openaix:schema:measure-misarc:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:measure-misarc:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -692,7 +717,7 @@
         "type": "NAVAID"
       },
       "juniper": {
-        "$schema": "urn:openaix:schema:point:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:point:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -747,13 +772,15 @@
         "roles": [
           "control",
           "ingress",
-          "gate"
+          "gate",
+          "push",
+          "rendezvous"
         ],
         "route": "marshal-entry",
         "type": "POINT"
       },
       "marshal": {
-        "$schema": "urn:openaix:schema:point:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:point:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -785,13 +812,15 @@
         ],
         "roles": [
           "control",
-          "marshalling"
+          "marshalling",
+          "hold",
+          "anchor"
         ],
         "route": "marshal-entry",
         "type": "POINT"
       },
       "mesa": {
-        "$schema": "urn:openaix:schema:orbit:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:orbit:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -845,7 +874,7 @@
         "type": "ORBIT"
       },
       "oir-aor": {
-        "$schema": "urn:openaix:schema:measure-aor:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:measure-aor:0.2.0-draft.1",
         "active": {
           "continuous": true
         },
@@ -893,7 +922,7 @@
         "type": "AOR"
       },
       "rescue-reservation": {
-        "$schema": "urn:openaix:schema:measure-volume:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:measure-volume:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -980,7 +1009,7 @@
         "type": "ROZ"
       },
       "south-transit": {
-        "$schema": "urn:openaix:schema:measure-route:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:measure-route:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -1055,7 +1084,7 @@
         ]
       },
       "vrp-salti-dam": {
-        "$schema": "urn:openaix:schema:point:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:point:0.2.0-draft.1",
         "active": {
           "continuous": true
         },
@@ -1072,7 +1101,7 @@
         "type": "POINT"
       },
       "zinc-mez": {
-        "$schema": "urn:openaix:schema:measure-mez:0.1.0-draft.2",
+        "$schema": "urn:openaix:schema:measure-mez:0.2.0-draft.1",
         "active": {
           "end": "2026-10-02T15:00:00Z",
           "start": "2026-10-02T13:00:00Z"
@@ -2999,6 +3028,7 @@
               "Check in with Darkstar before entering the corridor."
             ],
             "name": "Juniper",
+            "number": 1,
             "position": {
               "latitude": 33.59,
               "longitude": 38.552
@@ -3035,6 +3065,7 @@
               "Descend only after Darkstar releases the holding level."
             ],
             "name": "Marshal",
+            "number": 1,
             "position": {
               "latitude": 34.059,
               "longitude": 39.477
@@ -3059,5 +3090,5 @@
     "targets": {},
     "threats": {}
   },
-  "schema_version": "0.1.0-draft.2"
+  "schema_version": "0.2.0-draft.1"
 }

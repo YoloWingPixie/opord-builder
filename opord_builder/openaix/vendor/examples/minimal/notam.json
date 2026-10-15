@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:notam:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:notam:0.2.0-draft.1",
   "code": "QRTCA",
   "effective": {
     "end": "2026-10-02T15:00:00Z",

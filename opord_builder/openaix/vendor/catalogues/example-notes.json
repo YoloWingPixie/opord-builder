@@ -1,6 +1,6 @@
 {
-  "$inputs_sha256": "25c4e654ebcc07fce7bcc96a0fe225a3e4a4f807bba71bcf9480f718ab8e97d8",
-  "urn:openaix:schema:aco:0.1.0-draft.2": [
+  "$inputs_sha256": "a6b8f91de3c9f1ea7d4099358aad64780f094b992789452bfc4607c378b64757",
+  "urn:openaix:schema:aco:0.2.0-draft.1": [
     {
       "alternatives": [
         "resources_ref"
@@ -258,7 +258,7 @@
       "selected": "runway"
     }
   ],
-  "urn:openaix:schema:airfield:0.1.0-draft.2": [
+  "urn:openaix:schema:airfield:0.2.0-draft.1": [
     {
       "path": "carrier",
       "reason": "conditional"
@@ -379,7 +379,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:airspace:0.1.0-draft.2": [
+  "urn:openaix:schema:airspace:0.2.0-draft.1": [
     {
       "alternatives": [
         "polygon",
@@ -494,7 +494,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:airway:0.1.0-draft.2": [
+  "urn:openaix:schema:airway:0.2.0-draft.1": [
     {
       "alternatives": [
         "control_measure"
@@ -607,7 +607,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:ato:0.1.0-draft.2": [
+  "urn:openaix:schema:ato:0.2.0-draft.1": [
     {
       "alternatives": [
         "resources"
@@ -630,6 +630,26 @@
         "on_order"
       ],
       "path": "packages/*/rendezvous_time",
+      "selected": "window"
+    },
+    {
+      "alternatives": [
+        "window",
+        "not_after",
+        "not_before",
+        "on_order"
+      ],
+      "path": "packages/*/push_time",
+      "selected": "at"
+    },
+    {
+      "alternatives": [
+        "at",
+        "not_after",
+        "not_before",
+        "on_order"
+      ],
+      "path": "packages/*/time_on_target",
       "selected": "window"
     },
     {
@@ -785,6 +805,10 @@
       "selected": "window"
     },
     {
+      "path": "missions/*/tasking/brief/cas/ato_mission",
+      "reason": "no_value"
+    },
+    {
       "alternatives": [
         "at",
         "not_after",
@@ -823,7 +847,7 @@
       "selected": "not_after"
     }
   ],
-  "urn:openaix:schema:c2-agency:0.1.0-draft.2": [
+  "urn:openaix:schema:c2-agency:0.2.0-draft.1": [
     {
       "alternatives": [
         "polygon",
@@ -935,7 +959,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:common:0.1.0-draft.2": [
+  "urn:openaix:schema:common:0.2.0-draft.1": [
     {
       "alternatives": [
         "Altitude",
@@ -1710,9 +1734,21 @@
     {
       "path": "ControlMeasure/components/*/extensions/sim/dcs/bindings/*/style/font_size",
       "reason": "conditional"
+    },
+    {
+      "path": "CasBrief/ato_mission",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "CasBrief/holding_altitude/lower",
+      "selected": "Altitude"
     }
   ],
-  "urn:openaix:schema:control-measure:0.1.0-draft.2": [
+  "urn:openaix:schema:control-measure:0.2.0-draft.1": [
     {
       "alternatives": [
         "ACA",
@@ -1856,7 +1892,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:fac:0.1.0-draft.2": [
+  "urn:openaix:schema:fac:0.2.0-draft.1": [
     {
       "path": "extensions/sim/dcs/objects",
       "reason": "conditional"
@@ -1950,13 +1986,17 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:frago:0.1.0-draft.2": [
+  "urn:openaix:schema:frago:0.2.0-draft.1": [
     {
       "path": "extensions/sim",
       "reason": "no_value"
+    },
+    {
+      "path": "extensions/org.opord-builder.print",
+      "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:grid-mora:0.1.0-draft.2": [
+  "urn:openaix:schema:grid-mora:0.2.0-draft.1": [
     {
       "path": "extensions/sim/dcs/objects",
       "reason": "conditional"
@@ -2066,7 +2106,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:holding:0.1.0-draft.2": [
+  "urn:openaix:schema:holding:0.2.0-draft.1": [
     {
       "instead_of": [
         "leg_time"
@@ -2190,13 +2230,13 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:jiptl:0.1.0-draft.2": [
+  "urn:openaix:schema:jiptl:0.2.0-draft.1": [
     {
       "path": "extensions/sim",
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:localizer:0.1.0-draft.2": [
+  "urn:openaix:schema:localizer:0.2.0-draft.1": [
     {
       "path": "extensions/sim/dcs/objects",
       "reason": "conditional"
@@ -2282,7 +2322,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:measure-aca:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-aca:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -2401,7 +2441,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:measure-aor:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-aor:0.2.0-draft.1": [
     {
       "alternatives": [
         "Window",
@@ -2505,7 +2545,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:measure-area:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-area:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -2530,7 +2570,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:measure-cl:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-cl:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -2551,7 +2591,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:measure-fire-support-line:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-fire-support-line:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -2652,7 +2692,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:measure-isr:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-isr:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -2758,7 +2798,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:measure-kb:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-kb:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -2877,7 +2917,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:measure-line:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-line:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -2978,7 +3018,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:measure-mez:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-mez:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -3013,7 +3053,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:measure-misarc:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-misarc:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -3035,7 +3075,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:measure-route:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-route:0.2.0-draft.1": [
     {
       "alternatives": [
         "Window",
@@ -3153,7 +3193,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:measure-tl:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-tl:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -3174,7 +3214,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:measure-volume:0.1.0-draft.2": [
+  "urn:openaix:schema:measure-volume:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -3209,7 +3249,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:msa:0.1.0-draft.2": [
+  "urn:openaix:schema:msa:0.2.0-draft.1": [
     {
       "alternatives": [
         "control_measure"
@@ -3322,7 +3362,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:navaid:0.1.0-draft.2": [
+  "urn:openaix:schema:navaid:0.2.0-draft.1": [
     {
       "path": "extensions/sim/dcs/objects",
       "reason": "conditional"
@@ -3428,7 +3468,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:notam:0.1.0-draft.2": [
+  "urn:openaix:schema:notam:0.2.0-draft.1": [
     {
       "alternatives": [
         "Altitude",
@@ -3450,7 +3490,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:opord:0.1.0-draft.2": [
+  "urn:openaix:schema:opord:0.2.0-draft.1": [
     {
       "path": "task_organization/*/extensions/sim/dcs/bindings",
       "reason": "conditional"
@@ -3506,9 +3546,17 @@
     {
       "path": "annexes/D/field_artillery/position_areas",
       "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "surface",
+        "unlimited"
+      ],
+      "path": "annexes/D/air_support/cas_briefs/*/holding_altitude/lower",
+      "selected": "Altitude"
     }
   ],
-  "urn:openaix:schema:orbit:0.1.0-draft.2": [
+  "urn:openaix:schema:orbit:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -3624,7 +3672,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:path-point:0.1.0-draft.2": [
+  "urn:openaix:schema:path-point:0.2.0-draft.1": [
     {
       "path": "extensions/sim/dcs/objects",
       "reason": "conditional"
@@ -3710,7 +3758,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:point:0.1.0-draft.2": [
+  "urn:openaix:schema:point:0.2.0-draft.1": [
     {
       "alternatives": [
         "start + end + schedule",
@@ -3732,7 +3780,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:procedure:0.1.0-draft.2": [
+  "urn:openaix:schema:procedure:0.2.0-draft.1": [
     {
       "path": "radar_approach",
       "reason": "conditional"
@@ -3874,7 +3922,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:resources:0.1.0-draft.2": [
+  "urn:openaix:schema:resources:0.2.0-draft.1": [
     {
       "path": "resources/places/*/carrier",
       "reason": "conditional"
@@ -4134,7 +4182,7 @@
       "selected": "fixed"
     }
   ],
-  "urn:openaix:schema:runway:0.1.0-draft.2": [
+  "urn:openaix:schema:runway:0.2.0-draft.1": [
     {
       "alternatives": [
         "point"
@@ -4255,7 +4303,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:scl:0.1.0-draft.2": [
+  "urn:openaix:schema:scl:0.2.0-draft.1": [
     {
       "path": "stations/*/extensions/sim/dcs/bindings",
       "reason": "conditional"
@@ -4289,7 +4337,7 @@
       "reason": "conditional"
     }
   ],
-  "urn:openaix:schema:spins:0.1.0-draft.2": [
+  "urn:openaix:schema:spins:0.2.0-draft.1": [
     {
       "alternatives": [
         "surface",
@@ -4301,9 +4349,13 @@
     {
       "path": "extensions/sim",
       "reason": "no_value"
+    },
+    {
+      "path": "extensions/org.opord-builder.print",
+      "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:territory:0.1.0-draft.2": [
+  "urn:openaix:schema:territory:0.2.0-draft.1": [
     {
       "alternatives": [
         "polygon",
@@ -4341,7 +4393,7 @@
       "reason": "no_value"
     }
   ],
-  "urn:openaix:schema:tst:0.1.0-draft.2": [
+  "urn:openaix:schema:tst:0.2.0-draft.1": [
     {
       "path": "extensions/sim",
       "reason": "no_value"

@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:frago:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:frago:0.2.0-draft.1",
   "base_order": {
     "id": "oir-opord",
     "revision": "1"
@@ -8,5 +8,5 @@
   "date_time": "2026-10-02T12:45:00Z",
   "frago_number": "01",
   "kind": "frago",
-  "schema_version": "0.1.0-draft.2"
+  "schema_version": "0.2.0-draft.1"
 }

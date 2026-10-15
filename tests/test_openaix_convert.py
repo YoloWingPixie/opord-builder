@@ -13,7 +13,7 @@ from opord_builder.openaix import convert as c
 from opord_builder.openaix.registry import VENDOR_DIR, registry, schemas
 from opord_builder.openaix.validate import FORMAT_CHECKER
 
-COMMON = "urn:openaix:schema:common:0.1.0-draft.2"
+COMMON = "urn:openaix:schema:common:0.2.0-draft.1"
 
 
 def assert_valid(def_name: str, value) -> None:
@@ -477,7 +477,10 @@ def test_resolve_names_lists_all_misses():
         ("target_timing", "As Acquired", "as_acquired"),
         ("desired_effect", "NEUTRALIZE", "neutralize"),
         ("cas_control_type", "TYPE_2", "type_2"),
-        ("cas_mark", "IR_POINTER", "infrared"),
+        ("cas_mark", "IR_POINTER", "infrared_pointer"),
+        ("refueling_method", "DROGUE", "drogue"),
+        ("jpitl_status", "EXECUTED", "executed"),
+        ("target_component", "SOF", "sof"),
         ("cas_mark", "WP", "white_phosphorus"),
         ("coa_designation", "MDCOA", "most_dangerous"),
         ("command_relationship", "OPCON", "operational_control"),
@@ -498,6 +501,10 @@ def test_enum_unknown_never_lowercases():
     with pytest.raises(c.ConvertError):
         c.map_enum("cas_mark", "GOGGLES")
     with pytest.raises(c.ConvertError):
+        c.map_enum("cas_mark", "NONE")  # OpenAIX has no `none`: the mark is absent
+    with pytest.raises(c.ConvertError):
+        c.map_enum("target_component", "IO")
+    with pytest.raises(c.ConvertError):
         c.unmap_enum("cas_mark", "nope")
     assert c.unmap_enum("coa_designation", "other") == "COA_3"
 
@@ -517,11 +524,20 @@ def test_enum_values_exist_in_openaix_schema():
                 walk(v, name)
 
     walk(schemas()["opord"])
+    walk(schemas()["common"])
+    walk(schemas()["ato"])
+    walk(schemas()["jiptl"])
     expect = {
         "target_timing": "timing",
         "desired_effect": "effect",
         "cas_control_type": "control_type",
-        "cas_mark": "mark",
+        "cas_mark": "TargetMark",
+        "cas_friendly_direction": "friendly_direction",
+        "cas_offset": "offset_direction",
+        "friendly_marking": "FriendlyMarking",
+        "refueling_method": "method",
+        "jpitl_status": "status",
+        "target_component": "component_tasked",
         "coa_designation": "kind",
         "command_relationship": "relationship",
     }
@@ -545,11 +561,12 @@ def test_enum_values_exist_in_openaix_schema():
         ("FSCL", "FSCL", False, {}),
         ("BULLSEYE", "BULLSEYE", False, {}),
         ("POINT", "POINT", False, {}),
-        ("AXIS", "AXIS", True, {}),
-        ("CFZ", "CFZ", True, {}),
+        ("AXIS", "AXIS", False, {}),
+        ("CFZ", "CFZ", False, {}),
         ("SFA", "SFA", True, {}),
         ("RFZ", "RFA", False, {}),
-        ("SAR", "SARDOT", True, {}),
+        ("SAR", "SARDOT", False, {}),
+        ("SARDOT", "SARDOT", False, {}),
     ],
 )
 def test_measure_type(code, resolved, extension, values):

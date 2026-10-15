@@ -1,11 +1,9 @@
 # yaml-language-server: $schema=../../schemas/spins.schema.json
-# Default SPINS layout rendered from typed OpenAIX data (draft.2 fields only).
+# Default SPINS layout rendered from typed OpenAIX data (0.2.0-draft.1).
 # Use it as is through opord_builder.spins.load_default_spins(spins=..., resources=..., airfields=[...]),
 # or copy it and list your files under `openaix:` (paths are relative to the copy), e.g.
 #   openaix: {spins: spins.json, resources: resources.json, airfields: [ojms.json, cvn-72.json]}
 # A section whose data is absent is left out entirely, with no empty heading.
-# TODO(openaix feat/gameplay-fields): carrier Link 4 / ACLS fields, and recovery windows
-#   (RecoveryAirfield has no window in draft.2). Add columns here after re-vendoring.
 kind: spins
 schema_version: '0.3'
 scope: standing
@@ -174,7 +172,6 @@ content:
       heading: Conditions
       field: /conditions
     empty: skip
-# TODO(openaix feat/gameplay-fields): recovery windows column (not in draft.2)
 - kind: section
   title: Recovery routing
   blocks:
@@ -236,7 +233,6 @@ content:
       heading: ATO missions
       field: /ato_missions
     empty: skip
-# TODO(openaix feat/gameplay-fields): carrier Link 4 and ACLS columns (not in draft.2)
 - kind: section
   title: Carrier
   blocks:
@@ -272,6 +268,16 @@ content:
     - key: marshal_radial
       heading: Marshal radial
       field: /carrier/case_recovery/marshal_radial
+    - key: link4
+      heading: Link 4
+      field: /carrier/link4
+    - key: acls
+      heading: ACLS
+      field: /carrier/acls
+      align: center
+    - key: windows
+      heading: Recovery windows
+      field: /carrier/recovery_windows
     - key: frequencies
       heading: Frequencies
       field: /frequencies

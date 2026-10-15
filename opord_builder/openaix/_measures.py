@@ -46,6 +46,10 @@ CODE_TO_AUTHORING = {
     "RFA": None,
 }  # RFA is also a valid FSCM type itself
 
+# A POINT that stands for an airspace zone kind: the SARDOT of a SAR zone.
+POINT_ZONE_ROLE = "search_and_rescue"
+POINT_ZONE_CODES = {POINT_ZONE_ROLE: "SARDOT"}
+
 POINT_ROLES = {
     "CP": "control",
     "TRP": "target_reference",
@@ -54,7 +58,7 @@ POINT_ROLES = {
     "EGRESS_PT": "egress",
     "FIX": "fix",
     "WAYPOINT": "fix",
-    "ANCHOR": "control",
+    "ANCHOR": "anchor",
     "NAVAID": "fix",
 }
 ROLE_TO_GEOREF = {
@@ -64,6 +68,7 @@ ROLE_TO_GEOREF = {
     "initial": "IP",
     "egress": "EGRESS_PT",
     "fix": "FIX",
+    "anchor": "ANCHOR",
 }
 ROLE_TO_CM = {"control": "CP", "target_reference": "TRP"}
 
@@ -212,6 +217,30 @@ def _point_doc(
     return doc
 
 
+def _sardot_point(
+    code: str,
+    name: str,
+    anchor: str | None,
+    block: dict[str, Any] | None,
+    active: dict[str, Any],
+    purpose: str | None,
+) -> dict[str, Any] | None:
+    """The catalogue's Search and Rescue Point (SARDOT, a POINT with role `search_and_rescue`) for an airspace
+    zone of kind SAR, or None when `code` is not SARDOT or the zone has no single anchor point."""
+    try:
+        if c.measure_type(code)["code"] != "SARDOT" or not anchor:
+            return None
+    except c.ConvertError:
+        return None
+    geometry = _geometry(anchor, False, "anchor_point")
+    if not geometry or geometry["kind"] != "point":
+        return None
+    extra: dict[str, Any] = {"description": purpose} if purpose else {}
+    if block:
+        extra["altitude"] = block
+    return _point_doc("search_and_rescue", name, anchor, active, extra)
+
+
 def _first_valid(
     candidates: list[dict[str, Any] | None], ident: str
 ) -> dict[str, Any] | None:
@@ -322,7 +351,14 @@ def encode_item(
             comp_geometry = g if g and g["kind"] == "polygon" else None
         block = _block(floor, ceiling)
         geometry = comp_geometry
-        if comp_geometry and block:
+        sardot = _sardot_point(code, name, anchor, block, active, purpose)
+        if sardot is not None:
+            doc = _first_valid([sardot], ident)
+            if doc is not None:
+                # A search and rescue point has no radius or polygon: those stay in the authoring overlay.
+                for f in ("radius_nm", "polygon_vertices"):
+                    consumed.pop(f, None)
+        elif comp_geometry and block:
             try:
                 mt = c.measure_type(code)
             except c.ConvertError:
@@ -478,9 +514,12 @@ def decode_item(doc: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     kind = hint
     if kind is None:
         if code == "POINT":
+            role = (doc.get("roles") or ["control"])[0]
             kind = (
-                "geo_ref"
-                if (doc.get("roles") or ["control"])[0] in ROLE_TO_GEOREF
+                "zone"
+                if role == POINT_ZONE_ROLE
+                else "geo_ref"
+                if role in ROLE_TO_GEOREF
                 else "control_measure"
             )
         elif code == "ORBIT":
@@ -529,8 +568,17 @@ def decode_item(doc: dict[str, Any]) -> tuple[str, dict[str, Any]]:
         if doc.get("description"):
             out["remarks"] = doc["description"]
     elif kind == "zone":
+        if code == "POINT":  # the catalogue's SARDOT
+            real = POINT_ZONE_CODES.get((doc.get("roles") or [""])[0], real)
         out["kind"] = CODE_TO_AUTHORING.get(real) or real
         comps = doc.get("components") or []
+        if code == "POINT":
+            t = geom_text()
+            if t:
+                out["anchor_point"] = t
+            fl, ce = _block_back(doc.get("altitude"))
+            if fl is not None:
+                out["altitude_floor_ft"], out["altitude_ceiling_ft"] = fl, ce
         if comps:
             g = comps[0].get("geometry", {})
             if g.get("kind") == "circle":

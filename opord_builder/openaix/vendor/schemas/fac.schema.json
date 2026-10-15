@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:fac:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:fac:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A forward air controller (FAC) is a record of a FAC, a joint terminal attack controller (JTAC) or an airborne forward air controller (FAC(A)). It contains the role, the platform, the communications and the control functions of the controller.",
@@ -18,7 +18,7 @@
     "channels": {
       "description": "This list identifies the radio channels that the controller uses.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "minItems": 1,
       "type": "array",
@@ -38,13 +38,13 @@
       }
     },
     "default_laser_code": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LaserCode",
       "description": "This field gives the laser code that the controller uses when the brief gives no other code, as a laser code with its unit."
     },
     "egress_points": {
       "description": "This list identifies the egress points that the controller gives to aircraft. Each one refers to a point with the role egress, gate or fix.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
         "x-measure-kinds": [
           "POINT"
         ],
@@ -66,11 +66,11 @@
             "type": "boolean"
           },
           "horizontal_accuracy": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
             "description": "This field gives the horizontal precision of the equipment that its data gives, as a length with its unit."
           },
           "id": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "description": "This field identifies this equipment item. Other records and orders use it to refer to this equipment item."
           },
           "kind": {
@@ -92,12 +92,12 @@
           "laser_codes": {
             "description": "This list contains the laser codes that the equipment can use.",
             "items": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LaserCode"
             },
             "type": "array"
           },
           "max_range": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
             "description": "This field gives the maximum range at which the equipment operates, as a length with its unit."
           },
           "name": {
@@ -116,7 +116,7 @@
             "type": "integer"
           },
           "vertical_accuracy": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
             "description": "This field gives the vertical precision of the equipment that its data gives, as a length with its unit."
           }
         },
@@ -129,7 +129,7 @@
       "type": "array"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -168,13 +168,13 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record. The data in this field is for one consumer. The controller record keeps the data that all consumers can use. Examples are the identification, the equipment and the functions of the controller."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this controller. Other records and orders use it to refer to this controller."
     },
     "initial_points": {
       "description": "This list identifies the initial points that the controller uses for attack briefs. Each one refers to a point with the role initial or fix.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
         "x-measure-kinds": [
           "POINT"
         ],
@@ -192,7 +192,7 @@
     "laser_codes": {
       "description": "This list contains the laser codes that the designators of the controller can use.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LaserCode"
       },
       "minItems": 0,
       "type": "array"
@@ -205,11 +205,11 @@
       ]
     },
     "position": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
       "description": "This field gives the geographic position of the controller, as latitude and longitude."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the external resource catalogue that resolves the references of this record. The reference identifies the catalogue and gives its revision."
     },
     "role": {

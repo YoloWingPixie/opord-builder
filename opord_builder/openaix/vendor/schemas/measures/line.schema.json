@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:measure-line:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:measure-line:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A coordination line is a line on the ground, with points in sequence, for the coordination of manoeuvre or identification. The line is the forward line of own troops (FLOT), the forward edge of the battle area (FEBA) or a ground manoeuvre graphic. These graphics are the phase line, the boundary, the limit of advance (LOA), the line of departure (LD) and the line of contact (LC). Other lines show where friendly aircraft set their identification, friend or foe (IFF) equipment to off or on.",
@@ -9,7 +9,7 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this coordination line is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "coordination_instructions": {
@@ -25,12 +25,12 @@
       "type": "string"
     },
     "establishing_authority": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the authority that set this coordination line.",
       "x-catalog": "agencies"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -76,10 +76,10 @@
       "description": "This field gives the horizontal geometry of the line: geographic positions in sequence. A `geojson` geometry (RFC 7946) of the same shape is also correct.",
       "oneOf": [
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_line"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_line"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_line"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_geojson_line"
         }
       ]
     },
@@ -95,7 +95,7 @@
       }
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this coordination line. Other records and orders use it to refer to this coordination line."
     },
     "name": {
@@ -108,7 +108,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this coordination line. The reference gives the identifier and the revision of the catalogue."
     },
     "type": {

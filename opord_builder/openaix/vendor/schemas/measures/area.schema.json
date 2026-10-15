@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:measure-area:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:measure-area:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "allOf": [
@@ -28,7 +28,7 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this area is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "coordination_instructions": {
@@ -44,12 +44,12 @@
       "type": "string"
     },
     "establishing_authority": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the headquarters that set the area.",
       "x-catalog": "agencies"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -118,27 +118,27 @@
       "description": "This field gives the horizontal geometry of the area on the ground or at sea: a polygon, or a radius from a centre point. A `geojson` geometry (RFC 7946) of the same shape is also correct. The boundary follows terrain features that are easy to identify.",
       "oneOf": [
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_polygon"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_circle"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polyarc"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_polyarc"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_rectangle"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_ellipse"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_geojson_polygon"
         }
       ]
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this area. Other records and orders use it to refer to this area."
     },
     "name": {
@@ -151,7 +151,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this area. The reference gives the identifier and the revision of the catalogue."
     },
     "restrictions": {
@@ -175,12 +175,16 @@
         "AA",
         "NAI",
         "TAI",
-        "FSA"
+        "FSA",
+        "AXIS",
+        "CFZ"
       ],
       "x-enum-descriptions": {
         "AA": "An assembly area (AA) is an area where a unit makes its preparation for an operation.",
         "AOA": "An amphibious objective area (AOA) is a geographical area that the initiating directive gives for command and control. It contains the objectives that the amphibious task force is to make safe.",
+        "AXIS": "An axis of advance is the general area through which the bulk of the combat power of a unit must move. A commander uses it to make the force bypass locations that could delay it. It also shows that the force does not have to clear all of the assigned area. It shows a unit in an encirclement, exploitation or pursuit that it must move quickly toward an objective. Bypass criteria go with it. Any manoeuvre echelon can use one. The axis of a subordinate unit stays inside the axis of its higher headquarters.",
         "BP": "A battle position (BP) is a defence location in the direction of a likely enemy avenue of approach. It is not an area of operations.",
+        "CFZ": "A critical friendly zone is an area of friendly weapons locating radar coverage that a commander designates. It is critical to the protection of an asset. The loss of that asset would seriously jeopardize the mission. The zone needs weapons locating radar coverage and attack assets that can give counterfire. The supporting field artillery unit puts enemy indirect fire that the radar acquires into the zone ahead of all other counterfire targets.",
         "EA": "An engagement area (EA) is an area of ground manoeuvre control in which the commander plans to contain and destroy an enemy force. The commander uses the massed effects of all available weapons and the systems that help them. Close air support is an example. The commander may divide the area into smaller areas for subordinate units.",
         "FFA": "A free-fire area (FFA) is a permissive area for fires. Any weapon system may fire into it without further coordination with the establishing headquarters (HQ). Joint fires can occur more quickly in it, and it helps aircraft jettison munitions. Only the commander with jurisdiction, usually at division or higher, may establish it.",
         "FSA": "A fire support area (FSA) is a sea manoeuvre area that the naval force commander gives to fire support ships. From this area, the ships supply gunfire support to an amphibious operation. The officer in tactical command establishes it.",

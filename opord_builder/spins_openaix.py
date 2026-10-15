@@ -77,6 +77,7 @@ def resolve(document: Any, pointer: str) -> Any:
 # --------------------------------------------------------------------------- value text
 
 _VERTICAL_WORDS = {"surface": "SFC", "unlimited": "UNL"}
+_RECOVERY_CASES = {"case_i": "Case I", "case_ii": "Case II", "case_iii": "Case III"}
 
 
 def _number(value: float) -> str:
@@ -142,6 +143,11 @@ def format_value(value: Any, where: str = "value") -> str:
             return (
                 f"{text} ({value['identifier']})" if value.get("identifier") else text
             )
+        if {"case", "window"} <= keys:  # a carrier RecoveryWindow
+            text = f"{_RECOVERY_CASES.get(value['case'], value['case'])} {format_value(value['window'], where)}"
+            if value.get("brc"):
+                text += f", BRC {_bearing(value['brc'])}"
+            return text
         if {"start", "end"} <= keys:
             return f"{_time(value['start'], where)} to {_time(value['end'], where)}"
         if {"latitude", "longitude"} <= keys:

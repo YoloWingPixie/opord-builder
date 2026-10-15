@@ -16,6 +16,7 @@ from typing import Any
 
 from pydantic import ValidationError
 
+from opord_builder.openaix import _cas as cas
 from opord_builder.openaix import _measures as m
 from opord_builder.openaix import _targeting as tg
 from opord_builder.openaix import convert as c
@@ -37,6 +38,8 @@ from opord_builder.openaix._engine import (
 from opord_builder.openaix.registry import schemas
 
 PRINT_PTR = f"/extensions/{PRINT_NS}"
+# The closed print extension has no room for per-annex status, so it rides in the authoring extension.
+ANNEX_STATUS_KEY = "@annex_status"
 Conv = Callable[[Any, Ctx], Any]
 
 
@@ -509,7 +512,7 @@ CANONICAL_LETTERS = set("ABCDEFGHJKLMNPQRSUVWZ")
 
 
 class Annexes:
-    """annexes: list[Annex] <-> annexes{letter}. Also owns the print extension's annex_status, the measures of
+    """annexes: list[Annex] <-> annexes{letter}. Also owns the authoring extension's `@annex_status` entry, the measures of
     Annexes C and D (resources.control_measures) and the frequency tables (resources.channels)."""
 
     def enc(self, d: dict, ctx: Ctx) -> None:
@@ -528,7 +531,7 @@ class Annexes:
                 )
             if rels:
                 ctx.doc.setdefault("annexes", {})["A"] = {"relationships": rels}
-            ptr_set(ctx.doc, f"{PRINT_PTR}/annex_status", {})
+            ctx.scratch["annex_status"] = {}
             return
         ctx.typed_lists.add("annexes")
         status: dict[str, str] = {}
@@ -561,7 +564,7 @@ class Annexes:
             out["A"] = {"relationships": ctx.scratch["relationships"]}
         if not out:
             del ctx.doc["annexes"]
-        ptr_set(ctx.doc, f"{PRINT_PTR}/annex_status", status)
+        ctx.scratch["annex_status"] = status
         if not cm:
             ctx.resources.pop("control_measures")
 
@@ -635,12 +638,44 @@ class Annexes:
         if fscm:
             entry["fire_support_coordination_measures"] = fscm
         self._enc_targeting(tb, path, entry, ctx)
+        self._enc_cas(tb, path, entry, ctx)
 
     @staticmethod
     def _stash_diff(consumed: dict, back: dict, path: str, ctx: Ctx) -> None:
         for f, orig in consumed.items():
             if back.get(f, MISSING) != orig:
                 ctx.stash[f"{path}.{f}"] = orig
+
+    def _enc_cas(self, tb: dict, path: str, entry: dict, ctx: Ctx) -> None:
+        """9-line CAS briefs -> air_support.cas_briefs (with their threats in resources.threats)."""
+        items = tg.present(tb, "cas_nine_lines")
+        if not items:
+            return
+        threats: dict[str, Any] = {}
+        threat_ids: dict[str, str] = {}
+        ids: set[str] = set()
+        built = [
+            cas.cas_brief(
+                i,
+                c.slug(f"cas {n}", ids, "cas_briefs"),
+                threat_ids,
+                threats,
+            )
+            for n, i in enumerate(items, 1)
+        ]
+        if not all(built):
+            return
+        lp = f"{path}.cas_nine_lines"
+        ctx.typed_lists.add(lp)
+        briefs = []
+        for n, (item, (brief, consumed)) in enumerate(zip(items, built, strict=True)):
+            self._stash_diff(consumed, cas.cas_item(brief, threats), f"{lp}.{n}", ctx)
+            for k in consumed:
+                item.pop(k)
+            briefs.append(brief)
+        entry["air_support"] = {"cas_briefs": briefs}
+        if threats:
+            ctx.resources.setdefault("threats", {}).update(threats)
 
     def _enc_targeting(self, tb: dict, path: str, entry: dict, ctx: Ctx) -> None:
         # JPITL -> jiptl document
@@ -756,7 +791,7 @@ class Annexes:
 
     # ---- decoding
     def dec(self, doc: dict, d: dict, ctx: Ctx, resources: dict | None = None) -> None:
-        status = ptr_get(doc, f"{PRINT_PTR}/annex_status")
+        status = ctx.scratch.get("annex_status", MISSING)
         entries = doc.get("annexes") or {}
         letters = sorted(entries) if status is MISSING else sorted(status)
         letters = [x for x in letters if x in CANONICAL_ANNEXES_ALL]
@@ -865,6 +900,7 @@ class Annexes:
         )
         from opord_builder.schema import shared
         from opord_builder.schema.annexes import AttackGuidanceEntry
+        from opord_builder.schema.shared import NineLineCAS
 
         lp = f"{path}.jpitl"
         jp = [
@@ -886,6 +922,18 @@ class Annexes:
         ctx.scratch.setdefault("measure_lists", {})[lp] = len(ts)
         if ts:
             tb["time_sensitive_targets"] = ts
+        lp = f"{path}.cas_nine_lines"
+        threats = (res or {}).get("threats", {})
+        docs = ptr_get(e, "/air_support/cas_briefs", []) or []
+        cb = [
+            self._keep(NineLineCAS, cas.cas_item(b, threats), lp, i, ctx)
+            for i, b in enumerate(docs)
+        ]
+        cb = [x for x in cb if x is not None]
+        if docs:  # no briefs in the document: any overlay entries are the untyped list, not orphans
+            ctx.scratch.setdefault("measure_lists", {})[lp] = len(cb)
+        if cb:
+            tb["cas_nine_lines"] = cb
         hp = targeting.get("high_payoff_targets", [])
         lh, la = f"{path}.high_payoff_target_list", f"{path}.attack_guidance_matrix"
         hv, ag = tg.hpt_items(hp, targets) if hp else ([], [])
@@ -1098,8 +1146,11 @@ def encode(dump: dict, ctx: Ctx) -> None:
                 "/command_and_signal/signal/channels",
                 list(ctx.resources["channels"]),
             )
-    if ctx.stash:
-        ptr_set(doc, f"/extensions/{AUTHORING_NS}", group_stash(ctx.stash))
+    authoring = group_stash(ctx.stash)
+    if "annex_status" in ctx.scratch:
+        authoring[ANNEX_STATUS_KEY] = ctx.scratch["annex_status"]
+    if authoring:
+        ptr_set(doc, f"/extensions/{AUTHORING_NS}", authoring)
 
 
 def decode(
@@ -1107,8 +1158,12 @@ def decode(
 ) -> dict[str, Any]:
     """Model dict (unvalidated) from an OpenAIX OPORD and its optional resources document."""
     d: dict[str, Any] = {}
-    stash, _ = ungroup_stash(ptr_get(doc, f"/extensions/{AUTHORING_NS}", {}) or {})
+    stash, special = ungroup_stash(
+        ptr_get(doc, f"/extensions/{AUTHORING_NS}", {}) or {}
+    )
     ctx.scratch["stash"] = stash
+    if ANNEX_STATUS_KEY in special:
+        ctx.scratch["annex_status"] = special[ANNEX_STATUS_KEY]
     ctx.scratch["jiptl_in"] = (jiptl or {}).get("targets", [])
     res = (resources or {}).get("resources", {}) if resources else {}
     for codec in _leaves():

@@ -1359,6 +1359,23 @@ class KneeboardTACAN(_Base):
     )
 
 
+class KneeboardTiming(_Base):
+    """Package timing figures for the flight."""
+
+    tot: str = Field(
+        default="",
+        description="Time on target (e.g. '1030Z', '1030Z-1045Z', 'NLT 1045Z').",
+    )
+    push: str = Field(
+        default="",
+        description="Push time (e.g. '0950Z').",
+    )
+    push_point: str = Field(
+        default="",
+        description="Name of the push point.",
+    )
+
+
 class KneeboardFuelPlan(_Base):
     """Fuel planning figures in pounds."""
 
@@ -1468,6 +1485,10 @@ class KneeboardCard(_Base):
         default=None,
         description="TACAN channel plan.",
     )
+    timing: Optional[KneeboardTiming] = Field(
+        default=None,
+        description="Package time on target and push.",
+    )
     primary_objectives: list[str] = Field(
         default_factory=list,
         description="Primary mission objectives.",
@@ -1558,6 +1579,7 @@ __all__ = [
     "OrdersGroup",
     "KneeboardPosition",
     "KneeboardTACAN",
+    "KneeboardTiming",
     "KneeboardFuelPlan",
     "KneeboardCommsPhase",
     "KneeboardTanker",

@@ -44,11 +44,11 @@
           "type": "string"
         },
         "elevation": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Elevation",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Elevation",
           "description": "This field gives the elevation of the aimpoint above mean sea level (MSL), as an elevation with its unit."
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -130,7 +130,7 @@
           ]
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -163,14 +163,14 @@
       "type": "object"
     },
     "AirspaceSelection": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection"
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection"
     },
     "Altitude": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
       "description": "An altitude is a vertical position with its unit and its reference: mean sea level (MSL), above ground level (AGL) or flight level (FL)."
     },
     "AltitudeBlock": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/AltitudeBlock",
       "description": "An altitude block is a vertical band between a floor and a ceiling. The floor can be the surface, and the ceiling can have no limit."
     },
     "Area": {
@@ -185,7 +185,7 @@
           "description": "This field gives the vertical limits of the area, as an altitude block with a floor and a ceiling."
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -253,22 +253,22 @@
           "description": "This field gives the horizontal geometry of the area: a circle, a polygon, a corridor, a rectangle or an ellipse.",
           "oneOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_circle"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_circle"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_polygon"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_polygon"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_corridor"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_corridor"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_rectangle"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_rectangle"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_ellipse"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_ellipse"
             },
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_polygon"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_geojson_polygon"
             }
           ]
         },
@@ -336,7 +336,7 @@
           "type": "string"
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -569,7 +569,7 @@
         "frequency": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Frequency"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Frequency"
             },
             {
               "required": [
@@ -602,8 +602,32 @@
       "title": "Channel",
       "type": "object"
     },
+    "CommPlan": {
+      "additionalProperties": false,
+      "description": "A communication plan is a named set of radio assignments that several flights can use.",
+      "properties": {
+        "assignments": {
+          "description": "This list contains the radio assignments of the plan.",
+          "items": {
+            "$ref": "#/$defs/RadioAssignment"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "name": {
+          "description": "This field gives the name of this communication plan, for display.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "assignments"
+      ],
+      "type": "object"
+    },
     "DocumentRef": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
       "description": "A document reference is a document that a record refers to. Consumers do not get the document automatically through a network."
     },
     "Emitter": {
@@ -631,19 +655,19 @@
       "description": "An emitter is an air defence radar with the system that it is a part of, its position and its threat ring. Briefs and orders refer to the emitter by its identifier and do not copy it. A consumer shows the threat ring as a circle around the position of the emitter. An emitter shall have a position or simulator bindings.",
       "properties": {
         "detection_range": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the largest range at which the radar can find an aircraft, as a length with its unit."
         },
         "engagement_ceiling": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/VerticalLimit",
           "description": "This field gives the ceiling of the engagement envelope of the system: an altitude with its reference, or no limit."
         },
         "engagement_floor": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/VerticalLimit",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/VerticalLimit",
           "description": "This field gives the floor of the engagement envelope of the system: an altitude with its reference, or the surface."
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -683,21 +707,21 @@
           "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
         },
         "id": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies this emitter. Each emitter in the resource catalogue has a different identifier. Briefs, threats and orders use it to refer to this emitter."
         },
         "last_seen": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
           "description": "This field gives the time of of the last report of the emitter."
         },
         "max_engagement_range": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the largest range at which the system can engage an aircraft, as a length with its unit."
         },
         "measures": {
           "description": "This list identifies the missile engagement zones, missile arcs and the other measures of air defence that are for this emitter. Each missile arc shall start at the emitter, and each engagement zone shall contain it.",
           "items": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
             "x-measure-kinds": [
               "MEZ",
               "MISARC",
@@ -711,7 +735,7 @@
           "uniqueItems": true
         },
         "min_engagement_range": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the smallest range at which the system can engage an aircraft, as a length with its unit."
         },
         "mobility": {
@@ -738,7 +762,7 @@
           "type": "string"
         },
         "position": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the emitter, as latitude and longitude. For a mobile emitter, the position is the position from the last report."
         },
         "radar_reporting_name": {
@@ -841,7 +865,7 @@
           "type": "string"
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -934,7 +958,7 @@
       "type": "object"
     },
     "GeoPoint": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
       "description": "A geographic point is a position in WGS 84 decimal degrees. An adapter is necessary for the Cartesian coordinates of a simulator."
     },
     "InWindow": {
@@ -961,7 +985,7 @@
       "additionalProperties": false,
       "properties": {
         "as_of": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
           "description": "This field gives the time of the last known position."
         },
         "position": {
@@ -996,7 +1020,7 @@
           "type": "string"
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -1101,7 +1125,7 @@
       "type": "object"
     },
     "Offset": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Offset",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Offset",
       "description": "An offset is a number of minutes from the start of the period of the air tasking order (ATO) that contains it. The value can be less than zero."
     },
     "OnOrder": {
@@ -1187,17 +1211,20 @@
       "title": "ProcedureStep",
       "type": "object"
     },
+    "RadioAssignment": {
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RadioAssignment"
+    },
     "ReportDefinition": {
       "additionalProperties": false,
       "description": "A report definition is a report that a unit should send. ATP 6-02.x and the standard operating procedure (SOP) of the unit give the report.",
       "properties": {
         "channel": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the radio channel that is for the report.",
           "x-catalog": "channels"
         },
         "classification": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ClassificationLevel",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ClassificationLevel",
           "description": "This field gives the highest security classification of the data in the report, as one of the enumerated values."
         },
         "format_ref": {
@@ -1225,15 +1252,15 @@
         "precedence": {
           "description": "This field gives the message precedence of the report, as JP 6-0 gives it, as one of the enumerated values.",
           "enum": [
-            "FLASH",
-            "IMMEDIATE",
-            "PRIORITY",
-            "ROUTINE"
+            "flash",
+            "immediate",
+            "priority",
+            "routine"
           ],
           "type": "string"
         },
         "recipient": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the command and control agency that receives the report.",
           "x-catalog": "agencies"
         },
@@ -1257,11 +1284,11 @@
       "properties": {
         "agencies": {
           "additionalProperties": {
-            "$ref": "urn:openaix:schema:c2-agency:0.1.0-draft.2"
+            "$ref": "urn:openaix:schema:c2-agency:0.2.0-draft.1"
           },
           "description": "This map contains the command and control agencies. The key of each item is its identifier.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1271,7 +1298,7 @@
           },
           "description": "This map contains the aircraft types. The key of each item is its identifier.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1284,7 +1311,7 @@
             }
           },
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1297,12 +1324,22 @@
             }
           },
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "comm_plans": {
+          "additionalProperties": {
+            "$ref": "#/$defs/CommPlan"
+          },
+          "description": "This map contains the communication plans, which are named sets of radio assignments that flights share. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
         "control_measures": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/MeasureCatalogue",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/MeasureCatalogue",
           "description": "This map contains the control measures. The key of each item is its identifier."
         },
         "emitters": {
@@ -1311,71 +1348,71 @@
           },
           "description": "This map contains the emitters, which are air defence radars with their systems and threat rings. The key of each item is its identifier.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
         },
         "facs": {
           "additionalProperties": {
-            "$ref": "urn:openaix:schema:fac:0.1.0-draft.2"
+            "$ref": "urn:openaix:schema:fac:0.2.0-draft.1"
           },
           "description": "This map contains the forward air controllers. The key of each item is its identifier. A controller contact of an air tasking order (ATO) can identify a forward air controller of this map. An identifier shall not be in `agencies` and in `facs`.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
         "instrument_procedures": {
           "additionalProperties": {
-            "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2"
+            "$ref": "urn:openaix:schema:procedure:0.2.0-draft.1"
           },
           "description": "This map contains the instrument procedures that airfields refer to. The key of each item is its identifier.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
         "localizers": {
           "additionalProperties": {
-            "$ref": "urn:openaix:schema:localizer:0.1.0-draft.2"
+            "$ref": "urn:openaix:schema:localizer:0.2.0-draft.1"
           },
           "description": "This map contains the localizers to which airfields and the ends of runways refer. The key of each item is its identifier.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
         "notams": {
           "additionalProperties": {
-            "$ref": "urn:openaix:schema:notam:0.1.0-draft.2"
+            "$ref": "urn:openaix:schema:notam:0.2.0-draft.1"
           },
           "description": "This map contains the notice to air missionses (NOTAMs) that planners write before the operation. The key of each item is its identifier.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
         "pattern_profiles": {
           "additionalProperties": {
-            "$ref": "urn:openaix:schema:airfield:0.1.0-draft.2#/$defs/TrafficPattern"
+            "$ref": "urn:openaix:schema:airfield:0.2.0-draft.1#/$defs/TrafficPattern"
           },
           "description": "This map contains the traffic pattern profiles that airfields refer to. The key of each item is its identifier. A traffic pattern profile in this map shall not refer to a traffic pattern profile.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
         "places": {
           "additionalProperties": {
-            "$ref": "urn:openaix:schema:airfield:0.1.0-draft.2"
+            "$ref": "urn:openaix:schema:airfield:0.2.0-draft.1"
           },
           "description": "This map contains the operating locations for departure, recovery, diversion and transport: airfields, carriers and forward arming and refuelling points (FARPs). The key of each item is its identifier.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1388,7 +1425,7 @@
             }
           },
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1401,7 +1438,7 @@
             }
           },
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1414,17 +1451,17 @@
             }
           },
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
         "scls": {
           "additionalProperties": {
-            "$ref": "urn:openaix:schema:scl:0.1.0-draft.2"
+            "$ref": "urn:openaix:schema:scl:0.2.0-draft.1"
           },
           "description": "This map contains the standard conventional loads (SCLs). The key of each item is its identifier.",
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1437,7 +1474,7 @@
             }
           },
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1460,7 +1497,7 @@
             }
           },
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         },
@@ -1473,7 +1510,7 @@
             }
           },
           "propertyNames": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },
           "type": "object"
         }
@@ -1543,7 +1580,7 @@
           "description": "This field gives the altitude that the order gives for this route point, as an altitude with its unit and reference."
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -1599,6 +1636,11 @@
           "description": "This field gives the name of this route point, for display.",
           "minLength": 1,
           "type": "string"
+        },
+        "number": {
+          "description": "This field gives the steerpoint number of this route point in the aircraft, from 1.",
+          "minimum": 1,
+          "type": "integer"
         },
         "position": {
           "$ref": "#/$defs/GeoPoint",
@@ -1684,7 +1726,7 @@
       ],
       "properties": {
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -1775,7 +1817,7 @@
       "additionalProperties": false,
       "properties": {
         "airfield": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the operating location that is the base of the threat, for example the airfield of enemy aircraft.",
           "x-catalog": "places"
         },
@@ -1791,7 +1833,7 @@
           "description": "This field identifies the planning area or control measure in which the threat operates."
         },
         "as_of": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
           "description": "This field gives the time of the threat data."
         },
         "briefing": {
@@ -1809,7 +1851,7 @@
         "emitters": {
           "description": "This list identifies the emitters that are a part of this threat.",
           "items": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "x-catalog": "emitters"
           },
           "type": "array",
@@ -1863,11 +1905,11 @@
       "type": "object"
     },
     "Window": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Window",
       "description": "A window is a time interval with limits that are absolute date-times or offsets from the period of the order that contains it."
     }
   },
-  "$id": "urn:openaix:schema:resources:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:resources:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A resource catalogue is a catalogue with a version that contains the resources that plans and control measures refer to. Each resource has a name.",
@@ -1879,7 +1921,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "kind": {
@@ -1887,7 +1929,7 @@
       "description": "The value identifies this record as a resource catalogue."
     },
     "meta": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Metadata",
       "description": "This field gives the identification, revision and issue data of this resource catalogue."
     },
     "resources": {
@@ -1895,7 +1937,7 @@
       "description": "This field contains the resources of this catalogue, in maps. Each map identifies its items by their identifiers."
     },
     "schema_version": {
-      "const": "0.1.0-draft.2",
+      "const": "0.2.0-draft.1",
       "description": "This field gives the version of the openAIX schema that this resource catalogue agrees with."
     }
   },

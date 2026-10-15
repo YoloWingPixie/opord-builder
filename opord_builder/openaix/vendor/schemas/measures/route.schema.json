@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:measure-route:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:measure-route:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "allOf": [
@@ -27,7 +27,7 @@
       "then": {
         "properties": {
           "geometry": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_corridor"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_corridor"
           }
         }
       }
@@ -59,23 +59,23 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this route is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "altitude": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/AltitudeBlock",
       "description": "This field gives the vertical limits of the route or corridor, as an altitude block with a floor and a ceiling. Each code other than `VFRRTE` shall have this field. A floor at the surface and a ceiling give a route with a ceiling only."
     },
     "channels": {
       "description": "This list identifies the communications channels of this route.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "type": "array",
       "x-catalog": "channels"
     },
     "controlling_agency": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the agency that controls the operations in this route.",
       "x-catalog": "agencies"
     },
@@ -92,7 +92,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -136,21 +136,21 @@
       "description": "This field gives the horizontal geometry of the route: a centreline, a corridor with its total lateral width, or a path of straight and arc segments. A `geojson` geometry (RFC 7946) of the same shape is also correct. When doctrine gives a code as a corridor, the code shall use the corridor geometry.",
       "oneOf": [
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_line"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_line"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_corridor"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_corridor"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_path"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_path"
         },
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_geojson_line"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_geojson_line"
         }
       ]
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this route. Other records and orders use it to refer to this route."
     },
     "joins": {
@@ -160,7 +160,7 @@
         "description": "A route join is a vertex of this route where another route starts, ends or crosses.",
         "properties": {
           "route": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "description": "This field identifies the other route.",
             "x-catalog": "control_measures"
           },
@@ -194,7 +194,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this route. The reference gives the identifier and the revision of the catalogue."
     },
     "restrictions": {
@@ -212,12 +212,12 @@
         "description": "A served runway is a runway of an airfield that the route goes to or comes from.",
         "properties": {
           "airfield": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "description": "This field identifies the airfield that has the runway.",
             "x-catalog": "places"
           },
           "runway": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
             "description": "This field gives the designator of the runway end, such as `31`."
           }
         },
@@ -290,7 +290,7 @@
             "type": "string"
           },
           "point": {
-            "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
             "description": "This field identifies the point record that is at this vertex.",
             "x-catalog": "control_measures"
           }

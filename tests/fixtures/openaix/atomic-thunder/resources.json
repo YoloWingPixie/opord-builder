@@ -1,7 +1,7 @@
 {
-  "$schema": "urn:openaix:schema:resources:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:resources:0.2.0-draft.1",
   "kind": "resources",
-  "schema_version": "0.1.0-draft.2",
+  "schema_version": "0.2.0-draft.1",
   "meta": {
     "id": "atomic-thunder-resources",
     "revision": "1",
@@ -61,6 +61,26 @@
           "band": "vhf"
         },
         "usage": "Strike package common"
+      },
+      "etad-ground-vhf": {
+        "name": "Spang Ground",
+        "frequency": {
+          "value": 121.8,
+          "unit": "MHz",
+          "modulation": "AM",
+          "band": "vhf"
+        },
+        "usage": "Ground control"
+      },
+      "etad-tower-uhf": {
+        "name": "Spang Tower",
+        "frequency": {
+          "value": 257.8,
+          "unit": "MHz",
+          "modulation": "AM",
+          "band": "uhf"
+        },
+        "usage": "Tower"
       }
     },
     "scls": {
@@ -286,6 +306,40 @@
             ]
           }
         ]
+      }
+    },
+    "comm_plans": {
+      "etad-recovery": {
+        "name": "Spangdahlem recovery",
+        "assignments": [
+          {
+            "radio": "COMM1",
+            "channel": "etad-tower-uhf",
+            "preset": 6,
+            "purpose": "Spang Tower",
+            "activities": [
+              "recovery"
+            ]
+          }
+        ]
+      }
+    },
+    "control_measures": {
+      "push-ivory": {
+        "$schema": "urn:openaix:schema:point:0.2.0-draft.1",
+        "active": {
+          "continuous": true
+        },
+        "id": "push-ivory",
+        "name": "IVORY",
+        "position": {
+          "latitude": 50.1,
+          "longitude": 6.9
+        },
+        "roles": [
+          "push"
+        ],
+        "type": "POINT"
       }
     }
   }

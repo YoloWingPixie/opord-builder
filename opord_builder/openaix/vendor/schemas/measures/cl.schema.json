@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:measure-cl:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:measure-cl:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A coordination level or coordinating altitude is one altitude or height that divides airspace users. The code `CL` is the North Atlantic Treaty Organization (NATO) coordination level, and the code `CA` is the coordinating altitude of JP 3-52. The record can identify the agencies that control the airspace below and above the level. The lateral limits come from text or from unit boundaries, not from this record.",
@@ -9,7 +9,7 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this coordination level or coordinating altitude is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "coordination_instructions": {
@@ -25,7 +25,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -49,7 +49,7 @@
     "geometry": {
       "allOf": [
         {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Geometry_vertical"
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Geometry_vertical"
         },
         {
           "required": [
@@ -60,7 +60,7 @@
       "description": "This field gives the vertical geometry of the coordination level: one altitude or height."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this coordination level or coordinating altitude. Other records and orders use it to refer to this coordination level or coordinating altitude."
     },
     "name": {
@@ -73,16 +73,16 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this coordination level or coordinating altitude. The reference gives the identifier and the revision of the catalogue."
     },
     "responsibility_above": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the agency that controls the airspace above the level.",
       "x-catalog": "agencies"
     },
     "responsibility_below": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the agency that controls the airspace below the level.",
       "x-catalog": "agencies"
     },

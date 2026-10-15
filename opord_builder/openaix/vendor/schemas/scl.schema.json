@@ -47,7 +47,7 @@
           ]
         },
         "height_of_burst": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the height above the ground at which the fuze functions, as a length with its unit."
         },
         "nose_fuze": {
@@ -372,7 +372,7 @@
       "description": "A station load is the stores on one weapon station of the aircraft.",
       "properties": {
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -405,7 +405,7 @@
           "type": "array"
         },
         "rack": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the store of the `rack` type that has the other stores on this station.",
           "x-catalog": "stores"
         },
@@ -430,7 +430,7 @@
           "description": "This field gives the fuze setting of the store."
         },
         "laser_code": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LaserCode",
           "description": "This field gives the laser code of the store. It replaces the laser code of the standard conventional load (SCL) for this store."
         },
         "program": {
@@ -444,7 +444,7 @@
           "type": "integer"
         },
         "store": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the store that this entry is for.",
           "x-catalog": "stores"
         }
@@ -456,7 +456,7 @@
       "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:scl:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:scl:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A standard conventional load (SCL) is one store configuration of one aircraft type. It gives the stores of each aircraft, their stations and fuzes, the gun rounds and the countermeasures. The load does not show that it is possible to install the stores on the aircraft.",
@@ -468,7 +468,7 @@
       "type": "string"
     },
     "aircraft_type": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the aircraft type that this load is for. Each flight with this standard conventional load (SCL) shall have this aircraft type.",
       "x-catalog": "aircraft_types"
     },
@@ -488,7 +488,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -515,7 +515,7 @@
       "type": "integer"
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this standard conventional load (SCL). Other records and orders use it to refer to this SCL."
     },
     "kind": {
@@ -523,7 +523,7 @@
       "description": "The value identifies this record as a standard conventional load (SCL)."
     },
     "laser_code": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/LaserCode",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LaserCode",
       "description": "This field gives the default laser code for the weapons of this load. A store entry can give a different code."
     },
     "missions": {
@@ -546,7 +546,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the external resource catalogue that resolves the references of this record. The reference identifies the catalogue and gives its revision."
     },
     "scl_number": {
@@ -555,7 +555,7 @@
       "type": "string"
     },
     "source": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DocumentRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
       "description": "This field identifies the source document. The reference identifies the document. It may also give a revision and a locator."
     },
     "stations": {

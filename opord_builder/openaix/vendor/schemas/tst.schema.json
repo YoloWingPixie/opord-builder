@@ -5,12 +5,12 @@
       "description": "An approved weapon system is a weapon system or an aircraft type that has clearance to engage the target, with its weapon.",
       "properties": {
         "scl": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the standard conventional load (SCL) that is the load of the aircraft.",
           "x-catalog": "scls"
         },
         "store": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the store that is the weapon. When the entry gives a standard conventional load (SCL), the SCL shall contain the store.",
           "x-catalog": "stores"
         },
@@ -30,7 +30,7 @@
       "description": "A time-sensitive target entry is one row on the time-sensitive target (TST) list. The joint force commander designates each TST and has its engagement authority. The joint force commander may delegate this authority to a component commander or to a lower level. Forces prosecute a TST with dynamic targeting: find, fix, track, target, engage and assess.",
       "properties": {
         "activity_window": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Window",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Window",
           "description": "This field gives the time interval during which the target is possibly there or active."
         },
         "authorized_engagement_means": {
@@ -46,7 +46,7 @@
           "type": "string"
         },
         "engagement_authority": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the command and control agency that gives approval for the engagement of this target. The joint force commander has this authority and may delegate it to a component commander or to a lower level.",
           "x-catalog": "agencies"
         },
@@ -66,7 +66,7 @@
                 "type": "string"
               },
               "position": {
-                "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+                "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
                 "description": "This field gives the geographic position of the possible location, as latitude and longitude."
               }
             },
@@ -82,7 +82,7 @@
           "type": "string"
         },
         "expires_at": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/DateTime",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DateTime",
           "description": "This field gives the time at which the target goes off the list, if no other condition removes it first."
         },
         "priority": {
@@ -95,7 +95,7 @@
           "type": "string"
         },
         "target": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the target that is this entry, in the resource catalogue.",
           "x-catalog": "targets"
         },
@@ -115,7 +115,7 @@
       "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:tst:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:tst:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "Time-sensitive targets (TST) are targets that it is necessary to engage immediately. A target is on the list when it is dangerous to friendly forces at this time or in a short time. A target of opportunity that is very important and available for a short time only is also on the list. Each entry has the data to find, identify and engage the target in its window.",
@@ -127,7 +127,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "kind": {
@@ -135,15 +135,15 @@
       "description": "The value identifies this record as a time-sensitive target (TST) list."
     },
     "meta": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Metadata",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Metadata",
       "description": "This field gives the identification, revision and issue data of this list."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the external resource catalogue that resolves the references of the list. The reference identifies the catalogue and gives its revision."
     },
     "schema_version": {
-      "const": "0.1.0-draft.2",
+      "const": "0.2.0-draft.1",
       "description": "This field gives the version of the openAIX schema that this time-sensitive target (TST) list agrees with."
     },
     "targets": {

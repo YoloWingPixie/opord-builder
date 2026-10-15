@@ -100,8 +100,9 @@ def test_default_layout_is_a_valid_shipped_resource():
     SPINS.model_validate(yaml.safe_load(SPINS_DEFAULT_LAYOUT.read_text()))
     assert "opord_builder/templates/**/*" in (ROOT / "pyproject.toml").read_text()
     text = SPINS_DEFAULT_LAYOUT.read_text()
-    assert "TODO(openaix feat/gameplay-fields)" in text
-    assert "link4" not in text.lower()
+    assert "TODO(openaix" not in text
+    for field in ("/carrier/link4", "/carrier/acls", "/carrier/recovery_windows"):
+        assert field in text
 
 
 def test_default_layout_renders_every_section():
@@ -128,6 +129,32 @@ def test_default_layout_renders_every_section():
     assert "6000 ft MSL" in md and "180° M" in md
     assert "Marshal 264.0 MHz AM" in md
     assert "<h2" in render_spins_html(document)
+
+
+def test_carrier_table_shows_link4_acls_and_recovery_windows():
+    document = load_default_spins(airfields=[FIX / "carrier.json"])
+    md = render_spins_markdown(document)
+    carrier = md[md.index(" Carrier\n") :]
+    for text in (
+        "Link 4",
+        "335.4 MHz",
+        "ACLS",
+        "Recovery windows",
+        "Case I 021300ZOCT26 to 021400ZOCT26, BRC 090° M",
+        "Case III 021400ZOCT26 to 021500ZOCT26",
+    ):
+        assert text in carrier, text
+    assert "Yes" in carrier  # acls: true
+
+
+def test_recovery_window_text_form():
+    window = {
+        "case": "case_ii",
+        "window": {"start": "2026-10-02T13:00:00Z", "end": "2026-10-02T14:00:00Z"},
+    }
+    assert format_value(window) == "Case II 021300ZOCT26 to 021400ZOCT26"
+    window["brc"] = {"value": 270, "reference": "true"}
+    assert format_value([window]).endswith(", BRC 270° T")
 
 
 def test_default_layout_skips_absent_sections_without_empty_headings():

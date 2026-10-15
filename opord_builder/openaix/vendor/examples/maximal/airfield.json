@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:airfield:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:airfield:0.2.0-draft.1",
   "approach_instructions": [
     "Expect radar vectors to the ILS runway 31 final from GHI.",
     "Report 10 nm final to Salti Tower."

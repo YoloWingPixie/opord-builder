@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:common:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:common:0.2.0-draft.1",
   "Activation": {
     "end": "2026-10-02T15:00:00Z",
     "schedule": {
@@ -75,10 +75,22 @@
     "reference": "magnetic",
     "value": 254.9
   },
+  "BearingRange": {
+    "end_bearing": {
+      "reference": "magnetic",
+      "value": 150
+    },
+    "start_bearing": {
+      "reference": "magnetic",
+      "value": 60
+    }
+  },
+  "CasBrief": {},
+  "CheckIn": {},
   "ClassificationLevel": "UNCLASSIFIED",
   "Coalition": "blue",
   "ControlMeasure": {
-    "$schema": "urn:openaix:schema:measure-kb:0.1.0-draft.2",
+    "$schema": "urn:openaix:schema:measure-kb:0.2.0-draft.1",
     "active": {
       "end": "2026-10-02T15:00:00Z",
       "start": "2026-10-02T13:00:00Z"
@@ -133,6 +145,9 @@
     "id": "bastion-basin-boundary",
     "kind": "control_measure"
   },
+  "ControllerContact": {
+    "agency": "warhawk"
+  },
   "DCSData": {},
   "DCSObjectRef": {
     "kind": "drawing",
@@ -153,6 +168,7 @@
     "unit": "MHz",
     "value": 308.475
   },
+  "FriendlyMarking": "smoke",
   "GeoJSONLineString": {
     "coordinates": [
       [
@@ -645,6 +661,9 @@
     },
     "kind": "vertical"
   },
+  "Hazard": {
+    "kind": "other"
+  },
   "Identifier": "forward_arming_and_refuelling_point",
   "LaserCode": "1511",
   "Length": {
@@ -672,6 +691,13 @@
       "latitude": 31.825431,
       "longitude": 36.781257
     }
+  },
+  "Pressure": {
+    "unit": "inHg",
+    "value": 29.92
+  },
+  "RadioAssignment": {
+    "channel": "tanker-uhf"
   },
   "ResourceRef": {
     "id": "oir-aco",
@@ -704,6 +730,7 @@
     "band": "X",
     "channel": 106
   },
+  "TargetMark": "infrared_pointer",
   "VerticalLimit": {
     "reference": "FL",
     "unit": "flight_level",

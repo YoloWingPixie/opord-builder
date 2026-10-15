@@ -1,5 +1,5 @@
 {
-  "$id": "urn:openaix:schema:measure-mez:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:measure-mez:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "description": "A missile engagement zone (MEZ) is airspace of defined dimensions in air and missile defence, normally reserved for engagements by surface-to-air missile (SAM) weapon systems. It is an air defence measure. In maritime zone coordination, it is together with the fighter engagement zone (FEZ) and the joint engagement zone (JEZ). Its limits are a sector, an altitude, a range and bearing from a point of origin, or a mixture of these. Aircraft should coordinate before they go into it. The `mez_kind` field gives the type of zone from JP 3-01 (2012), V-11.",
@@ -9,13 +9,13 @@
       "type": "string"
     },
     "active": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Activation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Activation",
       "description": "This field gives the time interval during which this missile engagement zone is active. The value is an interval with a start and an end, a schedule for each week, or continuous activation."
     },
     "channels": {
       "description": "This list identifies the communications channels of this missile engagement zone.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "type": "array",
       "x-catalog": "channels"
@@ -23,13 +23,13 @@
     "components": {
       "description": "This list contains the airspace components of the engagement volume. The volume is a sector, or an area with a range and a bearing from the firing unit.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AirspaceComponent"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/AirspaceComponent"
       },
       "minItems": 1,
       "type": "array"
     },
     "controlling_agency": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the agency that controls the operations in this missile engagement zone.",
       "x-catalog": "agencies"
     },
@@ -46,7 +46,7 @@
       "type": "string"
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -112,7 +112,7 @@
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this missile engagement zone. Other records and orders use it to refer to this missile engagement zone."
     },
     "mez_kind": {
@@ -143,7 +143,7 @@
       "type": "string"
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this missile engagement zone. The reference gives the identifier and the revision of the catalogue."
     },
     "restrictions": {

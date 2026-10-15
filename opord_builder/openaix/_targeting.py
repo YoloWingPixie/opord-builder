@@ -1,4 +1,4 @@
-"""Annex D targeting <-> OpenAIX, at the vendored draft.2.
+"""Annex D targeting <-> OpenAIX, at the vendored 0.2.0-draft.1.
 
 * `jpitl` -> a `jiptl` document (`JIPTLTarget`: number, rank, name, description, location, component, effect, status,
   engagement means). Category, guidance, CDE, approval authority, no-strike cross-reference, ROE, review DTG and the
@@ -8,8 +8,8 @@
 * `high_payoff_target_list` + `attack_guidance_matrix` -> `annexes.D.targeting.high_payoff_targets`. An OpenAIX
   HighPayoffTarget needs a priority (the HVT rank) and an effect and timing (the attack guidance row), so the two lists
   are typed together, row for row, only when they have the same length and every effect / timing maps.
-  TODO(openaix feat/gameplay-fields): the `jiptl` rename, a category / guidance / CDE field on JIPTLTarget, and an
-  HPT effect that does not need the attack guidance matrix.
+  OpenAIX 0.2.0-draft.1 still has no category / guidance / CDE field on JIPTLTarget and no HPT effect without the
+  attack guidance matrix; its gameplay fields change only the enum words here (lower case) and add no targeting field.
 """
 
 from __future__ import annotations
@@ -19,7 +19,6 @@ from typing import Any
 from opord_builder.openaix import convert as c
 from opord_builder.openaix._engine import MISSING, get_path
 
-JIPTL_COMPONENTS = {"LAND", "AIR", "MARITIME", "SOF", "CYBER", "SPACE"}
 AGM_EFFECTS = {
     "Destroy": "destroy",
     "Neutralize": "neutralize",
@@ -40,15 +39,18 @@ def jpitl_target(item: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]] 
             out[key or field] = conv(item[field])
             consumed[field] = item[field]
 
-    take("target_number")
-    take("priority_rank")
-    take("target_name")
-    take("target_description")
-    take("desired_effect")
-    take("status")
-    take("authorized_engagement_means", conv=lambda v: [{"system": s} for s in v])
-    if item.get("component_tasked") in JIPTL_COMPONENTS:
-        take("component_tasked")
+    try:
+        take("target_number")
+        take("priority_rank")
+        take("target_name")
+        take("target_description")
+        take("desired_effect", conv=lambda v: c.map_enum("desired_effect", v))
+        take("status", conv=lambda v: c.map_enum("jpitl_status", v))
+        take("authorized_engagement_means", conv=lambda v: [{"system": s} for s in v])
+    except c.ConvertError:
+        return None
+    if item.get("component_tasked") in c.ENUMS["target_component"]:
+        take("component_tasked", conv=lambda v: c.map_enum("target_component", v))
     if "location" in item:
         out["location_mgrs"] = item["location"]
         consumed["location"] = item["location"]
@@ -72,12 +74,16 @@ def jpitl_item(target: dict[str, Any]) -> dict[str, Any]:
         "priority_rank",
         "target_name",
         "target_description",
-        "desired_effect",
-        "status",
-        "component_tasked",
     ):
         if f in target:
             out[f] = target[f]
+    for f, enum in (
+        ("desired_effect", "desired_effect"),
+        ("status", "jpitl_status"),
+        ("component_tasked", "target_component"),
+    ):
+        if f in target:
+            out[f] = c.unmap_enum(enum, target[f])
     if "authorized_engagement_means" in target:
         out["authorized_engagement_means"] = [
             m["system"] for m in target["authorized_engagement_means"]

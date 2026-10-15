@@ -14,13 +14,13 @@
           "type": "array"
         },
         "runway_in_use": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
           "description": "This field gives the designator of the active runway end in the broadcast. The value shall be the designator of an end of a runway of this airfield."
         },
         "transition_level": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -41,6 +41,10 @@
       "additionalProperties": false,
       "description": "An aircraft carrier is a record with the identifier and the recovery data of an aircraft carrier. The carrier moves, and thus its position comes from its unit in the simulator.",
       "properties": {
+        "acls": {
+          "description": "The value is `true` when the carrier has an automatic carrier landing system (ACLS) for the recovery of aircraft. The value is `false` when the carrier has no ACLS.",
+          "type": "boolean"
+        },
         "case_recovery": {
           "$ref": "#/$defs/CaseRecovery",
           "description": "This field gives the case recovery that the carrier plans, and the marshal data."
@@ -56,8 +60,31 @@
           "minimum": 1,
           "type": "integer"
         },
+        "link4": {
+          "allOf": [
+            {
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Frequency"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "MHz"
+                }
+              }
+            }
+          ],
+          "description": "This field gives the frequency of the Link 4 data link of the carrier, in megahertz."
+        },
+        "recovery_windows": {
+          "description": "This list contains the recovery windows of the carrier, in order.",
+          "items": {
+            "$ref": "#/$defs/RecoveryWindow"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
         "tacan": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/TACAN",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
           "description": "This field gives the channel and the band of the Tactical Air Navigation (TACAN) of the carrier. The TACAN moves with the ship, and thus it is not a fixed navigation aid in `navaids`."
         }
       },
@@ -86,7 +113,7 @@
         "marshal_altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -100,11 +127,11 @@
           "description": "This field gives the altitude of the lowest level of the marshal stack, above mean sea level, as an altitude with its unit and reference."
         },
         "marshal_distance": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the distance of the marshal stack from the carrier, as a length with its unit."
         },
         "marshal_radial": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the radial from the carrier on which the marshal stack is, as a bearing with its unit and reference."
         }
       },
@@ -132,7 +159,7 @@
         "altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -149,7 +176,7 @@
           "description": "This field gives the altitude to which aircraft climb on a go-around, as an altitude with its unit and reference. The reference is above ground level or mean sea level."
         },
         "heading": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the heading that aircraft fly on a go-around, as a bearing with its unit and reference."
         }
       },
@@ -163,7 +190,7 @@
           "additionalProperties": false,
           "properties": {
             "point": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
               "description": "This field gives the point, with its name, at the start of the initial leg.",
               "x-measure-kinds": [
                 "POINT"
@@ -182,11 +209,11 @@
           "additionalProperties": false,
           "properties": {
             "bearing": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
               "description": "This field gives the bearing from the runway threshold to the initial point, as a bearing with its unit and reference. When the record does not have this field, the point is on the extended centreline of the runway."
             },
             "distance": {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
               "description": "This field gives the distance from the runway threshold to the initial point, as a length with its unit."
             }
           },
@@ -207,7 +234,7 @@
           "type": "string"
         },
         "position": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the centre of the pad, as latitude and longitude."
         },
         "use": {
@@ -241,7 +268,7 @@
         "altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -273,7 +300,7 @@
         "departure_ceiling": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -315,7 +342,7 @@
         "overhead_altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -343,6 +370,33 @@
       "required": [],
       "type": "object"
     },
+    "RecoveryWindow": {
+      "additionalProperties": false,
+      "description": "A recovery window is a time interval in which the carrier recovers aircraft with one case recovery.",
+      "properties": {
+        "brc": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
+          "description": "This field gives the base recovery course, which is the heading of the carrier during the recovery, as a bearing with its unit and reference."
+        },
+        "case": {
+          "description": "This field gives the case recovery in the window, as one of the enumerated values.",
+          "enum": [
+            "case_i",
+            "case_ii",
+            "case_iii"
+          ]
+        },
+        "window": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Window",
+          "description": "This field gives the time interval during which the carrier recovers aircraft."
+        }
+      },
+      "required": [
+        "window",
+        "case"
+      ],
+      "type": "object"
+    },
     "Reentry": {
       "additionalProperties": false,
       "anyOf": [
@@ -362,7 +416,7 @@
         "altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -384,7 +438,7 @@
           "type": "string"
         },
         "point": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
           "description": "This field identifies the point at which aircraft start the re-entry.",
           "x-measure-kinds": [
             "POINT"
@@ -401,7 +455,7 @@
         "high_key": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/AltitudeBlock"
             },
             {
               "required": [
@@ -415,7 +469,7 @@
         "low_key": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/AltitudeBlock"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/AltitudeBlock"
             },
             {
               "required": [
@@ -453,7 +507,7 @@
           }
         },
         "extensions": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
           "allOf": [
             {
               "properties": {
@@ -487,7 +541,7 @@
           "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
         },
         "heading": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Bearing",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
           "description": "This field gives the heading of an aircraft on the parking stand, as a bearing with its unit and reference."
         },
         "helicopters": {
@@ -495,11 +549,11 @@
           "type": "boolean"
         },
         "id": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies this parking stand. Each parking stand in its airfield has a different identifier. A taxi node refers to the parking stand with this identifier."
         },
         "length": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the length of the parking stand, as a length with its unit."
         },
         "name": {
@@ -508,7 +562,7 @@
           "type": "string"
         },
         "position": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the centre of the parking stand, as latitude and longitude."
         },
         "ramp": {
@@ -521,7 +575,7 @@
           "type": "boolean"
         },
         "width": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the width of the parking stand, as a length with its unit."
         }
       },
@@ -543,7 +597,7 @@
         "frequency": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Frequency"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Frequency"
             },
             {
               "properties": {
@@ -560,7 +614,7 @@
           "description": "This field gives the frequency of the station, as a frequency with its unit. The unit is megahertz, and the field `modulation` is mandatory."
         },
         "hours": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/WeeklySchedule",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/WeeklySchedule",
           "description": "This field gives the hours of each week, in Coordinated Universal Time (UTC), when the station uses this frequency. When the record does not have this field, the station uses the frequency during the hours of the operating location."
         },
         "notes": {
@@ -624,7 +678,7 @@
           }
         },
         "from": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the taxi node that is at the start of the edge. The value shall be the identifier of a node of this graph."
         },
         "one_way": {
@@ -637,11 +691,11 @@
           "type": "string"
         },
         "to": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the taxi node that is at the end of the edge. The value shall be the identifier of a different node of this graph."
         },
         "width": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Length",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
           "description": "This field gives the width of the taxiway of the edge, as a length with its unit."
         }
       },
@@ -724,7 +778,7 @@
       "description": "A taxi node is one point of the taxi graph.",
       "properties": {
         "id": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies this taxi node. Each taxi node in its airfield has a different identifier."
         },
         "kind": {
@@ -750,15 +804,15 @@
           "type": "string"
         },
         "position": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
           "description": "This field gives the geographic position of the taxi node, as latitude and longitude."
         },
         "runway_end": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
           "description": "This field gives the designator of the runway end to which this node connects, or before which aircraft stop at this node. The value shall be the designator of an end of a runway of this airfield."
         },
         "stand": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the parking stand that this node connects to. The value shall be the identifier of a stand of this airfield."
         }
       },
@@ -775,7 +829,7 @@
         "altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -831,7 +885,7 @@
         "departure_ceiling": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -873,7 +927,7 @@
         "overhead_altitude": {
           "allOf": [
             {
-              "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude"
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude"
             },
             {
               "properties": {
@@ -890,7 +944,7 @@
           "description": "This field gives the altitude of the initial leg and of the overhead break, as an altitude with its unit and reference. The reference is above ground level or mean sea level."
         },
         "profile": {
-          "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
           "description": "This field identifies the traffic pattern profile that gives the values that this pattern does not give.",
           "x-catalog": "pattern_profiles"
         },
@@ -907,7 +961,7 @@
       "type": "object"
     }
   },
-  "$id": "urn:openaix:schema:airfield:0.1.0-draft.2",
+  "$id": "urn:openaix:schema:airfield:0.2.0-draft.1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "allOf": [
@@ -1144,7 +1198,7 @@
       "description": "This field gives the static data of the automatic terminal information service (ATIS) broadcast for a simulator. The ATIS frequency is an item of `frequencies` with the role `atis`. The simulator gives the weather."
     },
     "calm_wind_runway": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
       "description": "This field gives the designator of the calm wind runway: the runway end that the airfield uses for a calm wind. The value shall be the designator of an end of a runway of this airfield."
     },
     "carrier": {
@@ -1152,16 +1206,16 @@
       "description": "This field gives the data of an aircraft carrier. The data are the hull number, the Tactical Air Navigation (TACAN), the instrument carrier landing system (ICLS) channel and the case recovery data. A record with a different `kind` shall not have this field."
     },
     "controlling_agency": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies the agency that controls the air traffic at the airfield.",
       "x-catalog": "agencies"
     },
     "elevation": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Elevation",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Elevation",
       "description": "This field gives the published elevation of the airfield above mean sea level, as an elevation with its unit."
     },
     "extensions": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Extensions",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
       "allOf": [
         {
           "properties": {
@@ -1208,11 +1262,11 @@
       "type": "array"
     },
     "hung_ordnance_runway": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/RunwayDesignator",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
       "description": "This field gives the designator of the runway end that aircraft with hung ordnance use for landing. A base publishes it in its local emergency procedures. The value shall be the designator of an end of a runway of this airfield. A `carrier` record shall not have this field."
     },
     "id": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this airfield. Other resources and orders use this stable identifier to refer to this airfield."
     },
     "ident": {
@@ -1236,7 +1290,7 @@
     "localizers": {
       "description": "This list identifies the localizers that are for the runways of this airfield. When a localizer in this list identifies an airfield, that airfield shall be this airfield.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "minItems": 1,
       "type": "array",
@@ -1256,7 +1310,7 @@
     "navaids": {
       "description": "This list contains the navigation aids of the airfield: `VOR`, `VORTAC`, `TACAN`, `NDB` or `DME` stations. The Tactical Air Navigation (TACAN) of a fixed airfield or a forward arming and refuelling point (FARP) is in this list. It is a `TACAN` or `VORTAC` station. When a navigation aid in this list identifies an airfield, that airfield shall be this airfield.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ControlMeasureSelection",
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ControlMeasureSelection",
         "x-measure-kinds": [
           "NAVAID"
         ]
@@ -1265,7 +1319,7 @@
       "type": "array"
     },
     "operating_hours": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/WeeklySchedule",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/WeeklySchedule",
       "description": "This field gives the hours of each week, in Coordinated Universal Time (UTC), when the operating location is open. The schedule is the same for all weeks, and the location is not open at other times. When the record does not have this field, the location is always open."
     },
     "pads": {
@@ -1285,30 +1339,30 @@
       "type": "array"
     },
     "position": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/GeoPoint",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
       "description": "This field gives the geographic position of the airfield reference point, as latitude and longitude."
     },
     "procedures": {
       "description": "This list identifies the instrument procedures that start or stop at this airfield: standard instrument departure (SID), standard terminal arrival route (STAR) or approach. When a procedure in this list identifies an airfield, that airfield shall be this airfield.",
       "items": {
-        "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Identifier"
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
       },
       "minItems": 1,
       "type": "array",
       "x-catalog": "instrument_procedures"
     },
     "provenance": {
-      "$ref": "urn:openaix:schema:procedure:0.1.0-draft.2#/$defs/Provenance",
+      "$ref": "urn:openaix:schema:procedure:0.2.0-draft.1#/$defs/Provenance",
       "description": "This field gives the provenance of this airfield as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
     },
     "resources_ref": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/ResourceRef",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this airfield. The reference gives the identifier and the revision of the catalogue."
     },
     "runways": {
       "description": "This list contains the runways of the airfield. Each item is one runway with its two ends.",
       "items": {
-        "$ref": "urn:openaix:schema:runway:0.1.0-draft.2"
+        "$ref": "urn:openaix:schema:runway:0.2.0-draft.1"
       },
       "minItems": 0,
       "type": "array"
@@ -1327,7 +1381,7 @@
       "description": "This field gives the traffic pattern of the airfield. Its values are the default values. A runway end can give different values for that end."
     },
     "transition_altitude": {
-      "$ref": "urn:openaix:schema:common:0.1.0-draft.2#/$defs/Altitude",
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
       "description": "This field gives the transition altitude, as an altitude with its unit and reference. At or below this altitude, the vertical position of an aircraft is its altitude above mean sea level."
     },
     "use": {

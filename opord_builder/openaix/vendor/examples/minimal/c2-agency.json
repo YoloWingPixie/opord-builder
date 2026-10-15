@@ -1,5 +1,5 @@
 {
-  "$schema": "urn:openaix:schema:c2-agency:0.1.0-draft.2",
+  "$schema": "urn:openaix:schema:c2-agency:0.2.0-draft.1",
   "callsign": "Darkstar",
   "id": "darkstar",
   "kind": "c2-agency",

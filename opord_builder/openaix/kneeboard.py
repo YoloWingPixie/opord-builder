@@ -1,7 +1,7 @@
-"""Build kneeboard cards from an OpenAIX ATO (draft.2 fields only).
+"""Build kneeboard cards from an OpenAIX ATO (0.2.0-draft.1 gameplay fields included).
 
-`build_cards(ato, resources)` returns one `KneeboardCard` per `Flight` plus a list of
-warnings. A cell whose source is missing is left blank and gets a warning; no value is
+`build_cards(ato, resources, flight_id, opord)` returns one `KneeboardCard` per `Flight` plus a list of
+warnings. The optional OpenAIX `opord` supplies the altimeter setting (`WeatherForecast.altimeter`). A cell whose source is missing is left blank and gets a warning; no value is
 ever made up. `merge_with_yaml` lays hand-authored YAML cards over the ATO cards
 (same flight callsign): explicit YAML values win field by field, with a warning
 wherever they disagree with a value the ATO supplied.
@@ -9,6 +9,7 @@ wherever they disagree with a value the ATO supplied.
 
 from __future__ import annotations
 
+import datetime as _dt
 import json
 import re
 from collections.abc import Mapping
@@ -24,9 +25,9 @@ from opord_builder.openaix.validate import validate
 from opord_builder.schema.shared import KneeboardCard
 
 KG_TO_LB = 2.2046226218
-INTRA_PHASE = "ALL PHASES"  # one phase until RadioAssignment.activities exists
-
-BRANCH_NOTE = "not in OpenAIX 0.1.0-draft.2 (feat/gameplay-fields)"
+ALL_PHASES = (
+    "ALL PHASES"  # radio assignments with no `activities` serve the complete mission
+)
 
 
 # ------------------------------------------------------------------------ loading
@@ -111,6 +112,108 @@ def _is_intra(a: Mapping[str, Any]) -> bool:
     return "intra" in (a.get("purpose") or "").lower()
 
 
+def _instant(value: Any, period_start: _dt.datetime | None) -> str | None:
+    """A DateTime or an Offset from the ATO period start -> `1030Z`; None when it cannot be resolved."""
+    when: _dt.datetime | None = None
+    if isinstance(value, str):
+        try:
+            when = _dt.datetime.fromisoformat(value)
+        except ValueError:
+            return None
+    elif isinstance(value, Mapping) and period_start is not None:
+        when = period_start + _dt.timedelta(minutes=value["offset_minutes"])
+    if when is None:
+        return None
+    when = when.astimezone(_dt.timezone.utc)
+    return f"{when:%H%M}Z"
+
+
+def _timing_text(spec: Mapping[str, Any] | None, period_start: _dt.datetime | None):
+    """A time condition (at / window / not_after / not_before / on_order) -> kneeboard text, or ''."""
+    if not spec:
+        return ""
+    kind = spec.get("kind")
+    if kind == "window":
+        start = _instant(spec["window"]["start"], period_start)
+        end = _instant(spec["window"]["end"], period_start)
+        return f"{start}-{end}" if start and end else ""
+    if kind == "on_order":
+        return f"ON ORDER: {spec['condition']}"
+    at = _instant(spec.get("at"), period_start)
+    if not at:
+        return ""
+    if kind == "not_after":
+        return f"NLT {at}"
+    if kind == "not_before":
+        return f"NET {at}"
+    tol = float(spec.get("tolerance_seconds") or 0)
+    if not tol:
+        return at
+    return f"{at} +/-{tol / 60:g} MIN" if tol % 60 == 0 else f"{at} +/-{tol:g} SEC"
+
+
+def _period_start(ato: Mapping[str, Any]) -> _dt.datetime | None:
+    try:
+        return _dt.datetime.fromisoformat((ato.get("period") or {})["start"])
+    except (KeyError, ValueError):
+        return None
+
+
+def _link16_text(link: Mapping[str, Any]) -> str:
+    """Link16 -> `Link 16 STN 01201 FTR 7 MSN 3 SPL 4 TEAM 01202/01203 DONOR 01300`."""
+    parts = ["Link 16"]
+    if link.get("stn"):
+        parts.append(f"STN {link['stn']}")
+    for key, tag in (
+        ("fighter_channel", "FTR"),
+        ("mission_channel", "MSN"),
+        ("special_channel", "SPL"),
+    ):
+        if link.get(key):
+            parts.append(f"{tag} {link[key]}")
+    for key, tag in (("team", "TEAM"), ("donors", "DONOR")):
+        if link.get(key):
+            parts.append(f"{tag} {'/'.join(link[key])}")
+    return " ".join(parts)
+
+
+def _altimeter_text(pressure: Mapping[str, Any]) -> str:
+    """Pressure -> `29.92 inHg` or `1013 hPa`."""
+    if pressure["unit"] == "inHg":
+        return f"{pressure['value']:.2f} inHg"
+    return f"{pressure['value']:g} hPa"
+
+
+def _altimeter(
+    opord: Mapping[str, Any] | None, at: str | None
+) -> tuple[str, str | None]:
+    """(setting, problem) from `situation.area_of_operations.weather.forecasts`: the forecast whose window holds
+    `at` (an RFC 3339 time) with an altimeter, else the first forecast with one."""
+    forecasts = (
+        (((opord or {}).get("situation") or {}).get("area_of_operations") or {}).get(
+            "weather"
+        )
+        or {}
+    ).get("forecasts") or []
+    withset = [f for f in forecasts if f.get("altimeter")]
+    if not opord:
+        return "", "no OpenAIX opord given (--opord); left blank"
+    if not withset:
+        return "", "the opord has no WeatherForecast.altimeter; left blank"
+    pick = withset[0]
+    if at:
+        for f in withset:
+            w = f.get("window") or {}
+            if (
+                isinstance(w.get("start"), str)
+                and isinstance(w.get("end"), str)
+                and w["start"] <= at <= w["end"]
+            ):
+                pick = f
+                break
+    return _altimeter_text(pick["altimeter"]), None
+
+
 # ------------------------------------------------------------------------ building
 
 
@@ -118,8 +221,10 @@ def build_cards(
     ato: Mapping[str, Any],
     resources: Mapping[str, Any] | None = None,
     flight_id: str | None = None,
+    opord: Mapping[str, Any] | None = None,
 ) -> tuple[list[KneeboardCard], list[str]]:
-    """One card per Flight (or only `flight_id`). Returns (cards, warnings)."""
+    """One card per Flight (or only `flight_id`). `opord` is an optional OpenAIX opord for the altimeter setting.
+    Returns (cards, warnings)."""
     res = dict(resources) if resources is not None else merge_resources(ato, None)
     warnings: list[str] = []
     missions = ato.get("missions") or []
@@ -129,15 +234,17 @@ def build_cards(
         if not flights:
             known = ", ".join(f["id"] for m in missions for f in m.get("flights") or [])
             raise ValueError(f"no flight {flight_id!r} in the ATO (flights: {known})")
-    cards = [_card(m, f, missions, res, warnings) for m, f in flights]
+    cards = [_card(ato, m, f, missions, res, opord, warnings) for m, f in flights]
     return cards, warnings
 
 
 def _card(
+    ato: Mapping[str, Any],
     mission: Mapping[str, Any],
     flight: Mapping[str, Any],
     missions: list[Mapping[str, Any]],
     res: Mapping[str, Any],
+    opord: Mapping[str, Any] | None,
     warnings: list[str],
 ) -> KneeboardCard:
     callsign = flight["callsign"]
@@ -153,22 +260,32 @@ def _card(
     ident = flight.get("identification") or {}
     tasking = mission.get("tasking") or {}
 
-    # positions: 1..count; laser from the member's SCL (draft.2 has SCL.laser_code)
+    # positions: 1..count. Board number, crew and laser code come from the member's override; the laser code
+    # falls back to the member's SCL.
     positions = []
-    lasers_missing = False
+    missing = {"modex": False, "pers": False, "laser": False}
     for n in range(1, int(flight["count"]) + 1):
-        scl_id = (overrides.get(n) or {}).get("scl") or config.get("primary_scl")
-        laser = (scls.get(scl_id) or {}).get("laser_code", "")
-        lasers_missing |= not laser
-        # TODO(openaix feat/gameplay-fields): board_number -> modex, crew -> pers
-        positions.append({"number": n, "modex": "", "pers": "", "laser": laser})
-    warn("positions[].modex", f"board_number is {BRANCH_NOTE}; left blank")
-    warn("positions[].pers", f"crew is {BRANCH_NOTE}; left blank")
-    if lasers_missing:
-        warn("positions[].laser", "no laser_code on the SCL; left blank")
+        override = overrides.get(n) or {}
+        scl_id = override.get("scl") or config.get("primary_scl")
+        laser = override.get("laser_code") or (scls.get(scl_id) or {}).get(
+            "laser_code", ""
+        )
+        modex = override.get("board_number", "")
+        pers = " / ".join(m["name"] for m in override.get("crew") or [])
+        missing["modex"] |= not modex
+        missing["pers"] |= not pers
+        missing["laser"] |= not laser
+        positions.append({"number": n, "modex": modex, "pers": pers, "laser": laser})
+    if missing["modex"]:
+        warn("positions[].modex", "no board_number on a member override; left blank")
+    if missing["pers"]:
+        warn("positions[].pers", "no crew on a member override; left blank")
+    if missing["laser"]:
+        warn("positions[].laser", "no laser_code on the member or its SCL; left blank")
 
     # tacan: member 1 and flight
-    lead = (overrides.get(1) or {}).get("identification", {}).get("tacan")
+    lead_ident = (overrides.get(1) or {}).get("identification") or {}
+    lead = lead_ident.get("tacan")
     common = ident.get("tacan")
     tacan = {
         "lead": format_tacan(lead) if lead else "",
@@ -196,29 +313,33 @@ def _card(
 
     fuel = flight.get("fuel") or {}
     joker, bingo = _mass_lb(fuel.get("joker")), _mass_lb(fuel.get("bingo"))
-    # TODO(openaix feat/gameplay-fields): mission_required -> fuel_plan.msn_req_lbs
-    warn("fuel_plan.msn_req_lbs", f"mission_required is {BRANCH_NOTE}; left blank")
+    msn_req = _mass_lb(fuel.get("mission_required"))
+    if not msn_req:
+        warn("fuel_plan.msn_req_lbs", "flight fuel has no mission_required; left blank")
     if not joker:
         warn("fuel_plan.joker_lbs", "flight fuel has no joker; left blank")
     if not bingo:
         warn("fuel_plan.bingo_lbs", "flight fuel has no bingo; left blank")
     fuel_plan = (
         {
-            "msn_req_lbs": 0,
+            "msn_req_lbs": msn_req,
             "joker_lbs": joker,
             "bingo_lbs": bingo,
             "rcv_tank_lbs": rcv_tank,
         }
-        if joker or bingo or rcv_tank
+        if msn_req or joker or bingo or rcv_tank
         else None
     )
 
-    comms = _comms(flight, channels, [t["channel"] for t in tankers], warn)
+    comms = _comms(flight, res, [t["channel"] for t in tankers], warn, lead_ident)
     for t in tankers:
         del t["channel"]
 
-    # TODO(openaix feat/gameplay-fields): baro_alt <- WeatherForecast.altimeter
-    warn("baro_alt", f"WeatherForecast.altimeter is {BRANCH_NOTE}; left blank")
+    timing = _timing(ato, mission, res, warn)
+    launch = flight.get("launch") or {}
+    baro_alt, problem = _altimeter(opord, launch.get("takeoff"))
+    if problem:
+        warn("baro_alt", problem)
     return KneeboardCard.model_validate(
         {
             "title": callsign,
@@ -226,13 +347,14 @@ def _card(
             "msn_number": mission["mission_number"],
             "positions": positions,
             "tacan": tacan,
+            "timing": timing,
             "primary_objectives": [objective] if objective else [],
             "weaponeering": (scl or {}).get("name", ""),
             "fuel_plan": fuel_plan,
             "comms": comms,
             "tankers": tankers,
             "atc": _atc(flight, places, warn),
-            "baro_alt": "",
+            "baro_alt": baro_alt,
         }
     )
 
@@ -297,13 +419,27 @@ def _tankers(flight, mission, missions, channels, warn):
     return out, rcv_total
 
 
-def _comms(flight, channels, tanker_channels, warn) -> dict[str, Any]:
-    assigned = flight.get("communications") or []
-    # TODO(openaix feat/gameplay-fields): group by RadioAssignment.activities
-    warn(
-        "comms.phases", f"RadioAssignment.activities is {BRANCH_NOTE}; one phase shown"
-    )
-    slots: dict[int, list[str]] = {1: [], 2: []}
+def _phase_name(activity_id: str) -> str:
+    return re.sub(r"[-_.]+", " ", activity_id).upper()
+
+
+def _comms(flight, res, tanker_channels, warn, lead_ident) -> dict[str, Any]:
+    """Radio assignments grouped into phases by `RadioAssignment.activities` (the flight's own `communications`
+    plus its `comm_plan`). An assignment with no activities serves the complete mission (ALL PHASES)."""
+    channels = res.get("channels") or {}
+    assigned = list(flight.get("communications") or [])
+    plan_id = flight.get("comm_plan")
+    if plan_id:
+        plan = (res.get("comm_plans") or {}).get(plan_id)
+        if plan is None:
+            warn("comms", f"comm_plan {plan_id!r} is not in the resources; skipped")
+        else:
+            assigned += plan.get("assignments") or []
+    activities = [a["id"] for a in flight.get("activities") or []]
+    # phase name -> {1: [...], 2: [...]}; dict order is the phase order shown on the card
+    phases: dict[str, dict[int, list[str]]] = {ALL_PHASES: {1: [], 2: []}}
+    for aid in activities:
+        phases[_phase_name(aid)] = {1: [], 2: []}
     intra = ""
     for a in assigned:
         if a["channel"] not in channels:
@@ -320,29 +456,67 @@ def _comms(flight, channels, tanker_channels, warn) -> dict[str, Any]:
                 "comms.phases", f"radio {a.get('radio')!r} is not COMM1/COMM2; skipped"
             )
             continue
-        slots[slot].append(_assignment_text(a, channels))
+        names = [ALL_PHASES]
+        if a.get("activities"):
+            names = []
+            for aid in a["activities"]:
+                if aid not in activities:
+                    warn(
+                        "comms.phases",
+                        f"activity {aid!r} is not an activity of the flight; skipped",
+                    )
+                    continue
+                names.append(_phase_name(aid))
+        for name in names:
+            phases[name][slot].append(_assignment_text(a, channels))
     if not intra:
         warn("comms.intra", "no radio assignment with purpose 'intra'; left blank")
     ident = flight.get("identification") or {}
-    parts = [ident.get("datalink_type"), ident.get("datalink_network")]
-    mids = " ".join(p for p in parts if p)
-    if mids and ident.get("datalink_station"):
-        mids += f" STN {ident['datalink_station']}"
+    # Flight-level Link 16 (shared channels) with the lead's own entries laid over it (its station number).
+    link = {**(ident.get("link16") or {}), **(lead_ident.get("link16") or {})}
+    if link:
+        mids = _link16_text(link)
+    else:
+        parts = [ident.get("datalink_type"), ident.get("datalink_network")]
+        mids = " ".join(p for p in parts if p)
+        if mids and ident.get("datalink_station"):
+            mids += f" STN {ident['datalink_station']}"
     if not mids:
-        # TODO(openaix feat/gameplay-fields): identification.link16
-        warn("comms.mids", "no identification.datalink_*; left blank")
-    phases = (
-        [
-            {
-                "phase": INTRA_PHASE,
-                "comm1": " / ".join(slots[1]),
-                "comm2": " / ".join(slots[2]),
-            }
-        ]
-        if slots[1] or slots[2]
-        else []
+        warn("comms.mids", "no identification.link16 or datalink_*; left blank")
+    rows = [
+        {
+            "phase": name,
+            "comm1": " / ".join(radios[1]),
+            "comm2": " / ".join(radios[2]),
+        }
+        for name, radios in phases.items()
+        if radios[1] or radios[2]
+    ]
+    return {"phases": rows, "intra": intra, "mids": mids}
+
+
+def _timing(ato, mission, res, warn) -> dict[str, str] | None:
+    """Package time on target, push time and push point -> KneeboardTiming data, or None when all are blank."""
+    package = next(
+        (p for p in ato.get("packages") or [] if p["id"] == mission.get("package")),
+        None,
     )
-    return {"phases": phases, "intra": intra, "mids": mids}
+    if package is None:
+        warn("timing", "mission has no package in the ATO; left blank")
+        return None
+    start = _period_start(ato)
+    tot = _timing_text(package.get("time_on_target"), start)
+    push = _timing_text(package.get("push_time"), start)
+    point_id = package.get("push_point")
+    point = ((res.get("control_measures") or {}).get(point_id) or {}).get("name")
+    push_point = point or point_id or ""
+    if not tot:
+        warn("timing.tot", "package has no time_on_target; left blank")
+    if not push:
+        warn("timing.push", "package has no push_time; left blank")
+    if not (tot or push or push_point):
+        return None
+    return {"tot": tot, "push": push, "push_point": push_point}
 
 
 def _atc(flight, places, warn) -> list[dict[str, str]]:
@@ -450,10 +624,13 @@ def cards_from_files(
     resources_path: Path | str | None = None,
     flight_id: str | None = None,
     yaml_cards: list[KneeboardCard] | None = None,
+    opord_path: Path | str | None = None,
 ) -> tuple[list[KneeboardCard], list[str]]:
-    """Load, validate, build and (optionally) merge. Raises ValueError on bad input."""
+    """Load, validate, build and (optionally) merge. `opord_path` is an OpenAIX opord for the altimeter setting.
+    Raises ValueError on bad input."""
     ato = load_document(ato_path, "ato")
     res_doc = load_document(resources_path, "resources") if resources_path else None
+    opord = load_document(opord_path, "opord") if opord_path else None
     ref = ato.get("resources_ref")
     if (
         ref
@@ -464,7 +641,9 @@ def cards_from_files(
     else:
         note = None
     try:
-        cards, warnings = build_cards(ato, merge_resources(ato, res_doc), flight_id)
+        cards, warnings = build_cards(
+            ato, merge_resources(ato, res_doc), flight_id, opord
+        )
     except ConvertError as exc:
         raise ValueError(str(exc)) from exc
     if note:
