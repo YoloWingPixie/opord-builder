@@ -10,7 +10,11 @@ from jsonschema import Draft202012Validator, FormatChecker
 from opord_builder.openaix.registry import registry, schema_for_id, schemas
 
 # Record kinds that one schema validates under another name (carriers and FARPs are airfield records).
-KIND_SCHEMAS = {"carrier": "airfield", "farp": "airfield"}
+KIND_SCHEMAS = {
+    "carrier": "airfield",
+    "farp": "airfield",
+    "comms_standard": "comms-standard",
+}
 
 FORMAT_CHECKER = FormatChecker()
 if "date-time" not in FORMAT_CHECKER.checkers:  # pragma: no cover

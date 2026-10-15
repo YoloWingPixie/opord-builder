@@ -1,5 +1,5 @@
 {
-  "$inputs_sha256": "a6b8f91de3c9f1ea7d4099358aad64780f094b992789452bfc4607c378b64757",
+  "$inputs_sha256": "50757bf52163cff7d2aa336bbf5bc42eed473ad14d12711218d1ae98fa34c90a",
   "urn:openaix:schema:aco:0.2.0-draft.1": [
     {
       "alternatives": [
@@ -1746,6 +1746,147 @@
       ],
       "path": "CasBrief/holding_altitude/lower",
       "selected": "Altitude"
+    }
+  ],
+  "urn:openaix:schema:comms-standard:0.2.0-draft.1": [
+    {
+      "path": "channels/*/notes",
+      "reason": "no_value"
+    },
+    {
+      "path": "squadrons/*/mids",
+      "reason": "no_value"
+    },
+    {
+      "path": "squadrons/*/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "squadrons/*/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "flights/*/mids_channel",
+      "reason": "no_value"
+    },
+    {
+      "path": "flights/*/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "flights/*/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "flights/*/extensions/sim",
+      "reason": "no_value"
+    },
+    {
+      "path": "support/*/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "support/*/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "ships/*/awacs",
+      "reason": "no_value"
+    },
+    {
+      "path": "ships/*/standard",
+      "reason": "no_value"
+    },
+    {
+      "path": "ships/*/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "ships/*/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "radio_plans/*/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "radio_plans/*/proposals",
+      "reason": "no_value"
+    },
+    {
+      "alternatives": [
+        "channel"
+      ],
+      "path": "radio_plans/*/radios/*/presets/*",
+      "selected": "preset + flight_channel"
+    },
+    {
+      "path": "radio_plans/*/radios/*/presets/*/purpose",
+      "reason": "no_value"
+    },
+    {
+      "path": "airfields/overrides",
+      "reason": "no_value"
+    },
+    {
+      "path": "airfields/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "airfields/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "datalink/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "datalink/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "datalink/hornet/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "datalink/hornet/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "iff/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "iff/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "laser/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "laser/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "laser/jtac/*/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "laser/jtac/*/proposals",
+      "reason": "no_value"
+    },
+    {
+      "path": "restrictions/frequencies",
+      "reason": "no_value"
+    },
+    {
+      "path": "restrictions/status",
+      "reason": "no_value"
+    },
+    {
+      "path": "restrictions/proposals",
+      "reason": "no_value"
     }
   ],
   "urn:openaix:schema:control-measure:0.2.0-draft.1": [

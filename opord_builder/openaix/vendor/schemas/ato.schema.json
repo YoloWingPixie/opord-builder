@@ -2821,7 +2821,7 @@
         "donors": {
           "description": "This list contains the station numbers of the donors, which are the stations that send the track data to the aircraft.",
           "items": {
-            "$ref": "#/$defs/LinkStation"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LinkStation"
           },
           "type": "array",
           "uniqueItems": true
@@ -2845,13 +2845,13 @@
           "type": "integer"
         },
         "stn": {
-          "$ref": "#/$defs/LinkStation",
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LinkStation",
           "description": "This field gives the Link 16 station number of the aircraft, as five octal digits."
         },
         "team": {
           "description": "This list contains the station numbers of the team members of the aircraft.",
           "items": {
-            "$ref": "#/$defs/LinkStation"
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LinkStation"
           },
           "type": "array",
           "uniqueItems": true
@@ -2859,11 +2859,6 @@
       },
       "required": [],
       "type": "object"
-    },
-    "LinkStation": {
-      "description": "A link 16 station number is a Link 16 station number (STN), which is five octal digits.",
-      "pattern": "^[0-7]{5}$",
-      "type": "string"
     },
     "Manifest": {
       "additionalProperties": false,

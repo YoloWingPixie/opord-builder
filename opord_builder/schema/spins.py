@@ -234,7 +234,7 @@ class OpenAIXTableBlock(AnchoredBlock):
 
     kind: Literal["openaix_table"]
     caption: Text
-    source: Literal["ato", "aco", "spins", "resources", "airfield"]
+    source: Literal["ato", "aco", "spins", "resources", "airfield", "comms_standard"]
     pointer: JsonPointer = Field(
         description="Where in the source document the rows are: an array (one row per item), or an object (one row)."
     )
@@ -293,6 +293,9 @@ class SpinsOpenAIXRefs(_Base):
     )
     spins: Text | None = Field(
         default=None, description="Path to an OpenAIX SPINS document."
+    )
+    comms_standard: Text | None = Field(
+        default=None, description="Path to an OpenAIX comms standard document."
     )
 
     airfields: list[Text] = Field(

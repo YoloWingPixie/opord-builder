@@ -25,7 +25,13 @@ DEFAULT_SOURCE = ROOT.parent / "openAIX"
 REPO = "https://github.com/YoloWingPixie/openAIX"
 
 # (archive path prefix or file) -> vendor path
-INCLUDE_DIRS = ("schemas/", "catalogues/", "examples/minimal/", "examples/maximal/")
+INCLUDE_DIRS = (
+    "schemas/",
+    "catalogues/",
+    "standards/",
+    "examples/minimal/",
+    "examples/maximal/",
+)
 INCLUDE_FILES = {
     "tools/openaix/coordinates.py": "coordinates.py",
     "LICENSE": "LICENSE",

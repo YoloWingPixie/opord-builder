@@ -10517,8 +10517,8 @@
       "type": "string"
     },
     "common.LaserCode": {
-      "description": "A laser code is a code of four digits for the pulse repetition frequency (PRF) of a laser, from `1111` to `1788`. The second digit is 1 to 7, and the last two digits are 1 to 8.",
-      "pattern": "^1[1-7][1-8][1-8]$",
+      "description": "A laser code is a code of four digits for the pulse repetition frequency (PRF) of a laser, from `1111` to `1888`. The digits after the first are 1 to 8. Most Digital Combat Simulator (DCS) aircraft and weapons accept only codes up to `1788`; the comms standard check warns above it.",
+      "pattern": "^1[1-8][1-8][1-8]$",
       "type": "string"
     },
     "common.Length": {
@@ -10545,6 +10545,11 @@
         "unit"
       ],
       "type": "object"
+    },
+    "common.LinkStation": {
+      "description": "A link 16 station number is a Link 16 station number (STN), which is five octal digits.",
+      "pattern": "^[0-7]{5}$",
+      "type": "string"
     },
     "common.MeasureCatalogue": {
       "additionalProperties": {

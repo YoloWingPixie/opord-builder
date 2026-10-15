@@ -1134,6 +1134,7 @@
     "unit": "ft",
     "value": 10000
   },
+  "LinkStation": "03401",
   "MeasureCatalogue": {
     "bastion-bullseye": {
       "$schema": "urn:openaix:schema:point:0.2.0-draft.1",

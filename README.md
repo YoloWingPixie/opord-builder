@@ -58,6 +58,15 @@ visibility and surface wind of the forecast that covers the takeoff) when the ca
 `--opord`, and a steerpoint table from the flight's route (number is `RoutePoint.number`, else
 the position). A SPINS `weather` block prints the same forecast table from any document.
 
+## Comms standard
+
+An OpenAIX `comms_standard` document (vendored copy: `opord_builder/openaix/vendor/standards/csg8/comms-standard.json`)
+is a SPINS source. List it under `sidecars.comms_standard` and point `openaix_table` blocks at `/channels`, `/flights`,
+`/support`, `/squadrons` or `/laser/alternates`; see `examples/spins-comms.yaml`. For a kneeboard, `--standard FILE`
+fills only the blank intraflight, lead and flight TACAN (the standard's lead and wing), laser and MIDS cells of the
+flight whose callsign matches (`Ripper 1` matches `RIPPER`), each with the warning "from comms standard". A value the
+ATO supplies always wins and a difference only warns.
+
 ## CLI
 
 ```
@@ -65,7 +74,7 @@ opord render   INPUT [-o DIR] [--md/--no-md] [--html/--no-html] [--pdf/--no-pdf]
 opord frago    INPUT [--base PATH] [...]
 opord warno    INPUT [...]
 opord spins    INPUT [...]
-opord kneeboard [INPUT] [--ato FILE] [--flight ID] [--resources FILE] [--opord FILE] [-o DIR]
+opord kneeboard [INPUT] [--ato FILE] [--flight ID] [--resources FILE] [--opord FILE] [--standard FILE] [-o DIR]
 opord export   INPUT -p ALIAS_OR_POINTER [-f pdf|html|csv] [-o FILE]
 opord list-products INPUT
 opord init DIR

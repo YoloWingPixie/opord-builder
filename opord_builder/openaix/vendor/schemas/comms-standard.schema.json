@@ -1,0 +1,1133 @@
+{
+  "$defs": {
+    "Airfields": {
+      "additionalProperties": false,
+      "properties": {
+        "link4": {
+          "const": false,
+          "description": "The value is `true` when an airfield has Link 4. The value is `false` when an airfield has no Link 4."
+        },
+        "overrides": {
+          "additionalProperties": {
+            "$ref": "#/$defs/FieldOverride"
+          },
+          "description": "This map contains the values that differ from the airfield record. The key of each item is its airfield identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this airfield rule still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rule": {
+          "description": "This field gives the rule that gives the beacons and the channels of an airfield, as one of the enumerated values.",
+          "enum": [
+            "airfield_record"
+          ]
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this airfield rule: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        }
+      },
+      "required": [
+        "rule",
+        "link4"
+      ],
+      "type": "object"
+    },
+    "Datalink": {
+      "additionalProperties": false,
+      "properties": {
+        "donor_rule": {
+          "description": "This field gives the rule that selects the donors of an aircraft, as one of the enumerated values.",
+          "enum": [
+            "awacs_and_flight_leads"
+          ]
+        },
+        "hornet": {
+          "$ref": "#/$defs/HornetNet",
+          "description": "This field gives the Link 16 settings of the Hornet."
+        },
+        "network": {
+          "additionalProperties": false,
+          "description": "This field gives the Link 16 channels of the network.",
+          "properties": {
+            "fighter_channel": {
+              "description": "This field gives the channel of the fighter net, from 1 to 127.",
+              "maximum": 127,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "mission_channel": {
+              "description": "This field gives the channel of the mission net, from 1 to 127.",
+              "maximum": 127,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "special_channel": {
+              "description": "This field gives the channel of the special net, from 1 to 127.",
+              "maximum": 127,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "transmit_power": {
+              "description": "This field gives the transmit power setting of the Link 16 terminal.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "fighter_channel",
+            "mission_channel",
+            "special_channel"
+          ],
+          "type": "object"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this data link network still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this data link network: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        },
+        "team_rule": {
+          "description": "This field gives the rule that selects the team members of an aircraft, as one of the enumerated values.",
+          "enum": [
+            "flight_members"
+          ]
+        }
+      },
+      "required": [
+        "network"
+      ],
+      "type": "object"
+    },
+    "FieldOverride": {
+      "additionalProperties": false,
+      "properties": {
+        "channels": {
+          "description": "This list identifies the radio channels that the airfield uses instead of the channels of the airfield record.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+            "x-catalog": "channels"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "ils": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Frequency",
+          "description": "This field gives the frequency of the instrument landing system of the airfield, when it differs from the airfield record, as a frequency with its unit."
+        },
+        "tacan": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
+          "description": "This field gives the Tactical Air Navigation (TACAN) channel of the airfield, when it differs from the airfield record."
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Flight": {
+      "additionalProperties": false,
+      "properties": {
+        "aircraft_type": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field gives the aircraft type of the flight, as an identifier."
+        },
+        "callsign": {
+          "description": "This field gives the callsign of the flight.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "datalink_callsign": {
+          "description": "This field gives the callsign of the flight in the data link, as two capital letters.",
+          "minLength": 1,
+          "pattern": "^[A-Z]{2}$",
+          "type": "string"
+        },
+        "extensions": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "group"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "intraflight": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field identifies the radio channel that the flight uses between its members.",
+          "x-catalog": "channels"
+        },
+        "laser_block": {
+          "description": "This field gives the two digits that follow the leading `1` in the laser codes of the flight.",
+          "minLength": 1,
+          "pattern": "^[1-8][1-8]$",
+          "type": "string"
+        },
+        "members": {
+          "description": "This list contains the members of the flight, with their codes.",
+          "items": {
+            "$ref": "#/$defs/Member"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "mids_channel": {
+          "description": "This field gives the channel of voice net A of the Link 16 terminal of the flight, from 1 to 127.",
+          "maximum": 127,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this flight still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "squadron": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field identifies the squadron that this flight belongs to.",
+          "x-catalog": "squadrons"
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this flight: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        },
+        "stn_block": {
+          "description": "This field gives the first four octal digits of the Link 16 station numbers of the flight.",
+          "minLength": 1,
+          "pattern": "^[0-7]{4}$",
+          "type": "string"
+        },
+        "tacan_aa": {
+          "$ref": "#/$defs/TacanPair",
+          "description": "This field gives the air-to-air Tactical Air Navigation (TACAN) channels of the lead and the wing of the flight."
+        }
+      },
+      "required": [
+        "callsign",
+        "aircraft_type"
+      ],
+      "type": "object"
+    },
+    "HornetNet": {
+      "additionalProperties": false,
+      "properties": {
+        "aic": {
+          "description": "This field gives the channel of the air intercept control net, from 1 to 127.",
+          "maximum": 127,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "ff1": {
+          "description": "This field gives the channel of the first fighter-to-fighter net, from 1 to 127.",
+          "maximum": 127,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "ff2": {
+          "description": "This field gives the channel of the second fighter-to-fighter net, from 1 to 127.",
+          "maximum": 127,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this Hornet data link set still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this Hornet data link set: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        }
+      },
+      "required": [
+        "aic",
+        "ff1",
+        "ff2"
+      ],
+      "type": "object"
+    },
+    "Iff": {
+      "additionalProperties": false,
+      "properties": {
+        "defaults": {
+          "additionalProperties": false,
+          "description": "This field gives the identification settings that apply when an order gives none.",
+          "properties": {
+            "mode_2": {
+              "description": "This field gives the identification Mode 2 code, as four octal digits.",
+              "minLength": 1,
+              "pattern": "^[0-7]{4}$",
+              "type": "string"
+            },
+            "mode_4": {
+              "description": "This field gives the setting of identification Mode 4, as one of the enumerated values.",
+              "enum": [
+                "on",
+                "off",
+                "as_directed"
+              ]
+            },
+            "mode_c": {
+              "description": "The value is `true` when identification Mode C is on. The value is `false` when Mode C is off.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "mode_4",
+            "mode_c"
+          ],
+          "type": "object"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this identification setting still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this identification setting: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        }
+      },
+      "required": [
+        "defaults"
+      ],
+      "type": "object"
+    },
+    "JtacCode": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LaserCode",
+          "description": "This field gives the laser code of the controller, as a laser code with its unit."
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this joint terminal attack controller (JTAC) laser code still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this joint terminal attack controller (JTAC) laser code: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "type": "object"
+    },
+    "Laser": {
+      "additionalProperties": false,
+      "properties": {
+        "alternates": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LaserCode"
+          },
+          "description": "This map contains the laser codes for a plan that gives one code to each flight. The key of each item is its flight identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "blocks": {
+          "additionalProperties": {
+            "minLength": 1,
+            "pattern": "^[1-8][1-8]$",
+            "type": "string"
+          },
+          "description": "This map contains the laser code blocks of the flights. The key of each item is its flight identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "jtac": {
+          "description": "This list contains the laser codes of the joint terminal attack controllers.",
+          "items": {
+            "$ref": "#/$defs/JtacCode"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this laser code plan still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this laser code plan: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Member": {
+      "additionalProperties": false,
+      "properties": {
+        "laser_code": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LaserCode",
+          "description": "This field gives the laser code of the aircraft, as a laser code with its unit."
+        },
+        "member": {
+          "description": "This field gives the position of the aircraft in the flight, from 1 to 4.",
+          "maximum": 4,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "mode_3": {
+          "description": "This field gives the identification Mode 3 code of the aircraft, as four octal digits.",
+          "minLength": 1,
+          "pattern": "^[0-7]{4}$",
+          "type": "string"
+        },
+        "stn": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LinkStation",
+          "description": "This field gives the Link 16 station number of the aircraft."
+        },
+        "tacan": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
+          "description": "This field gives the Tactical Air Navigation (TACAN) channel of the aircraft, when it differs from the pair of the flight."
+        }
+      },
+      "required": [
+        "member",
+        "stn",
+        "mode_3"
+      ],
+      "type": "object"
+    },
+    "Radio": {
+      "additionalProperties": false,
+      "description": "A radio is one radio of an aircraft with its presets.",
+      "properties": {
+        "label": {
+          "description": "This field gives the label of the radio, for display, as free text.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "presets": {
+          "description": "This list contains the presets of the radio. A preset gives a channel, or takes the intraflight channel of the flight.",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RadioAssignment"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "flight_channel": {
+                    "description": "This field gives the channel that the flight selects for this preset, as one of the enumerated values.",
+                    "enum": [
+                      "intraflight"
+                    ]
+                  },
+                  "preset": {
+                    "description": "This field gives the number of the preset.",
+                    "minimum": 1,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "preset",
+                  "flight_channel"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "radio": {
+          "description": "This field gives the radio of the aircraft, as one of the enumerated values.",
+          "enum": [
+            "uhf_1",
+            "uhf_2",
+            "vhf",
+            "arc_159",
+            "arc_182",
+            "mids"
+          ]
+        },
+        "start_preset": {
+          "description": "This field gives the number of the first preset of the radio.",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "radio",
+        "presets"
+      ],
+      "type": "object"
+    },
+    "RadioPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "aircraft_types": {
+          "description": "This list identifies the aircraft types that use this radio plan.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "name": {
+          "description": "This field gives the name of this radio plan, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this radio plan still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "radios": {
+          "description": "This list contains the radios of the aircraft.",
+          "items": {
+            "$ref": "#/$defs/Radio"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this radio plan: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        }
+      },
+      "required": [
+        "name",
+        "aircraft_types",
+        "radios"
+      ],
+      "type": "object"
+    },
+    "Restrictions": {
+      "additionalProperties": false,
+      "properties": {
+        "frequencies": {
+          "description": "This list contains the frequencies that nothing uses as a preset.",
+          "items": {
+            "$ref": "urn:openaix:schema:spins:0.2.0-draft.1#/$defs/RestrictedFrequency"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "mode_3": {
+          "description": "This list contains the Mode 3 codes that nothing uses.",
+          "items": {
+            "minLength": 1,
+            "pattern": "^[0-7]{4}$",
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this set of restrictions still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this set of restrictions: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        },
+        "tacan": {
+          "description": "This list contains the Tactical Air Navigation (TACAN) channels that nothing uses.",
+          "items": {
+            "$ref": "#/$defs/TacanRestriction"
+          },
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Rule": {
+      "additionalProperties": false,
+      "description": "A rule is the pattern that the values of one field of the members follow.",
+      "properties": {
+        "field": {
+          "description": "This field gives the field that the rule is for, as one of the enumerated values.",
+          "enum": [
+            "stn",
+            "laser_code",
+            "mode_3",
+            "mode_1",
+            "tacan_wing"
+          ]
+        },
+        "pattern": {
+          "description": "This field gives the pattern, in which `{stn_block}`, `{stn_tail}`, `{laser_block}` and `{member}` stand for the values of the flight and the member.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "text": {
+          "description": "This field gives the explanation of the rule, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "pattern"
+      ],
+      "type": "object"
+    },
+    "Ship": {
+      "additionalProperties": false,
+      "properties": {
+        "acls": {
+          "description": "The value is `true` when the ship has an automatic carrier landing system.",
+          "type": "boolean"
+        },
+        "awacs": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field identifies the support aircraft that is the airborne early warning aircraft of the ship.",
+          "x-catalog": "support"
+        },
+        "hull": {
+          "description": "This field gives the Digital Combat Simulator (DCS) hull type of the ship, such as `CVN_75`.",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_]+$",
+          "type": "string"
+        },
+        "icls_channel": {
+          "description": "This field gives the instrument carrier landing system channel of the ship, from 0 to 19.",
+          "maximum": 19,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "link4": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Frequency",
+          "description": "This field gives the link 4 frequency of the ship, as a frequency with its unit."
+        },
+        "name": {
+          "description": "This field gives the name of this ship, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this ship still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "radio": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field identifies the radio channel that the ship uses for its control.",
+          "x-catalog": "channels"
+        },
+        "recovery_tanker": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field identifies the support aircraft that is the recovery tanker of the ship.",
+          "x-catalog": "support"
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "standard": {
+          "description": "The value is `true` when the standard names this ship as the standard carrier. The value is `false` when the ship is supported but is not the standard carrier.",
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this ship: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        },
+        "tacan": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
+          "description": "This field gives the Tactical Air Navigation (TACAN) channel of the ship."
+        }
+      },
+      "required": [
+        "hull",
+        "name",
+        "tacan",
+        "icls_channel",
+        "link4"
+      ],
+      "type": "object"
+    },
+    "Squadron": {
+      "additionalProperties": false,
+      "properties": {
+        "aircraft_type": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field gives the aircraft type of the squadron, as an identifier."
+        },
+        "flights": {
+          "description": "This list identifies the flights that belong to this squadron.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+            "x-catalog": "flights"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "mids": {
+          "additionalProperties": false,
+          "description": "This field gives the channels of the Link 16 voice nets of the squadron.",
+          "properties": {
+            "voca": {
+              "description": "This field gives the channel of voice net A.",
+              "maximum": 127,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "vocb": {
+              "description": "This field gives the channel of voice net B, which is the net of the squadron.",
+              "maximum": 127,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "mode_1": {
+          "description": "This field gives the identification Mode 1 code of the squadron, as two octal digits.",
+          "minLength": 1,
+          "pattern": "^[0-7]{2}$",
+          "type": "string"
+        },
+        "name": {
+          "description": "This field gives the name of this squadron, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this squadron still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this squadron: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        },
+        "stn_prefix": {
+          "description": "This field gives the first two octal digits of the Link 16 station numbers of the squadron.",
+          "minLength": 1,
+          "pattern": "^[0-7]{2}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "aircraft_type",
+        "stn_prefix",
+        "mode_1"
+      ],
+      "type": "object"
+    },
+    "Status": {
+      "default": "adopted",
+      "description": "A status is whether the owner adopted the value of a record or only proposed it.",
+      "enum": [
+        "adopted",
+        "proposed"
+      ]
+    },
+    "Support": {
+      "additionalProperties": false,
+      "properties": {
+        "aircraft_type": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field gives the aircraft type of the support aircraft, as an identifier."
+        },
+        "callsign": {
+          "description": "This field gives the callsign of the support aircraft.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "channels": {
+          "description": "This list identifies the radio channels that the support aircraft uses.",
+          "items": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+            "x-catalog": "channels"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "datalink_callsign": {
+          "description": "This field gives the callsign of the support aircraft in the data link, as two capital letters.",
+          "minLength": 1,
+          "pattern": "^[A-Z]{2}$",
+          "type": "string"
+        },
+        "mode_1": {
+          "description": "This field gives the identification Mode 1 code of the support aircraft, as two octal digits.",
+          "minLength": 1,
+          "pattern": "^[0-7]{2}$",
+          "type": "string"
+        },
+        "mode_3": {
+          "description": "This field gives the identification Mode 3 code of the support aircraft, as four octal digits.",
+          "minLength": 1,
+          "pattern": "^[0-7]{4}$",
+          "type": "string"
+        },
+        "proposals": {
+          "description": "This list contains the identifiers of the proposals that this support aircraft still carries, such as `a1` or `b11`.",
+          "items": {
+            "pattern": "^[a-d][0-9]+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "refuel": {
+          "description": "This field gives the refuelling method of the tanker, as one of the enumerated values.",
+          "enum": [
+            "boom",
+            "basket"
+          ]
+        },
+        "role": {
+          "description": "This field gives the role of the support aircraft, as one of the enumerated values.",
+          "enum": [
+            "tanker",
+            "recovery_tanker",
+            "awacs"
+          ]
+        },
+        "source": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef",
+          "description": "This field identifies the source document. The reference gives the identifier of the document, and the path and the section give the file and the line."
+        },
+        "status": {
+          "$ref": "#/$defs/Status",
+          "description": "This field gives the status of this support aircraft: the owner adopted its values, or only proposed them, as one of the enumerated values. A proposed value can change."
+        },
+        "stn": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LinkStation",
+          "description": "This field gives the Link 16 station number of the support aircraft."
+        },
+        "tacan": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
+          "description": "This field gives the Tactical Air Navigation (TACAN) channel of the support aircraft."
+        }
+      },
+      "required": [
+        "callsign",
+        "role",
+        "aircraft_type",
+        "channels",
+        "tacan",
+        "datalink_callsign",
+        "stn",
+        "mode_3"
+      ],
+      "type": "object"
+    },
+    "TacanPair": {
+      "additionalProperties": false,
+      "properties": {
+        "lead": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
+          "description": "This field gives the air-to-air Tactical Air Navigation (TACAN) channel of the lead aircraft."
+        },
+        "wing": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
+          "description": "This field gives the air-to-air Tactical Air Navigation (TACAN) channel of the wing aircraft."
+        }
+      },
+      "required": [
+        "lead",
+        "wing"
+      ],
+      "type": "object"
+    },
+    "TacanRestriction": {
+      "additionalProperties": false,
+      "properties": {
+        "band": {
+          "description": "This field gives the band of the restricted channels, as one of the enumerated values.",
+          "enum": [
+            "X",
+            "Y"
+          ]
+        },
+        "channels": {
+          "description": "This list contains the Tactical Air Navigation (TACAN) channels that nothing uses.",
+          "items": {
+            "maximum": 126,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "reason": {
+          "description": "This field gives the reason for the restriction, as free text.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "channels",
+        "band"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:openaix:schema:comms-standard:0.2.0-draft.1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A communications standard is one force's standing plan for radio channels, Tactical Air Navigation (TACAN), Link 16 station numbers, identification codes and laser codes. It gives every value of every aircraft, and `rules` gives the patterns that the values follow. A consumer looks the values up and does not compute them.",
+  "properties": {
+    "$schema": {
+      "description": "This field identifies the schema that validates this document.",
+      "format": "uri",
+      "minLength": 1,
+      "type": "string"
+    },
+    "airfields": {
+      "$ref": "#/$defs/Airfields",
+      "description": "This field gives the rule for the beacons and channels of land airfields."
+    },
+    "channels": {
+      "additionalProperties": {
+        "$ref": "urn:openaix:schema:resources:0.2.0-draft.1#/$defs/Channel"
+      },
+      "description": "This map contains the radio channels, which are the frequency ladder, the tanker and support channels and the flight channels. The key of each item is its identifier.",
+      "propertyNames": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "type": "object"
+    },
+    "datalink": {
+      "$ref": "#/$defs/Datalink",
+      "description": "This field gives the Link 16 network and the rules for the team and the donors."
+    },
+    "extensions": {
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Extensions",
+      "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+    },
+    "flights": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Flight"
+      },
+      "description": "This map contains the flights, which give the callsign, channels and the values of each member. The key of each item is its identifier.",
+      "propertyNames": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "type": "object"
+    },
+    "iff": {
+      "$ref": "#/$defs/Iff",
+      "description": "This field gives the default identification settings."
+    },
+    "kind": {
+      "const": "comms_standard",
+      "description": "The value identifies this record as a communications standard."
+    },
+    "laser": {
+      "$ref": "#/$defs/Laser",
+      "description": "This field gives the laser codes of the controllers, the blocks and the alternatives."
+    },
+    "meta": {
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Metadata",
+      "description": "This field gives the identification, revision and issue data of this communications standard."
+    },
+    "radio_plans": {
+      "additionalProperties": {
+        "$ref": "#/$defs/RadioPlan"
+      },
+      "description": "This map contains the radio plans, which give the presets of the radios of an aircraft type. The key of each item is its identifier.",
+      "propertyNames": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "type": "object"
+    },
+    "restrictions": {
+      "$ref": "#/$defs/Restrictions",
+      "description": "This field gives the Tactical Air Navigation (TACAN) channels, frequencies and identification codes that nothing uses."
+    },
+    "rules": {
+      "description": "This list contains the patterns that the values of the members follow. The check validates the tables against these patterns.",
+      "items": {
+        "$ref": "#/$defs/Rule"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "0.2.0-draft.1",
+      "description": "This field gives the version of the openAIX schema that this communications standard agrees with."
+    },
+    "ships": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Ship"
+      },
+      "description": "This map contains the ships, which give the beacons and the channels of a ship. The key of each item is its identifier.",
+      "propertyNames": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "type": "object"
+    },
+    "sources": {
+      "description": "This list contains the documents that the values of the standard come from.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/DocumentRef"
+      },
+      "minItems": 0,
+      "type": "array"
+    },
+    "squadrons": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Squadron"
+      },
+      "description": "This map contains the squadrons, which give the codes that a squadron shares. The key of each item is its identifier.",
+      "propertyNames": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "type": "object"
+    },
+    "support": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Support"
+      },
+      "description": "This map contains the support aircraft: tankers and airborne early warning aircraft. The key of each item is its identifier.",
+      "propertyNames": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "type": "object"
+    }
+  },
+  "required": [
+    "kind",
+    "schema_version",
+    "meta"
+  ],
+  "title": "Communications standard",
+  "type": "object"
+}

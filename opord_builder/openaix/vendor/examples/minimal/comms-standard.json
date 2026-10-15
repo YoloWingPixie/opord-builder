@@ -1,0 +1,8 @@
+{
+  "$schema": "urn:openaix:schema:comms-standard:0.2.0-draft.1",
+  "kind": "comms_standard",
+  "meta": {
+    "id": "oir-comms-standard"
+  },
+  "schema_version": "0.2.0-draft.1"
+}

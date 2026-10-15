@@ -80,7 +80,7 @@ def test_example_renders_md_and_html():
     for text in (
         "Darkstar control (251.0 MHz AM)",
         "FL180 to FL200",
-        "63Y (SHL)",
+        "63Y (KU)",
         "7598 ft",
         "NOT PROVIDED",
     ):

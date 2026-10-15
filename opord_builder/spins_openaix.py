@@ -16,7 +16,15 @@ from opord_builder.schema.spins import (
     WeatherBlock,
 )
 
-SOURCES = ("opord", "ato", "aco", "spins", "resources", "airfield")
+SOURCES = (
+    "opord",
+    "ato",
+    "aco",
+    "spins",
+    "resources",
+    "airfield",
+    "comms_standard",
+)
 # Documents of each source must carry one of these `kind` values.
 KINDS = {
     "opord": {"opord"},
@@ -24,6 +32,7 @@ KINDS = {
     "aco": {"aco"},
     "spins": {"spins"},
     "resources": {"resources"},
+    "comms_standard": {"comms_standard"},
     "airfield": {"airfield", "carrier", "farp"},
 }
 _MISSING = object()

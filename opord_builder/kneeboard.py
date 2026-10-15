@@ -80,6 +80,31 @@ def _norm(callsign: str) -> str:
     return re.sub(r"[^A-Z0-9]", "", callsign.upper())
 
 
+def _standard_flight(standard: Mapping[str, Any] | None, callsign: str):
+    """The comms-standard flight whose callsign matches (`Ripper 1` matches `RIPPER`), or None."""
+    key = re.sub(r"\d+$", "", _norm(callsign))
+    return next(
+        (
+            f
+            for f in ((standard or {}).get("flights") or {}).values()
+            if _norm(f["callsign"]) == key
+        ),
+        None,
+    )
+
+
+def _fill(have, std, field, warn, same=lambda have, std: have == std):
+    """The ATO value wins. A blank cell takes the standard's value; a different value only warns."""
+    if not std:
+        return have
+    if not have:
+        warn(field, "from comms standard")
+        return std
+    if not same(have, std):
+        warn(field, f"{have!r} differs from comms standard {std!r}; ATO value kept")
+    return have
+
+
 def _radio_slot(radio: str | None) -> int | None:
     """COMM1/COMM2 (also 'UHF' -> 1, 'VHF' -> 2)."""
     text = (radio or "").strip().upper()
@@ -280,9 +305,11 @@ def build_cards(
     resources: Mapping[str, Any] | None = None,
     flight_id: str | None = None,
     opord: Mapping[str, Any] | None = None,
+    standard: Mapping[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], list[str]]:
     """One card per Flight (or only `flight_id`). `opord` is an optional OpenAIX opord for the altimeter setting.
-    Returns (cards, warnings)."""
+    `standard` is an optional OpenAIX comms standard that fills the blank intraflight, TACAN, laser and MIDS cells
+    of the flight whose callsign it names. Returns (cards, warnings)."""
     res = dict(resources) if resources is not None else merge_resources(ato, None)
     warnings: list[str] = []
     missions = ato.get("missions") or []
@@ -292,7 +319,9 @@ def build_cards(
         if not flights:
             known = ", ".join(f["id"] for m in missions for f in m.get("flights") or [])
             raise ValueError(f"no flight {flight_id!r} in the ATO (flights: {known})")
-    cards = [_card(ato, m, f, missions, res, opord, warnings) for m, f in flights]
+    cards = [
+        _card(ato, m, f, missions, res, opord, warnings, standard) for m, f in flights
+    ]
     return cards, warnings
 
 
@@ -304,8 +333,11 @@ def _card(
     res: Mapping[str, Any],
     opord: Mapping[str, Any] | None,
     warnings: list[str],
+    standard: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     callsign = flight["callsign"]
+    std = _standard_flight(standard, callsign) or {}
+    std_members = {m["member"]: m for m in std.get("members") or []}
 
     def warn(field: str, why: str) -> None:
         warnings.append(f"{callsign}: {field}: {why}")
@@ -328,6 +360,12 @@ def _card(
         laser = override.get("laser_code") or (scls.get(scl_id) or {}).get(
             "laser_code", ""
         )
+        laser = _fill(
+            laser,
+            (std_members.get(n) or {}).get("laser_code", ""),
+            f"positions[{n}].laser",
+            warn,
+        )
         modex = override.get("board_number", "")
         pers = " / ".join(m["name"] for m in override.get("crew") or [])
         missing["modex"] |= not modex
@@ -345,13 +383,24 @@ def _card(
     lead_ident = (overrides.get(1) or {}).get("identification") or {}
     lead = lead_ident.get("tacan")
     common = ident.get("tacan")
+    pair = std.get("tacan_aa") or {}
     tacan = {
-        "lead": fmt_tacan(lead) if lead else "",
-        "flight": fmt_tacan(common) if common else "",
+        "lead": _fill(
+            fmt_tacan(lead) if lead else "",
+            fmt_tacan(pair["lead"]) if pair.get("lead") else "",
+            "tacan.lead",
+            warn,
+        ),
+        "flight": _fill(
+            fmt_tacan(common) if common else "",
+            fmt_tacan(pair["wing"]) if pair.get("wing") else "",
+            "tacan.flight",
+            warn,
+        ),
     }
-    if not lead:
+    if not tacan["lead"]:
         warn("tacan.lead", "member 1 has no identification.tacan; left blank")
-    if not common:
+    if not tacan["flight"]:
         warn("tacan.flight", "flight has no identification.tacan; left blank")
 
     # objectives and weaponeering
@@ -389,7 +438,9 @@ def _card(
         else None
     )
 
-    comms = _comms(flight, res, [t["channel"] for t in tankers], warn, lead_ident)
+    comms = _comms(
+        flight, res, [t["channel"] for t in tankers], warn, lead_ident, standard, std
+    )
     for t in tankers:
         del t["channel"]
 
@@ -490,7 +541,9 @@ def _phase_name(activity_id: str) -> str:
     return re.sub(r"[-_.]+", " ", activity_id).upper()
 
 
-def _comms(flight, res, tanker_channels, warn, lead_ident) -> dict[str, Any]:
+def _comms(
+    flight, res, tanker_channels, warn, lead_ident, standard=None, std=None
+) -> dict[str, Any]:
     """Radio assignments grouped into phases by `RadioAssignment.activities` (the flight's own `communications`
     plus its `comm_plan`). An assignment with no activities serves the complete mission (ALL PHASES)."""
     channels = res.get("channels") or {}
@@ -536,6 +589,9 @@ def _comms(flight, res, tanker_channels, warn, lead_ident) -> dict[str, Any]:
                 names.append(_phase_name(aid))
         for name in names:
             phases[name][slot].append(_assignment_text(a, channels))
+    std = std or {}
+    channel = ((standard or {}).get("channels") or {}).get(std.get("intraflight"))
+    intra = _fill(intra, _freq(channel) if channel else "", "comms.intra", warn)
     if not intra:
         warn("comms.intra", "no radio assignment with purpose 'intra'; left blank")
     ident = flight.get("identification") or {}
@@ -548,6 +604,19 @@ def _comms(flight, res, tanker_channels, warn, lead_ident) -> dict[str, Any]:
         mids = " ".join(p for p in parts if p)
         if mids and ident.get("datalink_station"):
             mids += f" STN {ident['datalink_station']}"
+    # MIDS: the lead's station number and the flight's MIDS voice channel. Only the station can disagree.
+    stn = ((std.get("members") or [{}])[0]).get("stn", "")
+    voca = std.get("mids_channel")
+    want = " ".join(
+        p for p in ("Link 16", stn and f"STN {stn}", voca and f"VOCA {voca}") if p
+    )
+    mids = _fill(
+        mids,
+        want if stn or voca else "",
+        "comms.mids",
+        warn,
+        same=lambda have, _: not stn or stn in have,
+    )
     if not mids:
         warn("comms.mids", "no identification.link16 or datalink_*; left blank")
     rows = [
@@ -742,12 +811,14 @@ def cards_from_files(
     resources_path: Path | str | None = None,
     flight_id: str | None = None,
     opord_path: Path | str | None = None,
+    standard_path: Path | str | None = None,
 ) -> tuple[list[dict[str, Any]], list[str]]:
     """Load the ATO (and its resources: `resources_path`, else the document its `resources_ref` names), build the
     cards, lay the overrides over them (ATO flights, ATO top level, then the OPORD's top level) and validate the
-    result. Raises ValueError (DocumentError included) on bad input."""
+    result. `standard_path` is an OpenAIX comms standard that fills blank cells. Raises ValueError (DocumentError included) on bad input."""
     ato = _document(ato_path, "ato")
     opord = _document(opord_path, "opord") if opord_path else None
+    standard = _document(standard_path, "comms_standard") if standard_path else None
     note = None
     if resources_path:
         res_doc = _document(resources_path, "resources")
@@ -759,7 +830,9 @@ def cards_from_files(
             )
     else:
         res_doc = load.load_resources(ato, ato_path)
-    cards, warnings = build_cards(ato, merge_resources(ato, res_doc), flight_id, opord)
+    cards, warnings = build_cards(
+        ato, merge_resources(ato, res_doc), flight_id, opord, standard
+    )
     if note:
         warnings.insert(0, note)
     overrides = flight_overrides(ato, flight_id) + document_overrides(ato)

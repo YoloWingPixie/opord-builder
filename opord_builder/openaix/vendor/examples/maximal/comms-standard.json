@@ -1,0 +1,319 @@
+{
+  "$schema": "urn:openaix:schema:comms-standard:0.2.0-draft.1",
+  "airfields": {
+    "link4": false,
+    "rule": "airfield_record",
+    "source": {
+      "id": "vcsg8-scl-data",
+      "section": "DTA05",
+      "title": "VCSG8 SCL data page, F-16C Viper table"
+    }
+  },
+  "channels": {
+    "texaco11": {
+      "frequency": {
+        "band": "uhf",
+        "modulation": "AM",
+        "unit": "MHz",
+        "value": 285.0
+      },
+      "name": "TEXACO11"
+    },
+    "uhf_03": {
+      "frequency": {
+        "band": "uhf",
+        "modulation": "AM",
+        "unit": "MHz",
+        "value": 276.0
+      },
+      "name": "Intraflight Sol"
+    },
+    "uhf_16": {
+      "frequency": {
+        "band": "uhf",
+        "modulation": "AM",
+        "unit": "MHz",
+        "value": 285.0
+      },
+      "name": "CCA TANKER",
+      "usage": "recovery tanker"
+    }
+  },
+  "datalink": {
+    "donor_rule": "awacs_and_flight_leads",
+    "hornet": {
+      "aic": 1,
+      "ff1": 1,
+      "ff2": 1,
+      "source": {
+        "id": "vcsg8-scl-data",
+        "section": "DTA05",
+        "title": "VCSG8 SCL data page, F-16C Viper table"
+      }
+    },
+    "network": {
+      "fighter_channel": 1,
+      "mission_channel": 1,
+      "special_channel": 1,
+      "transmit_power": 3
+    },
+    "source": {
+      "id": "vcsg8-scl-data",
+      "section": "DTA05",
+      "title": "VCSG8 SCL data page, F-16C Viper table"
+    },
+    "team_rule": "flight_members"
+  },
+  "extensions": {
+    "org.cjtf-oir.ato": {
+      "ato_day": "214"
+    }
+  },
+  "flights": {
+    "sol": {
+      "aircraft_type": "fa_18c",
+      "callsign": "SOL",
+      "datalink_callsign": "SO",
+      "extensions": {
+        "org.cjtf-oir.ato": {
+          "ato_day": "214"
+        }
+      },
+      "intraflight": "uhf_03",
+      "laser_block": "71",
+      "members": [
+        {
+          "laser_code": "1711",
+          "member": 1,
+          "mode_3": "2101",
+          "stn": "02101",
+          "tacan": {
+            "band": "X",
+            "channel": 75,
+            "identifier": "KU"
+          }
+        }
+      ],
+      "source": {
+        "id": "vcsg8-scl-data",
+        "section": "DTA05",
+        "title": "VCSG8 SCL data page, F-16C Viper table"
+      },
+      "squadron": "vfa_81",
+      "stn_block": "0210",
+      "tacan_aa": {
+        "lead": {
+          "band": "Y",
+          "channel": 12
+        },
+        "wing": {
+          "band": "Y",
+          "channel": 75
+        }
+      }
+    }
+  },
+  "iff": {
+    "defaults": {
+      "mode_2": "5201",
+      "mode_4": "on",
+      "mode_c": true
+    },
+    "source": {
+      "id": "vcsg8-scl-data",
+      "section": "DTA05",
+      "title": "VCSG8 SCL data page, F-16C Viper table"
+    }
+  },
+  "kind": "comms_standard",
+  "laser": {
+    "alternates": {
+      "sol": "1611"
+    },
+    "blocks": {
+      "sol": "71"
+    },
+    "jtac": [
+      {
+        "code": "1688",
+        "source": {
+          "id": "vcsg8-scl-data",
+          "section": "DTA05",
+          "title": "VCSG8 SCL data page, F-16C Viper table"
+        }
+      }
+    ],
+    "source": {
+      "id": "vcsg8-scl-data",
+      "section": "DTA05",
+      "title": "VCSG8 SCL data page, F-16C Viper table"
+    }
+  },
+  "meta": {
+    "author": "CAOC airspace cell",
+    "classification": "UNCLASSIFIED",
+    "distribution": [
+      "Darkstar",
+      "Banshee",
+      "Salti Tower",
+      "All OIR flights"
+    ],
+    "id": "oir-comms-standard",
+    "issued_at": "2026-10-02T12:30:00Z",
+    "issuing_unit": "CJTF-OIR CAOC",
+    "operation": "add",
+    "references": [
+      {
+        "id": "oir-opord",
+        "revision": "1",
+        "title": "OIR OPORD 26-01"
+      }
+    ],
+    "revision": "1",
+    "supersedes": {
+      "id": "oir-aco",
+      "path": "oir-aco.json",
+      "revision": "1",
+      "section": "Entire order",
+      "title": "OIR preliminary ACO"
+    },
+    "title": "OIR communications standard"
+  },
+  "radio_plans": {
+    "hornet": {
+      "aircraft_types": [
+        "fa_18c"
+      ],
+      "name": "F/A-18C",
+      "radios": [
+        {
+          "label": "1",
+          "presets": [
+            {
+              "flight_channel": "intraflight",
+              "preset": 1
+            },
+            {
+              "activities": [
+                "viper-refuel"
+              ],
+              "channel": "uhf_16",
+              "preset": 2,
+              "radio": "uhf_1"
+            }
+          ],
+          "radio": "uhf_1",
+          "start_preset": 1
+        }
+      ],
+      "source": {
+        "id": "vcsg8-scl-data",
+        "section": "DTA05",
+        "title": "VCSG8 SCL data page, F-16C Viper table"
+      }
+    }
+  },
+  "restrictions": {
+    "mode_3": [
+      "7500",
+      "7600",
+      "7700"
+    ],
+    "source": {
+      "id": "vcsg8-scl-data",
+      "section": "DTA05",
+      "title": "VCSG8 SCL data page, F-16C Viper table"
+    },
+    "tacan": [
+      {
+        "band": "Y",
+        "channels": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "reason": "kills Link 16"
+      }
+    ]
+  },
+  "rules": [
+    {
+      "field": "stn",
+      "pattern": "{stn_block}{member}",
+      "text": "RW31 LTP"
+    }
+  ],
+  "schema_version": "0.2.0-draft.1",
+  "ships": {
+    "cvn_75": {
+      "acls": true,
+      "hull": "CVN_75",
+      "icls_channel": 5,
+      "link4": {
+        "unit": "MHz",
+        "value": 336.0
+      },
+      "name": "USS Harry S. Truman",
+      "radio": "uhf_16",
+      "recovery_tanker": "texaco11",
+      "source": {
+        "id": "vcsg8-scl-data",
+        "section": "DTA05",
+        "title": "VCSG8 SCL data page, F-16C Viper table"
+      },
+      "tacan": {
+        "band": "X",
+        "channel": 75,
+        "identifier": "KU"
+      }
+    }
+  },
+  "sources": [
+    {
+      "id": "csg8-comm-plan",
+      "title": "CSG8 comm plan"
+    }
+  ],
+  "squadrons": {
+    "vfa_81": {
+      "aircraft_type": "fa_18c",
+      "flights": [
+        "sol"
+      ],
+      "mode_1": "02",
+      "name": "VFA-81",
+      "source": {
+        "id": "vcsg8-scl-data",
+        "section": "DTA05",
+        "title": "VCSG8 SCL data page, F-16C Viper table"
+      },
+      "stn_prefix": "02"
+    }
+  },
+  "support": {
+    "texaco11": {
+      "aircraft_type": "s3_tanker",
+      "callsign": "TEXACO11",
+      "channels": [
+        "texaco11"
+      ],
+      "datalink_callsign": "TX",
+      "mode_1": "02",
+      "mode_3": "6023",
+      "refuel": "basket",
+      "role": "recovery_tanker",
+      "source": {
+        "id": "vcsg8-scl-data",
+        "section": "DTA05",
+        "title": "VCSG8 SCL data page, F-16C Viper table"
+      },
+      "stn": "07023",
+      "tacan": {
+        "band": "Y",
+        "channel": 85,
+        "identifier": "TX1"
+      }
+    }
+  }
+}

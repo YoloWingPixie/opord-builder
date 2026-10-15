@@ -670,6 +670,7 @@
     "unit": "ft",
     "value": 10000
   },
+  "LinkStation": "03401",
   "MeasureCatalogue": {},
   "Metadata": {
     "id": "ojms"

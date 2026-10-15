@@ -244,18 +244,25 @@ def kneeboard(
         dir_okay=False,
         help="OpenAIX opord for the altimeter setting (needs --ato).",
     ),
+    standard: Path | None = typer.Option(
+        None,
+        "--standard",
+        exists=True,
+        dir_okay=False,
+        help="OpenAIX comms standard that fills blank comm cells (needs --ato).",
+    ),
 ) -> None:
     from opord_builder import kneeboard as kb
 
-    if ato is None and (flight or resources or opord):
-        raise fail("--flight, --resources and --opord need --ato.")
+    if ato is None and (flight or resources or opord or standard):
+        raise fail("--flight, --resources, --opord and --standard need --ato.")
     if ato is None and input_file is None:
         raise fail("Give an INPUT_FILE, --ato, or both.")
     try:
         if ato is None:
             cards, warns = kb.cards_from_document(input_file), []
         else:
-            cards, warns = kb.cards_from_files(ato, resources, flight, opord)
+            cards, warns = kb.cards_from_files(ato, resources, flight, opord, standard)
             if (
                 input_file is not None
             ):  # the cards authored in INPUT_FILE override the ATO's

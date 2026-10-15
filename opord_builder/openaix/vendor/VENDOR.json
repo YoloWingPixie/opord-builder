@@ -1,6 +1,6 @@
 {
   "repo": "https://github.com/YoloWingPixie/openAIX",
-  "commit": "c5c9221f626e04759dd0f4e060040ac9e6a5d9c4",
+  "commit": "d5b14ac0c9a8cd99ecc80df5494da692346e9576",
   "version": "0.2.0-draft.1",
   "files": {
     "LICENSE": "76898addf2fa8d93e3260872014cf4874091aa8e970ef345e62f3cb44d264e72",
@@ -8,7 +8,7 @@
     "__init__.py": "ebd12fcee12451776d76fa2bc2a60883da8f699fc2923938674e8b18f220cca0",
     "catalogues/airspace-types.json": "80fd95a13df934c7948f46d2ba765d9be40c3b48a0229818b44f73226f5bc5de",
     "catalogues/control-measures.json": "fe91f224fc4236787734e557349d381a8c15221e01205831a90e436bc8156b7b",
-    "catalogues/example-notes.json": "4d189402b3e3e8e940aa2e8b4fa79d0ce85ee0fdb02641053bc6d5a9c28d25ac",
+    "catalogues/example-notes.json": "5c5fee656a3a9a4b2373461a1d16e52b6fd5a3208a0f84c6a12c8f04c9fdec94",
     "coordinates.py": "f13ba55d7a3b429bb45eebde439eba7e05f10971b022c29da3044ff0f116acec",
     "examples/maximal/aca.json": "fc4e06e1f743bd4327ffac9ca2239c7103d9aedb9aa5784379c203717f4e7029",
     "examples/maximal/aco.json": "d62efa7e4b5ae80920bc576dd6bda66027134cf8c50e66bb2970027e8cbc5431",
@@ -20,7 +20,8 @@
     "examples/maximal/ato.json": "13b24264552085ac057e7e7f6e1fd6469b2990df9d16b1e9003a0709d36452ef",
     "examples/maximal/c2-agency.json": "ee0e67f3f0a7d47943f8fc5145bcee07202c84912cd2c4cc25b893e053083fd6",
     "examples/maximal/cl.json": "3f9c43642991fb2e2c7168d4bf777bef56878560fc4604ca40d7be396a34cabd",
-    "examples/maximal/common.json": "0ba83a46db3fad7361050590a8d9e68cf2fbdb08b949d681c6f02eeac5dd1f71",
+    "examples/maximal/common.json": "0e1d202c2d61f253de22c662b8e2ad572257a8b616f196e5b9dd1780a47e5404",
+    "examples/maximal/comms-standard.json": "0f05dbdfc89326ccd814c89d98c65c74bf74d270fc1a34995c37eaf3880d7594",
     "examples/maximal/control-measure.json": "629d0dba9e37dd81466c4fcf797bcbfc9a692b3d76523a8afc9428e3c6d89d04",
     "examples/maximal/fac.json": "9cb2f1800137d1685dd1a05cedd4e07ea31d22bdbf51f8e8c6ee154a9e0b44bc",
     "examples/maximal/fire-support-line.json": "74d63127d5e0242c62012d55fbf1bec24a5c82acb7d500e1f7e6d9c277d56ca4",
@@ -46,7 +47,7 @@
     "examples/maximal/route.json": "51125b2c01141de7ea836d72945884563a3d91700ea74352920352f20d37a86f",
     "examples/maximal/runway.json": "604ad3f2c81c6c05680f2b20d2a3272e9dd5a4a97e1109ffd07fdab3b6ba1dbe",
     "examples/maximal/scl.json": "d80e9ca70e3867568b0f029cf546741aa53baf98c9e007df11e0878189b0d985",
-    "examples/maximal/spins.json": "265c9b1b867088d3d4e6c49d448d31aa7ac8ad488182515cacbd876d9a5de8e6",
+    "examples/maximal/spins.json": "60d99f2ecb06e099d88da4e4eba9c8fe8a20c8ce9a50891ae2966109e4a9888f",
     "examples/maximal/territory.json": "867c9bc2f006db3795462db817eb3061ee3ed2cc2b94f0fcde2c18f748854625",
     "examples/maximal/tl.json": "cc1706c37d2e08eadb0d7969148f6cf5f1f6d5a9a08dd2a5fb35b89ec3ec1951",
     "examples/maximal/tst.json": "aab549aabe2e746f0b80acbbbc8c9234602e10b7caf034e42929c78a3b0ed379",
@@ -61,7 +62,8 @@
     "examples/minimal/ato.json": "56769ad100c1f48e09a5bc5100d5e3c2fd07f5c943a03fe9daf0ef20fa1c5732",
     "examples/minimal/c2-agency.json": "5d0f1fde7956786ccff02f272e21359406b42a4ff89cf7685e26db218a35f0df",
     "examples/minimal/cl.json": "b36390080b90c96c3e88d623d4736faf29719bc1561a84740506070af6164b0c",
-    "examples/minimal/common.json": "3d01b3240730815f03769822542be44be38931e4c85bb9cb275ccacd472599a7",
+    "examples/minimal/common.json": "1a285ad0274f225413e270affb428298cf6376654e2caa85a6d909f88add6f36",
+    "examples/minimal/comms-standard.json": "6f0b37ceae1c66027aff331c3051445523aeda6e47ffd496c67ea68cfc359faf",
     "examples/minimal/control-measure.json": "8fc1059de1a37894a87ab5e5b5acbdeaf140c566e552343c34feae8e483480c4",
     "examples/minimal/fac.json": "fe7296c24b81fae8ae2d415bdaed0770237c87fdd8a890c594047ed0a149a61d",
     "examples/minimal/fire-support-line.json": "1465eca7bd273ed9cf328d072a3452ebcefe53fdbd9a90369cadb015e6f6d2c4",
@@ -94,9 +96,10 @@
     "examples/minimal/volume.json": "ef4d928ff5ad48827fb520ca476a31dca57a6369883f9e4dfd2892847622e631",
     "schemas/aco.schema.json": "f3d787df3384ea32e6e589fcb2a1dfe84d0f21df7f9ac7c961e30c8a18cd8a78",
     "schemas/airfield.schema.json": "25894471f3520b9e5c3bff5c6171f4f56113bba19c4f23b7b9bce4e120d61b9e",
-    "schemas/ato.schema.json": "4a65b522da4954b5f6dc98d67ebd79b77413b37077e7cfd42449c7f484e390a4",
+    "schemas/ato.schema.json": "7499f80876e9b38219a368e7275274ffc4289e5d8132c7af951e17025a831938",
     "schemas/c2-agency.schema.json": "9217efbe4510db98c826d5e792a83aa8e4653319c4d129d120a7a39084c9fce7",
-    "schemas/common.schema.json": "bdb742eecc666388ef323efbd65302c38181abb9d41fe1888d09ec1510cabb22",
+    "schemas/common.schema.json": "b1a0ff746d55c64b5cada7f000ccd3266b0d745896c0fdbfd56e10b0faf7d3e0",
+    "schemas/comms-standard.schema.json": "32e396211905fae99dd92fea07bf06d2f31db28dc26376a0bfdec65bca3ad1fd",
     "schemas/control-measure.schema.json": "1b38a9991eee6d3058176dd8750c4a8c3a871285606bb93fa70d263a3f9df555",
     "schemas/fac.schema.json": "0bb33fcf40fdbfb7c3fbc4b77dca13c11a9f61afe37d3233b627c57f78053348",
     "schemas/frago.schema.json": "73abca6f8ce0f4e1aca1fd8cc946203b9b1bf2ab58060c5697be1414530ef351",
@@ -132,6 +135,7 @@
     "schemas/runway.schema.json": "f26b62878627549188718b390c02f4226e0460ff2f0950e1d7f539e729a0f2ae",
     "schemas/scl.schema.json": "a1a95e1695744ca37be80a1d119d252d957d9d0b6006ddd4a1cca9be2699d806",
     "schemas/spins.schema.json": "172eacb767999fcc42b592add7acfee467709a8352c1ec49ae952ed8ed63afd2",
-    "schemas/tst.schema.json": "268f5c6bbeef01c45bf5471d5f7baa79316ab784aa1d909e036939bdd0bcc35e"
+    "schemas/tst.schema.json": "268f5c6bbeef01c45bf5471d5f7baa79316ab784aa1d909e036939bdd0bcc35e",
+    "standards/csg8/comms-standard.json": "c27c26b20a5469c9b4b2d9909966e6e8ecee1c95d5c784afa52e2da24fda2571"
   }
 }

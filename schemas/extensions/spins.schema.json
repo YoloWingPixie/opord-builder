@@ -705,7 +705,8 @@
             "aco",
             "spins",
             "resources",
-            "airfield"
+            "airfield",
+            "comms_standard"
           ],
           "title": "Source",
           "type": "string"
@@ -1725,6 +1726,20 @@
           "default": null,
           "description": "Path to an OpenAIX SPINS document.",
           "title": "Spins"
+        },
+        "comms_standard": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path to an OpenAIX comms standard document.",
+          "title": "Comms Standard"
         },
         "airfields": {
           "description": "Paths to OpenAIX airfield, FARP or carrier records (source 'airfield').",

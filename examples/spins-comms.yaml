@@ -1,0 +1,112 @@
+# yaml-language-server: $schema=../schemas/bundled/spins.schema.json
+# Standing communications tables read from the CSG8 comms standard (vendored from OpenAIX).
+$schema: urn:openaix:schema:spins:0.2.0-draft.1
+kind: spins
+schema_version: 0.2.0-draft.1
+scope: standing
+meta:
+  id: csg8-comms-standing
+  title: Communications Special Instructions
+  revision: '1'
+  operation: Fictional DCS training exercise
+  issuing_unit: Training Squadron
+extensions:
+  org.opord-builder.spins:
+    sidecars:
+      comms_standard: ../opord_builder/openaix/vendor/standards/csg8/comms-standard.json
+    content:
+    - kind: section
+      title: Communications
+      blocks:
+      - id: comms-channels
+        kind: openaix_table
+        caption: Broadband channels
+        source: comms_standard
+        pointer: /channels
+        rows: entries
+        columns:
+        - key: id
+          heading: ID
+          field: '#key'
+        - key: name
+          heading: Name
+          field: /name
+        - key: frequency
+          heading: Frequency
+          align: right
+          field: /frequency
+      - id: comms-flights
+        kind: openaix_table
+        caption: Flight radio and signals
+        source: comms_standard
+        pointer: /flights
+        rows: entries
+        columns:
+        - key: flight
+          heading: Flight
+          field: /callsign
+        - key: intra
+          heading: Intraflight
+          field: /intraflight
+          lookup: comms_standard:/channels
+        - key: lead
+          heading: Lead TACAN
+          field: /tacan_aa/lead
+        - key: wing
+          heading: Wing TACAN
+          field: /tacan_aa/wing
+        - key: tndl
+          heading: TNDL
+          field: /datalink_callsign
+        - key: stn
+          heading: STN block
+          field: /stn_block
+      - id: comms-support
+        kind: openaix_table
+        caption: Tankers and AWACS
+        source: comms_standard
+        pointer: /support
+        rows: entries
+        columns:
+        - key: callsign
+          heading: Callsign
+          field: /callsign
+        - key: role
+          heading: Role
+          field: /role
+        - key: channels
+          heading: Frequencies
+          field: /channels
+          lookup: comms_standard:/channels
+        - key: tacan
+          heading: TACAN
+          field: /tacan
+      - id: comms-iff
+        kind: openaix_table
+        caption: IFF by squadron
+        source: comms_standard
+        pointer: /squadrons
+        rows: entries
+        columns:
+        - key: squadron
+          heading: Squadron
+          field: /name
+        - key: mode1
+          heading: Mode 1
+          field: /mode_1
+        - key: stn
+          heading: STN prefix
+          field: /stn_prefix
+      - id: comms-laser-alternates
+        kind: openaix_table
+        caption: Flight-wise laser codes
+        source: comms_standard
+        pointer: /laser/alternates
+        rows: entries
+        columns:
+        - key: flight
+          heading: Flight
+          field: '#key'
+        - key: code
+          heading: Code
+          field: ''

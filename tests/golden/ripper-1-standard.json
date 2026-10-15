@@ -1,0 +1,24 @@
+{
+  "lasers": [
+    "1511",
+    "1512",
+    "1513",
+    "1514"
+  ],
+  "tacan": {
+    "lead": "8Y",
+    "flight": "71Y"
+  },
+  "intra": "275.0 MHz AM",
+  "mids": "Link 16 STN 04101",
+  "warnings": [
+    "Ripper 1: positions[1].laser: from comms standard",
+    "Ripper 1: positions[2].laser: from comms standard",
+    "Ripper 1: positions[3].laser: from comms standard",
+    "Ripper 1: positions[4].laser: from comms standard",
+    "Ripper 1: tacan.lead: from comms standard",
+    "Ripper 1: tacan.flight: from comms standard",
+    "Ripper 1: comms.intra: from comms standard",
+    "Ripper 1: comms.mids: from comms standard"
+  ]
+}

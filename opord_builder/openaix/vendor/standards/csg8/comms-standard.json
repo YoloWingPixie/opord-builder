@@ -1,0 +1,3574 @@
+{
+  "$schema": "urn:openaix:schema:comms-standard:0.2.0-draft.1",
+  "kind": "comms_standard",
+  "schema_version": "0.2.0-draft.1",
+  "meta": {
+    "id": "csg8-comms-standard",
+    "revision": "1",
+    "title": "CSG8 communications and datalink standard"
+  },
+  "sources": [
+    {
+      "id": "victoria",
+      "path": "missionmaking/comm-plan.md",
+      "revision": "b2234d9",
+      "title": "Victoria origin/main comm plan, laser plan, jackal and standards pages"
+    },
+    {
+      "id": "jackal",
+      "path": "src/config.lua",
+      "revision": "45e2387",
+      "title": "JACKAL configuration"
+    }
+  ],
+  "channels": {
+    "uhf_01": {
+      "name": "CCA TWR",
+      "frequency": {
+        "value": 241.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 1"
+    },
+    "uhf_02": {
+      "name": "CCA DEPART",
+      "frequency": {
+        "value": 241.2,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 2"
+    },
+    "uhf_04": {
+      "name": "CASINO",
+      "frequency": {
+        "value": 242.25,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 4"
+    },
+    "uhf_05": {
+      "name": "AMBER FIVE",
+      "frequency": {
+        "value": 242.5,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 5"
+    },
+    "uhf_06": {
+      "name": "COPPER SIX",
+      "frequency": {
+        "value": 242.75,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 6"
+    },
+    "uhf_07": {
+      "name": "SCARLET SEVEN",
+      "frequency": {
+        "value": 231.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 7"
+    },
+    "uhf_08": {
+      "name": "AZURE EIGHT",
+      "frequency": {
+        "value": 231.25,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 8"
+    },
+    "uhf_09": {
+      "name": "CEDAR NINE",
+      "frequency": {
+        "value": 231.5,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 9"
+    },
+    "uhf_10": {
+      "name": "LEMON TEN",
+      "frequency": {
+        "value": 231.75,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 10"
+    },
+    "uhf_11": {
+      "name": "RED CROWN",
+      "frequency": {
+        "value": 251.9,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 11"
+    },
+    "uhf_12": {
+      "name": "SAR-A",
+      "frequency": {
+        "value": 282.2,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 12"
+    },
+    "uhf_13": {
+      "name": "SCREWTOP CONT",
+      "frequency": {
+        "value": 252.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 13"
+    },
+    "uhf_14": {
+      "name": "TAGC-NET",
+      "frequency": {
+        "value": 333.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 14"
+    },
+    "uhf_15": {
+      "name": "ENROUTE AAR",
+      "frequency": {
+        "value": 240.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 15",
+      "notes": "Proposal A4: the page prints 240.#00; the standard value is 240.00, the shell basket base frequency."
+    },
+    "uhf_16": {
+      "name": "CCA TANKER",
+      "frequency": {
+        "value": 285.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 16"
+    },
+    "uhf_17": {
+      "name": "CCA BACKUP",
+      "frequency": {
+        "value": 242.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 17"
+    },
+    "uhf_18": {
+      "name": "CCA APP-A",
+      "frequency": {
+        "value": 241.4,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 18"
+    },
+    "uhf_19": {
+      "name": "CCA MARSHALL",
+      "frequency": {
+        "value": 241.6,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 19"
+    },
+    "uhf_20": {
+      "name": "CCA APP-B",
+      "frequency": {
+        "value": 241.8,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "UHF ladder channel 20"
+    },
+    "arco11": {
+      "name": "ARCO11",
+      "frequency": {
+        "value": 230.1,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell11": {
+      "name": "SHELL11",
+      "frequency": {
+        "value": 240.1,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco21": {
+      "name": "ARCO21",
+      "frequency": {
+        "value": 230.2,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell21": {
+      "name": "SHELL21",
+      "frequency": {
+        "value": 240.2,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco31": {
+      "name": "ARCO31",
+      "frequency": {
+        "value": 230.3,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell31": {
+      "name": "SHELL31",
+      "frequency": {
+        "value": 240.3,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco41": {
+      "name": "ARCO41",
+      "frequency": {
+        "value": 230.4,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell41": {
+      "name": "SHELL41",
+      "frequency": {
+        "value": 240.4,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco51": {
+      "name": "ARCO51",
+      "frequency": {
+        "value": 230.5,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell51": {
+      "name": "SHELL51",
+      "frequency": {
+        "value": 240.5,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco61": {
+      "name": "ARCO61",
+      "frequency": {
+        "value": 230.6,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell61": {
+      "name": "SHELL61",
+      "frequency": {
+        "value": 240.6,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco71": {
+      "name": "ARCO71",
+      "frequency": {
+        "value": 230.7,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell71": {
+      "name": "SHELL71",
+      "frequency": {
+        "value": 240.7,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco81": {
+      "name": "ARCO81",
+      "frequency": {
+        "value": 230.8,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell81": {
+      "name": "SHELL81",
+      "frequency": {
+        "value": 240.8,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco91": {
+      "name": "ARCO91",
+      "frequency": {
+        "value": 230.9,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "boom tanker, UHF"
+    },
+    "shell91": {
+      "name": "SHELL91",
+      "frequency": {
+        "value": 240.9,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "basket tanker, UHF"
+    },
+    "arco_vhf": {
+      "name": "ARCO VHF",
+      "frequency": {
+        "value": 150.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "boom tanker, VHF"
+    },
+    "arco11_vhf": {
+      "name": "ARCO11 VHF",
+      "frequency": {
+        "value": 150.1,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "boom tanker, VHF"
+    },
+    "arco21_vhf": {
+      "name": "ARCO21 VHF",
+      "frequency": {
+        "value": 150.2,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "boom tanker, VHF"
+    },
+    "arco31_vhf": {
+      "name": "ARCO31 VHF",
+      "frequency": {
+        "value": 150.3,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "boom tanker, VHF"
+    },
+    "arco41_vhf": {
+      "name": "ARCO41 VHF",
+      "frequency": {
+        "value": 150.4,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "boom tanker, VHF"
+    },
+    "texaco11": {
+      "name": "TEXACO11",
+      "frequency": {
+        "value": 285.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "recovery tanker"
+    },
+    "texaco21": {
+      "name": "TEXACO21",
+      "frequency": {
+        "value": 285.2,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "recovery tanker"
+    },
+    "texaco31": {
+      "name": "TEXACO31",
+      "frequency": {
+        "value": 285.4,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "recovery tanker",
+      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+    },
+    "texaco41": {
+      "name": "TEXACO41",
+      "frequency": {
+        "value": 285.6,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "recovery tanker",
+      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+    },
+    "texaco51": {
+      "name": "TEXACO51",
+      "frequency": {
+        "value": 285.8,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "recovery tanker",
+      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+    },
+    "texaco61": {
+      "name": "TEXACO61",
+      "frequency": {
+        "value": 286.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "recovery tanker",
+      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+    },
+    "texaco71": {
+      "name": "TEXACO71",
+      "frequency": {
+        "value": 286.2,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "recovery tanker",
+      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+    },
+    "texaco81": {
+      "name": "TEXACO81",
+      "frequency": {
+        "value": 286.4,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "recovery tanker",
+      "notes": "Proposal B18: JACKAL puts every TEXACO on 285.00."
+    },
+    "magic": {
+      "name": "MAGIC",
+      "frequency": {
+        "value": 252.71,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "airborne early warning"
+    },
+    "overlord": {
+      "name": "OVERLORD",
+      "frequency": {
+        "value": 252.72,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "airborne early warning"
+    },
+    "focus": {
+      "name": "FOCUS",
+      "frequency": {
+        "value": 252.73,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "airborne early warning"
+    },
+    "wizard": {
+      "name": "WIZARD",
+      "frequency": {
+        "value": 252.74,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "airborne early warning"
+    },
+    "darkstar": {
+      "name": "DARKSTAR",
+      "frequency": {
+        "value": 252.75,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "airborne early warning"
+    },
+    "vhf_plasma": {
+      "name": "PLASMA",
+      "frequency": {
+        "value": 139.3,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "F-16 VHF net"
+    },
+    "vhf_fury": {
+      "name": "FURY",
+      "frequency": {
+        "value": 139.325,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "F-16 VHF net"
+    },
+    "vhf_disco": {
+      "name": "DISCO",
+      "frequency": {
+        "value": 139.35,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "F-16 VHF net"
+    },
+    "vhf_rage": {
+      "name": "RAGE",
+      "frequency": {
+        "value": 139.375,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "F-16 VHF net"
+    },
+    "vhf_party_line": {
+      "name": "PARTY LINE",
+      "frequency": {
+        "value": 139.7,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "vhf"
+      },
+      "usage": "F-16 VHF net"
+    },
+    "intra_ripper": {
+      "name": "RIPPER INTRAFLIGHT",
+      "frequency": {
+        "value": 275.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_raider": {
+      "name": "RAIDER INTRAFLIGHT",
+      "frequency": {
+        "value": 275.25,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_red": {
+      "name": "RED INTRAFLIGHT",
+      "frequency": {
+        "value": 275.5,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_senator": {
+      "name": "SENATOR INTRAFLIGHT",
+      "frequency": {
+        "value": 275.75,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_sol": {
+      "name": "SOL INTRAFLIGHT",
+      "frequency": {
+        "value": 276.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_inferno": {
+      "name": "INFERNO INTRAFLIGHT",
+      "frequency": {
+        "value": 276.25,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_sundial": {
+      "name": "SUNDIAL INTRAFLIGHT",
+      "frequency": {
+        "value": 276.5,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_liner": {
+      "name": "LINER INTRAFLIGHT",
+      "frequency": {
+        "value": 276.75,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_spartan": {
+      "name": "SPARTAN INTRAFLIGHT",
+      "frequency": {
+        "value": 277.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_ares": {
+      "name": "ARES INTRAFLIGHT",
+      "frequency": {
+        "value": 277.25,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_apollo": {
+      "name": "APOLLO INTRAFLIGHT",
+      "frequency": {
+        "value": 277.5,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    },
+    "intra_artemis": {
+      "name": "ARTEMIS INTRAFLIGHT",
+      "frequency": {
+        "value": 277.75,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
+    }
+  },
+  "radio_plans": {
+    "hornet": {
+      "name": "F/A-18C Hornet",
+      "aircraft_types": [
+        "fa_18c"
+      ],
+      "radios": [
+        {
+          "radio": "uhf_1",
+          "label": "COMM1",
+          "start_preset": 1,
+          "presets": [
+            {
+              "channel": "uhf_01",
+              "preset": 1,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_02",
+              "preset": 2,
+              "radio": "uhf_1"
+            },
+            {
+              "preset": 3,
+              "flight_channel": "intraflight"
+            },
+            {
+              "channel": "uhf_04",
+              "preset": 4,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_05",
+              "preset": 5,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_06",
+              "preset": 6,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_07",
+              "preset": 7,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_08",
+              "preset": 8,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_09",
+              "preset": 9,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_10",
+              "preset": 10,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_11",
+              "preset": 11,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_12",
+              "preset": 12,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_13",
+              "preset": 13,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_14",
+              "preset": 14,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_15",
+              "preset": 15,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_16",
+              "preset": 16,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_17",
+              "preset": 17,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_18",
+              "preset": 18,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_19",
+              "preset": 19,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_20",
+              "preset": 20,
+              "radio": "uhf_1"
+            }
+          ]
+        },
+        {
+          "radio": "uhf_2",
+          "label": "COMM2",
+          "start_preset": 3,
+          "presets": [
+            {
+              "channel": "uhf_01",
+              "preset": 1,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_02",
+              "preset": 2,
+              "radio": "uhf_2"
+            },
+            {
+              "preset": 3,
+              "flight_channel": "intraflight"
+            },
+            {
+              "channel": "uhf_04",
+              "preset": 4,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_05",
+              "preset": 5,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_06",
+              "preset": 6,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_07",
+              "preset": 7,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_08",
+              "preset": 8,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_09",
+              "preset": 9,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_10",
+              "preset": 10,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_11",
+              "preset": 11,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_12",
+              "preset": 12,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_13",
+              "preset": 13,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_14",
+              "preset": 14,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_15",
+              "preset": 15,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_16",
+              "preset": 16,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_17",
+              "preset": 17,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_18",
+              "preset": 18,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_19",
+              "preset": 19,
+              "radio": "uhf_2"
+            },
+            {
+              "channel": "uhf_20",
+              "preset": 20,
+              "radio": "uhf_2"
+            }
+          ]
+        },
+        {
+          "radio": "mids",
+          "label": "MIDS: voice net A is the flight channel, voice net B the squadron net",
+          "presets": []
+        }
+      ],
+      "status": "proposed",
+      "proposals": [
+        "b7"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "lines 16-38"
+      }
+    },
+    "tomcat": {
+      "name": "F-14B(U) Tomcat",
+      "aircraft_types": [
+        "f_14b"
+      ],
+      "radios": [
+        {
+          "radio": "arc_159",
+          "label": "Pilot front radio",
+          "start_preset": 3,
+          "presets": [
+            {
+              "channel": "uhf_01",
+              "preset": 1,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_02",
+              "preset": 2,
+              "radio": "arc_159"
+            },
+            {
+              "preset": 3,
+              "flight_channel": "intraflight"
+            },
+            {
+              "channel": "uhf_04",
+              "preset": 4,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_05",
+              "preset": 5,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_06",
+              "preset": 6,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_07",
+              "preset": 7,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_08",
+              "preset": 8,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_09",
+              "preset": 9,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_10",
+              "preset": 10,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_11",
+              "preset": 11,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_12",
+              "preset": 12,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_13",
+              "preset": 13,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_14",
+              "preset": 14,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_15",
+              "preset": 15,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_16",
+              "preset": 16,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_17",
+              "preset": 17,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_18",
+              "preset": 18,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_19",
+              "preset": 19,
+              "radio": "arc_159"
+            },
+            {
+              "channel": "uhf_20",
+              "preset": 20,
+              "radio": "arc_159"
+            }
+          ]
+        },
+        {
+          "radio": "arc_182",
+          "label": "RIO back radio",
+          "start_preset": 1,
+          "presets": [
+            {
+              "channel": "uhf_01",
+              "preset": 1,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_02",
+              "preset": 2,
+              "radio": "arc_182"
+            },
+            {
+              "preset": 3,
+              "flight_channel": "intraflight"
+            },
+            {
+              "channel": "uhf_04",
+              "preset": 4,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_05",
+              "preset": 5,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_06",
+              "preset": 6,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_07",
+              "preset": 7,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_08",
+              "preset": 8,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_09",
+              "preset": 9,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_10",
+              "preset": 10,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_11",
+              "preset": 11,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_12",
+              "preset": 12,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_13",
+              "preset": 13,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_14",
+              "preset": 14,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_15",
+              "preset": 15,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_16",
+              "preset": 16,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_17",
+              "preset": 17,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_18",
+              "preset": 18,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_19",
+              "preset": 19,
+              "radio": "arc_182"
+            },
+            {
+              "channel": "uhf_20",
+              "preset": 20,
+              "radio": "arc_182"
+            }
+          ]
+        }
+      ],
+      "status": "proposed",
+      "proposals": [
+        "b8"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "lines 16-38"
+      }
+    },
+    "viper": {
+      "name": "F-16C Viper",
+      "aircraft_types": [
+        "f_16c"
+      ],
+      "radios": [
+        {
+          "radio": "uhf_1",
+          "label": "COM1",
+          "start_preset": 1,
+          "presets": [
+            {
+              "channel": "uhf_01",
+              "preset": 1,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_02",
+              "preset": 2,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_04",
+              "preset": 3,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_04",
+              "preset": 4,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_05",
+              "preset": 5,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_06",
+              "preset": 6,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_07",
+              "preset": 7,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_08",
+              "preset": 8,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_09",
+              "preset": 9,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_10",
+              "preset": 10,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_11",
+              "preset": 11,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_12",
+              "preset": 12,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_13",
+              "preset": 13,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_14",
+              "preset": 14,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_15",
+              "preset": 15,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_16",
+              "preset": 16,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_17",
+              "preset": 17,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_18",
+              "preset": 18,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_19",
+              "preset": 19,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_20",
+              "preset": 20,
+              "radio": "uhf_1"
+            }
+          ]
+        },
+        {
+          "radio": "vhf",
+          "label": "COM2",
+          "start_preset": 1,
+          "presets": [
+            {
+              "channel": "vhf_plasma",
+              "preset": 1,
+              "radio": "vhf"
+            },
+            {
+              "channel": "vhf_fury",
+              "preset": 2,
+              "radio": "vhf"
+            },
+            {
+              "channel": "vhf_disco",
+              "preset": 3,
+              "radio": "vhf"
+            },
+            {
+              "channel": "vhf_rage",
+              "preset": 4,
+              "radio": "vhf"
+            },
+            {
+              "channel": "arco_vhf",
+              "preset": 5,
+              "radio": "vhf"
+            },
+            {
+              "channel": "arco11_vhf",
+              "preset": 6,
+              "radio": "vhf"
+            },
+            {
+              "channel": "arco21_vhf",
+              "preset": 7,
+              "radio": "vhf"
+            },
+            {
+              "channel": "arco31_vhf",
+              "preset": 8,
+              "radio": "vhf"
+            },
+            {
+              "channel": "arco41_vhf",
+              "preset": 9,
+              "radio": "vhf"
+            },
+            {
+              "channel": "vhf_party_line",
+              "preset": 10,
+              "radio": "vhf"
+            }
+          ]
+        }
+      ],
+      "status": "proposed",
+      "proposals": [
+        "b9"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md"
+      }
+    }
+  },
+  "squadrons": {
+    "vf_11": {
+      "name": "VF-11",
+      "aircraft_type": "f_14b",
+      "flights": [
+        "ripper",
+        "raider",
+        "red",
+        "senator"
+      ],
+      "stn_prefix": "04",
+      "mode_1": "04",
+      "status": "adopted",
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 48"
+      }
+    },
+    "vfa_81": {
+      "name": "VFA-81",
+      "aircraft_type": "fa_18c",
+      "flights": [
+        "sol",
+        "inferno",
+        "sundial",
+        "liner"
+      ],
+      "stn_prefix": "02",
+      "mode_1": "02",
+      "status": "proposed",
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 48"
+      },
+      "proposals": [
+        "a1"
+      ],
+      "mids": {
+        "vocb": 80
+      }
+    },
+    "vfa_45": {
+      "name": "VFA-45",
+      "aircraft_type": "fa_18c",
+      "flights": [
+        "spartan",
+        "ares",
+        "apollo",
+        "artemis"
+      ],
+      "stn_prefix": "03",
+      "mode_1": "03",
+      "status": "proposed",
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 48"
+      },
+      "proposals": [
+        "a1"
+      ],
+      "mids": {
+        "vocb": 44
+      }
+    },
+    "aw13_93rd": {
+      "name": "AW13 93rd",
+      "aircraft_type": "f_16c",
+      "flights": [
+        "plasma",
+        "fury",
+        "disco",
+        "rage"
+      ],
+      "stn_prefix": "01",
+      "mode_1": "01",
+      "status": "proposed",
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 48"
+      },
+      "proposals": [
+        "a1"
+      ]
+    }
+  },
+  "flights": {
+    "ripper": {
+      "callsign": "RIPPER",
+      "squadron": "vf_11",
+      "aircraft_type": "f_14b",
+      "datalink_callsign": "RP",
+      "intraflight": "intra_ripper",
+      "stn_block": "0410",
+      "laser_block": "51",
+      "members": [
+        {
+          "member": 1,
+          "stn": "04101",
+          "mode_3": "4101",
+          "laser_code": "1511"
+        },
+        {
+          "member": 2,
+          "stn": "04102",
+          "mode_3": "4102",
+          "laser_code": "1512"
+        },
+        {
+          "member": 3,
+          "stn": "04103",
+          "mode_3": "4103",
+          "laser_code": "1513"
+        },
+        {
+          "member": 4,
+          "stn": "04104",
+          "mode_3": "4104",
+          "laser_code": "1514"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 8,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 71,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 44"
+      }
+    },
+    "raider": {
+      "callsign": "RAIDER",
+      "squadron": "vf_11",
+      "aircraft_type": "f_14b",
+      "datalink_callsign": "RD",
+      "intraflight": "intra_raider",
+      "stn_block": "0420",
+      "laser_block": "52",
+      "members": [
+        {
+          "member": 1,
+          "stn": "04201",
+          "mode_3": "4201",
+          "laser_code": "1521"
+        },
+        {
+          "member": 2,
+          "stn": "04202",
+          "mode_3": "4202",
+          "laser_code": "1522"
+        },
+        {
+          "member": 3,
+          "stn": "04203",
+          "mode_3": "4203",
+          "laser_code": "1523"
+        },
+        {
+          "member": 4,
+          "stn": "04204",
+          "mode_3": "4204",
+          "laser_code": "1524"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 9,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 72,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a2",
+        "a3"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 45"
+      }
+    },
+    "red": {
+      "callsign": "RED",
+      "squadron": "vf_11",
+      "aircraft_type": "f_14b",
+      "datalink_callsign": "RE",
+      "intraflight": "intra_red",
+      "stn_block": "0430",
+      "laser_block": "54",
+      "members": [
+        {
+          "member": 1,
+          "stn": "04301",
+          "mode_3": "4301",
+          "laser_code": "1541"
+        },
+        {
+          "member": 2,
+          "stn": "04302",
+          "mode_3": "4302",
+          "laser_code": "1542"
+        },
+        {
+          "member": 3,
+          "stn": "04303",
+          "mode_3": "4303",
+          "laser_code": "1543"
+        },
+        {
+          "member": 4,
+          "stn": "04304",
+          "mode_3": "4304",
+          "laser_code": "1544"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 10,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 73,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 46"
+      }
+    },
+    "senator": {
+      "callsign": "SENATOR",
+      "squadron": "vf_11",
+      "aircraft_type": "f_14b",
+      "datalink_callsign": "SN",
+      "intraflight": "intra_senator",
+      "stn_block": "0440",
+      "laser_block": "53",
+      "members": [
+        {
+          "member": 1,
+          "stn": "04401",
+          "mode_3": "4401",
+          "laser_code": "1531"
+        },
+        {
+          "member": 2,
+          "stn": "04402",
+          "mode_3": "4402",
+          "laser_code": "1532"
+        },
+        {
+          "member": 3,
+          "stn": "04403",
+          "mode_3": "4403",
+          "laser_code": "1533"
+        },
+        {
+          "member": 4,
+          "stn": "04404",
+          "mode_3": "4404",
+          "laser_code": "1534"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 11,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 74,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 47"
+      }
+    },
+    "sol": {
+      "callsign": "SOL",
+      "squadron": "vfa_81",
+      "aircraft_type": "fa_18c",
+      "datalink_callsign": "SO",
+      "intraflight": "intra_sol",
+      "stn_block": "0210",
+      "laser_block": "71",
+      "members": [
+        {
+          "member": 1,
+          "stn": "02101",
+          "mode_3": "2101",
+          "laser_code": "1711"
+        },
+        {
+          "member": 2,
+          "stn": "02102",
+          "mode_3": "2102",
+          "laser_code": "1712"
+        },
+        {
+          "member": 3,
+          "stn": "02103",
+          "mode_3": "2103",
+          "laser_code": "1713"
+        },
+        {
+          "member": 4,
+          "stn": "02104",
+          "mode_3": "2104",
+          "laser_code": "1714"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 12,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 75,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 48"
+      },
+      "mids_channel": 81
+    },
+    "inferno": {
+      "callsign": "INFERNO",
+      "squadron": "vfa_81",
+      "aircraft_type": "fa_18c",
+      "datalink_callsign": "IF",
+      "intraflight": "intra_inferno",
+      "stn_block": "0220",
+      "laser_block": "72",
+      "members": [
+        {
+          "member": 1,
+          "stn": "02201",
+          "mode_3": "2201",
+          "laser_code": "1721"
+        },
+        {
+          "member": 2,
+          "stn": "02202",
+          "mode_3": "2202",
+          "laser_code": "1722"
+        },
+        {
+          "member": 3,
+          "stn": "02203",
+          "mode_3": "2203",
+          "laser_code": "1723"
+        },
+        {
+          "member": 4,
+          "stn": "02204",
+          "mode_3": "2204",
+          "laser_code": "1724"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 13,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 76,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 49"
+      },
+      "mids_channel": 82
+    },
+    "sundial": {
+      "callsign": "SUNDIAL",
+      "squadron": "vfa_81",
+      "aircraft_type": "fa_18c",
+      "datalink_callsign": "SD",
+      "intraflight": "intra_sundial",
+      "stn_block": "0230",
+      "laser_block": "73",
+      "members": [
+        {
+          "member": 1,
+          "stn": "02301",
+          "mode_3": "2301",
+          "laser_code": "1731"
+        },
+        {
+          "member": 2,
+          "stn": "02302",
+          "mode_3": "2302",
+          "laser_code": "1732"
+        },
+        {
+          "member": 3,
+          "stn": "02303",
+          "mode_3": "2303",
+          "laser_code": "1733"
+        },
+        {
+          "member": 4,
+          "stn": "02304",
+          "mode_3": "2304",
+          "laser_code": "1734"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 14,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 77,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 50"
+      },
+      "mids_channel": 83
+    },
+    "liner": {
+      "callsign": "LINER",
+      "squadron": "vfa_81",
+      "aircraft_type": "fa_18c",
+      "datalink_callsign": "LI",
+      "intraflight": "intra_liner",
+      "stn_block": "0240",
+      "laser_block": "74",
+      "members": [
+        {
+          "member": 1,
+          "stn": "02401",
+          "mode_3": "2401",
+          "laser_code": "1741"
+        },
+        {
+          "member": 2,
+          "stn": "02402",
+          "mode_3": "2402",
+          "laser_code": "1742"
+        },
+        {
+          "member": 3,
+          "stn": "02403",
+          "mode_3": "2403",
+          "laser_code": "1743"
+        },
+        {
+          "member": 4,
+          "stn": "02404",
+          "mode_3": "2404",
+          "laser_code": "1744"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 15,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 78,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 51"
+      },
+      "mids_channel": 84
+    },
+    "spartan": {
+      "callsign": "SPARTAN",
+      "squadron": "vfa_45",
+      "aircraft_type": "fa_18c",
+      "datalink_callsign": "SP",
+      "intraflight": "intra_spartan",
+      "stn_block": "0310",
+      "laser_block": "61",
+      "members": [
+        {
+          "member": 1,
+          "stn": "03101",
+          "mode_3": "3101",
+          "laser_code": "1611"
+        },
+        {
+          "member": 2,
+          "stn": "03102",
+          "mode_3": "3102",
+          "laser_code": "1612"
+        },
+        {
+          "member": 3,
+          "stn": "03103",
+          "mode_3": "3103",
+          "laser_code": "1613"
+        },
+        {
+          "member": 4,
+          "stn": "03104",
+          "mode_3": "3104",
+          "laser_code": "1614"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 16,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 79,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 52"
+      },
+      "mids_channel": 45
+    },
+    "ares": {
+      "callsign": "ARES",
+      "squadron": "vfa_45",
+      "aircraft_type": "fa_18c",
+      "datalink_callsign": "AR",
+      "intraflight": "intra_ares",
+      "stn_block": "0320",
+      "laser_block": "62",
+      "members": [
+        {
+          "member": 1,
+          "stn": "03201",
+          "mode_3": "3201",
+          "laser_code": "1621"
+        },
+        {
+          "member": 2,
+          "stn": "03202",
+          "mode_3": "3202",
+          "laser_code": "1622"
+        },
+        {
+          "member": 3,
+          "stn": "03203",
+          "mode_3": "3203",
+          "laser_code": "1623"
+        },
+        {
+          "member": 4,
+          "stn": "03204",
+          "mode_3": "3204",
+          "laser_code": "1624"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 17,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 80,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 53"
+      },
+      "mids_channel": 46
+    },
+    "apollo": {
+      "callsign": "APOLLO",
+      "squadron": "vfa_45",
+      "aircraft_type": "fa_18c",
+      "datalink_callsign": "AP",
+      "intraflight": "intra_apollo",
+      "stn_block": "0330",
+      "laser_block": "63",
+      "members": [
+        {
+          "member": 1,
+          "stn": "03301",
+          "mode_3": "3301",
+          "laser_code": "1631"
+        },
+        {
+          "member": 2,
+          "stn": "03302",
+          "mode_3": "3302",
+          "laser_code": "1632"
+        },
+        {
+          "member": 3,
+          "stn": "03303",
+          "mode_3": "3303",
+          "laser_code": "1633"
+        },
+        {
+          "member": 4,
+          "stn": "03304",
+          "mode_3": "3304",
+          "laser_code": "1634"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 18,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 81,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 54"
+      },
+      "mids_channel": 47
+    },
+    "artemis": {
+      "callsign": "ARTEMIS",
+      "squadron": "vfa_45",
+      "aircraft_type": "fa_18c",
+      "datalink_callsign": "AT",
+      "intraflight": "intra_artemis",
+      "stn_block": "0340",
+      "laser_block": "64",
+      "members": [
+        {
+          "member": 1,
+          "stn": "03401",
+          "mode_3": "3401",
+          "laser_code": "1641"
+        },
+        {
+          "member": 2,
+          "stn": "03402",
+          "mode_3": "3402",
+          "laser_code": "1642"
+        },
+        {
+          "member": 3,
+          "stn": "03403",
+          "mode_3": "3403",
+          "laser_code": "1643"
+        },
+        {
+          "member": 4,
+          "stn": "03404",
+          "mode_3": "3404",
+          "laser_code": "1644"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 19,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 82,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 55"
+      },
+      "mids_channel": 48
+    },
+    "plasma": {
+      "callsign": "PLASMA",
+      "squadron": "aw13_93rd",
+      "aircraft_type": "f_16c",
+      "datalink_callsign": "PL",
+      "intraflight": "vhf_plasma",
+      "stn_block": "0110",
+      "laser_block": "75",
+      "members": [
+        {
+          "member": 1,
+          "stn": "01101",
+          "mode_3": "1101",
+          "laser_code": "1751"
+        },
+        {
+          "member": 2,
+          "stn": "01102",
+          "mode_3": "1102",
+          "laser_code": "1752"
+        },
+        {
+          "member": 3,
+          "stn": "01103",
+          "mode_3": "1103",
+          "laser_code": "1753"
+        },
+        {
+          "member": 4,
+          "stn": "01104",
+          "mode_3": "1104",
+          "laser_code": "1754"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 50,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 113,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 61"
+      }
+    },
+    "fury": {
+      "callsign": "FURY",
+      "squadron": "aw13_93rd",
+      "aircraft_type": "f_16c",
+      "datalink_callsign": "FY",
+      "intraflight": "vhf_fury",
+      "stn_block": "0120",
+      "laser_block": "76",
+      "members": [
+        {
+          "member": 1,
+          "stn": "01201",
+          "mode_3": "1201",
+          "laser_code": "1761"
+        },
+        {
+          "member": 2,
+          "stn": "01202",
+          "mode_3": "1202",
+          "laser_code": "1762"
+        },
+        {
+          "member": 3,
+          "stn": "01203",
+          "mode_3": "1203",
+          "laser_code": "1763"
+        },
+        {
+          "member": 4,
+          "stn": "01204",
+          "mode_3": "1204",
+          "laser_code": "1764"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 51,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 114,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 62"
+      }
+    },
+    "disco": {
+      "callsign": "DISCO",
+      "squadron": "aw13_93rd",
+      "aircraft_type": "f_16c",
+      "datalink_callsign": "DS",
+      "intraflight": "vhf_disco",
+      "stn_block": "0130",
+      "laser_block": "77",
+      "members": [
+        {
+          "member": 1,
+          "stn": "01301",
+          "mode_3": "1301",
+          "laser_code": "1771"
+        },
+        {
+          "member": 2,
+          "stn": "01302",
+          "mode_3": "1302",
+          "laser_code": "1772"
+        },
+        {
+          "member": 3,
+          "stn": "01303",
+          "mode_3": "1303",
+          "laser_code": "1773"
+        },
+        {
+          "member": 4,
+          "stn": "01304",
+          "mode_3": "1304",
+          "laser_code": "1774"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 52,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 115,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 63"
+      }
+    },
+    "rage": {
+      "callsign": "RAGE",
+      "squadron": "aw13_93rd",
+      "aircraft_type": "f_16c",
+      "datalink_callsign": "RG",
+      "intraflight": "vhf_rage",
+      "stn_block": "0140",
+      "laser_block": "78",
+      "members": [
+        {
+          "member": 1,
+          "stn": "01401",
+          "mode_3": "1401",
+          "laser_code": "1781"
+        },
+        {
+          "member": 2,
+          "stn": "01402",
+          "mode_3": "1402",
+          "laser_code": "1782"
+        },
+        {
+          "member": 3,
+          "stn": "01403",
+          "mode_3": "1403",
+          "laser_code": "1783"
+        },
+        {
+          "member": 4,
+          "stn": "01404",
+          "mode_3": "1404",
+          "laser_code": "1784"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 53,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 116,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "a1",
+        "a2"
+      ],
+      "source": {
+        "id": "victoria",
+        "path": "missionmaking/comm-plan.md",
+        "section": "line 64"
+      }
+    }
+  },
+  "support": {
+    "arco11": {
+      "callsign": "ARCO11",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco11",
+        "arco11_vhf"
+      ],
+      "tacan": {
+        "channel": 31,
+        "band": "Y",
+        "identifier": "AR1"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07001",
+      "mode_1": "07",
+      "mode_3": "6001",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 153"
+      },
+      "refuel": "boom"
+    },
+    "arco21": {
+      "callsign": "ARCO21",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco21",
+        "arco21_vhf"
+      ],
+      "tacan": {
+        "channel": 32,
+        "band": "Y",
+        "identifier": "AR2"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07002",
+      "mode_1": "07",
+      "mode_3": "6002",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 164"
+      },
+      "refuel": "boom"
+    },
+    "arco31": {
+      "callsign": "ARCO31",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco31",
+        "arco31_vhf"
+      ],
+      "tacan": {
+        "channel": 33,
+        "band": "Y",
+        "identifier": "AR3"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07003",
+      "mode_1": "07",
+      "mode_3": "6003",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 175"
+      },
+      "refuel": "boom"
+    },
+    "arco41": {
+      "callsign": "ARCO41",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco41",
+        "arco41_vhf"
+      ],
+      "tacan": {
+        "channel": 34,
+        "band": "Y",
+        "identifier": "AR4"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07004",
+      "mode_1": "07",
+      "mode_3": "6004",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 186"
+      },
+      "refuel": "boom"
+    },
+    "arco51": {
+      "callsign": "ARCO51",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco51"
+      ],
+      "tacan": {
+        "channel": 35,
+        "band": "Y",
+        "identifier": "AR5"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07005",
+      "mode_1": "07",
+      "mode_3": "6005",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 197"
+      },
+      "refuel": "boom"
+    },
+    "arco61": {
+      "callsign": "ARCO61",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco61"
+      ],
+      "tacan": {
+        "channel": 36,
+        "band": "Y",
+        "identifier": "AR6"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07006",
+      "mode_1": "07",
+      "mode_3": "6006",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 208"
+      },
+      "refuel": "boom"
+    },
+    "arco71": {
+      "callsign": "ARCO71",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco71"
+      ],
+      "tacan": {
+        "channel": 37,
+        "band": "Y",
+        "identifier": "AR7"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07007",
+      "mode_1": "07",
+      "mode_3": "6007",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 219"
+      },
+      "refuel": "boom"
+    },
+    "arco81": {
+      "callsign": "ARCO81",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco81"
+      ],
+      "tacan": {
+        "channel": 38,
+        "band": "Y",
+        "identifier": "AR8"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07010",
+      "mode_1": "07",
+      "mode_3": "6010",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 230"
+      },
+      "refuel": "boom"
+    },
+    "arco91": {
+      "callsign": "ARCO91",
+      "role": "tanker",
+      "aircraft_type": "kc_135",
+      "channels": [
+        "arco91"
+      ],
+      "tacan": {
+        "channel": 39,
+        "band": "Y",
+        "identifier": "AR9"
+      },
+      "datalink_callsign": "AR",
+      "stn": "07011",
+      "mode_1": "07",
+      "mode_3": "6011",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 241"
+      },
+      "refuel": "boom"
+    },
+    "shell11": {
+      "callsign": "SHELL11",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell11"
+      ],
+      "tacan": {
+        "channel": 41,
+        "band": "Y",
+        "identifier": "SH1"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07012",
+      "mode_1": "07",
+      "mode_3": "6012",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 254"
+      },
+      "refuel": "basket"
+    },
+    "shell21": {
+      "callsign": "SHELL21",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell21"
+      ],
+      "tacan": {
+        "channel": 42,
+        "band": "Y",
+        "identifier": "SH2"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07013",
+      "mode_1": "07",
+      "mode_3": "6013",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 265"
+      },
+      "refuel": "basket"
+    },
+    "shell31": {
+      "callsign": "SHELL31",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell31"
+      ],
+      "tacan": {
+        "channel": 43,
+        "band": "Y",
+        "identifier": "SH3"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07014",
+      "mode_1": "07",
+      "mode_3": "6014",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 276"
+      },
+      "refuel": "basket"
+    },
+    "shell41": {
+      "callsign": "SHELL41",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell41"
+      ],
+      "tacan": {
+        "channel": 44,
+        "band": "Y",
+        "identifier": "SH4"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07015",
+      "mode_1": "07",
+      "mode_3": "6015",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 287"
+      },
+      "refuel": "basket"
+    },
+    "shell51": {
+      "callsign": "SHELL51",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell51"
+      ],
+      "tacan": {
+        "channel": 45,
+        "band": "Y",
+        "identifier": "SH5"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07016",
+      "mode_1": "07",
+      "mode_3": "6016",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 298"
+      },
+      "refuel": "basket"
+    },
+    "shell61": {
+      "callsign": "SHELL61",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell61"
+      ],
+      "tacan": {
+        "channel": 46,
+        "band": "Y",
+        "identifier": "SH6"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07017",
+      "mode_1": "07",
+      "mode_3": "6017",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 309"
+      },
+      "refuel": "basket"
+    },
+    "shell71": {
+      "callsign": "SHELL71",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell71"
+      ],
+      "tacan": {
+        "channel": 47,
+        "band": "Y",
+        "identifier": "SH7"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07020",
+      "mode_1": "07",
+      "mode_3": "6020",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 320"
+      },
+      "refuel": "basket"
+    },
+    "shell81": {
+      "callsign": "SHELL81",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell81"
+      ],
+      "tacan": {
+        "channel": 48,
+        "band": "Y",
+        "identifier": "SH8"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07021",
+      "mode_1": "07",
+      "mode_3": "6021",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 331"
+      },
+      "refuel": "basket"
+    },
+    "shell91": {
+      "callsign": "SHELL91",
+      "role": "tanker",
+      "aircraft_type": "kc_135_mprs",
+      "channels": [
+        "shell91"
+      ],
+      "tacan": {
+        "channel": 49,
+        "band": "Y",
+        "identifier": "SH9"
+      },
+      "datalink_callsign": "SH",
+      "stn": "07022",
+      "mode_1": "07",
+      "mode_3": "6022",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 342"
+      },
+      "refuel": "basket"
+    },
+    "texaco11": {
+      "callsign": "TEXACO11",
+      "role": "recovery_tanker",
+      "aircraft_type": "s_3b_tanker",
+      "channels": [
+        "texaco11"
+      ],
+      "tacan": {
+        "channel": 85,
+        "band": "Y",
+        "identifier": "TX1"
+      },
+      "datalink_callsign": "TX",
+      "stn": "07023",
+      "mode_1": "07",
+      "mode_3": "6023",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 355"
+      },
+      "refuel": "basket"
+    },
+    "texaco21": {
+      "callsign": "TEXACO21",
+      "role": "recovery_tanker",
+      "aircraft_type": "s_3b_tanker",
+      "channels": [
+        "texaco21"
+      ],
+      "tacan": {
+        "channel": 86,
+        "band": "Y",
+        "identifier": "TX2"
+      },
+      "datalink_callsign": "TX",
+      "stn": "07024",
+      "mode_1": "07",
+      "mode_3": "6024",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 366"
+      },
+      "refuel": "basket"
+    },
+    "texaco31": {
+      "callsign": "TEXACO31",
+      "role": "recovery_tanker",
+      "aircraft_type": "s_3b_tanker",
+      "channels": [
+        "texaco31"
+      ],
+      "tacan": {
+        "channel": 87,
+        "band": "Y",
+        "identifier": "TX3"
+      },
+      "datalink_callsign": "TX",
+      "stn": "07025",
+      "mode_1": "07",
+      "mode_3": "6025",
+      "status": "proposed",
+      "proposals": [
+        "b2",
+        "b18"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 377"
+      },
+      "refuel": "basket"
+    },
+    "texaco41": {
+      "callsign": "TEXACO41",
+      "role": "recovery_tanker",
+      "aircraft_type": "s_3b_tanker",
+      "channels": [
+        "texaco41"
+      ],
+      "tacan": {
+        "channel": 88,
+        "band": "Y",
+        "identifier": "TX4"
+      },
+      "datalink_callsign": "TX",
+      "stn": "07026",
+      "mode_1": "07",
+      "mode_3": "6026",
+      "status": "proposed",
+      "proposals": [
+        "b2",
+        "b18"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 388"
+      },
+      "refuel": "basket"
+    },
+    "texaco51": {
+      "callsign": "TEXACO51",
+      "role": "recovery_tanker",
+      "aircraft_type": "s_3b_tanker",
+      "channels": [
+        "texaco51"
+      ],
+      "tacan": {
+        "channel": 89,
+        "band": "Y",
+        "identifier": "TX5"
+      },
+      "datalink_callsign": "TX",
+      "stn": "07027",
+      "mode_1": "07",
+      "mode_3": "6027",
+      "status": "proposed",
+      "proposals": [
+        "b2",
+        "b18"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 399"
+      },
+      "refuel": "basket"
+    },
+    "texaco61": {
+      "callsign": "TEXACO61",
+      "role": "recovery_tanker",
+      "aircraft_type": "s_3b_tanker",
+      "channels": [
+        "texaco61"
+      ],
+      "tacan": {
+        "channel": 95,
+        "band": "Y",
+        "identifier": "TX6"
+      },
+      "datalink_callsign": "TX",
+      "stn": "07030",
+      "mode_1": "07",
+      "mode_3": "6030",
+      "status": "proposed",
+      "proposals": [
+        "a5",
+        "b2",
+        "b18"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 410"
+      },
+      "refuel": "basket"
+    },
+    "texaco71": {
+      "callsign": "TEXACO71",
+      "role": "recovery_tanker",
+      "aircraft_type": "s_3b_tanker",
+      "channels": [
+        "texaco71"
+      ],
+      "tacan": {
+        "channel": 96,
+        "band": "Y",
+        "identifier": "TX7"
+      },
+      "datalink_callsign": "TX",
+      "stn": "07031",
+      "mode_1": "07",
+      "mode_3": "6031",
+      "status": "proposed",
+      "proposals": [
+        "a5",
+        "b2",
+        "b18"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 421"
+      },
+      "refuel": "basket"
+    },
+    "texaco81": {
+      "callsign": "TEXACO81",
+      "role": "recovery_tanker",
+      "aircraft_type": "s_3b_tanker",
+      "channels": [
+        "texaco81"
+      ],
+      "tacan": {
+        "channel": 97,
+        "band": "Y",
+        "identifier": "TX8"
+      },
+      "datalink_callsign": "TX",
+      "stn": "07032",
+      "mode_1": "07",
+      "mode_3": "6032",
+      "status": "proposed",
+      "proposals": [
+        "a5",
+        "b2",
+        "b18"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 432"
+      },
+      "refuel": "basket"
+    },
+    "magic": {
+      "callsign": "MAGIC",
+      "role": "awacs",
+      "aircraft_type": "e_3a",
+      "channels": [
+        "magic"
+      ],
+      "tacan": {
+        "channel": 91,
+        "band": "Y",
+        "identifier": "MGC"
+      },
+      "datalink_callsign": "MC",
+      "stn": "07771",
+      "mode_1": "07",
+      "mode_3": "6771",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 447"
+      }
+    },
+    "overlord": {
+      "callsign": "OVERLORD",
+      "role": "awacs",
+      "aircraft_type": "e_3a",
+      "channels": [
+        "overlord"
+      ],
+      "tacan": {
+        "channel": 92,
+        "band": "Y",
+        "identifier": "OVL"
+      },
+      "datalink_callsign": "OD",
+      "stn": "07772",
+      "mode_1": "07",
+      "mode_3": "6772",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 456"
+      }
+    },
+    "focus": {
+      "callsign": "FOCUS",
+      "role": "awacs",
+      "aircraft_type": "e_3a",
+      "channels": [
+        "focus"
+      ],
+      "tacan": {
+        "channel": 93,
+        "band": "Y",
+        "identifier": "FCS"
+      },
+      "datalink_callsign": "FS",
+      "stn": "07773",
+      "mode_1": "07",
+      "mode_3": "6773",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 465"
+      }
+    },
+    "wizard": {
+      "callsign": "WIZARD",
+      "role": "awacs",
+      "aircraft_type": "e_3a",
+      "channels": [
+        "wizard"
+      ],
+      "tacan": {
+        "channel": 94,
+        "band": "Y",
+        "identifier": "WIZ"
+      },
+      "datalink_callsign": "WD",
+      "stn": "07774",
+      "mode_1": "07",
+      "mode_3": "6774",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 474"
+      }
+    },
+    "darkstar": {
+      "callsign": "DARKSTAR",
+      "role": "awacs",
+      "aircraft_type": "e_2c",
+      "channels": [
+        "darkstar"
+      ],
+      "tacan": {
+        "channel": 90,
+        "band": "Y",
+        "identifier": "DRK"
+      },
+      "datalink_callsign": "DR",
+      "stn": "07775",
+      "mode_1": "07",
+      "mode_3": "6775",
+      "status": "proposed",
+      "proposals": [
+        "b2"
+      ],
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 483"
+      }
+    }
+  },
+  "ships": {
+    "cvn_75": {
+      "hull": "CVN_75",
+      "name": "USS Harry S. Truman",
+      "tacan": {
+        "channel": 75,
+        "band": "X",
+        "identifier": "KU"
+      },
+      "icls_channel": 5,
+      "link4": {
+        "value": 336.0,
+        "unit": "MHz"
+      },
+      "standard": true,
+      "status": "proposed",
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 496"
+      },
+      "awacs": "darkstar",
+      "recovery_tanker": "texaco11",
+      "radio": "uhf_17",
+      "proposals": [
+        "b17"
+      ]
+    },
+    "cvn_71": {
+      "hull": "CVN_71",
+      "name": "USS Theodore Roosevelt",
+      "tacan": {
+        "channel": 71,
+        "band": "X",
+        "identifier": "TR"
+      },
+      "icls_channel": 1,
+      "link4": {
+        "value": 334.0,
+        "unit": "MHz"
+      },
+      "standard": false,
+      "status": "proposed",
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 506"
+      },
+      "awacs": "magic",
+      "recovery_tanker": "texaco21",
+      "radio": "uhf_17",
+      "proposals": [
+        "b16"
+      ],
+      "acls": true
+    },
+    "cvn_72": {
+      "hull": "CVN_72",
+      "name": "USS Abraham Lincoln",
+      "tacan": {
+        "channel": 72,
+        "band": "X",
+        "identifier": "TB"
+      },
+      "icls_channel": 2,
+      "link4": {
+        "value": 332.0,
+        "unit": "MHz"
+      },
+      "standard": false,
+      "status": "adopted",
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 516"
+      },
+      "awacs": "overlord",
+      "recovery_tanker": "texaco31"
+    },
+    "cvn_73": {
+      "hull": "CVN_73",
+      "name": "USS George Washington",
+      "tacan": {
+        "channel": 73,
+        "band": "X",
+        "identifier": "GW"
+      },
+      "icls_channel": 3,
+      "link4": {
+        "value": 330.0,
+        "unit": "MHz"
+      },
+      "standard": false,
+      "status": "adopted",
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 526"
+      },
+      "awacs": "focus",
+      "recovery_tanker": "texaco41"
+    },
+    "stennis": {
+      "hull": "Stennis",
+      "name": "USS John C. Stennis",
+      "tacan": {
+        "channel": 74,
+        "band": "X",
+        "identifier": "JS"
+      },
+      "icls_channel": 4,
+      "link4": {
+        "value": 328.0,
+        "unit": "MHz"
+      },
+      "standard": false,
+      "status": "adopted",
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 536"
+      },
+      "awacs": "wizard",
+      "recovery_tanker": "texaco51"
+    },
+    "forrestal": {
+      "hull": "Forrestal",
+      "name": "USS Forrestal",
+      "tacan": {
+        "channel": 59,
+        "band": "X",
+        "identifier": "FF"
+      },
+      "icls_channel": 7,
+      "link4": {
+        "value": 340.0,
+        "unit": "MHz"
+      },
+      "standard": false,
+      "status": "adopted",
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 546"
+      },
+      "awacs": "focus",
+      "recovery_tanker": "texaco61"
+    },
+    "lha_tarawa": {
+      "hull": "LHA_Tarawa",
+      "name": "USS Tarawa",
+      "tacan": {
+        "channel": 1,
+        "band": "X",
+        "identifier": "LH"
+      },
+      "icls_channel": 1,
+      "link4": {
+        "value": 342.0,
+        "unit": "MHz"
+      },
+      "standard": false,
+      "status": "adopted",
+      "source": {
+        "id": "jackal",
+        "path": "src/config.lua",
+        "section": "line 556"
+      }
+    }
+  },
+  "airfields": {
+    "rule": "airfield_record",
+    "link4": false,
+    "overrides": {},
+    "status": "proposed",
+    "proposals": [
+      "b15"
+    ]
+  },
+  "datalink": {
+    "network": {
+      "fighter_channel": 1,
+      "mission_channel": 1,
+      "special_channel": 1,
+      "transmit_power": 3
+    },
+    "hornet": {
+      "aic": 1,
+      "ff1": 1,
+      "ff2": 1,
+      "status": "adopted"
+    },
+    "team_rule": "flight_members",
+    "donor_rule": "awacs_and_flight_leads",
+    "status": "proposed",
+    "proposals": [
+      "b3",
+      "b4",
+      "b5"
+    ]
+  },
+  "iff": {
+    "defaults": {
+      "mode_4": "on",
+      "mode_c": true
+    },
+    "status": "proposed",
+    "proposals": [
+      "b12"
+    ]
+  },
+  "laser": {
+    "jtac": [
+      {
+        "code": "1776",
+        "status": "proposed",
+        "proposals": [
+          "a2"
+        ],
+        "source": {
+          "id": "victoria",
+          "path": "missionmaking/laser-plan.md",
+          "section": "line 36"
+        }
+      },
+      {
+        "code": "1688",
+        "status": "adopted"
+      }
+    ],
+    "blocks": {
+      "ripper": "51",
+      "raider": "52",
+      "red": "54",
+      "senator": "53",
+      "sol": "71",
+      "inferno": "72",
+      "sundial": "73",
+      "liner": "74",
+      "spartan": "61",
+      "ares": "62",
+      "apollo": "63",
+      "artemis": "64",
+      "plasma": "75",
+      "fury": "76",
+      "disco": "77",
+      "rage": "78"
+    },
+    "alternates": {
+      "ripper": "1511",
+      "raider": "1521",
+      "spartan": "1531",
+      "ares": "1541",
+      "inferno": "1551",
+      "sundial": "1561",
+      "apollo": "1571",
+      "artemis": "1581",
+      "sol": "1611",
+      "liner": "1621",
+      "senator": "1631",
+      "rage": "1721",
+      "disco": "1731",
+      "plasma": "1741",
+      "fury": "1751",
+      "cutlass": "1761",
+      "saber": "1771",
+      "dagger": "1781",
+      "rapier": "1811"
+    },
+    "status": "proposed",
+    "proposals": [
+      "a2",
+      "a3"
+    ],
+    "source": {
+      "id": "victoria",
+      "path": "missionmaking/laser-plan.md",
+      "section": "lines 20-63"
+    }
+  },
+  "rules": [
+    {
+      "field": "stn",
+      "pattern": "{stn_block}{member}",
+      "text": "The STN is the four-digit flight block followed by the member digit."
+    },
+    {
+      "field": "laser_code",
+      "pattern": "1{laser_block}{member}",
+      "text": "The laser code is 1, the two-digit flight block and the member digit."
+    },
+    {
+      "field": "mode_3",
+      "pattern": "{stn_tail}{member}",
+      "text": "Mode 3 is the STN without its leading 0."
+    },
+    {
+      "field": "mode_1",
+      "pattern": "squadron",
+      "text": "Mode 1 is the two-digit squadron code of the squadron record."
+    },
+    {
+      "field": "tacan_wing",
+      "pattern": "lead+63",
+      "text": "The wing air-to-air TACAN channel is the lead channel plus 63, in the same band."
+    }
+  ],
+  "restrictions": {
+    "tacan": [
+      {
+        "channels": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "band": "Y",
+        "reason": "These channels stop Link 16 (standards.md:19)."
+      }
+    ],
+    "frequencies": [
+      {
+        "kind": "guarded",
+        "frequency": {
+          "value": 243.0,
+          "unit": "MHz",
+          "modulation": "AM",
+          "band": "uhf"
+        }
+      },
+      {
+        "kind": "guarded",
+        "frequency": {
+          "value": 121.5,
+          "unit": "MHz",
+          "modulation": "AM",
+          "band": "vhf"
+        }
+      }
+    ],
+    "mode_3": [
+      "7400",
+      "7500",
+      "7600",
+      "7700",
+      "7777"
+    ],
+    "status": "proposed",
+    "proposals": [
+      "b13",
+      "b14"
+    ]
+  }
+}
