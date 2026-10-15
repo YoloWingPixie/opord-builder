@@ -239,7 +239,10 @@ def _weather(opord: Mapping[str, Any] | None, at: str | None) -> tuple[str, str 
 
 
 def _steerpoints(
-    flight: Mapping[str, Any], res: Mapping[str, Any], warn
+    flight: Mapping[str, Any],
+    res: Mapping[str, Any],
+    warn,
+    period_start: _dt.datetime | None = None,
 ) -> list[dict[str, str]]:
     """The flight's route as steerpoints: number (RoutePoint.number, else the 1-based position), name, MGRS,
     altitude and action."""
@@ -255,16 +258,20 @@ def _steerpoints(
             else "flight has no route; left blank",
         )
         return []
-    return [
-        {
+    out = []
+    for i, p in enumerate(points, 1):
+        sp = {
             "number": p.get("number") or i,
             "name": p.get("name") or p.get("id", ""),
             "mgrs": mgrs(p["position"]) if p.get("position") else "",
             "altitude": fmt(p.get("altitude")),
             "action": humanize(p["action"]) if p.get("action") else "",
         }
-        for i, p in enumerate(points, 1)
-    ]
+        time = _timing_text(p.get("timing"), period_start)
+        if time:
+            sp["time"] = time
+        out.append(sp)
+    return out
 
 
 def _altimeter(
@@ -452,7 +459,7 @@ def _card(
     wx, problem = _weather(opord, launch.get("takeoff"))
     if problem:
         warn("weather", problem)
-    steerpoints = _steerpoints(flight, res, warn)
+    steerpoints = _steerpoints(flight, res, warn, _period_start(ato))
     card = {
         "title": callsign,
         "flight_callsign": callsign,

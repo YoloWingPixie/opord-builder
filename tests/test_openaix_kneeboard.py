@@ -709,7 +709,7 @@ def test_steerpoints_use_the_route_point_number_else_the_position():
     assert numbered[0]["number"] == 10 and numbered[0]["mgrs"].startswith("37S")
     plain = maximal_cards(unnumbered=True)[0][0]["steerpoints"]
     assert [s["number"] for s in plain] == list(range(1, len(plain) + 1))
-    assert set(numbered[0]) == {"number", "name", "mgrs", "altitude", "action"}
+    assert set(numbered[0]) <= {"number", "name", "mgrs", "altitude", "action", "time"}
 
 
 def test_a_flight_without_a_route_warns_and_has_no_steerpoints():
@@ -723,3 +723,27 @@ def test_a_flight_without_a_route_warns_and_has_no_steerpoints():
 def test_steerpoints_and_weather_render_on_the_card():
     html = render_card_html(maximal_cards()[0][0])
     assert "Steerpoints" in html and "FEW090 · VIS 10 km" in html
+
+
+def test_a_steerpoint_shows_the_time_of_its_route_point_timing():
+    ato = json.loads((MAXIMAL / "ato.json").read_text())
+    res = json.loads((MAXIMAL / "resources.json").read_text())
+    flight = next(
+        f for m in ato["missions"] for f in m.get("flights", []) if f.get("route")
+    )
+    route = res["resources"]["routes"][flight["route"]]
+    route["points"] = [{**route["points"][0], "number": n} for n in (1, 2, 3)]
+    for pt in route["points"]:
+        pt.pop("timing", None)
+    route["points"][0]["timing"] = {"kind": "at", "at": "2026-01-01T14:05:00Z"}
+    route["points"][1]["timing"] = {
+        "kind": "window",
+        "window": {"start": "2026-01-01T14:10:00Z", "end": "2026-01-01T14:20:00Z"},
+    }
+    cards, _ = build_cards(ato, merge_resources(ato, res), None, None)
+    card = next(c for c in cards if c["flight_callsign"] == flight["callsign"])
+    assert card["steerpoints"][0]["time"] == "1405Z"
+    assert card["steerpoints"][1]["time"] == "1410Z-1420Z"
+    assert "time" not in card["steerpoints"][2]
+    html = render_card_html(card)
+    assert "<b>1405Z</b>" in html

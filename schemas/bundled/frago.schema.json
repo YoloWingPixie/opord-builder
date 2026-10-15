@@ -4379,6 +4379,10 @@
         "action": {
           "description": "Flight phase at the point (ingress, egress, hold, ...).",
           "type": "string"
+        },
+        "time": {
+          "description": "Time at the point: the route point's timing (TOT as 1030Z, a window as 1030Z-1045Z), when it has one.",
+          "type": "string"
         }
       }
     },

@@ -530,7 +530,7 @@
       <div class="kb-label">Steerpoints</div>
       <table class="kb-fuel">
         {% for s in card.steerpoints %}
-        <tr><td class="fuel-k">{{ s.number }} {{ s.name }}</td><td class="fuel-v">{{ s.mgrs }}{% if s.altitude %} / {{ s.altitude }}{% endif %}{% if s.action %} · {{ s.action }}{% endif %}</td></tr>
+        <tr><td class="fuel-k">{{ s.number }} {{ s.name }}</td><td class="fuel-v">{% if s.time %}<b>{{ s.time }}</b> · {% endif %}{{ s.mgrs }}{% if s.altitude %} / {{ s.altitude }}{% endif %}{% if s.action %} · {{ s.action }}{% endif %}</td></tr>
         {% endfor %}
       </table>
     </div>
