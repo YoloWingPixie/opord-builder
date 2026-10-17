@@ -79,10 +79,11 @@ opord export   INPUT -p ALIAS_OR_POINTER [-f pdf|html|csv] [-o FILE]
 opord list-products INPUT
 opord init DIR
 opord watch INPUT
-opord validate-openaix FILE...
+opord validate-openaix FILE...             # bindings resolved first
+opord resolve INPUT [-o FILE.json|.yaml]   # the plain OpenAIX document, bindings substituted
 opord docs [--check]                       # generated schema docs and bundled schemas
 opord reference [-o FILE]                  # per-annex reference page
-opord schema [-t opord|frago|spins|ato|resources] [-o FILE]   # print the bundled schema
+opord schema [-t opord|frago|spins|ato|resources] [-o FILE] [--strict]   # print the bundled schema
 ```
 
 `opord export -p` takes an alias (`jpitl`, `pir`, `cap_tracks`, ...) or a JSON Pointer into the
@@ -120,11 +121,58 @@ is unchanged. A document can name its theme with `theme:` in its `org.opord-buil
 `opord docs --check` exits 1 when a generated file is stale; `task check`, `task ci` and the
 tests run it.
 
+## Data sources and bindings
+
+Declare variables in `extensions.org.opord-builder.data` and put `${var}` or `${var/json/pointer}` in any
+string of the document. Bindings are resolved when the document is loaded, before it is validated, so
+the result is plain OpenAIX (`opord resolve` writes it). `examples/bindings/` is a small working order.
+
+```yaml
+extensions:
+  org.opord-builder.data:
+    vars:
+      op_name: {value: ATOMIC THUNDER}                 # a literal
+      players: {path: ../../orbats/air/players-*.yaml, select: /units, key: /slug}
+      navy: {from: players, where: {/parent: cvw-8}}   # derived from another var
+      rows: {from: navy, map: {name: /name, short: /short}}
+      tankers: {path: data/tankers.csv}                # CSV: a list of {header: text}
+task_organization:
+  vfa-81:
+    name: ${players/vfa-81/name}
+```
+
+Each var has exactly one of `path` (a file), `from` (one var, or a list of vars combined in order: lists
+concatenate, maps merge, a duplicate key is an error) or `value` (a literal JSON value).
+
+- **Files.** Paths are relative to the document that declares the var (absolute is allowed). The format
+  comes from the suffix (`.json`, `.yaml`, `.yml`, `.csv`) or `format:`. YAML uses the safe loader and
+  `!include`. CSV needs a header row; every cell is text. `validate: openaix` loads the file as an OpenAIX
+  document, bindings included; cycles are errors.
+- **Globs.** A `path` with `*`, `?` or `[` matches files beside the declaring document, sorted by name; zero
+  matches is an error. Each file is parsed and `select`ed, then the results are combined (lists concatenate,
+  maps merge, a duplicate key is an error, mixing a list and a map is an error); `where`, `key` and `map`
+  run on the combined value. `watch` also watches the glob's directory.
+- **Selectors**, in this order: `select` (a JSON Pointer, missing is an error), `where` (`{pointer: value}`,
+  all must equal), `key` (list to map by the text of the value at a pointer; missing or duplicate is an
+  error), `map` (a pointer, or `{field: pointer}` for new records).
+- **Binding.** A string that is exactly one `${ref}` becomes the value itself, with its type (number, list,
+  object, table `rows`). Inside other text the value must be a string or a number. Pointer tokens use `~0`
+  and `~1`. `$${` is a literal `${`. Keys and source data are never interpolated.
+- **Errors** name the document, the pointer, the ref, the var and the source file. An undefined var is an
+  error, never left as text. A schema error at a bound value says where it was bound from. Vars are
+  resolved only when referenced.
+- **No code runs**: selectors are pointers and equality; there is no templating language.
+- **Tools.** `opord validate-openaix` resolves first (a missing source file fails). `opord watch` re-renders
+  when any file the order read changes. The bundled schemas accept a binding in any value;
+  `opord schema --strict` prints the schema of a resolved document.
+
 ## Breaking changes
 
 - The Pydantic authoring YAML is gone. Every input is an OpenAIX document; the example files
   were migrated (the old `variables:` and `{{ var }}` templating and the `data_sources:`
-  bindings were resolved while migrating).
+  bindings were resolved while migrating). Variables and data sources are back as
+  `org.opord-builder.data` with `${var/pointer}` bindings (see Data sources and bindings); the
+  old Jinja syntax is not.
 - Removed commands: `validate-source`, `import-openaix`, `export-openaix` and `migrate`;
   `opord schema` now prints the bundled schema, and `opord docs` and `opord reference` write the
   new generated pages. `docs/schema/` and `schemas/opord-authoring.schema.json` are gone.
@@ -135,7 +183,7 @@ tests run it.
 - `opord export -p` takes JSON Pointers into the OpenAIX document instead of dotted model
   paths. The aliases are kept; `comsec` and `cross_attachments` need their annex fields.
 - `opord init` scaffolds an OpenAIX `opord.yaml` plus annex stubs.
-- `opord validate-openaix` accepts YAML and checks extensions.
+- `opord validate-openaix` accepts YAML, resolves bindings and checks extensions.
 - `opord kneeboard INPUT` reads cards from the order's `org.opord-builder.kneeboard` extension.
 - Weather is typed (see Weather); the old free-text forecast fields moved into the order extension.
 - FRAGO output prints whole touched paragraphs; the old sparse overlay is gone.
@@ -143,7 +191,7 @@ tests run it.
 
 ## Layout
 
-- `opord_builder/load.py` reads and validates documents; `order.py` loads an order and its catalogues.
+- `opord_builder/load.py` reads and validates documents; `bind.py` resolves data sources and bindings, `pointer.py` is JSON Pointer; `order.py` loads an order and its catalogues.
 - `opord_builder/render.py`, `generic.py`, `format.py`: rendering from the dicts, with small pure formatters.
 - `opord_builder/frago.py`, `kneeboard.py`, `spins*.py`: FRAGO changes, kneeboard cards, SPINS.
 - `opord_builder/templates/` Jinja2 templates and stylesheets; `opord_builder/openaix/vendor/` the pinned OpenAIX schemas.

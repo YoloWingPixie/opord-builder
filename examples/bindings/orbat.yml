@@ -1,0 +1,6 @@
+# An Echelon-style ORBAT: not an OpenAIX document, read through a data source of the order.
+schemaId: example
+units:
+  - {slug: cvw-8, name: Carrier Air Wing Eight, short: CVW-8, parent: csg-8}
+  - {slug: vfa-81, name: VFA-81 Sunliners, short: VFA-81, parent: cvw-8}
+  - {slug: vf-11, name: VF-11 Red Rippers, short: VF-11, parent: cvw-8}

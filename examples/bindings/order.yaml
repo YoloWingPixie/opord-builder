@@ -1,0 +1,39 @@
+# Bindings: ${var} and ${var/json/pointer} in any string; vars are declared in extensions.org.opord-builder.data.
+$schema: urn:openaix:schema:opord:0.2.0-draft.1
+kind: opord
+schema_version: 0.2.0-draft.1
+meta:
+  classification: UNCLASSIFIED
+  id: opord-26-07
+  issued_at: '2026-04-18T12:00:00Z'
+  issuing_unit: ${hq}
+  operation: ${op_name}
+  revision: '1'
+issuing_headquarters: ${hq}
+date_time: '2026-04-18T12:00:00Z'
+order_number: 26-07
+operation_name: ${op_name}
+time_zone: Z
+extensions:
+  org.opord-builder.data:
+    vars:
+      op_name: {value: BOUND EXAMPLE}
+      hq: {value: 'Headquarters, Carrier Air Wing Eight'}
+      sqn: {path: orbat.yml, select: /units, key: /slug}
+      tankers: {path: tankers.csv}
+  org.opord-builder.order:
+    annexes: {}
+mission:
+  statement: ${sqn/vfa-81/short} and ${sqn/vf-11/short} fly ${op_name}, refuelling from ${tankers/0/name} on ${tankers/0/freq} at ${tankers/0/altitude}.
+execution:
+  commanders_intent:
+    purpose: Prove that ${sqn/cvw-8/name} orders read their names from the ORBAT.
+task_organization:
+  cvw-8:
+    name: ${sqn/cvw-8/name}
+  vfa-81:
+    name: ${sqn/vfa-81/name}
+    parent: cvw-8
+  vf-11:
+    name: ${sqn/vf-11/name}
+    parent: cvw-8

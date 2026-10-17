@@ -1,0 +1,44 @@
+{
+  "$schema": "urn:openaix:schema:opord:0.2.0-draft.1",
+  "kind": "opord",
+  "schema_version": "0.2.0-draft.1",
+  "meta": {
+    "classification": "UNCLASSIFIED",
+    "id": "opord-26-07",
+    "issued_at": "2026-04-18T12:00:00Z",
+    "issuing_unit": "Headquarters, Carrier Air Wing Eight",
+    "operation": "BOUND EXAMPLE",
+    "revision": "1"
+  },
+  "issuing_headquarters": "Headquarters, Carrier Air Wing Eight",
+  "date_time": "2026-04-18T12:00:00Z",
+  "order_number": "26-07",
+  "operation_name": "BOUND EXAMPLE",
+  "time_zone": "Z",
+  "extensions": {
+    "org.opord-builder.order": {
+      "annexes": {}
+    }
+  },
+  "mission": {
+    "statement": "VFA-81 and VF-11 fly BOUND EXAMPLE, refuelling from TEXACO 1 on 251.0 at FL220."
+  },
+  "execution": {
+    "commanders_intent": {
+      "purpose": "Prove that Carrier Air Wing Eight orders read their names from the ORBAT."
+    }
+  },
+  "task_organization": {
+    "cvw-8": {
+      "name": "Carrier Air Wing Eight"
+    },
+    "vfa-81": {
+      "name": "VFA-81 Sunliners",
+      "parent": "cvw-8"
+    },
+    "vf-11": {
+      "name": "VF-11 Red Rippers",
+      "parent": "cvw-8"
+    }
+  }
+}
