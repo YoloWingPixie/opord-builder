@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 {% import '_spins_blocks.html.j2' as publication with context %}
+{% from '_seal.html.j2' import seal %}
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{{ document.meta.title }}</title>
 <style>{{ stylesheet|safe }}
 @page { size: {{ document.presentation.page_size }}; }
+{% if theme %}
+{{ theme_css|safe }}
+@page { @bottom-center { content: element(publication-header); } }
+{% endif %}
 </style></head>
-<body class="spins-document font-{{ document.presentation.font }} case-{{ document.presentation.text_case }}">
+<body class="spins-document font-{{ document.presentation.font }} case-{{ document.presentation.text_case }}{% if theme %} theme-{{ theme }}{% endif %}">
 <div class="running-header">{% if document.meta.classification %}{{ document.meta.classification.value }}{% endif %}{% if document.meta.handling %} · {{ document.meta.handling }}{% endif %}</div>
 <div class="running-footer">{{ document.meta.id }} · Revision {{ document.meta.revision }}</div>
 <main>
 <header class="publication-header">
+{% if theme %}
+{{ seal(document.meta.issuing_unit or document.meta.id) }}
+{% endif %}
   <h1>{{ document.meta.title }}</h1>
   {% if document.meta.operation %}<p>{{ document.meta.operation }}</p>{% endif %}
   <p>{{ document.meta.id }} · Revision {{ document.meta.revision }}{% if document.meta.issued_at %} · Issued {{ document.meta.issued_at.isoformat() }}{% endif %}</p>

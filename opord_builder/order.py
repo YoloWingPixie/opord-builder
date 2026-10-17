@@ -38,6 +38,11 @@ class Order:
         return self.head.get("extensions", {}).get(PRINT) or {}
 
     @property
+    def theme(self) -> str | None:
+        """The document's own `theme` (a name in templates/themes/), if it names one."""
+        return (self.head.get("extensions", {}).get(ORDER) or {}).get("theme")
+
+    @property
     def cards(self) -> list[dict]:
         return (self.doc.get("extensions", {}).get(KNEEBOARD) or {}).get("cards", [])
 

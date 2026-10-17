@@ -27,6 +27,11 @@ OUT_DIR = typer.Option(
 MD = typer.Option(True, "--md/--no-md", help="Write a Markdown file.")
 HTML = typer.Option(True, "--html/--no-html", help="Write a standalone HTML file.")
 PDF = typer.Option(True, "--pdf/--no-pdf", help="Write a PDF file.")
+THEME = typer.Option(
+    None,
+    "--theme",
+    help="Document theme, e.g. wp90 (see templates/themes/). Overrides the document's `theme`.",
+)
 
 
 class ExportFormat(str, Enum):
@@ -67,11 +72,19 @@ def render_order(
     pdf: bool,
     base: Path | None,
     kind: str | None,
+    theme: str | None = None,
 ):
+    from opord_builder import themes
     from opord_builder.render import render_all
 
     order = load(path, base, kind)
-    outputs = render_all(order, out_dir or Path("output"), path.stem, md, html, pdf)
+    try:
+        theme = themes.resolve(theme, order.theme)
+    except ValueError as exc:
+        raise fail(str(exc)) from exc
+    outputs = render_all(
+        order, out_dir or Path("output"), path.stem, md, html, pdf, theme
+    )
     typer.secho(
         f"Rendered {path.name}  →  " + ", ".join(p.name for p in outputs.values()),
         fg=typer.colors.GREEN,
@@ -87,8 +100,9 @@ def render(
     md: bool = MD,
     html: bool = HTML,
     pdf: bool = PDF,
+    theme: str | None = THEME,
 ) -> None:
-    render_order(input_file, out_dir, md, html, pdf, None, None)
+    render_order(input_file, out_dir, md, html, pdf, None, None, theme)
 
 
 @app.command(help="Render a FRAGO against its base order.")
@@ -105,8 +119,9 @@ def frago(
     md: bool = MD,
     html: bool = HTML,
     pdf: bool = PDF,
+    theme: str | None = THEME,
 ) -> None:
-    render_order(input_file, out_dir, md, html, pdf, base, "frago")
+    render_order(input_file, out_dir, md, html, pdf, base, "frago", theme)
 
 
 @app.command(
@@ -118,8 +133,9 @@ def warno(
     md: bool = MD,
     html: bool = HTML,
     pdf: bool = PDF,
+    theme: str | None = THEME,
 ) -> None:
-    render_order(input_file, out_dir, md, html, pdf, None, "warno")
+    render_order(input_file, out_dir, md, html, pdf, None, "warno", theme)
 
 
 @app.command(help="Render a numbered SPINS publication and its standing baseline.")
@@ -129,6 +145,7 @@ def spins(
     md: bool = MD,
     html: bool = HTML,
     pdf: bool = PDF,
+    theme: str | None = THEME,
 ) -> None:
     from opord_builder.spins import load_spins, render_spins_all
 
@@ -140,6 +157,7 @@ def spins(
             write_markdown=md,
             write_html=html,
             write_pdf=pdf,
+            theme=theme,
         )
     except (DocumentError, ValueError, OSError, yaml.YAMLError) as exc:
         raise fail(f"{input_file}: {exc}") from exc
@@ -167,10 +185,16 @@ def export(
         "-o",
         help="Output path. Defaults to output/<input-stem>_<product>.<ext>.",
     ),
+    theme: str | None = THEME,
 ) -> None:
     from opord_builder import render as r
+    from opord_builder import themes
 
     order = load(input_file)
+    try:
+        theme = themes.resolve(theme, order.theme)
+    except ValueError as exc:
+        raise fail(str(exc)) from exc
     target = (
         out
         or Path("output")
@@ -180,9 +204,11 @@ def export(
     if not r.product_rows(order, product)[2]:
         raise fail(f"Export failed: {product!r} has no entries in this order")
     if fmt is ExportFormat.PDF:
-        r.write_pdf(r.render_product_html(order, product), target)
+        r.write_pdf(r.render_product_html(order, product, theme), target, theme)
     elif fmt is ExportFormat.HTML:
-        target.write_text(r.render_product_html(order, product), encoding="utf-8")
+        target.write_text(
+            r.render_product_html(order, product, theme), encoding="utf-8"
+        )
     else:
         target.write_text(r.render_product_csv(order, product), encoding="utf-8")
     wrote(f"{product} {fmt.value}", target)
@@ -320,13 +346,21 @@ def watch(
     md: bool = MD,
     html: bool = HTML,
     pdf: bool = PDF,
+    theme: str | None = THEME,
 ) -> None:
     from watchfiles import watch as watch_files
 
     def once() -> None:
         try:
             render_order(
-                input_file, out_dir or input_file.parent, md, html, pdf, None, None
+                input_file,
+                out_dir or input_file.parent,
+                md,
+                html,
+                pdf,
+                None,
+                None,
+                theme,
             )
         except typer.Exit:
             pass

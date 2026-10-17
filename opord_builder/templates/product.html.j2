@@ -7,7 +7,7 @@
   <title>{{ product_title }} — OPORD {{ eff.op_number }} {{ eff.op_name }}</title>
   <style>{{ page_css(banner, product_title|upper ~ ' / OPORD ' ~ eff.op_number, none, watermark_url) }}</style>
 </head>
-<body class="classification-{{ eff.classification|lower|replace(' ', '-') }}">
+<body class="classification-{{ eff.classification|lower|replace(' ', '-') }}{% if theme %} theme-{{ theme }}{% endif %}">
 
 <section class="product-cover">
   <div class="product-eyebrow">

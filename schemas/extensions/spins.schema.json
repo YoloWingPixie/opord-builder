@@ -1974,6 +1974,20 @@
       ],
       "default": null
     },
+    "theme": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Name of the document theme to render with (e.g. `wp90`). The `--theme` option wins.",
+      "title": "Theme"
+    },
     "presentation": {
       "$ref": "#/$defs/Presentation"
     },

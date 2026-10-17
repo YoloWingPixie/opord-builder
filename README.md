@@ -88,6 +88,18 @@ opord schema [-t opord|frago|spins|ato|resources] [-o FILE]   # print the bundle
 `opord export -p` takes an alias (`jpitl`, `pir`, `cap_tracks`, ...) or a JSON Pointer into the
 OpenAIX document, such as `/execution/tasks_to_subordinate_units`.
 
+### Themes
+
+`render`, `frago`, `warno`, `spins`, `export` and `watch` take `--theme NAME`. A theme is one CSS file,
+`opord_builder/templates/themes/NAME.css`, layered after the base stylesheet; without one the output
+is unchanged. A document can name its theme with `theme:` in its `org.opord-builder.order` (or
+`org.opord-builder.spins`) extension; the option wins. An unknown name fails and lists the themes.
+
+- `wp90`: an early-1990s word-processor printout. Times and Courier, black on white, a double-ruled
+  title box with a generic placeholder seal, ruled tables with shaded header rows, `1. SITUATION`
+  headings, sub-paragraphs on a 0.5 in tab grid, US Letter with 1 in margins, and "Page X of Y".
+  Light only; the theme toggle is hidden.
+
 ## Schema docs
 
 `opord docs` writes everything generated from the schemas, deterministically:

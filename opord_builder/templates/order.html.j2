@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {%- from '_page.html.j2' import page_css -%}
+{%- from '_seal.html.j2' import seal -%}
 {#- One HTML template for an OPORD, a FRAGO and a WARNO. `eff` holds the header values to print. -#}
 {%- set banner = eff.classification ~ ('//' ~ eff.caveat if eff.caveat else '') -%}
 {%- set slug = eff.classification|lower|replace(' ', '-') -%}
@@ -50,7 +51,7 @@
     })();
   </script>
 </head>
-<body class="classification-{{ slug }}">
+<body class="classification-{{ slug }}{% if theme %} theme-{{ theme }}{% endif %}">
 
 <button class="theme-toggle" type="button" aria-label="Toggle theme" onclick="(function(b){var r=document.documentElement;var c=r.getAttribute('data-theme');var n=c==='dark'?'light':(c==='light'?'dark':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'light':'dark'));r.setAttribute('data-theme',n);try{localStorage.setItem('opord-theme',n);}catch(e){}})(this)">
   <span class="tt-dot"></span>
@@ -60,6 +61,7 @@
 
 <section class="cover">
   <div class="cover-hero">
+    {% if theme %}{{ seal(eff.hq) }}{% endif %}
     <div class="cover-eyebrow">
       <span class="cover-eyebrow-tag">{{ word }}{% if o.kind != 'opord' %} № {{ eff.number }}{% endif %}</span>
       <span class="cover-eyebrow-num">{% if o.kind == 'opord' %}{{ eff.op_number }}{% elif eff.op_number %}{{ 'to' if o.kind == 'frago' else 'for' }} OPORD {{ eff.op_number }}{% endif %}</span>

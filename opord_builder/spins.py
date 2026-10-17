@@ -10,6 +10,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup
 
+from opord_builder import themes
 from opord_builder._paths import SPINS_DEFAULT_LAYOUT, TEMPLATES_DIR
 from opord_builder.load import SPINS as SPINS_NS
 from opord_builder.load import load_document, read
@@ -203,6 +204,7 @@ def compose_spins(baseline: SPINS, amendment: SPINS) -> SPINS:
     result.presentation = baseline.presentation.model_copy(
         update=amendment.presentation.model_dump(exclude_unset=True)
     )
+    result.theme = amendment.theme or baseline.theme
     result.base = None
     result.changes = []
     return SPINS.model_validate(result.model_dump())
@@ -272,7 +274,11 @@ def _publication(doc: dict) -> dict:
     }
     data.update({k: doc[k] for k in ("period", "base") if k in doc})
     data.update(
-        {k: layout[k] for k in ("presentation", "content", "changes") if k in layout}
+        {
+            k: layout[k]
+            for k in ("theme", "presentation", "content", "changes")
+            if k in layout
+        }
     )
     if "sidecars" in layout:
         data["openaix"] = layout["sidecars"]
@@ -436,7 +442,8 @@ def _context(document):
     }
 
 
-def _render(document, *, html):
+def _render(document, *, html, theme=None):
+    theme = themes.resolve(theme, document.theme)
     context = _context(document)
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
@@ -452,13 +459,15 @@ def _render(document, *, html):
         context["document"], context["numbering"], html=True
     )
     context["stylesheet"] = (TEMPLATES_DIR / "spins.css").read_text(encoding="utf-8")
+    context["theme"] = theme
+    context["theme_css"] = themes.css(theme) if theme else ""
     template = "spins.html.j2" if html else "spins.md.j2"
     return env.get_template(template).render(**context)
 
 
-def render_spins_html(document: SPINS) -> str:
+def render_spins_html(document: SPINS, theme: str | None = None) -> str:
     """Render a standalone publication with embedded styles and local figures."""
-    return _render(document, html=True)
+    return _render(document, html=True, theme=theme)
 
 
 def render_spins_markdown(document: SPINS) -> str:
@@ -485,8 +494,10 @@ def render_spins_all(
     write_markdown=True,
     write_html=True,
     write_pdf=True,
+    theme: str | None = None,
 ):
     """Write the requested formats into `out_dir` and return {format: path}."""
+    theme = themes.resolve(theme, document.theme)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     out = {}
@@ -494,7 +505,7 @@ def render_spins_all(
         out["markdown"] = out_dir / f"{stem}.md"
         out["markdown"].write_text(render_spins_markdown(document), encoding="utf-8")
     if write_html or write_pdf:
-        html = render_spins_html(document)
+        html = render_spins_html(document, theme)
         if write_html:
             out["html"] = out_dir / f"{stem}.html"
             out["html"].write_text(html, encoding="utf-8")

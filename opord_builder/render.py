@@ -22,7 +22,7 @@ from jinja2 import (
     select_autoescape,
 )
 
-from opord_builder import generic
+from opord_builder import generic, themes
 from opord_builder._paths import STYLESHEET, TEMPLATES_DIR
 from opord_builder.format import dtg, fmt, has_content, humanize, letter_for, paragraphs
 from opord_builder.generic import Walk, child
@@ -287,7 +287,7 @@ def effective(o: Order) -> dict[str, Any]:
     }  # fmt: skip
 
 
-def context(o: Order, html: bool) -> dict[str, Any]:
+def context(o: Order, html: bool, theme: str | None = None) -> dict[str, Any]:
     units = o.doc.get("task_organization") or {}
     kids: dict[str | None, list[str]] = {}
     for uid, u in units.items():
@@ -302,7 +302,7 @@ def context(o: Order, html: bool) -> dict[str, Any]:
         "paragraphs_list": PARAGRAPHS, "annex_letters": [l for l in CANONICAL_ANNEXES if o.shown is None or f"annex:{l}" in o.shown], "units": units, "kids": kids, "rels": rels,
         "unit_ext": (o.x.get("header") or {}).get("units") or {},
         "generated_at": stamp(), "watermark_url": watermark_from_value(o.print.get("watermark")),
-        "nonce": None,
+        "nonce": None, "theme": theme,
     }  # fmt: skip
 
 
@@ -318,29 +318,38 @@ def render_markdown(o: Order) -> str:
     return env(False).get_template("order.md.j2").render(**context(o, False))
 
 
-def render_html(o: Order) -> str:
-    """HTML with the stylesheet inlined: ready for a browser, and the input to WeasyPrint."""
-    css = f"<style>\n{stylesheet_text()}\n</style>"
+def theme_style(theme: str | None) -> str:
+    """The `<style>` of a theme, layered after the base stylesheet; empty for the default look."""
+    return f"\n<style>\n{themes.css(theme)}\n</style>" if theme else ""
+
+
+def render_html(o: Order, theme: str | None = None) -> str:
+    """HTML with the stylesheet inlined: ready for a browser, and the input to WeasyPrint.
+    `theme` (else the document's own `theme`) names a file in templates/themes/."""
+    theme = themes.resolve(theme, o.theme)
+    css = f"<style>\n{stylesheet_text()}\n</style>{theme_style(theme)}"
     return (
         env(True)
         .get_template("order.html.j2")
-        .render(**context(o, True))
+        .render(**context(o, True, theme))
         .replace("</head>", f"{css}\n</head>", 1)
     )
 
 
 @cache
-def pdf_stylesheet():
+def pdf_stylesheet(theme: str | None = None):
+    """The base stylesheet, then the theme's: WeasyPrint applies it after the page's own, so it must carry both."""
     from weasyprint import CSS  # heavy import: deferred
 
-    return CSS(string=stylesheet_text())
+    text = stylesheet_text() + (f"\n{themes.css(theme)}" if theme else "")
+    return CSS(string=text)
 
 
-def write_pdf(html_text: str, out: Path | str) -> Path:
+def write_pdf(html_text: str, out: Path | str, theme: str | None = None) -> Path:
     from weasyprint import HTML
 
     HTML(string=html_text, base_url=str(TEMPLATES_DIR)).write_pdf(
-        target=str(out), stylesheets=[pdf_stylesheet()]
+        target=str(out), stylesheets=[pdf_stylesheet(theme)]
     )
     return Path(out)
 
@@ -352,8 +361,10 @@ def render_all(
     markdown: bool = True,
     html: bool = True,
     pdf: bool = True,
+    theme: str | None = None,
 ) -> dict[str, Path]:
     """Write the requested formats. The HTML is built once and reused for the PDF."""
+    theme = themes.resolve(theme, o.theme)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     out: dict[str, Path] = {}
@@ -361,12 +372,12 @@ def render_all(
         out["markdown"] = out_dir / f"{stem}.md"
         out["markdown"].write_text(render_markdown(o), encoding="utf-8")
     if html or pdf:
-        text = render_html(o)
+        text = render_html(o, theme)
         if html:
             out["html"] = out_dir / f"{stem}.html"
             out["html"].write_text(text, encoding="utf-8")
         if pdf:
-            out["pdf"] = write_pdf(text, out_dir / f"{stem}.pdf")
+            out["pdf"] = write_pdf(text, out_dir / f"{stem}.pdf", theme)
     return out
 
 
@@ -481,7 +492,8 @@ def discover_products(o: Order) -> list[tuple[str, str, int]]:
     return out
 
 
-def render_product_html(o: Order, product: str) -> str:
+def render_product_html(o: Order, product: str, theme: str | None = None) -> str:
+    theme = themes.resolve(theme, o.theme)
     title, subtitle, rows, sch = product_rows(o, product)
     body = (
         generic.html(
@@ -491,12 +503,12 @@ def render_product_html(o: Order, product: str) -> str:
         else ""
     )
     ctx = {
-        **context(o, True),
+        **context(o, True, theme),
         "product_title": title,
         "product_subtitle": subtitle,
         "product_body_html": body,
     }
-    css = f"<style>\n{stylesheet_text()}\n</style>"
+    css = f"<style>\n{stylesheet_text()}\n</style>{theme_style(theme)}"
     return (
         env(True)
         .get_template("product.html.j2")

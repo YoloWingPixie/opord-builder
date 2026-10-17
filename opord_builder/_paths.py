@@ -7,6 +7,7 @@ from pathlib import Path
 _PACKAGE_ROOT = Path(__file__).resolve().parent
 TEMPLATES_DIR: Path = _PACKAGE_ROOT / "templates"
 STYLESHEET: Path = TEMPLATES_DIR / "styles.css"
+THEMES_DIR: Path = TEMPLATES_DIR / "themes"
 EXAMPLE_FULL_YAML: Path = _PACKAGE_ROOT.parent / "examples" / "example_full.yaml"
 SPINS_DEFAULT_LAYOUT: Path = TEMPLATES_DIR / "spins-default.yaml"
 # The wheel ships `schemas/` inside the package; a checkout has it at the repository root.

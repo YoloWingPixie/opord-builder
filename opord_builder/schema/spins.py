@@ -418,6 +418,7 @@ class SPINS(_Base):
     meta: PublicationMetadata
     scope: Literal["standing", "mission"]
     period: PublicationPeriod | None = None
+    theme: str | None = None
     presentation: Presentation = Field(default_factory=Presentation)
     openaix: SpinsOpenAIXRefs | None = Field(
         default=None,
@@ -483,6 +484,10 @@ class SpinsLayout(_Base):
     layout tree. Identification, scope, period and the pinned baseline are typed OpenAIX fields, not part of it."""
 
     meta: SpinsMetaExtra | None = None
+    theme: Annotated[str, Field(min_length=1)] | None = Field(
+        default=None,
+        description="Name of the document theme to render with (e.g. `wp90`). The `--theme` option wins.",
+    )
     presentation: Presentation = Field(default_factory=Presentation)
     sidecars: SpinsOpenAIXRefs | None = Field(
         default=None,

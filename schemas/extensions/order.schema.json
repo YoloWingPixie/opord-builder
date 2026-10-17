@@ -6,6 +6,11 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "theme": {
+      "description": "Name of the document theme to render with (a file in `templates/themes/`, e.g. `wp90`). The `--theme` option wins. Absent for the default look.",
+      "type": "string",
+      "minLength": 1
+    },
     "document_kind": {
       "description": "`warno` marks a warning order. Absent for an OPORD.",
       "enum": [

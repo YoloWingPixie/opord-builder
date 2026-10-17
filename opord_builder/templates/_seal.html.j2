@@ -1,0 +1,7 @@
+{#- A generic round seal placeholder (a ring and the unit name; no official artwork). Hidden unless the theme shows `.doc-seal`. -#}
+{%- macro seal(name) -%}
+{%- set lines = ((name or '')|upper|wordwrap(10)).split('\n') -%}
+{%- set size = [15, 90 / ([lines|map('length')|max, 1]|max)]|min -%}
+{%- set first = 50 - (lines|length - 1) * size * 0.6 + size * 0.35 -%}
+<div class="doc-seal" hidden aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="72" height="72"><circle cx="50" cy="50" r="47" fill="none" stroke="#000" stroke-width="3"/><circle cx="50" cy="50" r="41" fill="none" stroke="#000" stroke-width="1"/><text text-anchor="middle" font-family="'Times New Roman', Times, 'Liberation Serif', serif" font-weight="700" font-size="{{ size|round(1) }}" fill="#000">{% for line in lines %}<tspan x="50" y="{{ (first + loop.index0 * size * 1.2)|round(1) }}">{{ line }}</tspan>{% endfor %}</text></svg></div>
+{%- endmacro -%}
