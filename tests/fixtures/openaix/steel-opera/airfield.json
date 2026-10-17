@@ -70,6 +70,9 @@
       "role": "tower"
     }
   ],
+  "holdings": [
+    "ghi-hold"
+  ],
   "hung_ordnance_runway": "31",
   "id": "ojms",
   "ident": "OJMS",
@@ -79,6 +82,9 @@
     "ojms-ils-26"
   ],
   "magnetic_variation_deg": 5.0,
+  "msas": [
+    "ojms-msa"
+  ],
   "name": "Muwaffaq Salti",
   "navaids": [
     {

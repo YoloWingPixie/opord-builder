@@ -1366,6 +1366,16 @@
           },
           "type": "object"
         },
+        "holdings": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:holding:0.2.0-draft.1"
+          },
+          "description": "This map contains the hold records to which airfields and instrument procedures refer. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+          },
+          "type": "object"
+        },
         "instrument_procedures": {
           "additionalProperties": {
             "$ref": "urn:openaix:schema:procedure:0.2.0-draft.1"
@@ -1381,6 +1391,16 @@
             "$ref": "urn:openaix:schema:localizer:0.2.0-draft.1"
           },
           "description": "This map contains the localizers to which airfields and the ends of runways refer. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+          },
+          "type": "object"
+        },
+        "msas": {
+          "additionalProperties": {
+            "$ref": "urn:openaix:schema:msa:0.2.0-draft.1"
+          },
+          "description": "This map contains the records of a minimum safe altitude to which airfields and instrument procedures refer. The key of each item is its identifier.",
           "propertyNames": {
             "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
           },

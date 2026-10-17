@@ -49,6 +49,9 @@
       }
     }
   },
+  "holdings": [
+    "ghi-hold"
+  ],
   "id": "ojms-i31",
   "ident": "I31",
   "kind": "procedure",
@@ -179,6 +182,7 @@
       ]
     }
   ],
+  "msa": "ojms-msa",
   "name": "Muwaffaq Salti ILS runway 31 approach (I31)",
   "navigation_specification": {
     "navigation_type": "conventional",
@@ -289,11 +293,22 @@
       "version": "1.2.0"
     }
   },
+  "remarks": [
+    "Procedure turn not authorized when radar vectors to the final approach course are given.",
+    "Missed approach: climb on the runway 31 course to 5000 feet, then hold at GHI."
+  ],
   "resources_ref": {
     "id": "oir-resources",
     "revision": "1"
   },
+  "runways": [
+    "31"
+  ],
   "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua",
+  "threshold_crossing_height": {
+    "unit": "ft",
+    "value": 50
+  },
   "transitions": [
     {
       "ident": "GHI",
@@ -307,7 +322,9 @@
               "value": 5000
             }
           },
-          "approach_fix": "initial_approach_fix",
+          "approach_fix": [
+            "initial_approach_fix"
+          ],
           "arc_center": {
             "id": "ghi",
             "kind": "control_measure"
@@ -329,10 +346,6 @@
           },
           "fly_over": true,
           "leg_type": "initial_fix",
-          "recommended_navaid": {
-            "id": "ghi",
-            "kind": "control_measure"
-          },
           "rnp_value": {
             "unit": "nm",
             "value": 1
@@ -349,6 +362,52 @@
             "value": 1.0
           },
           "vertical_angle_deg": -3.0
+        },
+        {
+          "altitude": {
+            "kind": "at_or_above",
+            "lower": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 4000
+            }
+          },
+          "fix": {
+            "ident": "FAF31",
+            "position": {
+              "latitude": 31.767214,
+              "longitude": 36.869855
+            },
+            "radial_dme": {
+              "additional_radials": [
+                {
+                  "navaid": {
+                    "id": "abc",
+                    "kind": "control_measure"
+                  },
+                  "radial": {
+                    "declination_deg": 5.0,
+                    "reference": "magnetic",
+                    "value": 206.1
+                  }
+                }
+              ],
+              "distance": {
+                "unit": "nm",
+                "value": 6.2
+              },
+              "navaid": {
+                "id": "ghi",
+                "kind": "control_measure"
+              },
+              "radial": {
+                "declination_deg": 5.0,
+                "reference": "magnetic",
+                "value": 126.0
+              }
+            }
+          },
+          "leg_type": "track_to_fix"
         },
         {
           "altitude": {
@@ -389,11 +448,7 @@
             "turn_type": "turn_45_180"
           },
           "turn_direction": "left"
-        }
-      ]
-    },
-    {
-      "legs": [
+        },
         {
           "altitude": {
             "kind": "at",
@@ -403,7 +458,55 @@
               "value": 3300
             }
           },
-          "approach_fix": "final_approach_fix",
+          "course": {
+            "declination_deg": 5.0,
+            "reference": "magnetic",
+            "value": 307.2
+          },
+          "fix": {
+            "ident": "FAF31",
+            "position": {
+              "latitude": 31.767214,
+              "longitude": 36.869855
+            }
+          },
+          "leg_type": "course_to_fix",
+          "recommended_navaid": {
+            "id": "ojms-ils-31",
+            "kind": "localizer"
+          },
+          "rho": {
+            "unit": "nm",
+            "value": 13.6
+          },
+          "theta": {
+            "declination_deg": 5.0,
+            "reference": "magnetic",
+            "value": 38.6
+          }
+        }
+      ],
+      "transition_type": "approach_transition"
+    },
+    {
+      "legs": [
+        {
+          "altitude": {
+            "glide_slope_intercept_altitude": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 3300
+            },
+            "kind": "glide_slope_intercept",
+            "lower": {
+              "reference": "MSL",
+              "unit": "ft",
+              "value": 3300
+            }
+          },
+          "approach_fix": [
+            "final_approach_fix"
+          ],
           "fix": {
             "ident": "FAF31",
             "position": {
@@ -414,23 +517,55 @@
           "leg_type": "initial_fix"
         },
         {
-          "altitude": {
-            "kind": "at_or_above",
-            "lower": {
-              "reference": "MSL",
-              "unit": "ft",
-              "value": 5000
+          "approach_fix": [
+            "missed_approach_holding_fix"
+          ],
+          "fix": {
+            "ident": "GHI",
+            "position": {
+              "latitude": 31.834683,
+              "longitude": 36.778475
             }
           },
-          "course": {
-            "declination_deg": 5.0,
-            "reference": "magnetic",
-            "value": 307.2
+          "hold": {
+            "altitude": {
+              "kind": "at_or_above",
+              "lower": {
+                "reference": "MSL",
+                "unit": "ft",
+                "value": 5000
+              }
+            },
+            "fix": {
+              "ident": "GHI",
+              "position": {
+                "latitude": 31.834683,
+                "longitude": 36.778475
+              }
+            },
+            "inbound_course": {
+              "declination_deg": 5.0,
+              "reference": "magnetic",
+              "value": 306.0
+            },
+            "leg_time": {
+              "unit": "min",
+              "value": 1.0
+            },
+            "speed": {
+              "kind": "at_or_below",
+              "value": {
+                "unit": "kt",
+                "value": 230
+              }
+            },
+            "turn_direction": "right"
           },
-          "leg_type": "course_to_altitude",
+          "leg_type": "hold_to_fix",
           "missed_approach": true
         }
-      ]
+      ],
+      "transition_type": "final_approach"
     }
   ]
 }

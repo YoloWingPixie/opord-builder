@@ -1,5 +1,5 @@
 {
-  "$inputs_sha256": "584727ac2bd25cc87291124f45059bc3fc9fc721478d045f3febc80a87101e98",
+  "$inputs_sha256": "5b6685a163000de6ac621201a2005ee7de0d196056977ee07d8106c6187bfb82",
   "urn:openaix:schema:aco:0.2.0-draft.1": [
     {
       "alternatives": [
@@ -63,6 +63,10 @@
     },
     {
       "path": "resources/agencies/*/extensions/sim/dcs/settings",
+      "reason": "conditional"
+    },
+    {
+      "path": "resources/agencies/*/extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -221,12 +225,9 @@
       "selected": "distance"
     },
     {
-      "path": "resources/instrument_procedures/*/transitions/*/legs/*/hold",
-      "reason": "conditional"
-    },
-    {
       "alternatives": [
-        "control_measure"
+        "control_measure",
+        "localizer"
       ],
       "path": "resources/instrument_procedures/*/transitions/*/legs/*/fix",
       "selected": "ident + position"
@@ -237,10 +238,22 @@
     },
     {
       "alternatives": [
-        "ident + position"
+        "ident + position",
+        "localizer"
       ],
-      "path": "resources/instrument_procedures/*/transitions/*/legs/*/recommended_navaid",
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/fix/radial_dme/navaid",
       "selected": "control_measure"
+    },
+    {
+      "instead_of": [
+        "leg_time"
+      ],
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/hold/leg_length",
+      "reason": "alternative"
+    },
+    {
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/hold/altitude/upper",
+      "reason": "conditional"
     },
     {
       "alternatives": [
@@ -248,6 +261,10 @@
       ],
       "path": "resources/instrument_procedures/*/minima/*/category_minima/*",
       "selected": "decision_altitude"
+    },
+    {
+      "path": "resources/holdings/*/remarks",
+      "reason": "no_value"
     },
     {
       "alternatives": [
@@ -316,6 +333,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -446,6 +467,10 @@
       "reason": "conditional"
     },
     {
+      "path": "extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -497,10 +522,19 @@
   "urn:openaix:schema:airway:0.2.0-draft.1": [
     {
       "alternatives": [
-        "control_measure"
+        "control_measure",
+        "localizer"
       ],
       "path": "segments/*/fix",
       "selected": "ident + position"
+    },
+    {
+      "alternatives": [
+        "ident + position",
+        "localizer"
+      ],
+      "path": "segments/*/fix/radial_dme/navaid",
+      "selected": "control_measure"
     },
     {
       "path": "extensions/sim/dcs/objects",
@@ -536,6 +570,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -713,6 +751,10 @@
     },
     {
       "path": "missions/*/flights/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "missions/*/flights/*/extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -900,6 +942,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -1342,6 +1388,10 @@
       "reason": "conditional"
     },
     {
+      "path": "MeasureCatalogue/*/extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "MeasureCatalogue/*/extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -1542,6 +1592,10 @@
       "reason": "conditional"
     },
     {
+      "path": "AirspaceComponent/extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "AirspaceComponent/extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -1681,6 +1735,10 @@
     },
     {
       "path": "ControlMeasure/components/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "ControlMeasure/components/*/extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -1981,6 +2039,10 @@
       "reason": "conditional"
     },
     {
+      "path": "components/*/extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "components/*/extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -2068,6 +2130,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -2175,6 +2241,10 @@
       "reason": "conditional"
     },
     {
+      "path": "extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -2257,10 +2327,19 @@
     },
     {
       "alternatives": [
-        "control_measure"
+        "control_measure",
+        "localizer"
       ],
       "path": "hold/fix",
       "selected": "ident + position"
+    },
+    {
+      "alternatives": [
+        "ident + position",
+        "localizer"
+      ],
+      "path": "hold/fix/radial_dme/navaid",
+      "selected": "control_measure"
     },
     {
       "path": "hold/altitude/upper",
@@ -2300,6 +2379,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -2459,6 +2542,10 @@
       "reason": "no_value"
     },
     {
+      "path": "extensions/sim/dcs/beacon/channel",
+      "reason": "no_value"
+    },
+    {
       "path": "provenance/publication/path",
       "reason": "no_value"
     }
@@ -2527,6 +2614,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -2635,6 +2726,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -2785,6 +2880,10 @@
       "reason": "conditional"
     },
     {
+      "path": "extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -2876,6 +2975,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -3006,6 +3109,10 @@
       "reason": "conditional"
     },
     {
+      "path": "components/*/extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "components/*/extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -3108,6 +3215,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -3286,6 +3397,10 @@
       "reason": "conditional"
     },
     {
+      "path": "extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -3393,10 +3508,19 @@
   "urn:openaix:schema:msa:0.2.0-draft.1": [
     {
       "alternatives": [
-        "control_measure"
+        "control_measure",
+        "localizer"
       ],
       "path": "center",
       "selected": "ident + position"
+    },
+    {
+      "alternatives": [
+        "ident + position",
+        "localizer"
+      ],
+      "path": "center/radial_dme/navaid",
+      "selected": "control_measure"
     },
     {
       "path": "extensions/sim/dcs/objects",
@@ -3432,6 +3556,10 @@
     },
     {
       "path": "extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {
@@ -3673,6 +3801,10 @@
       "reason": "conditional"
     },
     {
+      "path": "task_organization/*/extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "task_organization/*/extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -3765,6 +3897,10 @@
       "reason": "conditional"
     },
     {
+      "path": "extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -3851,6 +3987,10 @@
       "reason": "conditional"
     },
     {
+      "path": "extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -3934,12 +4074,16 @@
       "reason": "alternative"
     },
     {
-      "path": "transitions/*/legs/*/hold",
-      "reason": "conditional"
+      "instead_of": [
+        "procedure_type"
+      ],
+      "path": "top_altitude",
+      "reason": "alternative"
     },
     {
       "alternatives": [
-        "control_measure"
+        "control_measure",
+        "localizer"
       ],
       "path": "transitions/*/legs/*/fix",
       "selected": "ident + position"
@@ -3950,10 +4094,22 @@
     },
     {
       "alternatives": [
-        "ident + position"
+        "ident + position",
+        "localizer"
       ],
-      "path": "transitions/*/legs/*/recommended_navaid",
+      "path": "transitions/*/legs/*/fix/radial_dme/navaid",
       "selected": "control_measure"
+    },
+    {
+      "instead_of": [
+        "leg_time"
+      ],
+      "path": "transitions/*/legs/*/hold/leg_length",
+      "reason": "alternative"
+    },
+    {
+      "path": "transitions/*/legs/*/hold/altitude/upper",
+      "reason": "conditional"
     },
     {
       "path": "navigation_specification/specification",
@@ -4015,6 +4171,10 @@
       "reason": "conditional"
     },
     {
+      "path": "extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -4069,6 +4229,10 @@
       "reason": "conditional"
     },
     {
+      "path": "resources/places/*/extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "resources/places/*/extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -4100,12 +4264,9 @@
       "selected": "distance"
     },
     {
-      "path": "resources/instrument_procedures/*/transitions/*/legs/*/hold",
-      "reason": "conditional"
-    },
-    {
       "alternatives": [
-        "control_measure"
+        "control_measure",
+        "localizer"
       ],
       "path": "resources/instrument_procedures/*/transitions/*/legs/*/fix",
       "selected": "ident + position"
@@ -4116,10 +4277,22 @@
     },
     {
       "alternatives": [
-        "ident + position"
+        "ident + position",
+        "localizer"
       ],
-      "path": "resources/instrument_procedures/*/transitions/*/legs/*/recommended_navaid",
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/fix/radial_dme/navaid",
       "selected": "control_measure"
+    },
+    {
+      "instead_of": [
+        "leg_time"
+      ],
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/hold/leg_length",
+      "reason": "alternative"
+    },
+    {
+      "path": "resources/instrument_procedures/*/transitions/*/legs/*/hold/altitude/upper",
+      "reason": "conditional"
     },
     {
       "alternatives": [
@@ -4376,6 +4549,10 @@
       "reason": "conditional"
     },
     {
+      "path": "extensions/sim/dcs/beacon",
+      "reason": "conditional"
+    },
+    {
       "path": "extensions/sim/dcs/angle_deg",
       "reason": "conditional"
     },
@@ -4463,6 +4640,10 @@
     },
     {
       "path": "stations/*/extensions/sim/dcs/alic_code",
+      "reason": "conditional"
+    },
+    {
+      "path": "stations/*/extensions/sim/dcs/beacon",
       "reason": "conditional"
     },
     {

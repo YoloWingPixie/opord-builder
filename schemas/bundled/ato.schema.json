@@ -5423,6 +5423,15 @@
           "minItems": 1,
           "type": "array"
         },
+        "holdings": {
+          "description": "This list identifies the hold records that are for holding patterns at this airfield. When a hold record in this list identifies an airfield, that airfield shall be this airfield.",
+          "items": {
+            "$ref": "#/$defs/common.Identifier"
+          },
+          "minItems": 1,
+          "type": "array",
+          "x-catalog": "holdings"
+        },
         "hung_ordnance_runway": {
           "$ref": "#/$defs/common.RunwayDesignator",
           "description": "This field gives the designator of the runway end that aircraft with hung ordnance use for landing. A base publishes it in its local emergency procedures. The value shall be the designator of an end of a runway of this airfield. A `carrier` record shall not have this field."
@@ -5463,6 +5472,15 @@
           "maximum": 180,
           "minimum": -180,
           "type": "number"
+        },
+        "msas": {
+          "description": "This list identifies the records of a minimum safe altitude that are for this airfield. When a record of a minimum safe altitude in this list identifies an airfield, that airfield shall be this airfield.",
+          "items": {
+            "$ref": "#/$defs/common.Identifier"
+          },
+          "minItems": 1,
+          "type": "array",
+          "x-catalog": "msas"
         },
         "name": {
           "description": "This field gives the name of this airfield, for display.",
@@ -8218,6 +8236,28 @@
         "angle_deg": {
           "description": "This field gives the drawing angle from the Digital Combat Simulator (DCS) mission, in degrees. This angle is not a true bearing or a magnetic bearing. Only a consumer with a correct adapter for DCS should use this angle to turn the shape.",
           "type": "number"
+        },
+        "beacon": {
+          "additionalProperties": false,
+          "description": "This field gives the radio beacon of the Digital Combat Simulator (DCS) object that the record is bound to: the identification, the frequency and the channel as the DCS database gives them. They can differ from the published values of the real station, which the core fields of the record give. The record has at least one of them.",
+          "minProperties": 1,
+          "properties": {
+            "channel": {
+              "description": "This field gives the channel number of the beacon in the Digital Combat Simulator (DCS) database, for a beacon that DCS tunes by channel, for example a `TACAN`, an `RSBN` or a landing radio beacon group (PRMG) beacon.",
+              "minimum": 1,
+              "type": "integer"
+            },
+            "frequency": {
+              "$ref": "#/$defs/common.Frequency",
+              "description": "This field gives the frequency of the beacon in the Digital Combat Simulator (DCS) database, as a frequency with its unit."
+            },
+            "ident": {
+              "description": "This field identifies this beacon in the Digital Combat Simulator (DCS) database, as the DCS radio transmits it in Morse code.",
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "type": "object"
         },
         "bindings": {
           "description": "This list contains the objects in a Digital Combat Simulator (DCS) mission that are this record or show it on the map. The record keeps its geometry in latitude and longitude, independently of these objects.",
@@ -11046,6 +11086,105 @@
       "title": "Forward air controller",
       "type": "object"
     },
+    "holding": {
+      "additionalProperties": false,
+      "description": "A hold record is a holding pattern at a fix. An author writes the hold for an air traffic control (ATC) holding stack, or a published holding leg of a procedure gives it.",
+      "properties": {
+        "$schema": {
+          "description": "This field identifies the schema that validates this document.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "airfield": {
+          "$ref": "#/$defs/common.Identifier",
+          "description": "This field identifies the airfield of the hold. When the airfield has a list of its hold records, the list shall include this hold record.",
+          "x-catalog": "places"
+        },
+        "extensions": {
+          "$ref": "#/$defs/common.Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "drawing"
+                                ]
+                              },
+                              "primitive_type": {
+                                "enum": [
+                                  "Polygon",
+                                  "Line"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "hold": {
+          "$ref": "#/$defs/procedure.Hold",
+          "description": "This field gives the holding pattern of this record. It has the same definition as the holding legs of a procedure."
+        },
+        "id": {
+          "$ref": "#/$defs/common.Identifier",
+          "description": "This field identifies this record of a hold. Other resources and orders use this stable identifier to refer to this record of a hold."
+        },
+        "kind": {
+          "const": "holding",
+          "description": "The value identifies this record as a record of a hold. The value selects this navigation contract."
+        },
+        "name": {
+          "description": "This field gives the name of this record of a hold, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/procedure.Provenance",
+          "description": "This field gives the provenance of this record of a hold as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
+        },
+        "remarks": {
+          "$ref": "#/$defs/procedure.Remarks",
+          "description": "This list contains the notes of the chart of the procedure or of the hold, as free text."
+        },
+        "resources_ref": {
+          "$ref": "#/$defs/common.ResourceRef",
+          "description": "This field identifies the resource catalogue that resolves the references of this record of a hold. The reference gives the identifier and the revision of the catalogue."
+        },
+        "source": {
+          "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "name",
+        "hold"
+      ],
+      "title": "Holding",
+      "type": "object",
+      "x-navigation-profile": "holding"
+    },
     "localizer": {
       "additionalProperties": false,
       "description": "A localizer is the transmitter of an instrument landing system (ILS) that shows the lateral position of the aircraft in relation to the course. The record has its frequency, its course and, when the ILS has one, its glide slope.",
@@ -11063,6 +11202,10 @@
         "course": {
           "$ref": "#/$defs/common.Bearing",
           "description": "This field gives the front course of the localizer, as a bearing with its unit and reference. A magnetic course includes the station declination, which is more than zero for east."
+        },
+        "elevation": {
+          "$ref": "#/$defs/common.Elevation",
+          "description": "This field gives the elevation of the localizer antenna above mean sea level, as an elevation with its unit."
         },
         "extensions": {
           "$ref": "#/$defs/common.Extensions",
@@ -11091,7 +11234,8 @@
                       },
                       "propertyNames": {
                         "enum": [
-                          "bindings"
+                          "bindings",
+                          "beacon"
                         ]
                       }
                     }
@@ -11174,6 +11318,17 @@
           "minLength": 1,
           "type": "string"
         },
+        "system": {
+          "description": "This field gives the landing system that the localizer belongs to, as one of the enumerated values. A record without this field is the localizer of an instrument landing system (ILS).",
+          "enum": [
+            "ils",
+            "prmg"
+          ],
+          "x-enum-descriptions": {
+            "ils": "This value identifies the instrument landing system (ILS) of International Civil Aviation Organization (ICAO) Annex 10: a localizer with an optional glide slope.",
+            "prmg": "This value identifies the landing radio beacon group (PRMG): the landing system of the Soviet Union and Russia. It gives a front course and a glide slope to a runway as an instrument landing system (ILS) does, with its own signals and its own channel numbers."
+          }
+        },
         "threshold_crossing_height": {
           "$ref": "#/$defs/common.Length",
           "description": "This field gives the threshold crossing height (TCH) of the glide slope, as a length with its unit. It is the height of the glide slope above the landing threshold."
@@ -11206,12 +11361,11 @@
         },
         "position": {
           "$ref": "#/$defs/common.GeoPoint",
-          "description": "This field gives the geographic position of the glide slope antenna, as latitude and longitude."
+          "description": "This field gives the geographic position of the glide slope antenna, as latitude and longitude. A source that does not publish the position of the antenna leaves this field out."
         }
       },
       "required": [
-        "angle_deg",
-        "position"
+        "angle_deg"
       ],
       "type": "object"
     },
@@ -13525,6 +13679,181 @@
       "title": "Airspace coordination volume",
       "type": "object"
     },
+    "msa": {
+      "additionalProperties": false,
+      "description": "A minimum safe altitude (MSA) is the minimum altitudes in sectors around a centre fix, in the radius of the sectors. The bearings of a sector are bearings to the centre. Each sector goes in the clockwise direction from the bearing at its start to the bearing at its end.",
+      "properties": {
+        "$schema": {
+          "description": "This field identifies the schema that validates this document.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "airfield": {
+          "$ref": "#/$defs/common.Identifier",
+          "description": "This field identifies the airfield of this record. An example is `kden`.",
+          "x-catalog": "places"
+        },
+        "center": {
+          "$ref": "#/$defs/procedure.Fix",
+          "description": "This field gives the fix at the centre of the sectors: a navigation aid, a waypoint or an airport reference point."
+        },
+        "extensions": {
+          "$ref": "#/$defs/common.Extensions",
+          "allOf": [
+            {
+              "properties": {
+                "sim": {
+                  "properties": {
+                    "dcs": {
+                      "properties": {
+                        "bindings": {
+                          "items": {
+                            "allOf": [
+                              {
+                                "if": {
+                                  "properties": {
+                                    "primitive_type": {
+                                      "const": "Line"
+                                    }
+                                  },
+                                  "required": [
+                                    "primitive_type"
+                                  ]
+                                },
+                                "then": {
+                                  "properties": {
+                                    "closed": {
+                                      "const": true
+                                    }
+                                  },
+                                  "required": [
+                                    "closed"
+                                  ]
+                                }
+                              }
+                            ],
+                            "properties": {
+                              "kind": {
+                                "enum": [
+                                  "drawing",
+                                  "trigger_zone"
+                                ]
+                              },
+                              "primitive_type": {
+                                "enum": [
+                                  "Polygon",
+                                  "Line"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "bindings"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
+        },
+        "id": {
+          "$ref": "#/$defs/common.Identifier",
+          "description": "This field identifies this record of a minimum safe altitude. Other resources and orders use this stable identifier to refer to this record of a minimum safe altitude."
+        },
+        "kind": {
+          "const": "msa",
+          "description": "The value identifies this record as a record of a minimum safe altitude. The value selects this navigation contract."
+        },
+        "name": {
+          "description": "This field gives the name of this record of a minimum safe altitude, for display.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/procedure.Provenance",
+          "description": "This field gives the provenance of this record of a minimum safe altitude as structured data: how the data were made, the authority, the aeronautical information regulation and control (AIRAC) cycle and the tool that made them."
+        },
+        "resources_ref": {
+          "$ref": "#/$defs/common.ResourceRef",
+          "description": "This field identifies the resource catalogue that resolves the references of this record of a minimum safe altitude. The reference gives the identifier and the revision of the catalogue."
+        },
+        "sectors": {
+          "description": "This list contains the sectors around the centre. Together, the sectors make the full circle. Each sector goes in the clockwise direction from the bearing at its start to the bearing at its end.",
+          "items": {
+            "$ref": "#/$defs/msa.Sector"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "source": {
+          "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "name",
+        "center",
+        "sectors"
+      ],
+      "title": "Minimum Safe Altitude (MSA)",
+      "type": "object",
+      "x-navigation-profile": "msa"
+    },
+    "msa.Sector": {
+      "additionalProperties": false,
+      "description": "A minimum safe altitude (MSA) sector is one sector around the centre fix. Its bearings are bearings to the centre, as the chart shows them, and they are usually magnetic. The sector goes in the clockwise direction from `start_bearing` to `end_bearing`.",
+      "properties": {
+        "end_bearing": {
+          "$ref": "#/$defs/common.Bearing",
+          "description": "This field gives the bearing to the centre at the end of the sector, as a bearing with its unit and reference. It is equal to `start_bearing` only for a full circle."
+        },
+        "full_circle": {
+          "description": "The value is `true` when this one sector is the full circle. Then, equal bearings do not identify a sector of zero width.",
+          "type": "boolean"
+        },
+        "minimum_altitude": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/common.Altitude"
+            },
+            {
+              "properties": {
+                "reference": {
+                  "const": "MSL",
+                  "description": "This field gives the reference of the sector altitude: mean sea level (`MSL`)."
+                }
+              }
+            }
+          ],
+          "description": "This field gives the minimum safe altitude (MSA) in the sector, above mean sea level, as an altitude with its unit and reference."
+        },
+        "radius": {
+          "$ref": "#/$defs/common.Length",
+          "description": "This field gives the radius of the sector from the centre, as a length with its unit."
+        },
+        "start_bearing": {
+          "$ref": "#/$defs/common.Bearing",
+          "description": "This field gives the bearing to the centre at the start of the sector, as a bearing with its unit and reference. From this bearing, the sector goes in the clockwise direction."
+        }
+      },
+      "required": [
+        "start_bearing",
+        "end_bearing",
+        "full_circle",
+        "radius",
+        "minimum_altitude"
+      ],
+      "type": "object"
+    },
     "navaid": {
       "additionalProperties": false,
       "allOf": [
@@ -13549,11 +13878,6 @@
           }
         },
         {
-          "else": {
-            "required": [
-              "frequency"
-            ]
-          },
           "if": {
             "properties": {
               "class": {
@@ -13575,6 +13899,32 @@
           }
         },
         {
+          "if": {
+            "properties": {
+              "class": {
+                "enum": [
+                  "VOR",
+                  "VOR_DME",
+                  "VORTAC",
+                  "DME",
+                  "NDB",
+                  "NDB_DME",
+                  "ILS_DME",
+                  "RSBN"
+                ]
+              }
+            },
+            "required": [
+              "class"
+            ]
+          },
+          "then": {
+            "required": [
+              "frequency"
+            ]
+          }
+        },
+        {
           "else": {
             "properties": {
               "frequency": {
@@ -13590,7 +13940,8 @@
             "properties": {
               "class": {
                 "enum": [
-                  "NDB"
+                  "NDB",
+                  "NDB_DME"
                 ]
               }
             },
@@ -13644,12 +13995,18 @@
             "TACAN",
             "DME",
             "NDB",
-            "ILS_DME"
+            "NDB_DME",
+            "ILS_DME",
+            "MARKER",
+            "RSBN"
           ],
           "x-enum-descriptions": {
             "DME": "This value identifies a `DME` station. It gives the aircraft its slant distance to the station.",
             "ILS_DME": "This value identifies a `DME` that operates with the localizer of an instrument landing system (ILS).",
+            "MARKER": "This value identifies a marker beacon. It transmits a signal on 75 MHz in a vertical fan above the beacon. It marks a point on the approach path, for example the outer marker of an instrument landing system (ILS).",
             "NDB": "This value identifies an `NDB` station. It transmits a signal in all directions. A direction finder in the aircraft shows the direction to the station.",
+            "NDB_DME": "This value identifies an `NDB` station with a `DME` at the same site. It gives the direction to the station and the slant distance to the station. The frequency of the record is the frequency of the `NDB`.",
+            "RSBN": "This value identifies an `RSBN` station: the short-range radio navigation system of the Soviet Union and Russia. It gives the aircraft its azimuth and slant range from the station on ultra high frequency (UHF), as `TACAN` does.",
             "TACAN": "This value identifies a `TACAN` station. On ultra high frequency (UHF), it gives aircraft of armed forces their magnetic bearing and slant distance from the station.",
             "VOR": "This value identifies a `VOR` station. Its very high frequency (VHF) signal gives the aircraft its magnetic bearing from the station.",
             "VORTAC": "This value identifies a `VORTAC` station: a `VOR` and a `TACAN` at one site. Aircraft of civil aviation use the `VOR`, and aircraft of armed forces use the `TACAN`.",
@@ -13692,7 +14049,8 @@
                       "propertyNames": {
                         "enum": [
                           "bindings",
-                          "coalition"
+                          "coalition",
+                          "beacon"
                         ]
                       }
                     }
@@ -13710,7 +14068,7 @@
         },
         "frequency": {
           "$ref": "#/$defs/common.Frequency",
-          "description": "This field gives the frequency of the station, as a frequency with its unit. The unit is kilohertz for a non-directional beacon (NDB). For the other classes, the unit is megahertz. A station with only a Tactical Air Navigation (TACAN) has no frequency."
+          "description": "This field gives the frequency of the station, as a frequency with its unit. The unit is kilohertz for a non-directional beacon (NDB) or an NDB with a distance measuring equipment (DME). For the other classes, the unit is megahertz. A station with only a Tactical Air Navigation (TACAN) has no frequency. A marker beacon can leave the frequency out."
         },
         "id": {
           "$ref": "#/$defs/common.Identifier",
@@ -14362,6 +14720,37 @@
                   "required": [
                     "takeoff_minima"
                   ]
+                },
+                {
+                  "required": [
+                    "top_altitude"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "procedure_type": {
+                "enum": [
+                  "departure",
+                  "arrival"
+                ]
+              }
+            },
+            "required": [
+              "procedure_type"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "threshold_crossing_height"
+                  ]
                 }
               ]
             }
@@ -14421,6 +14810,15 @@
             ]
           },
           "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "threshold_crossing_height"
+                  ]
+                }
+              ]
+            },
             "required": [
               "radar_approach"
             ]
@@ -14601,6 +14999,16 @@
           ],
           "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
         },
+        "holdings": {
+          "description": "This list identifies the hold records of the procedure that the aircraft can fly on the procedure. When a hold record identifies an airfield, that airfield shall be the airfield of the procedure.",
+          "items": {
+            "$ref": "#/$defs/common.Identifier"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true,
+          "x-catalog": "holdings"
+        },
         "id": {
           "$ref": "#/$defs/common.Identifier",
           "description": "This field identifies this procedure. Other resources and orders use this stable identifier to refer to this procedure."
@@ -14621,6 +15029,11 @@
           },
           "minItems": 1,
           "type": "array"
+        },
+        "msa": {
+          "$ref": "#/$defs/common.Identifier",
+          "description": "This field identifies the record of a minimum safe altitude that the chart of the procedure shows. When the record identifies an airfield, that airfield shall be the airfield of the procedure.",
+          "x-catalog": "msas"
         },
         "name": {
           "description": "This field gives the name of this procedure, for display.",
@@ -14656,9 +15069,22 @@
           "$ref": "#/$defs/procedure.RadarApproach",
           "description": "This field gives the final approach of a precision approach radar (PAR) or an airport surveillance radar (ASR) approach: the runway, the course, the glide path and the radar coverage."
         },
+        "remarks": {
+          "$ref": "#/$defs/procedure.Remarks",
+          "description": "This list contains the notes of the chart of the procedure or of the hold, as free text."
+        },
         "resources_ref": {
           "$ref": "#/$defs/common.ResourceRef",
           "description": "This field identifies the resource catalogue that resolves the references of this procedure. The reference gives the identifier and the revision of the catalogue."
+        },
+        "runways": {
+          "description": "This list contains the designators of the runway ends that the procedure serves. A standard instrument departure (SID) or a standard terminal arrival route (STAR) can serve several runways, and an approach serves the runway of its final approach course. When the airfield has runways, each designator shall be the designator of an end of a runway of the airfield.",
+          "items": {
+            "$ref": "#/$defs/common.RunwayDesignator"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
         },
         "source": {
           "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
@@ -14672,6 +15098,14 @@
           },
           "minItems": 1,
           "type": "array"
+        },
+        "threshold_crossing_height": {
+          "$ref": "#/$defs/common.Length",
+          "description": "This field gives the threshold crossing height (TCH) of the vertical path of the approach, as a length with its unit. It is the height of the vertical path above the landing threshold, for an approach with vertical guidance. A precision approach radar (PAR) or airport surveillance radar (ASR) approach gives its TCH in `radar_approach`. Only an approach other than a `par` or `asr` approach shall have this field."
+        },
+        "top_altitude": {
+          "$ref": "#/$defs/common.Altitude",
+          "description": "This field gives the highest altitude that the departure publishes: the altitude at which the departure ends, as an altitude with its unit and reference. Only a departure shall have this field."
         },
         "transitions": {
           "description": "This list contains the transitions and common route segments of the procedure. A transition without an identifier is the common route or the final approach. A procedure shall have this field, except a `par` or `asr` approach.",
@@ -14880,7 +15314,7 @@
       "type": "object"
     },
     "procedure.Fix": {
-      "description": "A fix is a navigation fix: its published identifier and position, or a reference to a point or a navigation aid in the resource catalogue.",
+      "description": "A fix is a navigation fix: its published identifier and position, or a reference to a point, a navigation aid or a localizer in the resource catalogue.",
       "oneOf": [
         {
           "additionalProperties": false,
@@ -14893,6 +15327,10 @@
             "position": {
               "$ref": "#/$defs/common.GeoPoint",
               "description": "This field gives the geographic position of the fix, as latitude and longitude."
+            },
+            "radial_dme": {
+              "$ref": "#/$defs/procedure.RadialDme",
+              "description": "This field gives the radial and distance definition of the fix: the navigation aid, the magnetic radial from it and the distance from it, as charted in Federal Aviation Administration (FAA) Order 8260.19 and International Civil Aviation Organization (ICAO) Doc 8168. The definition describes how the fix is charted and does not replace `position`."
             }
           },
           "required": [
@@ -14907,6 +15345,9 @@
             "POINT",
             "NAVAID"
           ]
+        },
+        {
+          "$ref": "#/$defs/procedure.LocalizerSelection"
         }
       ]
     },
@@ -14998,7 +15439,9 @@
                   "kind": {
                     "enum": [
                       "at",
-                      "at_or_above"
+                      "at_or_above",
+                      "glide_slope_intercept",
+                      "stepdown"
                     ]
                   }
                 },
@@ -15149,6 +15592,47 @@
             "properties": {
               "leg_type": {
                 "enum": [
+                  "course_to_radial",
+                  "heading_to_radial"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "recommended_navaid",
+              "theta"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
+                  "arc_to_fix"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "recommended_navaid",
+              "rho"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
                   "course_to_altitude",
                   "course_to_dme_distance",
                   "course_to_fix",
@@ -15289,11 +15773,44 @@
           }
         }
       ],
+      "dependentRequired": {
+        "rho": [
+          "recommended_navaid"
+        ],
+        "theta": [
+          "recommended_navaid"
+        ]
+      },
       "description": "A leg is one leg of a procedure: a path and the point at the end of the path. For each leg type, conditional rules make sure that the leg has the necessary data.",
       "properties": {
         "altitude": {
           "additionalProperties": false,
           "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "at",
+                      "at_or_above",
+                      "at_or_below",
+                      "between",
+                      "stepdown"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "glide_slope_intercept_altitude"
+                  ]
+                }
+              }
+            },
             {
               "if": {
                 "properties": {
@@ -15320,7 +15837,9 @@
                   "kind": {
                     "enum": [
                       "at",
-                      "at_or_above"
+                      "at_or_above",
+                      "glide_slope_intercept",
+                      "stepdown"
                     ]
                   }
                 },
@@ -15366,19 +15885,27 @@
           ],
           "description": "This field gives the altitude constraint at the end of the leg.",
           "properties": {
+            "glide_slope_intercept_altitude": {
+              "$ref": "#/$defs/common.Altitude",
+              "description": "This field gives the glide slope intercept altitude of the approach, the altitude at which the aircraft intercepts the glide slope, as an altitude with its unit and reference. Only an altitude constraint of the kind `glide_slope_intercept` shall have this field."
+            },
             "kind": {
               "description": "This field gives the type of the altitude constraint at the end of the leg, as one of the enumerated values. The type tells which of the fields `lower` and `upper` the altitude constraint has.",
               "enum": [
                 "at",
                 "at_or_above",
                 "at_or_below",
-                "between"
+                "between",
+                "glide_slope_intercept",
+                "stepdown"
               ],
               "x-enum-descriptions": {
                 "at": "The aircraft is at the `lower` altitude at the fix.",
                 "at_or_above": "The aircraft is at or above the `lower` altitude at the fix.",
                 "at_or_below": "The aircraft is at or below the `upper` altitude at the fix.",
-                "between": "The aircraft is between the `lower` altitude and the `upper` altitude at the fix."
+                "between": "The aircraft is between the `lower` altitude and the `upper` altitude at the fix.",
+                "glide_slope_intercept": "The `lower` altitude is the published altitude at the fix. The `glide_slope_intercept_altitude` field, when present, is the minimum altitude at which the aircraft intercepts the glide slope or the glide path of the approach.",
+                "stepdown": "The fix of the leg is a stepdown fix. The aircraft stays at or above the `lower` altitude from this fix, which permits more descent in the segment because the aircraft has passed the controlling obstacle."
               }
             },
             "lower": {
@@ -15396,20 +15923,29 @@
           "type": "object"
         },
         "approach_fix": {
-          "description": "This field gives the approach function of the fix of the leg, as one of the enumerated values.",
-          "enum": [
-            "initial_approach_fix",
-            "intermediate_fix",
-            "final_approach_course_fix",
-            "final_approach_fix",
-            "missed_approach_point"
-          ],
+          "description": "This list contains the approach functions of the fix of the leg. A fix can have more than one function, for example the initial approach fix and the intermediate fix.",
+          "items": {
+            "enum": [
+              "initial_approach_fix",
+              "intermediate_fix",
+              "final_approach_course_fix",
+              "final_approach_fix",
+              "missed_approach_point",
+              "stepdown_fix",
+              "missed_approach_holding_fix"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true,
           "x-enum-descriptions": {
             "final_approach_course_fix": "This value identifies a fix on the extension of the final approach course, before the final approach fix.",
             "final_approach_fix": "This value identifies the fix at the start of the final approach segment, where the descent to the runway starts.",
             "initial_approach_fix": "This value identifies the fix at the start of the initial approach segment.",
             "intermediate_fix": "This value identifies the fix at the end of the initial approach segment and the start of the intermediate approach segment.",
-            "missed_approach_point": "This value identifies the point at or before which the aircraft starts the missed approach procedure. This keeps the minimum obstacle clearance."
+            "missed_approach_holding_fix": "This value identifies the fix of the holding pattern that the missed approach procedure ends in.",
+            "missed_approach_point": "This value identifies the point at or before which the aircraft starts the missed approach procedure. This keeps the minimum obstacle clearance.",
+            "stepdown_fix": "This value identifies a fix in a segment of the approach that permits more descent because the aircraft has passed the controlling obstacle."
           }
         },
         "arc_center": {
@@ -15503,7 +16039,11 @@
         },
         "recommended_navaid": {
           "$ref": "#/$defs/procedure.NavaidRef",
-          "description": "This field gives the recommended navigation aid: the navigation aid that gives the course, the radial or the distance for the leg."
+          "description": "This field gives the recommended navigation aid: the navigation aid that gives the course, the radial or the distance for the leg. A localizer can be the recommended navigation aid."
+        },
+        "rho": {
+          "$ref": "#/$defs/common.Length",
+          "description": "This field gives the distance from the recommended navigation aid to the fix of the leg, as a length with its unit. On an `arc_to_fix` leg, it is the radius of the arc around the navigation aid. An `arc_to_fix` leg shall have this field. A leg with this field shall have `recommended_navaid`."
         },
         "rnp_value": {
           "allOf": [
@@ -15523,6 +16063,10 @@
         "speed": {
           "$ref": "#/$defs/procedure.SpeedConstraint",
           "description": "This field gives the speed constraint at the end of the leg."
+        },
+        "theta": {
+          "$ref": "#/$defs/common.Bearing",
+          "description": "This field gives the bearing from the recommended navigation aid to the fix of the leg, as a bearing with its unit and reference. On a `course_to_radial` or `heading_to_radial` leg, it is the radial that ends the leg. A `course_to_radial` or `heading_to_radial` leg shall have this field. A leg with this field shall have `recommended_navaid`."
         },
         "time": {
           "$ref": "#/$defs/procedure.Duration",
@@ -15550,6 +16094,26 @@
       },
       "required": [
         "leg_type"
+      ],
+      "type": "object"
+    },
+    "procedure.LocalizerSelection": {
+      "additionalProperties": false,
+      "description": "A localizer selection is a reference to one localizer of the resource catalogue, as a fix or as a recommended navigation aid.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/common.Identifier",
+          "description": "This field identifies the localizer of this selection.",
+          "x-catalog": "localizers"
+        },
+        "kind": {
+          "const": "localizer",
+          "description": "The value identifies this record as a localizer selection."
+        }
+      },
+      "required": [
+        "kind",
+        "id"
       ],
       "type": "object"
     },
@@ -15857,8 +16421,27 @@
       ],
       "type": "object"
     },
+    "procedure.NavaidRadial": {
+      "additionalProperties": false,
+      "description": "A navigation aid radial is a radial from a navigation aid, without a distance.",
+      "properties": {
+        "navaid": {
+          "$ref": "#/$defs/procedure.NavaidRef",
+          "description": "This field gives the navigation aid that the radial is from."
+        },
+        "radial": {
+          "$ref": "#/$defs/common.Bearing",
+          "description": "This field gives the radial from the navigation aid, as a bearing with its unit and reference."
+        }
+      },
+      "required": [
+        "navaid",
+        "radial"
+      ],
+      "type": "object"
+    },
     "procedure.NavaidRef": {
-      "description": "A navigation aid reference is a navigation aid: its identifier and position, or a reference to a navigation aid in the resource catalogue.",
+      "description": "A navigation aid reference is a navigation aid: its identifier and position, or a reference to a navigation aid or a localizer in the resource catalogue.",
       "oneOf": [
         {
           "additionalProperties": false,
@@ -15884,6 +16467,9 @@
           "x-measure-kinds": [
             "NAVAID"
           ]
+        },
+        {
+          "$ref": "#/$defs/procedure.LocalizerSelection"
         }
       ]
     },
@@ -16379,6 +16965,38 @@
       ],
       "type": "object"
     },
+    "procedure.RadialDme": {
+      "additionalProperties": false,
+      "description": "A radial and distance definition is a fix defined by a navigation aid, a radial from it and a distance from it. An example is the fix `LSV 040/12`, at 12 nautical miles on the 040 degree radial of the navigation aid `LSV`.",
+      "properties": {
+        "additional_radials": {
+          "description": "This field gives the other radials that also define the fix, each with its navigation aid. The fix is at the intersection of these radials with the first radial.",
+          "items": {
+            "$ref": "#/$defs/procedure.NavaidRadial"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "distance": {
+          "$ref": "#/$defs/common.Length",
+          "description": "This field gives the distance from the navigation aid to the fix, as a length with its unit."
+        },
+        "navaid": {
+          "$ref": "#/$defs/procedure.NavaidRef",
+          "description": "This field gives the navigation aid that the radial and the distance are measured from."
+        },
+        "radial": {
+          "$ref": "#/$defs/common.Bearing",
+          "description": "This field gives the radial from the navigation aid to the fix, as a bearing with its unit and reference."
+        }
+      },
+      "required": [
+        "navaid",
+        "radial",
+        "distance"
+      ],
+      "type": "object"
+    },
     "procedure.RecommendedAltitude": {
       "additionalProperties": false,
       "description": "A recommended altitude is an altitude that the controller recommends at one distance from the runway on an airport surveillance radar (ASR) approach.",
@@ -16408,6 +17026,14 @@
         "altitude"
       ],
       "type": "object"
+    },
+    "procedure.Remarks": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
     },
     "procedure.SegmentAssessment": {
       "additionalProperties": false,
@@ -16625,6 +17251,16 @@
           },
           "minItems": 1,
           "type": "array"
+        },
+        "transition_type": {
+          "description": "This field gives the role of the transition in the procedure, as one of the enumerated values. A runway transition joins the runway to the common route, and an en route transition joins the common route to the enroute structure. An approach transition joins the enroute structure to the final approach, and the final approach is the segment from the final approach course to the missed approach point.",
+          "enum": [
+            "runway_transition",
+            "common_route",
+            "enroute_transition",
+            "approach_transition",
+            "final_approach"
+          ]
         }
       },
       "required": [
@@ -18064,6 +18700,16 @@
           },
           "type": "object"
         },
+        "holdings": {
+          "additionalProperties": {
+            "$ref": "#/$defs/holding"
+          },
+          "description": "This map contains the hold records to which airfields and instrument procedures refer. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "#/$defs/common.Identifier"
+          },
+          "type": "object"
+        },
         "instrument_procedures": {
           "additionalProperties": {
             "$ref": "#/$defs/procedure"
@@ -18079,6 +18725,16 @@
             "$ref": "#/$defs/localizer"
           },
           "description": "This map contains the localizers to which airfields and the ends of runways refer. The key of each item is its identifier.",
+          "propertyNames": {
+            "$ref": "#/$defs/common.Identifier"
+          },
+          "type": "object"
+        },
+        "msas": {
+          "additionalProperties": {
+            "$ref": "#/$defs/msa"
+          },
+          "description": "This map contains the records of a minimum safe altitude to which airfields and instrument procedures refer. The key of each item is its identifier.",
           "propertyNames": {
             "$ref": "#/$defs/common.Identifier"
           },

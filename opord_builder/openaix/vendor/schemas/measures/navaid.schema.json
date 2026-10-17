@@ -24,11 +24,6 @@
       }
     },
     {
-      "else": {
-        "required": [
-          "frequency"
-        ]
-      },
       "if": {
         "properties": {
           "class": {
@@ -50,6 +45,32 @@
       }
     },
     {
+      "if": {
+        "properties": {
+          "class": {
+            "enum": [
+              "VOR",
+              "VOR_DME",
+              "VORTAC",
+              "DME",
+              "NDB",
+              "NDB_DME",
+              "ILS_DME",
+              "RSBN"
+            ]
+          }
+        },
+        "required": [
+          "class"
+        ]
+      },
+      "then": {
+        "required": [
+          "frequency"
+        ]
+      }
+    },
+    {
       "else": {
         "properties": {
           "frequency": {
@@ -65,7 +86,8 @@
         "properties": {
           "class": {
             "enum": [
-              "NDB"
+              "NDB",
+              "NDB_DME"
             ]
           }
         },
@@ -119,12 +141,18 @@
         "TACAN",
         "DME",
         "NDB",
-        "ILS_DME"
+        "NDB_DME",
+        "ILS_DME",
+        "MARKER",
+        "RSBN"
       ],
       "x-enum-descriptions": {
         "DME": "This value identifies a `DME` station. It gives the aircraft its slant distance to the station.",
         "ILS_DME": "This value identifies a `DME` that operates with the localizer of an instrument landing system (ILS).",
+        "MARKER": "This value identifies a marker beacon. It transmits a signal on 75 MHz in a vertical fan above the beacon. It marks a point on the approach path, for example the outer marker of an instrument landing system (ILS).",
         "NDB": "This value identifies an `NDB` station. It transmits a signal in all directions. A direction finder in the aircraft shows the direction to the station.",
+        "NDB_DME": "This value identifies an `NDB` station with a `DME` at the same site. It gives the direction to the station and the slant distance to the station. The frequency of the record is the frequency of the `NDB`.",
+        "RSBN": "This value identifies an `RSBN` station: the short-range radio navigation system of the Soviet Union and Russia. It gives the aircraft its azimuth and slant range from the station on ultra high frequency (UHF), as `TACAN` does.",
         "TACAN": "This value identifies a `TACAN` station. On ultra high frequency (UHF), it gives aircraft of armed forces their magnetic bearing and slant distance from the station.",
         "VOR": "This value identifies a `VOR` station. Its very high frequency (VHF) signal gives the aircraft its magnetic bearing from the station.",
         "VORTAC": "This value identifies a `VORTAC` station: a `VOR` and a `TACAN` at one site. Aircraft of civil aviation use the `VOR`, and aircraft of armed forces use the `TACAN`.",
@@ -167,7 +195,8 @@
                   "propertyNames": {
                     "enum": [
                       "bindings",
-                      "coalition"
+                      "coalition",
+                      "beacon"
                     ]
                   }
                 }
@@ -180,7 +209,7 @@
     },
     "frequency": {
       "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Frequency",
-      "description": "This field gives the frequency of the station, as a frequency with its unit. The unit is kilohertz for a non-directional beacon (NDB). For the other classes, the unit is megahertz. A station with only a Tactical Air Navigation (TACAN) has no frequency."
+      "description": "This field gives the frequency of the station, as a frequency with its unit. The unit is kilohertz for a non-directional beacon (NDB) or an NDB with a distance measuring equipment (DME). For the other classes, the unit is megahertz. A station with only a Tactical Air Navigation (TACAN) has no frequency. A marker beacon can leave the frequency out."
     },
     "id": {
       "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",

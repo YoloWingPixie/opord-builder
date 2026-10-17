@@ -6,9 +6,21 @@
     "reference": "magnetic",
     "value": 307.2
   },
+  "elevation": {
+    "reference": "MSL",
+    "unit": "ft",
+    "value": 1636
+  },
   "extensions": {
     "sim": {
       "dcs": {
+        "beacon": {
+          "frequency": {
+            "unit": "MHz",
+            "value": 108.9
+          },
+          "ident": "IGHI"
+        },
         "bindings": [
           {
             "angle_deg": 0,
@@ -82,6 +94,7 @@
   },
   "runway": "31",
   "source": "DCS World Syria map: AirfieldsTaxiways layer, radio.lua and beacons.lua",
+  "system": "ils",
   "threshold_crossing_height": {
     "unit": "ft",
     "value": 50

@@ -6,6 +6,34 @@
     "position": {
       "latitude": 31.834683,
       "longitude": 36.778475
+    },
+    "radial_dme": {
+      "additional_radials": [
+        {
+          "navaid": {
+            "id": "abc",
+            "kind": "control_measure"
+          },
+          "radial": {
+            "declination_deg": 5.0,
+            "reference": "magnetic",
+            "value": 206.1
+          }
+        }
+      ],
+      "distance": {
+        "unit": "nm",
+        "value": 6.2
+      },
+      "navaid": {
+        "id": "ghi",
+        "kind": "control_measure"
+      },
+      "radial": {
+        "declination_deg": 5.0,
+        "reference": "magnetic",
+        "value": 126.0
+      }
     }
   },
   "extensions": {

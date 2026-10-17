@@ -189,7 +189,7 @@
       "type": "object"
     },
     "Fix": {
-      "description": "A fix is a navigation fix: its published identifier and position, or a reference to a point or a navigation aid in the resource catalogue.",
+      "description": "A fix is a navigation fix: its published identifier and position, or a reference to a point, a navigation aid or a localizer in the resource catalogue.",
       "oneOf": [
         {
           "additionalProperties": false,
@@ -202,6 +202,10 @@
             "position": {
               "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/GeoPoint",
               "description": "This field gives the geographic position of the fix, as latitude and longitude."
+            },
+            "radial_dme": {
+              "$ref": "#/$defs/RadialDme",
+              "description": "This field gives the radial and distance definition of the fix: the navigation aid, the magnetic radial from it and the distance from it, as charted in Federal Aviation Administration (FAA) Order 8260.19 and International Civil Aviation Organization (ICAO) Doc 8168. The definition describes how the fix is charted and does not replace `position`."
             }
           },
           "required": [
@@ -216,6 +220,9 @@
             "POINT",
             "NAVAID"
           ]
+        },
+        {
+          "$ref": "#/$defs/LocalizerSelection"
         }
       ]
     },
@@ -307,7 +314,9 @@
                   "kind": {
                     "enum": [
                       "at",
-                      "at_or_above"
+                      "at_or_above",
+                      "glide_slope_intercept",
+                      "stepdown"
                     ]
                   }
                 },
@@ -458,6 +467,47 @@
             "properties": {
               "leg_type": {
                 "enum": [
+                  "course_to_radial",
+                  "heading_to_radial"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "recommended_navaid",
+              "theta"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
+                  "arc_to_fix"
+                ]
+              }
+            },
+            "required": [
+              "leg_type"
+            ]
+          },
+          "then": {
+            "required": [
+              "recommended_navaid",
+              "rho"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "leg_type": {
+                "enum": [
                   "course_to_altitude",
                   "course_to_dme_distance",
                   "course_to_fix",
@@ -598,11 +648,44 @@
           }
         }
       ],
+      "dependentRequired": {
+        "rho": [
+          "recommended_navaid"
+        ],
+        "theta": [
+          "recommended_navaid"
+        ]
+      },
       "description": "A leg is one leg of a procedure: a path and the point at the end of the path. For each leg type, conditional rules make sure that the leg has the necessary data.",
       "properties": {
         "altitude": {
           "additionalProperties": false,
           "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "at",
+                      "at_or_above",
+                      "at_or_below",
+                      "between",
+                      "stepdown"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "glide_slope_intercept_altitude"
+                  ]
+                }
+              }
+            },
             {
               "if": {
                 "properties": {
@@ -629,7 +712,9 @@
                   "kind": {
                     "enum": [
                       "at",
-                      "at_or_above"
+                      "at_or_above",
+                      "glide_slope_intercept",
+                      "stepdown"
                     ]
                   }
                 },
@@ -675,19 +760,27 @@
           ],
           "description": "This field gives the altitude constraint at the end of the leg.",
           "properties": {
+            "glide_slope_intercept_altitude": {
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
+              "description": "This field gives the glide slope intercept altitude of the approach, the altitude at which the aircraft intercepts the glide slope, as an altitude with its unit and reference. Only an altitude constraint of the kind `glide_slope_intercept` shall have this field."
+            },
             "kind": {
               "description": "This field gives the type of the altitude constraint at the end of the leg, as one of the enumerated values. The type tells which of the fields `lower` and `upper` the altitude constraint has.",
               "enum": [
                 "at",
                 "at_or_above",
                 "at_or_below",
-                "between"
+                "between",
+                "glide_slope_intercept",
+                "stepdown"
               ],
               "x-enum-descriptions": {
                 "at": "The aircraft is at the `lower` altitude at the fix.",
                 "at_or_above": "The aircraft is at or above the `lower` altitude at the fix.",
                 "at_or_below": "The aircraft is at or below the `upper` altitude at the fix.",
-                "between": "The aircraft is between the `lower` altitude and the `upper` altitude at the fix."
+                "between": "The aircraft is between the `lower` altitude and the `upper` altitude at the fix.",
+                "glide_slope_intercept": "The `lower` altitude is the published altitude at the fix. The `glide_slope_intercept_altitude` field, when present, is the minimum altitude at which the aircraft intercepts the glide slope or the glide path of the approach.",
+                "stepdown": "The fix of the leg is a stepdown fix. The aircraft stays at or above the `lower` altitude from this fix, which permits more descent in the segment because the aircraft has passed the controlling obstacle."
               }
             },
             "lower": {
@@ -705,20 +798,29 @@
           "type": "object"
         },
         "approach_fix": {
-          "description": "This field gives the approach function of the fix of the leg, as one of the enumerated values.",
-          "enum": [
-            "initial_approach_fix",
-            "intermediate_fix",
-            "final_approach_course_fix",
-            "final_approach_fix",
-            "missed_approach_point"
-          ],
+          "description": "This list contains the approach functions of the fix of the leg. A fix can have more than one function, for example the initial approach fix and the intermediate fix.",
+          "items": {
+            "enum": [
+              "initial_approach_fix",
+              "intermediate_fix",
+              "final_approach_course_fix",
+              "final_approach_fix",
+              "missed_approach_point",
+              "stepdown_fix",
+              "missed_approach_holding_fix"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true,
           "x-enum-descriptions": {
             "final_approach_course_fix": "This value identifies a fix on the extension of the final approach course, before the final approach fix.",
             "final_approach_fix": "This value identifies the fix at the start of the final approach segment, where the descent to the runway starts.",
             "initial_approach_fix": "This value identifies the fix at the start of the initial approach segment.",
             "intermediate_fix": "This value identifies the fix at the end of the initial approach segment and the start of the intermediate approach segment.",
-            "missed_approach_point": "This value identifies the point at or before which the aircraft starts the missed approach procedure. This keeps the minimum obstacle clearance."
+            "missed_approach_holding_fix": "This value identifies the fix of the holding pattern that the missed approach procedure ends in.",
+            "missed_approach_point": "This value identifies the point at or before which the aircraft starts the missed approach procedure. This keeps the minimum obstacle clearance.",
+            "stepdown_fix": "This value identifies a fix in a segment of the approach that permits more descent because the aircraft has passed the controlling obstacle."
           }
         },
         "arc_center": {
@@ -812,7 +914,11 @@
         },
         "recommended_navaid": {
           "$ref": "#/$defs/NavaidRef",
-          "description": "This field gives the recommended navigation aid: the navigation aid that gives the course, the radial or the distance for the leg."
+          "description": "This field gives the recommended navigation aid: the navigation aid that gives the course, the radial or the distance for the leg. A localizer can be the recommended navigation aid."
+        },
+        "rho": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
+          "description": "This field gives the distance from the recommended navigation aid to the fix of the leg, as a length with its unit. On an `arc_to_fix` leg, it is the radius of the arc around the navigation aid. An `arc_to_fix` leg shall have this field. A leg with this field shall have `recommended_navaid`."
         },
         "rnp_value": {
           "allOf": [
@@ -832,6 +938,10 @@
         "speed": {
           "$ref": "#/$defs/SpeedConstraint",
           "description": "This field gives the speed constraint at the end of the leg."
+        },
+        "theta": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
+          "description": "This field gives the bearing from the recommended navigation aid to the fix of the leg, as a bearing with its unit and reference. On a `course_to_radial` or `heading_to_radial` leg, it is the radial that ends the leg. A `course_to_radial` or `heading_to_radial` leg shall have this field. A leg with this field shall have `recommended_navaid`."
         },
         "time": {
           "$ref": "#/$defs/Duration",
@@ -859,6 +969,26 @@
       },
       "required": [
         "leg_type"
+      ],
+      "type": "object"
+    },
+    "LocalizerSelection": {
+      "additionalProperties": false,
+      "description": "A localizer selection is a reference to one localizer of the resource catalogue, as a fix or as a recommended navigation aid.",
+      "properties": {
+        "id": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+          "description": "This field identifies the localizer of this selection.",
+          "x-catalog": "localizers"
+        },
+        "kind": {
+          "const": "localizer",
+          "description": "The value identifies this record as a localizer selection."
+        }
+      },
+      "required": [
+        "kind",
+        "id"
       ],
       "type": "object"
     },
@@ -1166,8 +1296,27 @@
       ],
       "type": "object"
     },
+    "NavaidRadial": {
+      "additionalProperties": false,
+      "description": "A navigation aid radial is a radial from a navigation aid, without a distance.",
+      "properties": {
+        "navaid": {
+          "$ref": "#/$defs/NavaidRef",
+          "description": "This field gives the navigation aid that the radial is from."
+        },
+        "radial": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
+          "description": "This field gives the radial from the navigation aid, as a bearing with its unit and reference."
+        }
+      },
+      "required": [
+        "navaid",
+        "radial"
+      ],
+      "type": "object"
+    },
     "NavaidRef": {
-      "description": "A navigation aid reference is a navigation aid: its identifier and position, or a reference to a navigation aid in the resource catalogue.",
+      "description": "A navigation aid reference is a navigation aid: its identifier and position, or a reference to a navigation aid or a localizer in the resource catalogue.",
       "oneOf": [
         {
           "additionalProperties": false,
@@ -1193,6 +1342,9 @@
           "x-measure-kinds": [
             "NAVAID"
           ]
+        },
+        {
+          "$ref": "#/$defs/LocalizerSelection"
         }
       ]
     },
@@ -1688,6 +1840,38 @@
       ],
       "type": "object"
     },
+    "RadialDme": {
+      "additionalProperties": false,
+      "description": "A radial and distance definition is a fix defined by a navigation aid, a radial from it and a distance from it. An example is the fix `LSV 040/12`, at 12 nautical miles on the 040 degree radial of the navigation aid `LSV`.",
+      "properties": {
+        "additional_radials": {
+          "description": "This field gives the other radials that also define the fix, each with its navigation aid. The fix is at the intersection of these radials with the first radial.",
+          "items": {
+            "$ref": "#/$defs/NavaidRadial"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "distance": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
+          "description": "This field gives the distance from the navigation aid to the fix, as a length with its unit."
+        },
+        "navaid": {
+          "$ref": "#/$defs/NavaidRef",
+          "description": "This field gives the navigation aid that the radial and the distance are measured from."
+        },
+        "radial": {
+          "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Bearing",
+          "description": "This field gives the radial from the navigation aid to the fix, as a bearing with its unit and reference."
+        }
+      },
+      "required": [
+        "navaid",
+        "radial",
+        "distance"
+      ],
+      "type": "object"
+    },
     "RecommendedAltitude": {
       "additionalProperties": false,
       "description": "A recommended altitude is an altitude that the controller recommends at one distance from the runway on an airport surveillance radar (ASR) approach.",
@@ -1717,6 +1901,14 @@
         "altitude"
       ],
       "type": "object"
+    },
+    "Remarks": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
     },
     "SegmentAssessment": {
       "additionalProperties": false,
@@ -1934,6 +2126,16 @@
           },
           "minItems": 1,
           "type": "array"
+        },
+        "transition_type": {
+          "description": "This field gives the role of the transition in the procedure, as one of the enumerated values. A runway transition joins the runway to the common route, and an en route transition joins the common route to the enroute structure. An approach transition joins the enroute structure to the final approach, and the final approach is the segment from the final approach course to the missed approach point.",
+          "enum": [
+            "runway_transition",
+            "common_route",
+            "enroute_transition",
+            "approach_transition",
+            "final_approach"
+          ]
         }
       },
       "required": [
@@ -2032,6 +2234,37 @@
               "required": [
                 "takeoff_minima"
               ]
+            },
+            {
+              "required": [
+                "top_altitude"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "procedure_type": {
+            "enum": [
+              "departure",
+              "arrival"
+            ]
+          }
+        },
+        "required": [
+          "procedure_type"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "threshold_crossing_height"
+              ]
             }
           ]
         }
@@ -2091,6 +2324,15 @@
         ]
       },
       "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "threshold_crossing_height"
+              ]
+            }
+          ]
+        },
         "required": [
           "radar_approach"
         ]
@@ -2271,6 +2513,16 @@
       ],
       "description": "This field contains extension data in groups. The namespace of each group identifies the application or standard that supplies its data. The group `sim` contains the simulator data of the record."
     },
+    "holdings": {
+      "description": "This list identifies the hold records of the procedure that the aircraft can fly on the procedure. When a hold record identifies an airfield, that airfield shall be the airfield of the procedure.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true,
+      "x-catalog": "holdings"
+    },
     "id": {
       "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
       "description": "This field identifies this procedure. Other resources and orders use this stable identifier to refer to this procedure."
@@ -2291,6 +2543,11 @@
       },
       "minItems": 1,
       "type": "array"
+    },
+    "msa": {
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier",
+      "description": "This field identifies the record of a minimum safe altitude that the chart of the procedure shows. When the record identifies an airfield, that airfield shall be the airfield of the procedure.",
+      "x-catalog": "msas"
     },
     "name": {
       "description": "This field gives the name of this procedure, for display.",
@@ -2326,9 +2583,22 @@
       "$ref": "#/$defs/RadarApproach",
       "description": "This field gives the final approach of a precision approach radar (PAR) or an airport surveillance radar (ASR) approach: the runway, the course, the glide path and the radar coverage."
     },
+    "remarks": {
+      "$ref": "#/$defs/Remarks",
+      "description": "This list contains the notes of the chart of the procedure or of the hold, as free text."
+    },
     "resources_ref": {
       "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/ResourceRef",
       "description": "This field identifies the resource catalogue that resolves the references of this procedure. The reference gives the identifier and the revision of the catalogue."
+    },
+    "runways": {
+      "description": "This list contains the designators of the runway ends that the procedure serves. A standard instrument departure (SID) or a standard terminal arrival route (STAR) can serve several runways, and an approach serves the runway of its final approach course. When the airfield has runways, each designator shall be the designator of an end of a runway of the airfield.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
     },
     "source": {
       "description": "This field gives the source of this record. The value gives the authority that publishes the data, and the cycle, for example `FAA CIFP cycle 2610`. A record that an author writes does not have this field. The field `provenance` gives the same facts as structured data.",
@@ -2342,6 +2612,14 @@
       },
       "minItems": 1,
       "type": "array"
+    },
+    "threshold_crossing_height": {
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Length",
+      "description": "This field gives the threshold crossing height (TCH) of the vertical path of the approach, as a length with its unit. It is the height of the vertical path above the landing threshold, for an approach with vertical guidance. A precision approach radar (PAR) or airport surveillance radar (ASR) approach gives its TCH in `radar_approach`. Only an approach other than a `par` or `asr` approach shall have this field."
+    },
+    "top_altitude": {
+      "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Altitude",
+      "description": "This field gives the highest altitude that the departure publishes: the altitude at which the departure ends, as an altitude with its unit and reference. Only a departure shall have this field."
     },
     "transitions": {
       "description": "This list contains the transitions and common route segments of the procedure. A transition without an identifier is the common route or the final approach. A procedure shall have this field, except a `par` or `asr` approach.",

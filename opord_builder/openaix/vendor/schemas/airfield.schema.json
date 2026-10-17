@@ -1261,6 +1261,15 @@
       "minItems": 1,
       "type": "array"
     },
+    "holdings": {
+      "description": "This list identifies the hold records that are for holding patterns at this airfield. When a hold record in this list identifies an airfield, that airfield shall be this airfield.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "minItems": 1,
+      "type": "array",
+      "x-catalog": "holdings"
+    },
     "hung_ordnance_runway": {
       "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/RunwayDesignator",
       "description": "This field gives the designator of the runway end that aircraft with hung ordnance use for landing. A base publishes it in its local emergency procedures. The value shall be the designator of an end of a runway of this airfield. A `carrier` record shall not have this field."
@@ -1301,6 +1310,15 @@
       "maximum": 180,
       "minimum": -180,
       "type": "number"
+    },
+    "msas": {
+      "description": "This list identifies the records of a minimum safe altitude that are for this airfield. When a record of a minimum safe altitude in this list identifies an airfield, that airfield shall be this airfield.",
+      "items": {
+        "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Identifier"
+      },
+      "minItems": 1,
+      "type": "array",
+      "x-catalog": "msas"
     },
     "name": {
       "description": "This field gives the name of this airfield, for display.",

@@ -898,6 +898,28 @@
           "description": "This field gives the drawing angle from the Digital Combat Simulator (DCS) mission, in degrees. This angle is not a true bearing or a magnetic bearing. Only a consumer with a correct adapter for DCS should use this angle to turn the shape.",
           "type": "number"
         },
+        "beacon": {
+          "additionalProperties": false,
+          "description": "This field gives the radio beacon of the Digital Combat Simulator (DCS) object that the record is bound to: the identification, the frequency and the channel as the DCS database gives them. They can differ from the published values of the real station, which the core fields of the record give. The record has at least one of them.",
+          "minProperties": 1,
+          "properties": {
+            "channel": {
+              "description": "This field gives the channel number of the beacon in the Digital Combat Simulator (DCS) database, for a beacon that DCS tunes by channel, for example a `TACAN`, an `RSBN` or a landing radio beacon group (PRMG) beacon.",
+              "minimum": 1,
+              "type": "integer"
+            },
+            "frequency": {
+              "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/Frequency",
+              "description": "This field gives the frequency of the beacon in the Digital Combat Simulator (DCS) database, as a frequency with its unit."
+            },
+            "ident": {
+              "description": "This field identifies this beacon in the Digital Combat Simulator (DCS) database, as the DCS radio transmits it in Morse code.",
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
         "bindings": {
           "description": "This list contains the objects in a Digital Combat Simulator (DCS) mission that are this record or show it on the map. The record keeps its geometry in latitude and longitude, independently of these objects.",
           "items": {

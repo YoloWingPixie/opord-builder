@@ -419,6 +419,16 @@
   "DCSData": {
     "alic_code": 108,
     "angle_deg": 0,
+    "beacon": {
+      "channel": 31,
+      "frequency": {
+        "band": "vhf",
+        "modulation": "AM",
+        "unit": "MHz",
+        "value": 108.9
+      },
+      "ident": "IGHI"
+    },
     "bindings": [
       {
         "kind": "stand",
@@ -487,6 +497,16 @@
       "dcs": {
         "alic_code": 108,
         "angle_deg": 0,
+        "beacon": {
+          "channel": 31,
+          "frequency": {
+            "band": "vhf",
+            "modulation": "AM",
+            "unit": "MHz",
+            "value": 108.9
+          },
+          "ident": "IGHI"
+        },
         "bindings": [
           {
             "kind": "stand",
@@ -2437,6 +2457,16 @@
     "dcs": {
       "alic_code": 108,
       "angle_deg": 0,
+      "beacon": {
+        "channel": 31,
+        "frequency": {
+          "band": "vhf",
+          "modulation": "AM",
+          "unit": "MHz",
+          "value": 108.9
+        },
+        "ident": "IGHI"
+      },
       "bindings": [
         {
           "kind": "stand",
