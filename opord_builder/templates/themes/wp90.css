@@ -1,0 +1,383 @@
+/* =============================================================================
+   wp90 - an early-1990s word-processor printout (WordPerfect 5.1 / Word 6 class).
+
+   Layered after styles.css (orders) or spins.css (SPINS). Times for text, Courier
+   for DTGs and code-like fields, black on white, ruled boxes and tables, no
+   rounded corners, shadows or colour accents. Light only; US Letter, 1 in margins.
+   ============================================================================= */
+
+/* ---------- TOKENS: light only, whatever the theme toggle or the OS says ----- */
+:root:root:root {
+  color-scheme: light;
+  --wp-serif: "Times New Roman", Times, "Liberation Serif", "Nimbus Roman", "Tinos", serif;
+  --wp-mono:  "Courier New", Courier, "Liberation Mono", "Nimbus Mono PS", "Cousine", monospace;
+  --wp-shade: #d9d9d9;           /* 15% grey, as WP table shading */
+  --paper: #fff;
+  --paper-soft: #fff;
+  --surface: #fff;
+  --surface-alt: #fff;
+  --ink: #000;
+  --ink-soft: #000;
+  --ink-mute: #000;
+  --ink-low: #000;
+  --rule: #000;
+  --rule-soft: #808080;
+  --rule-hair: #808080;
+  --accent: #000;
+  --accent-deep: #000;
+  --accent-soft: #d9d9d9;
+  --mark: #000;
+  --duotone: #000;
+  --duotone-soft: #fff;
+  --para-1: #000; --para-2: #000; --para-3: #000; --para-4: #000; --para-5: #000;
+  --para-annex: #000;
+  --class-color: #000;
+  --class-ink: #000;
+}
+body.theme-wp90.theme-wp90 { --class-color: #000; }
+
+/* ---------- PAGE: US Letter, 1 in margins, banner centred top and bottom ----- */
+@page {
+  size: Letter;
+  margin: 1in;
+  @top-center {
+    background: none;
+    color: #000;
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  @bottom-center {
+    background: none;
+    color: #000;
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-weight: 700;
+    letter-spacing: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: normal;
+    vertical-align: middle;
+    font-size: 9pt;
+  }
+  @bottom-left {
+    width: 1.75in;
+    white-space: normal;
+    vertical-align: middle;
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-size: 9pt;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: #000;
+    text-transform: none;
+  }
+  @bottom-right {
+    width: 1.75in;
+    text-align: right;
+    vertical-align: middle;
+    content: "Page " counter(page) " of " counter(pages);
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-size: 10pt;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: #000;
+    text-transform: none;
+  }
+}
+
+/* ---------- BASE: every element serif, square, flat, unspaced ---------------- */
+body.theme-wp90 {
+  font-family: var(--wp-serif);
+  font-size: 11pt;
+  line-height: 1.2;
+  color: #000;
+  background: #fff;
+  font-feature-settings: normal;
+  -webkit-font-smoothing: auto;
+}
+body.theme-wp90 *,
+body.theme-wp90 *::before,
+body.theme-wp90 *::after {
+  font-family: inherit;
+  letter-spacing: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+body.theme-wp90 p { margin: 0 0 6pt 0; }
+body.theme-wp90 a { color: #000; text-decoration: none; }
+body.theme-wp90 .theme-toggle { display: none; }
+body.theme-wp90 .chevron { display: none; }
+
+/* Courier: DTGs, serials, frequencies and other code-like fields */
+body.theme-wp90 .mono,
+body.theme-wp90 code,
+body.theme-wp90 pre,
+body.theme-wp90 .meta-card.mono .meta-value,
+body.theme-wp90 .tb-detail-id,
+body.theme-wp90 .unit-callsign,
+body.theme-wp90 .cover-accent::after,
+body.theme-wp90 .cover-eyebrow-num,
+body.theme-wp90 .product-meta-v { font-family: var(--wp-mono); font-feature-settings: normal; }
+body.theme-wp90 .meta-card.mono .meta-value { font-weight: 400; font-size: 10pt; }
+
+/* ---------- SEAL + TITLE BOX: double rule, seal at the left ------------------ */
+body.theme-wp90 .doc-seal { display: block; position: absolute; left: 14pt; top: 50%; margin-top: -39pt; width: 78pt; height: 78pt; }
+body.theme-wp90 .doc-seal svg { display: block; width: 78pt; height: 78pt; }
+body.theme-wp90 .cover { margin: 0 0 14pt 0; border-bottom: 0; break-after: auto; }
+body.theme-wp90 .cover-hero {
+  position: relative;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 14pt 14pt 12pt 108pt;
+  min-height: 96pt;
+  background: #fff;
+  color: #000;
+  border: 4.5pt double #000;
+  overflow: visible;
+  text-align: center;
+}
+body.theme-wp90 .cover-hero::before,
+body.theme-wp90 .cover-hero::after { display: none; }
+body.theme-wp90 .cover-eyebrow { display: block; padding: 0 0 6pt 0; margin: 0 0 8pt 0; border-bottom: 0.75pt solid #000; }
+body.theme-wp90 .cover-eyebrow-tag,
+body.theme-wp90 .cover-eyebrow-num { display: inline; color: #000; font-size: 11pt; font-weight: 700; margin-left: 0; text-transform: uppercase; }
+body.theme-wp90 .cover-eyebrow-tag::before { content: ""; }
+body.theme-wp90 .cover-eyebrow-tag::after { content: "  "; white-space: pre; }
+body.theme-wp90 .cover-eyebrow-num::before { content: ""; }
+body.theme-wp90 .cover-title { font-size: 22pt; font-weight: 700; line-height: 1.1; color: #000; text-transform: uppercase; }
+body.theme-wp90 .cover-author { display: block; margin-top: 8pt; padding-top: 6pt; border-top: 0.75pt solid #000; }
+body.theme-wp90 .cover-author-label,
+body.theme-wp90 .cover-author-name { display: inline; color: #000; font-size: 10pt; text-transform: uppercase; font-weight: 700; }
+body.theme-wp90 .cover-author-label::after { content: ": "; }
+body.theme-wp90 .cover-accent { height: auto; background: none; margin: 8pt 0 0 0; }
+body.theme-wp90 .cover-accent::after { position: static; display: block; color: #000; font-size: 8pt; }
+body.theme-wp90 .cover-logo-plate { border-bottom: 0; padding: 10pt 0 0 0; }
+
+/* meta grid: ruled cells */
+body.theme-wp90 .cover-meta { margin-top: 12pt; border-top: 0.75pt solid #000; border-left: 0.75pt solid #000; }
+body.theme-wp90 .meta-card { padding: 4pt 6pt; border-right: 0.75pt solid #000; border-bottom: 0.75pt solid #000; font-size: 11pt; }
+body.theme-wp90 .meta-label { margin-bottom: 1pt; color: #000; font-size: 8pt; font-weight: 700; text-transform: uppercase; }
+body.theme-wp90 .meta-value { font-size: 11pt; font-weight: 400; color: #000; }
+body.theme-wp90 .meta-value .of { color: #000; font-size: 11pt; }
+
+/* ---------- CARDS, REFERENCES, TASK ORGANIZATION ----------------------------- */
+body.theme-wp90 .card { margin: 0 0 10pt 0; padding: 4pt 0; border-top: 0; }
+body.theme-wp90 .card-accent { display: none; }
+body.theme-wp90 .card-head { display: block; margin: 0 0 4pt 0; }
+body.theme-wp90 .card-title { display: inline; font-size: 12pt; font-weight: 700; text-transform: uppercase; color: #000; }
+body.theme-wp90 .card-eyebrow { display: inline; margin-right: 6pt; font-size: 11pt; font-weight: 700; color: #000; }
+body.theme-wp90 .card-annex-ref { margin-left: 8pt; font-size: 10pt; color: #000; }
+body.theme-wp90 .card-annex-ref::before { content: "(see "; color: #000; margin: 0; }
+body.theme-wp90 .card-annex-ref::after { content: ")"; }
+body.theme-wp90 .card-note { border-left: 0; padding-left: 36pt; color: #000; }
+body.theme-wp90 .ref-list li { padding: 2pt 0 2pt 36pt; border-bottom: 0; font-size: 11pt; }
+body.theme-wp90 .ref-letter { top: 2pt; font-size: 11pt; font-weight: 400; text-transform: none; color: #000; }
+body.theme-wp90 .ref-desc { color: #000; }
+
+body.theme-wp90 .taskorg-tree { border-top: 0.75pt solid #000; }
+body.theme-wp90 .unit-card { padding: 3pt 0 3pt calc(var(--d, 0) * 36pt); border-bottom: 0.5pt solid #808080; }
+body.theme-wp90 .unit-root { border-bottom-width: 0.5pt; border-bottom-color: #808080; }
+body.theme-wp90 .unit-name,
+body.theme-wp90 .unit-root .unit-name { font-size: 11pt; font-weight: 700; }
+body.theme-wp90 .unit-callsign { font-size: 10pt; font-weight: 400; color: #000; }
+body.theme-wp90 .chip { font-size: 10pt; font-weight: 400; color: #000; }
+body.theme-wp90 .chip-role,
+body.theme-wp90 .chip-rel { color: #000; }
+body.theme-wp90 .unit-commander { font-size: 10pt; color: #000; }
+
+/* ---------- CONTENTS ---------------------------------------------------------- */
+body.theme-wp90 .doc-toc { margin: 0 0 14pt 0; padding: 6pt 0 8pt 0; border-top: 0.75pt solid #000; border-bottom: 0.75pt solid #000; break-before: auto; }
+body.theme-wp90 .doc-toc-title,
+body.theme-wp90 .doc-toc-annex-label { margin: 0 0 4pt 0; font-size: 11pt; font-weight: 700; color: #000; text-transform: uppercase; }
+body.theme-wp90 .doc-toc-annex-label { margin-top: 8pt; }
+body.theme-wp90 .doc-toc-title::before,
+body.theme-wp90 .doc-toc-annex-label::before { content: ""; margin: 0; }
+body.theme-wp90 .toc-para-link,
+body.theme-wp90 .toc-annex-tile { padding: 3pt 5pt; gap: 5pt; font-size: 9pt; font-weight: 400; border-right: 0.75pt solid #000; border-bottom: 0.75pt solid #000; }
+body.theme-wp90 .doc-toc-paragraphs,
+body.theme-wp90 .doc-toc-annex-grid { border-top: 0.75pt solid #000; border-left: 0.75pt solid #000; }
+body.theme-wp90 .toc-para-link .toc-num { font-size: 10pt; font-weight: 700; color: #000; }
+body.theme-wp90 .toc-annex-letter { font-size: 10pt; font-weight: 700; color: #000; min-width: 10pt; }
+body.theme-wp90 .toc-annex-title { font-weight: 400; }
+body.theme-wp90 .toc-annex-published .toc-annex-letter { color: #000; }
+body.theme-wp90 .toc-annex-omitted,
+body.theme-wp90 .toc-annex-not_used { opacity: 1; color: #808080; }
+body.theme-wp90 .toc-annex-omitted .toc-annex-letter,
+body.theme-wp90 .toc-annex-not_used .toc-annex-letter { color: #808080; }
+
+/* ---------- NUMBERED PARAGRAPH HEADINGS: "1. SITUATION" ---------------------- */
+body.theme-wp90 .paragraph { margin: 14pt 0 0 0; break-before: auto; }
+body.theme-wp90 .para-header { display: block; padding: 0; margin: 0 0 6pt 0; border: 0; }
+body.theme-wp90 .para-num,
+body.theme-wp90 .para-num.annex-num { display: inline; font-size: 12pt; font-weight: 700; line-height: 1.2; }
+body.theme-wp90 .para-num::after { content: ". "; }
+body.theme-wp90 .para-title { display: inline; margin: 0; font-size: 12pt; font-weight: 700; line-height: 1.2; text-transform: uppercase; }
+
+/* sub-paragraphs on a 0.5 in tab grid: each nesting level steps in one tab */
+body.theme-wp90 .section-details > .tb-field-body,
+body.theme-wp90 .section-details > .tb-field,
+body.theme-wp90 .section-details > .tb-kv,
+body.theme-wp90 .section-details > .tb-table-block,
+body.theme-wp90 .section-details > .tb-detail-list { margin-left: 36pt; }
+body.theme-wp90 .tb-table-block > .typed-body { margin-left: 36pt; }
+body.theme-wp90 .typed-body { margin-top: 2pt; }
+body.theme-wp90 .tb-field { display: block; padding: 2pt 0; border-top: 0; }
+body.theme-wp90 .tb-field-label { display: block; padding: 0; margin: 0 0 2pt 0; font-size: 11pt; font-weight: 700; color: #000; text-transform: none; }
+body.theme-wp90 .tb-field-body p { font-size: 11pt; margin: 0 0 4pt; }
+body.theme-wp90 .tb-list { padding-left: 36pt; font-size: 11pt; }
+body.theme-wp90 .tb-kv { display: block; padding: 2pt 0; border-top: 0; font-size: 11pt; }
+body.theme-wp90 .tb-kv-k { font-size: 11pt; font-weight: 700; color: #000; text-transform: none; }
+body.theme-wp90 .tb-kv-v { color: #000; }
+body.theme-wp90 .tb-table-block { padding: 2pt 0; border-top: 0; }
+body.theme-wp90 .tb-table-block .tb-field-label { margin-bottom: 2pt; }
+body.theme-wp90 .tb-num { color: #000; margin-right: 4pt; }
+body.theme-wp90 .nested { margin-top: 4pt; padding-top: 0; border-top: 0; }
+
+/* mission statement: a single-ruled box */
+body.theme-wp90 .mission-block { margin: 4pt 0 0 36pt; padding: 8pt 12pt; border: 0.75pt solid #000; background: #fff; }
+body.theme-wp90 .mission-quote-open,
+body.theme-wp90 .mission-quote-close { display: none; }
+body.theme-wp90 .mission-text { font-size: 11pt; font-weight: 700; line-height: 1.25; letter-spacing: 0; }
+
+/* FRAGO "no change" and WARNO "TBP" stubs */
+body.theme-wp90 .no-change,
+body.theme-wp90 .no-change.tbp { margin-left: 36pt; padding: 3pt 8pt; border: 0.75pt solid #000; background: #fff; color: #000; font-size: 11pt; }
+body.theme-wp90 .no-change-tag,
+body.theme-wp90 .no-change-tag.tbp-tag,
+body.theme-wp90 .tbp-tag { font-size: 10pt; font-weight: 700; color: #000; }
+body.theme-wp90 .no-change-body { color: #000; }
+
+/* ---------- TABLES: single-ruled grid, 15% shaded header row ----------------- */
+body.theme-wp90 .tb-table {
+  font-size: 9pt;
+  border: 0.75pt solid #000;
+  border-collapse: collapse;
+}
+body.theme-wp90 .tb-table th,
+body.theme-wp90 .tb-table td { padding: 2pt 4pt; border: 0.75pt solid #000; line-height: 1.15; }
+body.theme-wp90 .tb-table th { font-size: 9pt; font-weight: 700; text-transform: none; background: #d9d9d9; }
+body.theme-wp90 .tb-table thead { display: table-header-group; }
+body.theme-wp90 .tb-table tr { break-inside: avoid; }
+
+/* per-entry detail lists (JPITL, TST): a ruled two-column grid with a shaded head */
+body.theme-wp90 .tb-detail-list { margin-top: 6pt; border-top: 0; }
+body.theme-wp90 .tb-detail-entry { padding: 0; margin: 0 0 8pt 0; border: 0.75pt solid #000; }
+body.theme-wp90 .tb-detail-entry:last-child { border: 0.75pt solid #000; }
+body.theme-wp90 .tb-detail-head { display: block; margin: 0; padding: 2pt 5pt; background: #d9d9d9; border-bottom: 0.75pt solid #000; }
+body.theme-wp90 .tb-detail-id { font-size: 10pt; font-weight: 700; color: #000; text-transform: none; }
+body.theme-wp90 .tb-detail-row { grid-template-columns: 110pt minmax(0, 1fr); gap: 0; padding: 0; font-size: 9pt; align-items: stretch; border-top: 0.75pt solid #000; }
+body.theme-wp90 .tb-detail-row:first-child { border-top: 0; }
+body.theme-wp90 .tb-detail-k { padding: 2pt 5pt; font-size: 9pt; font-weight: 700; color: #000; text-transform: none; border-right: 0.75pt solid #000; }
+body.theme-wp90 .tb-detail-v { padding: 2pt 5pt; }
+
+/* ---------- ANNEXES ---------------------------------------------------------- */
+body.theme-wp90 .annex-grid { border-top: 0.75pt solid #000; border-left: 0.75pt solid #000; margin-bottom: 12pt; }
+body.theme-wp90 .annex-tile { padding: 4pt 6pt; gap: 1pt; border-right: 0.75pt solid #000; border-bottom: 0.75pt solid #000; }
+body.theme-wp90 .annex-letter { font-family: var(--wp-serif); font-size: 14pt; font-weight: 700; color: #000; }
+body.theme-wp90 .annex-title-text { font-size: 9pt; font-weight: 400; }
+body.theme-wp90 .annex-status { font-size: 8pt; font-weight: 400; color: #000; }
+body.theme-wp90 .annex-omitted,
+body.theme-wp90 .annex-not_used { opacity: 1; color: #808080; }
+body.theme-wp90 .annex-omitted .annex-letter,
+body.theme-wp90 .annex-not_used .annex-letter,
+body.theme-wp90 .annex-omitted .annex-title-text,
+body.theme-wp90 .annex-not_used .annex-title-text,
+body.theme-wp90 .annex-omitted .annex-status,
+body.theme-wp90 .annex-not_used .annex-status { color: #808080; }
+body.theme-wp90 .annex-card { margin: 0; padding: 0; border-top: 0; border-bottom: 0; break-before: page; }
+body.theme-wp90 .annex-details { padding: 0; }
+body.theme-wp90 .annex-card-summary { display: block; margin: 0 0 8pt 0; padding: 0 0 4pt 0; border-bottom: 0.75pt solid #000; text-align: center; }
+body.theme-wp90 .annex-card-summary .num { display: inline; font-family: var(--wp-serif); font-size: 12pt; font-weight: 700; color: #000; text-transform: uppercase; }
+body.theme-wp90 .annex-card-summary .num::after { content: " \2014  "; white-space: pre; }
+body.theme-wp90 .annex-card-summary .card-title { display: inline; font-size: 12pt; }
+body.theme-wp90 .annex-section { margin: 4pt 0 8pt 0; }
+body.theme-wp90 .annex-section-label { margin-bottom: 4pt; padding-bottom: 0; border-bottom: 0; font-size: 11pt; font-weight: 700; color: #000; text-transform: uppercase; }
+
+/* ---------- AUTHENTICATION BLOCK: signature at the right tab ----------------- */
+body.theme-wp90 .auth-block { margin: 24pt 0 0 0; padding: 0; border: 0; }
+body.theme-wp90 .auth-line { margin-bottom: 14pt; font-size: 11pt; font-weight: 700; color: #000; }
+body.theme-wp90 .auth-ack::before { content: ""; margin: 0; }
+body.theme-wp90 .auth-name { margin: 0 0 4pt 252pt; }
+body.theme-wp90 .auth-surname { font-size: 11pt; font-weight: 700; }
+body.theme-wp90 .auth-rank { font-size: 11pt; font-weight: 400; color: #000; text-transform: none; }
+body.theme-wp90 .auth-official,
+body.theme-wp90 .auth-distribution { display: block; width: auto; margin: 0 0 10pt 0; padding: 0; border: 0; background: #fff; }
+body.theme-wp90 .auth-official { margin-left: 252pt; }
+body.theme-wp90 .auth-official-tag,
+body.theme-wp90 .auth-distro-tag { margin-bottom: 2pt; font-size: 11pt; font-weight: 700; color: #000; }
+body.theme-wp90 .auth-official > div,
+body.theme-wp90 .auth-distribution > div { font-size: 11pt; }
+body.theme-wp90 .auth-pos { font-size: 11pt; color: #000; }
+
+/* ---------- PRODUCT EXPORT COVER --------------------------------------------- */
+body.theme-wp90 .product-cover { margin: 0 0 14pt 0; padding: 12pt 14pt; border: 4.5pt double #000; text-align: center; }
+body.theme-wp90 .product-eyebrow { display: block; margin-bottom: 4pt; }
+body.theme-wp90 .product-eyebrow-tag,
+body.theme-wp90 .product-eyebrow-sub { display: inline; margin-left: 0; font-size: 10pt; color: #000; font-weight: 700; }
+body.theme-wp90 .product-title { margin: 0 0 8pt 0; font-size: 18pt; font-weight: 700; line-height: 1.1; }
+body.theme-wp90 .product-meta { font-size: 10pt; text-align: left; }
+body.theme-wp90 .product-meta-row { padding: 1pt 0; border-bottom: 0; }
+body.theme-wp90 .product-meta-k { font-size: 9pt; color: #000; text-transform: uppercase; }
+body.theme-wp90 .product-empty { color: #000; }
+
+/* ---------- SPINS PUBLICATION ------------------------------------------------ */
+body.theme-wp90.spins-document { color: #000; font-size: 11pt; line-height: 1.2; }
+body.theme-wp90 .publication-header {
+  position: relative;
+  margin: 0 0 16pt 0;
+  padding: 12pt 14pt 10pt 108pt;
+  min-height: 96pt;
+  border: 4.5pt double #000;
+  text-align: center;
+}
+body.theme-wp90 .publication-header h1 { margin: 0 0 4pt 0; font-size: 18pt; font-weight: 700; line-height: 1.1; text-transform: uppercase; }
+body.theme-wp90 .publication-header p { margin: 2pt 0; font-size: 10.5pt; white-space: normal; }
+body.theme-wp90 .publication-header .doc-seal { top: 50%; }
+body.theme-wp90.spins-document h2 { margin: 14pt 0 6pt; font-size: 12pt; font-weight: 700; text-transform: uppercase; }
+body.theme-wp90.spins-document h3 { margin: 10pt 0 4pt; font-size: 11pt; font-weight: 700; }
+body.theme-wp90.spins-document h4,
+body.theme-wp90.spins-document h5,
+body.theme-wp90.spins-document h6 { margin: 8pt 0 3pt; font-size: 11pt; font-weight: 700; font-style: italic; }
+body.theme-wp90.spins-document p { margin: 0 0 6pt; orphans: 2; widows: 2; }
+body.theme-wp90 .label { font-weight: 700; }
+body.theme-wp90 .lead { font-weight: 700; }
+body.theme-wp90 .nested { margin-left: 36pt; }
+body.theme-wp90.spins-document ul,
+body.theme-wp90.spins-document ol { padding-left: 36pt; margin: 2pt 0 6pt 0; }
+body.theme-wp90.spins-document li { margin: 2pt 0; }
+body.theme-wp90 .publication-contents { margin: 12pt 0; }
+body.theme-wp90 .publication-contents ol { padding-left: 0; font-size: 10.5pt; }
+body.theme-wp90.spins-document table { margin: 8pt 0 12pt; font-size: 9pt; border: 0.75pt solid #000; }
+body.theme-wp90.spins-document caption { padding-bottom: 3pt; font-size: 10pt; font-weight: 700; text-align: left; }
+body.theme-wp90.spins-document th,
+body.theme-wp90.spins-document td { padding: 2pt 4pt; border: 0.75pt solid #000; line-height: 1.15; }
+body.theme-wp90.spins-document th { background: #d9d9d9; font-weight: 700; }
+body.theme-wp90.spins-document figcaption { font-size: 10pt; }
+body.theme-wp90 .publication-note { margin: 6pt 0; }
+body.theme-wp90 .running-header { font-size: 9pt; font-weight: 700; text-transform: uppercase; }
+body.theme-wp90 .running-footer { font-size: 9pt; font-weight: 400; text-transform: none; }
+
+/* ---------- SCREEN: the page on a plain grey desk ---------------------------- */
+@media screen {
+  html { background: #e6e6e6; }
+  body.theme-wp90 { max-width: 8.5in; margin: 28px auto 56px; padding: 1in; background: #fff; border: 1px solid #000; }
+  body.theme-wp90 .cover-hero { margin-left: 0; margin-right: 0; }
+  body.theme-wp90.spins-document main { max-width: none; margin: 0; padding: 0; }
+}
+
+/* ---------- PRINT ------------------------------------------------------------ */
+@media print {
+  body.theme-wp90 .cover-hero { margin-left: 0; margin-right: 0; }
+  body.theme-wp90 .cover { break-after: auto; }
+  body.theme-wp90 .doc-toc { break-before: auto; }
+  body.theme-wp90 .paragraph { break-before: auto; }
+  body.theme-wp90 .annex-card { break-before: page; }
+  body.theme-wp90 a { color: #000; }
+}
