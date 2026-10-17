@@ -29,8 +29,8 @@
 {% elif block.kind == 'table' %}
 <div id="{{ node_id|e }}" class="table-wrap"><table>
 <caption>{{ label|e }}. {{ block.caption|e }}</caption>
-<thead><tr>{% for column in block.columns %}<th scope="col" class="align-{{ column.align }}">{{ column.heading|e }}</th>{% endfor %}</tr></thead>
-<tbody>{% for row in block.rows %}<tr>{% for column in block.columns %}<td class="align-{{ column.align }}">{{ rich_html(row[column.key]) }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+<thead><tr>{% for column in block.columns %}<th scope="col" class="align-{{ column.align }}{% if column.heading.split()|length == 1 %} nowrap{% endif %}">{{ column.heading|e }}</th>{% endfor %}</tr></thead>
+<tbody>{% for row in block.rows %}<tr>{% for column in block.columns %}{% set cell = row[column.key] %}<td class="align-{{ column.align }}{% if cell is string and cell|length <= 24 and not cell.split()|length > 1 %} nowrap{% endif %}">{{ rich_html(cell) }}</td>{% endfor %}</tr>{% endfor %}</tbody>
 </table></div>
 {% elif block.kind == 'figure' %}
 <figure id="{{ node_id|e }}"><img src="{{ figures[here]|e }}" alt="{{ block.alt|e }}" style="width:{{ block.width_percent }}%"><figcaption>{{ label|e }}. {{ block.caption|e }}</figcaption></figure>

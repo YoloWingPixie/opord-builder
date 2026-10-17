@@ -682,3 +682,58 @@ def test_extension_schema_file_is_fresh():
         Path(__file__).resolve().parents[1] / "schemas/extensions/spins.schema.json"
     )
     assert json.loads(committed.read_text(encoding="utf-8")) == spins_extension_schema()
+
+
+def test_table_columns_do_not_break_short_words(tmp_path):
+    """A narrow column beside a long text column keeps short words whole ("Type", "tot-mannheim")."""
+    import pypdfium2 as pdfium
+
+    from opord_builder.spins import render_spins_html, render_spins_pdf
+
+    rows = [
+        {
+            "id": f"tot-mannheim-{n}",
+            "name": "TOT Mannheim",
+            "type": "POINT",
+            "description": "Flyover TOT point, Vipers from Ramstein, over Bad Duerkheim. "
+            "Run-in 090, 1000-2000 ft AGL. " * 3,
+        }
+        for n in range(3)
+    ]
+    columns = [
+        {"key": key, "heading": heading}
+        for key, heading in [
+            ("id", "ID"),
+            ("name", "Name"),
+            ("type", "Type"),
+            ("description", "Description"),
+        ]
+    ]
+    block = {
+        "kind": "table",
+        "caption": "Control measures",
+        "columns": columns,
+        "rows": rows,
+    }
+    model = SPINS.model_validate(document([block]))
+    html = render_spins_html(model)
+    assert "overflow-wrap: anywhere" not in html
+    assert 'class="align-left nowrap">Type<' in html
+    path = render_spins_pdf(model, tmp_path / "table.pdf", html=html)
+    pdf = pdfium.PdfDocument(path)
+    try:
+        text = ""
+        for index in range(len(pdf)):
+            page = pdf[index]
+            text_page = page.get_textpage()
+            try:
+                text += text_page.get_text_range()
+            finally:
+                text_page.close()
+                page.close()
+    finally:
+        pdf.close()
+    lines = text.splitlines()
+    assert any("Type" in line.split() for line in lines)
+    assert not any(line.strip() in {"Typ", "Ty", "T"} for line in lines)
+    assert text.count("tot-mannheim-0") == 1
