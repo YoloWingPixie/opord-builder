@@ -1,6 +1,6 @@
 {
   "repo": "https://github.com/YoloWingPixie/openAIX",
-  "commit": "24e5fa688415e94dd0708ac9a4f9f023adee1784",
+  "commit": "8e9812432fe7516a54664d5bd7c3d7a26fbb317f",
   "version": "0.2.0-draft.1",
   "files": {
     "LICENSE": "76898addf2fa8d93e3260872014cf4874091aa8e970ef345e62f3cb44d264e72",
@@ -8,7 +8,7 @@
     "__init__.py": "ebd12fcee12451776d76fa2bc2a60883da8f699fc2923938674e8b18f220cca0",
     "catalogues/airspace-types.json": "80fd95a13df934c7948f46d2ba765d9be40c3b48a0229818b44f73226f5bc5de",
     "catalogues/control-measures.json": "fe91f224fc4236787734e557349d381a8c15221e01205831a90e436bc8156b7b",
-    "catalogues/example-notes.json": "390cfc851ddfb15e90a459a879c99f7e5664e00a0b9baea14e9ce870cdb9bb43",
+    "catalogues/example-notes.json": "1d6f4a78b66fdd398bdba80e38401acf75ee298ffad17b569e9d0cce4f7e7e2a",
     "coordinates.py": "f13ba55d7a3b429bb45eebde439eba7e05f10971b022c29da3044ff0f116acec",
     "examples/maximal/aca.json": "fc4e06e1f743bd4327ffac9ca2239c7103d9aedb9aa5784379c203717f4e7029",
     "examples/maximal/aco.json": "9c73895c963e95e9f7f0f193968d70a305bcf5dbe4e5f94357c99f79f083ffd8",
@@ -99,7 +99,7 @@
     "schemas/ato.schema.json": "7499f80876e9b38219a368e7275274ffc4289e5d8132c7af951e17025a831938",
     "schemas/c2-agency.schema.json": "9217efbe4510db98c826d5e792a83aa8e4653319c4d129d120a7a39084c9fce7",
     "schemas/common.schema.json": "820049c61c17d5a7a1e1dd2773ab2667a71ef2a8683b4791d25ca1be681f9e3d",
-    "schemas/comms-standard.schema.json": "8ca8adc3c860f5de9761eef8438014b71e3c19cdeb180b13c19fd79f6a8a2536",
+    "schemas/comms-standard.schema.json": "8268d0fe5b50a8269a7af82d040177831509cebf58973c3ee6a308a223811ead",
     "schemas/control-measure.schema.json": "1b38a9991eee6d3058176dd8750c4a8c3a871285606bb93fa70d263a3f9df555",
     "schemas/fac.schema.json": "0bb33fcf40fdbfb7c3fbc4b77dca13c11a9f61afe37d3233b627c57f78053348",
     "schemas/frago.schema.json": "73abca6f8ce0f4e1aca1fd8cc946203b9b1bf2ab58060c5697be1414530ef351",
@@ -136,6 +136,6 @@
     "schemas/scl.schema.json": "a1a95e1695744ca37be80a1d119d252d957d9d0b6006ddd4a1cca9be2699d806",
     "schemas/spins.schema.json": "172eacb767999fcc42b592add7acfee467709a8352c1ec49ae952ed8ed63afd2",
     "schemas/tst.schema.json": "268f5c6bbeef01c45bf5471d5f7baa79316ab784aa1d909e036939bdd0bcc35e",
-    "standards/csg8/comms-standard.json": "49ab7ccef064e3942d22756e37715cad103dc496f48e66a9835ffb4b3ad76c08"
+    "standards/csg8/comms-standard.json": "189a7a2c5511ac527b12c7fe5a0cb7f6627b9237e12084271674658f43d04abb"
   }
 }

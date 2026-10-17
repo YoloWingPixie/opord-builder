@@ -92,3 +92,10 @@ def test_spins_comms_example_renders_the_standard_quickly():
         "| ripper | 1511 |",
     ):
         assert text in md
+
+
+def test_a_flight_without_member_stn_leaves_the_mids_line_blank():
+    card, warns = build("Nickel", blank=True)
+    assert card["comms"]["mids"] == ""
+    assert card["comms"]["intra"] == "278.0 MHz AM"
+    assert [p["laser"] for p in card["positions"]][:2] == ["1661", "1662"]

@@ -163,7 +163,7 @@
           "type": "string"
         },
         "datalink_callsign": {
-          "description": "This field gives the callsign of the flight in the data link, as two capital letters.",
+          "description": "This field gives the callsign of the flight in the data link, as two capital letters; a flight with no Link 16 has none.",
           "minLength": 1,
           "pattern": "^[A-Z]{2}$",
           "type": "string"
@@ -477,7 +477,7 @@
         },
         "stn": {
           "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/LinkStation",
-          "description": "This field gives the Link 16 station number of the aircraft."
+          "description": "This field gives the Link 16 station number of the aircraft; a flight with no Link 16 has no member station number (STN)."
         },
         "tacan": {
           "$ref": "urn:openaix:schema:common:0.2.0-draft.1#/$defs/TACAN",
@@ -486,7 +486,6 @@
       },
       "required": [
         "member",
-        "stn",
         "mode_3"
       ],
       "type": "object"

@@ -748,6 +748,16 @@
         "band": "uhf"
       },
       "usage": "flight intraflight"
+    },
+    "intra_nickel": {
+      "name": "NICKEL INTRAFLIGHT",
+      "frequency": {
+        "value": 278.0,
+        "unit": "MHz",
+        "modulation": "AM",
+        "band": "uhf"
+      },
+      "usage": "flight intraflight"
     }
   },
   "radio_plans": {
@@ -1393,6 +1403,110 @@
         "id": "victoria",
         "path": "missionmaking/comm-plan.md"
       }
+    },
+    "phantom": {
+      "name": "F-4E Phantom II",
+      "aircraft_types": [
+        "f_4e"
+      ],
+      "radios": [
+        {
+          "radio": "uhf_1",
+          "label": "UHF AN/ARC-164 COMM",
+          "start_preset": 3,
+          "presets": [
+            {
+              "channel": "uhf_01",
+              "preset": 1,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_02",
+              "preset": 2,
+              "radio": "uhf_1"
+            },
+            {
+              "preset": 3,
+              "flight_channel": "intraflight"
+            },
+            {
+              "channel": "uhf_04",
+              "preset": 4,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_05",
+              "preset": 5,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_06",
+              "preset": 6,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_07",
+              "preset": 7,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_08",
+              "preset": 8,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_09",
+              "preset": 9,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_10",
+              "preset": 10,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_11",
+              "preset": 11,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_12",
+              "preset": 12,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_13",
+              "preset": 13,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_14",
+              "preset": 14,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_15",
+              "preset": 15,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_16",
+              "preset": 16,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_17",
+              "preset": 17,
+              "radio": "uhf_1"
+            },
+            {
+              "channel": "uhf_18",
+              "preset": 18,
+              "radio": "uhf_1"
+            }
+          ]
+        }
+      ]
     }
   },
   "squadrons": {
@@ -1462,8 +1576,8 @@
         "vocb": 44
       }
     },
-    "aw13_93rd": {
-      "name": "AW13 93rd",
+    "usaf_93_tfs": {
+      "name": "93rd Tactical Fighter Squadron \"Outriders\"",
       "aircraft_type": "f_16c",
       "flights": [
         "plasma",
@@ -1481,6 +1595,19 @@
       },
       "proposals": [
         "a1"
+      ]
+    },
+    "usaf_555_tfs": {
+      "name": "555th Tactical Fighter Squadron \"Triple Nickel\"",
+      "aircraft_type": "f_4e",
+      "flights": [
+        "nickel"
+      ],
+      "stn_prefix": "05",
+      "mode_1": "50",
+      "status": "proposed",
+      "proposals": [
+        "c1"
       ]
     }
   },
@@ -2152,7 +2279,7 @@
     },
     "plasma": {
       "callsign": "PLASMA",
-      "squadron": "aw13_93rd",
+      "squadron": "usaf_93_tfs",
       "aircraft_type": "f_16c",
       "datalink_callsign": "PL",
       "intraflight": "vhf_plasma",
@@ -2207,7 +2334,7 @@
     },
     "fury": {
       "callsign": "FURY",
-      "squadron": "aw13_93rd",
+      "squadron": "usaf_93_tfs",
       "aircraft_type": "f_16c",
       "datalink_callsign": "FY",
       "intraflight": "vhf_fury",
@@ -2262,7 +2389,7 @@
     },
     "disco": {
       "callsign": "DISCO",
-      "squadron": "aw13_93rd",
+      "squadron": "usaf_93_tfs",
       "aircraft_type": "f_16c",
       "datalink_callsign": "DS",
       "intraflight": "vhf_disco",
@@ -2317,7 +2444,7 @@
     },
     "rage": {
       "callsign": "RAGE",
-      "squadron": "aw13_93rd",
+      "squadron": "usaf_93_tfs",
       "aircraft_type": "f_16c",
       "datalink_callsign": "RG",
       "intraflight": "vhf_rage",
@@ -2369,6 +2496,50 @@
         "path": "missionmaking/comm-plan.md",
         "section": "line 64"
       }
+    },
+    "nickel": {
+      "callsign": "NICKEL",
+      "squadron": "usaf_555_tfs",
+      "aircraft_type": "f_4e",
+      "intraflight": "intra_nickel",
+      "stn_block": "0510",
+      "laser_block": "66",
+      "members": [
+        {
+          "member": 1,
+          "mode_3": "5101",
+          "laser_code": "1661"
+        },
+        {
+          "member": 2,
+          "mode_3": "5102",
+          "laser_code": "1662"
+        },
+        {
+          "member": 3,
+          "mode_3": "5103",
+          "laser_code": "1663"
+        },
+        {
+          "member": 4,
+          "mode_3": "5104",
+          "laser_code": "1664"
+        }
+      ],
+      "tacan_aa": {
+        "lead": {
+          "channel": 54,
+          "band": "Y"
+        },
+        "wing": {
+          "channel": 117,
+          "band": "Y"
+        }
+      },
+      "status": "proposed",
+      "proposals": [
+        "c1"
+      ]
     }
   },
   "support": {
@@ -3464,7 +3635,8 @@
       "plasma": "75",
       "fury": "76",
       "disco": "77",
-      "rage": "78"
+      "rage": "78",
+      "nickel": "66"
     },
     "alternates": {
       "ripper": "1511",
@@ -3517,7 +3689,7 @@
     {
       "field": "mode_1",
       "pattern": "squadron",
-      "text": "Mode 1 is the two-digit squadron code of the squadron record: squadron digit 1-4 then 0, support 70 (second digit 0-3 in DCS)."
+      "text": "Mode 1 is the two-digit squadron code of the squadron record: squadron digit 1-5 then 0, support 70 (second digit 0-3 in DCS)."
     },
     {
       "field": "tacan_wing",
