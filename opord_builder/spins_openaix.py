@@ -8,6 +8,7 @@ from typing import Any
 from opord_builder import format as fmt
 from opord_builder.format import FORECAST_HEAD, forecast_row
 from opord_builder.load import DocumentError, load_document
+from opord_builder.pointer import MISSING, resolve
 from opord_builder.schema.spins import (
     NoteBlock,
     OpenAIXTableBlock,
@@ -35,7 +36,7 @@ KINDS = {
     "comms_standard": {"comms_standard"},
     "airfield": {"airfield", "carrier", "farp"},
 }
-_MISSING = object()
+_MISSING = MISSING
 
 
 class OpenAIXTableError(ValueError):
@@ -44,43 +45,6 @@ class OpenAIXTableError(ValueError):
 
 def _label(block: OpenAIXTableBlock) -> str:
     return f"openaix_table {block.id or block.caption!r}"
-
-
-# --------------------------------------------------------------------------- JSON Pointer
-
-
-def _tokens(pointer: str) -> list[str]:
-    if pointer == "":
-        return []
-    if not pointer.startswith("/"):
-        raise ValueError(
-            f"not a JSON Pointer (must be '' or start with '/'): {pointer!r}"
-        )
-    return [t.replace("~1", "/").replace("~0", "~") for t in pointer[1:].split("/")]
-
-
-def resolve(document: Any, pointer: str) -> Any:
-    """The value at `pointer`, or `_MISSING` when a key or index is absent.
-
-    Descending into a scalar is an error (the pointer is wrong, not the data)."""
-    value = document
-    walked = ""
-    for token in _tokens(pointer):
-        if isinstance(value, dict):
-            if token not in value:
-                return _MISSING
-            value = value[token]
-        elif isinstance(value, list):
-            if not token.isdigit() or int(token) >= len(value):
-                return _MISSING
-            value = value[int(token)]
-        else:
-            raise ValueError(  # noqa: TRY004
-                f"cannot descend into {type(value).__name__} at {walked or '/'!r}"
-                f" with token {token!r}"
-            )
-        walked += "/" + token
-    return value
 
 
 # --------------------------------------------------------------------------- value text

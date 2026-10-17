@@ -1,0 +1,2 @@
+units:
+  - {slug: vfa-81, name: Duplicate, short: DUP, parent: x, strength: 1, ratio: 1.0}

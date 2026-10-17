@@ -1,0 +1,4 @@
+schemaId: fixture
+units:
+  - {slug: vf-11, name: VF-11 Red Rippers, short: VF-11, parent: cvw-8, strength: 12, ratio: 2.0}
+  - {slug: aw13-93rd, name: 93rd Air Wing, short: 93 AW, parent: aw13, strength: 4, ratio: 3.0}

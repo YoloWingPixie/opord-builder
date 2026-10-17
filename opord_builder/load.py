@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
 from functools import cache
 from pathlib import Path
 from typing import Any
@@ -38,6 +41,24 @@ class DocumentError(ValueError):
 
 # --------------------------------------------------------------------------- reading
 
+_DEPS: ContextVar[set[Path] | None] = ContextVar("deps", default=None)
+
+
+@contextmanager
+def track() -> Iterator[set[Path]]:
+    """Collect the resolved path of every file read (and every glob directory) while the block runs."""
+    deps: set[Path] = set()
+    token = _DEPS.set(deps)
+    try:
+        yield deps
+    finally:
+        _DEPS.reset(token)
+
+
+def note(path: Path) -> None:
+    if (deps := _DEPS.get()) is not None:
+        deps.add(Path(path).resolve())
+
 
 class _Loader(yaml.SafeLoader):
     """SafeLoader with `!include <path>` (relative to the including file) and timestamps kept as text."""
@@ -67,6 +88,7 @@ _Loader.add_constructor(
 def read(path: Path | str, stack: tuple[Path, ...] = ()) -> Any:
     """Parse a YAML or JSON file, resolving `!include`."""
     path = Path(path).resolve()
+    note(path)
     text = path.read_text(encoding="utf-8")
     if path.suffix.lower() == ".json":
         return json.loads(text)
@@ -145,13 +167,18 @@ def validate_document(doc: Any) -> list[OpenAIXError]:
 
 
 def load_document(path: Path | str) -> dict[str, Any]:
-    """Read and validate one OpenAIX document. Raises DocumentError (JSON Pointers) when it does not validate."""
+    """Read one OpenAIX document, resolve its bindings and validate it. Raises DocumentError (JSON Pointers) when it does not validate."""
     try:
         doc = read(path)
     except (OSError, ValueError, yaml.YAMLError) as exc:
         raise DocumentError(path, [OpenAIXError("", str(exc))]) from exc
-    if errors := validate_document(doc):
+    from opord_builder import bind
+
+    doc, errors, prov = bind.resolve_document(doc, Path(path).resolve())
+    if errors:
         raise DocumentError(path, errors)
+    if errors := validate_document(doc):
+        raise DocumentError(path, bind.annotate(errors, prov))
     return doc
 
 
@@ -197,15 +224,3 @@ def load_resources(doc: dict, path: Path | str) -> dict | None:
             ],
         )
     return res
-
-
-def at(doc: Any, pointer: str) -> Any:
-    """The value at a JSON Pointer, or None."""
-    for key in (
-        k.replace("~1", "/").replace("~0", "~") for k in pointer.split("/")[1:]
-    ):
-        try:
-            doc = doc[int(key) if isinstance(doc, list) else key]
-        except (KeyError, IndexError, TypeError, ValueError):
-            return None
-    return doc

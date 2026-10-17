@@ -1,0 +1,36 @@
+$schema: urn:openaix:schema:opord:0.2.0-draft.1
+kind: opord
+schema_version: 0.2.0-draft.1
+meta:
+  classification: UNCLASSIFIED
+  id: opord-26-05
+  issued_at: '2026-04-18T12:00:00Z'
+  issuing_unit: Headquarters, ${op_name} Group
+  operation: ${op_name}
+  revision: '1'
+issuing_headquarters: Headquarters
+date_time: '2026-04-18T12:00:00Z'
+order_number: 26-05
+operation_name: ${op_name}
+time_zone: Z
+extensions:
+  org.opord-builder.data:
+    vars:
+      op_name: {value: ATOMIC THUNDER}
+      players: {path: orbats/players-*.yaml, select: /units, key: /slug}
+      cvw_units: {from: players, where: {/parent: cvw-8}}
+      tankers: {path: tankers.csv}
+      info: {path: data.json}
+  org.opord-builder.order:
+    annexes: {}
+mission:
+  statement: ${op_name} flies ${info/count} sorties with ${tankers/0/name} on ${tankers/0/freq}. Cost $${not} a ref.
+execution:
+  commanders_intent:
+    purpose: Support by ${players/vfa-81/short}.
+task_organization:
+  cvw-8:
+    name: ${players/cvw-8/name}
+  vfa-81:
+    name: ${players/vfa-81/name}
+    parent: cvw-8

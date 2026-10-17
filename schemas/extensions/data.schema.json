@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:opord-builder:extension:data:1",
+  "title": "Data extension",
+  "description": "The `org.opord-builder.data` extension: variables that a `${var}` or `${var/json/pointer}` binding in any string of the document reads. The group is resolved and removed when the document is loaded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["vars"],
+  "properties": {
+    "vars": {
+      "description": "Variable name -> source. Each variable has exactly one of `path`, `from` or `value`, and optionally the selectors `select`, `where`, `key` and `map`, applied in that order.",
+      "type": "object",
+      "propertyNames": { "pattern": "^[A-Za-z_][A-Za-z0-9_-]*$" },
+      "additionalProperties": { "$ref": "#/$defs/Var" }
+    }
+  },
+  "$defs": {
+    "Var": {
+      "type": "object",
+      "additionalProperties": false,
+      "oneOf": [
+        { "required": ["path"] },
+        { "required": ["from"] },
+        { "required": ["value"] }
+      ],
+      "properties": {
+        "path": {
+          "description": "A file, relative to this document (absolute is allowed). A path with glob characters (`*`, `?`, `[`) matches files in sorted order; each is parsed and `select`ed, then the results are combined (lists concatenate, maps merge, a duplicate key is an error).",
+          "type": "string",
+          "minLength": 1
+        },
+        "format": {
+          "description": "The file format when the suffix (`.json`, `.yaml`, `.yml`, `.csv`) does not say.",
+          "enum": ["json", "yaml", "csv"]
+        },
+        "validate": {
+          "description": "`openaix`: load the file as an OpenAIX document, bindings included.",
+          "const": "openaix"
+        },
+        "from": {
+          "description": "One variable, or several that are combined in order (lists concatenate, maps merge, a duplicate key is an error).",
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          ]
+        },
+        "value": { "description": "A literal JSON value; it is not interpolated." },
+        "select": {
+          "description": "A JSON Pointer into the value; a missing pointer is an error.",
+          "type": "string"
+        },
+        "where": {
+          "description": "JSON Pointer -> value; keeps the items (of a list) or entries (of a map) that equal all of them.",
+          "type": "object"
+        },
+        "key": {
+          "description": "A JSON Pointer in each item of a list; turns the list into a map keyed by that value as text.",
+          "type": "string"
+        },
+        "map": {
+          "description": "A JSON Pointer (project each item to that sub-value) or field -> JSON Pointer (project each item to a record).",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "object", "additionalProperties": { "type": "string" } }
+          ]
+        }
+      }
+    }
+  }
+}

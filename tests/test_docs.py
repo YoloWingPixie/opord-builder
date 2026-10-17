@@ -34,7 +34,7 @@ def generated():
 
 def bundle_errors(doc):
     validator = Draft202012Validator(
-        docs.bundled(doc["kind"]), format_checker=FORMAT_CHECKER
+        docs.bundled(doc["kind"], strict=True), format_checker=FORMAT_CHECKER
     )
     return {pointer(e.absolute_path) for e in validator.iter_errors(doc)}
 

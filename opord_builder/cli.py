@@ -12,7 +12,7 @@ import typer
 import yaml
 
 from opord_builder.docs import KINDS
-from opord_builder.load import DocumentError, read, validate_document
+from opord_builder.load import DocumentError, load_document
 
 app = typer.Typer(
     name="opord",
@@ -32,6 +32,9 @@ THEME = typer.Option(
     "--theme",
     help="Document theme, e.g. wp90 (see templates/themes/). Overrides the document's `theme`.",
 )
+
+
+WATCHED = (".yaml", ".yml", ".json", ".csv")
 
 
 class ExportFormat(str, Enum):
@@ -339,7 +342,9 @@ def init(
     )
 
 
-@app.command(help="Watch an order and re-render it when a YAML file changes.")
+@app.command(
+    help="Watch an order and re-render it when it, a file it reads or a YAML file beside it changes."
+)
 def watch(
     input_file: Path = INPUT,
     out_dir: Path | None = OUT_DIR,
@@ -350,38 +355,60 @@ def watch(
 ) -> None:
     from watchfiles import watch as watch_files
 
-    def once() -> None:
-        try:
-            render_order(
-                input_file,
-                out_dir or input_file.parent,
-                md,
-                html,
-                pdf,
-                None,
-                None,
-                theme,
-            )
-        except typer.Exit:
-            pass
+    from opord_builder.load import track
 
-    once()
+    def once() -> set[Path]:
+        with track() as deps:
+            try:
+                render_order(
+                    input_file,
+                    out_dir or input_file.parent,
+                    md,
+                    html,
+                    pdf,
+                    None,
+                    None,
+                    theme,
+                )
+            except typer.Exit:
+                pass
+        return deps
+
     root = input_file.parent.resolve()
-    typer.secho(
-        f"Watching {root} for YAML changes (Ctrl-C to stop)...", fg=typer.colors.CYAN
-    )
+    deps = once()
     try:
-        for _ in watch_files(
-            root, watch_filter=lambda _c, p: p.endswith((".yaml", ".yml", ".json"))
-        ):
-            once()
+        while True:
+            dirs = {
+                d for d in deps if d.is_dir()
+            }  # glob directories: any new file may match
+            places = sorted({root, *dirs, *(d.parent for d in deps if d not in dirs)})
+            typer.secho(
+                f"Watching {len(deps)} dependencies in {len(places)} directories (Ctrl-C to stop)...",
+                fg=typer.colors.CYAN,
+            )
+
+            def wanted(_c, p: str, deps=deps, dirs=dirs) -> bool:
+                q = Path(p).resolve()
+                return (
+                    q in deps
+                    or q.parent in dirs
+                    or (q.parent == root and p.endswith(WATCHED))
+                )
+
+            for _ in watch_files(*places, watch_filter=wanted):
+                new = once()
+                if new != deps:  # the order now reads other files: watch those
+                    deps = new
+                    break
+            else:
+                return
     except KeyboardInterrupt:  # pragma: no cover
         typer.secho("\nStopped.", fg=typer.colors.CYAN)
 
 
 @app.command(
     name="validate-openaix",
-    help="Validate OpenAIX documents (YAML or JSON), extensions included.",
+    help="Validate OpenAIX documents (YAML or JSON), bindings resolved and extensions included.",
 )
 def validate_openaix(
     files: list[Path] = typer.Argument(..., exists=True, dir_okay=False, readable=True),
@@ -389,22 +416,44 @@ def validate_openaix(
     failed = False
     for path in files:
         try:
-            errors = validate_document(read(path))
-        except (OSError, ValueError, yaml.YAMLError) as exc:
-            typer.secho(f"{path}: cannot read: {exc}", fg=typer.colors.RED, err=True)
+            load_document(path)
+        except DocumentError as exc:
+            for err in exc.errors[:20]:
+                typer.secho(
+                    f"{path}: {err.pointer or '/'}: {err.message}",
+                    fg=typer.colors.RED,
+                    err=True,
+                )
             failed = True
-            continue
-        for err in errors:
-            typer.secho(
-                f"{path}: {err.pointer or '/'}: {err.message}",
-                fg=typer.colors.RED,
-                err=True,
-            )
-        failed = failed or bool(errors)
-        if not errors:
+        else:
             typer.echo(f"{path}: ok")
     if failed:
         raise typer.Exit(code=1)
+
+
+@app.command(
+    help="Write the resolved OpenAIX document: bindings substituted, data group removed, validated."
+)
+def resolve(
+    input_file: Path = INPUT,
+    out: Path | None = typer.Option(
+        None, "--out", "-o", help="Write here (.json or .yaml) instead of stdout."
+    ),
+) -> None:
+    try:
+        doc = load_document(input_file)
+    except DocumentError as exc:
+        raise fail(str(exc), 1) from exc
+    if out is not None and out.suffix.lower() in (".yaml", ".yml"):
+        text = yaml.safe_dump(doc, sort_keys=False, allow_unicode=True)
+    else:
+        text = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
+    if out is None:
+        typer.echo(text, nl=False)
+        return
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(text, encoding="utf-8")
+    wrote("resolved document", out)
 
 
 @app.command(
@@ -471,10 +520,17 @@ def schema(
     out: Path | None = typer.Option(
         None, "--out", help="Write here instead of stdout."
     ),
+    strict: bool = typer.Option(
+        False,
+        "--strict",
+        help="Do not accept ${...} bindings in values: the schema of a resolved document.",
+    ),
 ) -> None:
     from opord_builder.docs import bundled
 
-    text = json.dumps(bundled(document_type), indent=2, ensure_ascii=False) + "\n"
+    text = (
+        json.dumps(bundled(document_type, strict), indent=2, ensure_ascii=False) + "\n"
+    )
     if out is None:
         typer.echo(text, nl=False)
         return

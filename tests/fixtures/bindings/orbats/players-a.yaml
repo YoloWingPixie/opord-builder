@@ -1,0 +1,4 @@
+schemaId: fixture
+units:
+  - {slug: cvw-8, name: Carrier Air Wing Eight, short: CVW-8, parent: csg-8, strength: 24, ratio: 0.5}
+  - {slug: vfa-81, name: VFA-81 Sunliners, short: VFA-81, parent: cvw-8, strength: 12, ratio: 1.5}

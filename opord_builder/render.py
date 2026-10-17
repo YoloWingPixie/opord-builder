@@ -26,8 +26,9 @@ from opord_builder import generic, themes
 from opord_builder._paths import STYLESHEET, TEMPLATES_DIR
 from opord_builder.format import dtg, fmt, has_content, humanize, letter_for, paragraphs
 from opord_builder.generic import Walk, child
-from opord_builder.load import ORDER, PRINT, at, ext_schema, schema_index
+from opord_builder.load import ORDER, PRINT, ext_schema, schema_index
 from opord_builder.order import Order
+from opord_builder.pointer import at
 
 OPORD_SCHEMA = "urn:openaix:schema:opord:0.2.0-draft.1"
 CANONICAL_ANNEXES = {

@@ -21,11 +21,11 @@ KINDS = ("opord", "frago", "spins", "ato", "resources")
 EXT_ID = "urn:opord-builder:extension:{}:1"
 # Extension -> where the bundle for a document kind plugs it in: (definition or None for the root).
 PLUGS = {
-    "opord": [("order", None), ("kneeboard", None)],
-    "frago": [("order", None), ("kneeboard", None)],
-    "spins": [("spins", None)],
-    "ato": [("kneeboard", None), ("kneeboard", "Flight")],
-    "resources": [("resources", None)],
+    "opord": [("order", None), ("kneeboard", None), ("data", None)],
+    "frago": [("order", None), ("kneeboard", None), ("data", None)],
+    "spins": [("spins", None), ("data", None)],
+    "ato": [("kneeboard", None), ("kneeboard", "Flight"), ("data", None)],
+    "resources": [("resources", None), ("data", None)],
 }
 
 
@@ -94,8 +94,64 @@ def _plug(schema: dict, plugs: list[tuple[str, str | None]]) -> None:
             holder.setdefault("properties", {})[NS + ext] = {"$ref": EXT_ID.format(ext)}
 
 
-def bundled(kind: str) -> dict[str, Any]:
-    """A single-file JSON Schema for `kind`: urn refs inlined into `$defs`, the extension schemas plugged in."""
+BINDING = {"type": "string", "pattern": r"^\$\{[^}]+\}$"}
+
+
+def _bindable(node: Any) -> Any:
+    """Let a `${...}` binding stand wherever a value goes: each schema under `properties`, `additionalProperties`,
+    `items` and `prefixItems` becomes `anyOf: [schema, Binding]`. The data group is left alone."""
+
+    def wrap(sub: Any) -> Any:
+        sub = _bindable(sub)
+        if not isinstance(sub, dict):
+            return sub
+        inner = {
+            k: v for k, v in sub.items() if k != "description"
+        }  # the wrapper carries it
+        out = {"anyOf": [inner, {"$ref": "#/$defs/Binding"}]}
+        return (
+            {"description": sub["description"], **out} if "description" in sub else out
+        )
+
+    if not isinstance(node, dict):
+        return node
+    out = {}
+    for k, v in node.items():
+        if k in ("properties", "patternProperties") and isinstance(v, dict):
+            out[k] = {
+                n: sub
+                if n == NS + "data"
+                else wrap(sub)
+                if k == "properties"
+                else _bindable(sub)
+                for n, sub in v.items()
+            }
+        elif k == "$defs" and isinstance(v, dict):
+            out[k] = {
+                n: sub if n == "data" or n.startswith("data.") else _bindable(sub)
+                for n, sub in v.items()
+            }
+        elif (
+            k == "additionalProperties"
+            and isinstance(v, dict)
+            or k == "items"
+            and isinstance(v, dict)
+        ):
+            out[k] = wrap(v)
+        elif k == "prefixItems" and isinstance(v, list):
+            out[k] = [wrap(x) for x in v]
+        elif k in ("allOf", "anyOf", "oneOf") and isinstance(v, list):
+            out[k] = [_bindable(x) for x in v]
+        elif k in ("not", "if", "then", "else", "contains"):
+            out[k] = _bindable(v)
+        else:
+            out[k] = v
+    return out
+
+
+def bundled(kind: str, strict: bool = False) -> dict[str, Any]:
+    """A single-file JSON Schema for `kind`: urn refs inlined into `$defs`, the extension schemas plugged in.
+    Unless `strict`, a `${...}` binding is accepted in any value; `strict` is for resolved documents."""
     assert kind in KINDS, kind
     pool, measures = sources(), measure_shorts()
     defs: dict[str, Any] = {}
@@ -127,12 +183,17 @@ def bundled(kind: str) -> dict[str, Any]:
         else:
             defs[name] = body
         todo += sorted(need - done)
-    return {
+    out = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": f"urn:opord-builder:bundled:{kind}",
         **root_body,
         "$defs": dict(sorted(defs.items())),
     }
+    if strict:
+        return out
+    out = _bindable(out)
+    out["$defs"] = dict(sorted({**out["$defs"], "Binding": BINDING}.items()))
+    return out
 
 
 # --------------------------------------------------------------------------- HTML helpers
