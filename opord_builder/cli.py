@@ -57,10 +57,13 @@ def wrote(label: str, path: Path) -> None:
 
 
 def seed_clock(doc: dict) -> None:
-    """Pin the PDF and stamp time to the document's issue time (epoch 0 if it has none): no wall clock."""
-    from opord_builder.render import issued_epoch
+    """Pin the PDF time to the document's issue time (epoch 0 if it has none): no wall clock. With no issue time
+    the stamp is empty rather than 1 Jan 1970."""
+    from opord_builder import render
 
-    os.environ.setdefault("SOURCE_DATE_EPOCH", str(issued_epoch(doc) or 0))
+    epoch = render.issued_epoch(doc)
+    render.NO_ISSUE_DATE = epoch is None
+    os.environ.setdefault("SOURCE_DATE_EPOCH", str(epoch or 0))
 
 
 def load(path: Path, base: Path | None = None, kind: str | None = None):

@@ -366,3 +366,13 @@ def test_stamp_is_the_issue_time_and_renders_repeat(tmp_path, monkeypatch):
         render.render_all(o, tmp_path / run, "x")
     for name in ("x.md", "x.html", "x.pdf"):
         assert (tmp_path / "a" / name).read_bytes() == (tmp_path / "b" / name).read_bytes()
+
+
+def test_no_issue_date_renders_no_jan70(tmp_path, monkeypatch):
+    from opord_builder import cli
+
+    monkeypatch.delenv("SOURCE_DATE_EPOCH", raising=False)
+    monkeypatch.setattr(render, "NO_ISSUE_DATE", False)
+    cli.seed_clock({})
+    assert render.NO_ISSUE_DATE and render.stamp({}) == ""
+    assert "JAN70" not in render.stamp(load_order(EXAMPLES / "example_minimal.yaml").head)

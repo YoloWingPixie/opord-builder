@@ -134,9 +134,15 @@ def issued_epoch(doc: Mapping[str, Any] | None) -> int | None:
     return None
 
 
+# Set by the CLI when the document has no issue time: the epoch-0 pin stays for the PDF, but no stamp is printed.
+NO_ISSUE_DATE = False
+
+
 def stamp(doc: Mapping[str, Any] | None = None) -> str:
     """Issue stamp in DTG form, e.g. `191830ZAPR26`. Never reads the clock: `SOURCE_DATE_EPOCH`, else the document's
     issue time, else empty."""
+    if NO_ISSUE_DATE:
+        return ""
     epoch = os.environ.get("SOURCE_DATE_EPOCH") or issued_epoch(doc)
     if epoch is None:
         return ""
