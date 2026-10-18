@@ -71,7 +71,7 @@ def serial(html: str) -> str:
 @pytest.mark.parametrize("name", COMMITTED)
 def test_committed_outputs_are_reproduced(name, monkeypatch):
     html = (EXAMPLES / f"{name}.html").read_text(encoding="utf-8")
-    monkeypatch.setattr(render, "stamp", lambda: serial(html))
+    monkeypatch.setattr(render, "stamp", lambda *_: serial(html))
     o = load_order(EXAMPLES / f"{name}.yaml")
     assert render.render_markdown(o) == (EXAMPLES / f"{name}.md").read_text(
         encoding="utf-8"
@@ -350,3 +350,19 @@ def test_subparagraphs_follow_doctrinal_order(orders):
     assert not re.search(
         r"^\*\*[1-5]\.[a-z]\.", md, re.MULTILINE
     )  # no lettered subparagraph in bold
+
+
+# --------------------------------------------------------------------------- determinism
+
+
+def test_stamp_is_the_issue_time_and_renders_repeat(tmp_path, monkeypatch):
+    monkeypatch.delenv("SOURCE_DATE_EPOCH", raising=False)
+    path = EXAMPLES / "example_minimal.yaml"
+    o = load_order(path)
+    when = o.head["meta"].get("issued_at") or o.head["date_time"]
+    assert render.stamp(o.head) == dtg(when)
+    monkeypatch.setenv("SOURCE_DATE_EPOCH", str(render.issued_epoch(o.head)))
+    for run in ("a", "b"):
+        render.render_all(o, tmp_path / run, "x")
+    for name in ("x.md", "x.html", "x.pdf"):
+        assert (tmp_path / "a" / name).read_bytes() == (tmp_path / "b" / name).read_bytes()

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import os
 from enum import Enum
 from pathlib import Path
 
@@ -55,6 +56,13 @@ def wrote(label: str, path: Path) -> None:
     )
 
 
+def seed_clock(doc: dict) -> None:
+    """Pin the PDF and stamp time to the document's issue time (epoch 0 if it has none): no wall clock."""
+    from opord_builder.render import issued_epoch
+
+    os.environ.setdefault("SOURCE_DATE_EPOCH", str(issued_epoch(doc) or 0))
+
+
 def load(path: Path, base: Path | None = None, kind: str | None = None):
     from opord_builder.order import load_order
 
@@ -62,6 +70,7 @@ def load(path: Path, base: Path | None = None, kind: str | None = None):
         order = load_order(path, base)
     except (DocumentError, ValueError, OSError, yaml.YAMLError) as exc:
         raise fail(str(exc)) from exc
+    seed_clock(order.head)
     if kind and order.kind != kind:
         raise fail(f"{path}: this is a {order.kind.upper()}, not a {kind.upper()}")
     return order
@@ -153,8 +162,10 @@ def spins(
     from opord_builder.spins import load_spins, render_spins_all
 
     try:
+        document = load_spins(input_file)
+        seed_clock({"meta": {"issued_at": getattr(document.meta, "issued_at", None)}})
         outputs = render_spins_all(
-            load_spins(input_file),
+            document,
             out_dir or Path("output"),
             input_file.stem,
             write_markdown=md,
@@ -288,6 +299,8 @@ def kneeboard(
     if ato is None and input_file is None:
         raise fail("Give an INPUT_FILE, --ato, or both.")
     try:
+        if opord or input_file:
+            seed_clock(load_document(opord or input_file))
         if ato is None:
             cards, warns = kb.cards_from_document(input_file), []
         else:

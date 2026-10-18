@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import csv
+import os
 import urllib.error
 import urllib.request
 import warnings
@@ -12,7 +13,7 @@ from functools import cache, lru_cache
 from html import escape
 from io import BytesIO, StringIO
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from jinja2 import (
     ChainableUndefined,
@@ -121,9 +122,25 @@ def zone(value: str | None) -> str:
     return "ZULU" if value == "Z" else value or ""
 
 
-def stamp() -> str:
-    """UTC stamp in DTG-like form, e.g. `191830ZAPR26`."""
-    return datetime.now(timezone.utc).strftime("%d%H%MZ%b%y").upper()
+def issued_epoch(doc: Mapping[str, Any] | None) -> int | None:
+    """Seconds since the epoch of the document's `meta.issued_at` (else `date_time`), or None."""
+    meta = (doc or {}).get("meta") or {}
+    for value in (meta.get("issued_at"), (doc or {}).get("date_time")):
+        try:
+            when = datetime.fromisoformat(str(value))
+            return int(when.replace(tzinfo=when.tzinfo or timezone.utc).timestamp())
+        except ValueError:
+            continue
+    return None
+
+
+def stamp(doc: Mapping[str, Any] | None = None) -> str:
+    """Issue stamp in DTG form, e.g. `191830ZAPR26`. Never reads the clock: `SOURCE_DATE_EPOCH`, else the document's
+    issue time, else empty."""
+    epoch = os.environ.get("SOURCE_DATE_EPOCH") or issued_epoch(doc)
+    if epoch is None:
+        return ""
+    return datetime.fromtimestamp(int(epoch), timezone.utc).strftime("%d%H%MZ%b%y").upper()
 
 
 @cache
@@ -302,7 +319,7 @@ def context(o: Order, html: bool, theme: str | None = None) -> dict[str, Any]:
         "print": eff["print"],
         "paragraphs_list": PARAGRAPHS, "annex_letters": [l for l in CANONICAL_ANNEXES if o.shown is None or f"annex:{l}" in o.shown], "units": units, "kids": kids, "rels": rels,
         "unit_ext": (o.x.get("header") or {}).get("units") or {},
-        "generated_at": stamp(), "watermark_url": watermark_from_value(o.print.get("watermark")),
+        "generated_at": stamp(o.head), "watermark_url": watermark_from_value(o.print.get("watermark")),
         "nonce": None, "theme": theme,
     }  # fmt: skip
 

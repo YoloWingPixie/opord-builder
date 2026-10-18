@@ -641,7 +641,7 @@ def test_sparse_card_renders_without_undefined():
 
 
 def test_rendered_html_matches_golden(monkeypatch):
-    monkeypatch.setattr(render, "stamp", lambda: STAMP)
+    monkeypatch.setattr(render, "stamp", lambda *_: STAMP)
     cards, _ = cards_from_files(ATO, RES, "viper-1", OPORD)
     html = render_card_html(cards[0])
     if os.environ.get(

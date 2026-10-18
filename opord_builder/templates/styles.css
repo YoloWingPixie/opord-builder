@@ -432,7 +432,7 @@ details[open] > summary .chevron { transform: rotate(-135deg); }
 }
 .cover-accent::after {
   /* tiny mono serial — NATO register mark */
-  content: "OPORD / GENERATED " attr(data-serial);
+  content: "OPORD / ISSUED " attr(data-serial);
   position: absolute;
   bottom: -14pt;
   left: 0;
