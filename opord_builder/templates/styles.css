@@ -1242,3 +1242,31 @@ TST). The summary table shows enough
   .chevron { display: none; }
 }
 
+
+/* ---------- PHONE LAYER: screen only; print and PDF never see it ----------- */
+@media screen and (max-width: 700px) {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    padding: 0 16px 40px;
+    border-left: 0;
+    border-right: 0;
+    max-width: 100%;
+  }
+  .cover-hero { margin-left: -16px; margin-right: -16px; padding: 28px 16px 22px; }
+  .cover-meta { grid-template-columns: minmax(0, 1fr); }
+  .theme-toggle { top: 8px; right: 8px; min-height: 36px; padding: 8px 12px; font-size: 12px; }
+  body :is(p, li, td, th, dd, dt, a, caption, figcaption, summary, h3, .label, .tb-field-label, .tb-num, .tb-kv-k, .tb-kv-v, .tb-detail-id, .tb-detail-k, .tb-detail-v, .toc-para-link, .toc-num, .toc-annex-title, .toc-annex-letter, .unit-name, .unit-callsign, .chip, .meta-value, .annex-title-text, .card-eyebrow, .ref-letter, .ref-cite, .mission-text, .no-change-body, .no-change-tag, .cover-author-label, .cover-author-name, .auth-line, .auth-surname, .auth-rank, .annex-section-label, .doc-toc-title, .doc-toc-annex-label, .running-header) { font-size: 15px !important; }
+  table.tb-table, .table-wrap, pre, .mono-scroll {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table.tb-table { table-layout: auto; }
+  table.tb-table th, table.tb-table td { min-width: 9ch; overflow-wrap: normal; }
+  .doc-toc-paragraphs, .doc-toc-annex-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .toc-para-link { gap: 8px; padding: 10px; }
+  .para-header { gap: 8px; }
+  .unit-card { margin-left: calc(min(var(--d, 0), 3) * 8px); }
+}

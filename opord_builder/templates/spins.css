@@ -50,3 +50,13 @@
   .role-part, .role-annex { break-before: page; }
   .spins-document a { color: inherit; }
 }
+@media screen and (max-width: 700px) {
+  .spins-document main { margin: 16px auto; padding: 0 16px; }
+  .spins-document { font-size: 15px; }
+  body :is(p, li, td, th, dd, dt, a, caption, figcaption, summary, h3, .label, .tb-field-label, .tb-num, .tb-kv-k, .tb-kv-v, .tb-detail-id, .tb-detail-k, .tb-detail-v, .toc-para-link, .toc-num, .toc-annex-title, .toc-annex-letter, .unit-name, .unit-callsign, .chip, .meta-value, .annex-title-text, .card-eyebrow, .ref-letter, .ref-cite, .mission-text, .no-change-body, .no-change-tag, .cover-author-label, .cover-author-name, .auth-line, .auth-surname, .auth-rank, .annex-section-label, .doc-toc-title, .doc-toc-annex-label, .running-header) { font-size: 15px !important; }
+  .publication-header h1 { font-size: 24px; overflow-wrap: break-word; }
+  .spins-document table { width: max-content; min-width: 100%; max-width: none; table-layout: auto; }
+  .spins-document th, .spins-document td { min-width: 9ch; }
+  .publication-contents ol { font-size: 15px; }
+  .spins-document pre, .spins-document code { overflow-wrap: break-word; }
+}
