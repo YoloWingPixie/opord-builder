@@ -1,0 +1,3 @@
+units:
+  - {slug: viper-1, name: Viper 1, base: Incirlik, seats: 1}
+  - {slug: viper-2, name: Viper 2, base: Incirlik, seats: 1}

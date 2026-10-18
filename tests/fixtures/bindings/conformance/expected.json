@@ -1,0 +1,29 @@
+{
+  "cases": [
+    {"template": "${misc/callsign}", "value": "IRON"},
+    {"template": "${misc/count}", "value": 6},
+    {"template": "${misc/ratio}", "value": 2.5},
+    {"template": "${misc/flag}", "value": true},
+    {"template": "${misc/nothing}", "value": null},
+    {"template": "${misc/nested/list}", "value": [1, 2]},
+    {"template": "${misc/nested/list/1}", "value": 2},
+    {"template": "Flight ${misc/callsign} x${misc/count} r${misc/ratio}", "value": "Flight IRON x6 r2.5"},
+    {"template": "cost $${not} ok", "value": "cost ${not} ok"},
+    {"template": "${misc/nested/a~1b}", "value": "slash"},
+    {"template": "${misc/nested/t~0x}", "value": "tilde"},
+    {"template": "${players/viper-2/name}", "value": "Viper 2"},
+    {"template": "${players/hawg-1/base}", "value": "Batumi"},
+    {"template": "${tankers/0/name}", "value": "Texaco"},
+    {"template": "${tankers/1/name}", "value": "Shell, East"},
+    {"template": "${tankers/1/freq}", "value": "Say \"hi\""},
+    {"template": "${misc/zzz}", "error": "no key or index 'zzz' in var misc"},
+    {"template": "${misc/nested/list/9}", "error": "no key or index '9' in var misc"},
+    {"template": "${misc/count/x}", "error": "cannot descend into int"},
+    {"template": "${nope/x}", "error": "no var 'nope'"},
+    {"template": "x ${misc/nested/list}", "error": "is a list; only a whole-value binding takes it"},
+    {"template": "x ${misc", "error": "unterminated"},
+    {"template": "${bad_key/x}", "error": "item 0 has no '/nokey'"},
+    {"template": "${bad_select/x}", "error": "'/nothing/here' not found"},
+    {"template": "${missing/x}", "error": "cannot read data/missing.json"}
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "misc": {"path": "data/misc.json"},
+  "players": {"path": "data/players-*.yaml", "select": "/units", "key": "/slug"},
+  "tankers": {"path": "data/tankers.csv"},
+  "bad_key": {"path": "data/players-*.yaml", "select": "/units", "key": "/nokey"},
+  "bad_select": {"path": "data/misc.json", "select": "/nothing/here"},
+  "missing": {"path": "data/missing.json"}
+}
